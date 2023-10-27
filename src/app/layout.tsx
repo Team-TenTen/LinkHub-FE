@@ -1,4 +1,4 @@
-import { Providers } from '@/components'
+import { Providers, ThemeButton } from '@/components'
 import { cls } from '@/utils'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -21,6 +21,7 @@ export default function RootLayout({
       <body className={cls('bg-bgColor text-textColor', inter.className)}>
         <Providers>
           <div className="w-full max-w-[500px] mx-auto">{children}</div>
+          <ThemeButton />
         </Providers>
       </body>
     </html>
