@@ -1,3 +1,3 @@
-export function cls(...classnames: string[]) {
+export const cls = (...classnames: string[]) => {
   return classnames.join(' ')
 }
