@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bgColor: rgb(255, 255, 255);
+  --textColor: rgb(19, 23, 34);
+}
+
+[class='dark'] {
+  --bgColor: rgb(19, 23, 34);
+  --textColor: rgb(241, 242, 244);
+}
