@@ -34,7 +34,7 @@ const AvatarGroup = ({
     })
 
   return (
-    <div className="inline-flex items-center gap-0.5">
+    <div className="flex items-center gap-0.5">
       <div
         className="flex"
         style={{ paddingLeft: size / PADDING_LEFT_DIVIDE }}>
