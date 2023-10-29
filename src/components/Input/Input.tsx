@@ -22,6 +22,7 @@ const Input = ({
   disabled,
   multiLine,
   onbuttonClick,
+  ...rest
 }: Input) => {
   return (
     <div className="flex flex-col  justify-center">
@@ -34,7 +35,8 @@ const Input = ({
         <textarea
           className="h-16 rounded-md border border-gray-500 bg-white px-3 py-2 text-sm font-medium leading-5 text-gray-900 placeholder-gray-400 outline-none disabled:border-gray-300 disabled:placeholder-gray-300"
           placeholder={placeholder}
-          disabled={disabled}></textarea>
+          disabled={disabled}
+          {...rest}></textarea>
       ) : (
         <div className="relative flex flex-col">
           <input
@@ -45,6 +47,7 @@ const Input = ({
             )}
             placeholder={placeholder}
             disabled={disabled}
+            {...rest}
           />
           {inputButton && (
             <button
