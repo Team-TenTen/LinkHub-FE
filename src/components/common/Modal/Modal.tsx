@@ -19,7 +19,7 @@ const Modal = ({
   onConfirm,
 }: ModalProps) => {
   const rootNode = document.getElementById('root')
-  const [isModal, setIsModal] = useState()
+
   return (
     <>
       {rootNode &&
