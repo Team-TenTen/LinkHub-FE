@@ -93,9 +93,9 @@
 }
 
 .button-emerald {
-  @apply bg-emerald-500 text-white border-emerald-600;
+  @apply bg-t-emerald-500 text-white border-t-emerald-600;
 }
 
 .button-gray {
-  @apply bg-slate-400 text-white border-slate-500;
+  @apply bg-t-slate-400 text-white border-t-slate-500;
 }
