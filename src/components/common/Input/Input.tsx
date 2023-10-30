@@ -10,7 +10,7 @@ export interface InputProps {
   validation?: string
   disabled?: boolean
   multiLine?: boolean
-  onbuttonClick?: VoidFunction
+  onButtonClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Input = ({
@@ -23,7 +23,7 @@ const Input = ({
   validation,
   disabled,
   multiLine,
-  onbuttonClick,
+  onButtonClick,
   ...rest
 }: InputProps) => {
   return (
@@ -59,7 +59,7 @@ const Input = ({
                   ? 'bg-emerald5 border-emerald6'
                   : 'border-slate5 bg-slate4',
               )}
-              onClick={onbuttonClick}>
+              onClick={onButtonClick}>
               {buttonText}
             </button>
           )}
