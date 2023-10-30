@@ -1,0 +1,35 @@
+name: Pull request
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      # 해당 저장소의 코드를 가져옵니다.
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Node 18 버전을 사용합니다.
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+          cache: 'npm'
+
+      # package.json에 명시된 의존성을 설치합니다.
+      - name: Install Dependencies
+        run: npm install
+
+      # 빌드를 수행합니다.
+      - name: Build
+        run: npm run build
