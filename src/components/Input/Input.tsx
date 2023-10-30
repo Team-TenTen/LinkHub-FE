@@ -29,13 +29,11 @@ const Input = ({
   return (
     <div className="flex flex-col justify-center">
       {label && (
-        <label className="t-text-gray-900 py-2 text-sm font-semibold">
-          {label}
-        </label>
+        <label className="text-gray9 py-2 text-sm font-semibold">{label}</label>
       )}
       {multiLine ? (
         <textarea
-          className="text-t-gray-900 placeholder-t-gray-400 disabled:placeholder-t-gray-300 rounded-md border border-t-slate-600 bg-bgColor px-3 py-2.5 text-sm font-medium outline-none disabled:border-t-gray-300"
+          className="text-gray9 placeholder-gray4 disabled:placeholder-gray3 border-slate5 disabled:border-gray3 rounded-md border bg-bgColor px-3 py-2.5 text-sm font-medium outline-none"
           placeholder={placeholder}
           disabled={disabled}
           {...rest}></textarea>
@@ -44,10 +42,10 @@ const Input = ({
           <input
             type={type}
             className={cls(
-              'text-t-gray-900 placeholder-t-gray-400 disabled:placeholder-t-gray-300 rounded-md border border-t-slate-600 bg-bgColor px-3 py-2.5 text-sm font-medium outline-none disabled:border-t-gray-300',
-              inputButton &&
-                buttonColor === 'green' &&
-                'border-t-emerald-600 pr-20',
+              'text-gray9 placeholder-gray4 disabled:placeholder-gray3 disabled:border-gray3 rounded-md border bg-bgColor px-3 py-2.5 text-sm font-medium outline-none',
+              inputButton && buttonColor === 'green'
+                ? 'border-emerald6 pr-20'
+                : 'border-slate5',
             )}
             placeholder={placeholder}
             disabled={disabled}
@@ -58,8 +56,8 @@ const Input = ({
               className={cls(
                 'absolute right-0 top-0 flex rounded-r-md border px-4 py-2.5 text-sm font-semibold text-white',
                 buttonColor === 'green'
-                  ? 'bg-t-emerald-500 border-t-emerald-600'
-                  : 'bg-t-slate-400 border-t-slate-600',
+                  ? 'bg-emerald5 border-emerald6'
+                  : 'border-slate5 bg-slate4',
               )}
               onClick={onbuttonClick}>
               {buttonText}
@@ -68,9 +66,7 @@ const Input = ({
         </div>
       )}
       {validation && (
-        <span className="text-t-red-600 py-2 text-xs font-normal">
-          {validation}
-        </span>
+        <span className="text-red6 py-2 text-xs font-normal">{validation}</span>
       )}
     </div>
   )
