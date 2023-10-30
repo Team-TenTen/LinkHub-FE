@@ -1,6 +1,6 @@
 import { cls } from '@/utils'
 
-interface Input {
+export interface InputProps {
   label?: string
   type?: string
   placeholder?: string
@@ -25,7 +25,7 @@ const Input = ({
   multiLine,
   onbuttonClick,
   ...rest
-}: Input) => {
+}: InputProps) => {
   return (
     <div className="flex flex-col justify-center">
       {label && (
