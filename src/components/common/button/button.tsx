@@ -1,6 +1,5 @@
 interface ButtonProps {
   children?: React.ReactNode
-  rounded?: 'rounded-md' | 'rounded-xl'
   type?: 'button' | 'reset' | 'submit' | undefined
   className?: string
   style?: React.CSSProperties
@@ -9,7 +8,6 @@ interface ButtonProps {
 
 const Button = ({
   children,
-  rounded = 'rounded-md',
   type = 'button',
   className,
   style,
