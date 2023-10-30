@@ -17,7 +17,7 @@ const Avatar = ({ src, width, height, alt }: AvatarProps) => {
         width={width}
         height={height}
         alt={alt}
-        className="rounded-full border border-gray-300 object-cover"
+        className="border-slate3 rounded-full border object-cover"
       />
     </div>
   )
