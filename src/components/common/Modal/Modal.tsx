@@ -2,7 +2,7 @@
 
 import { createPortal } from 'react-dom'
 
-interface ModalProps {
+export interface ModalProps {
   title: string
   isClose?: boolean
   isConfirm?: boolean
