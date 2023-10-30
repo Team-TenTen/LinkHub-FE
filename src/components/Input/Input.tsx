@@ -6,6 +6,7 @@ interface Input {
   placeholder?: string
   inputButton?: boolean
   buttonText?: string
+  buttonColor?: 'green' | 'gray'
   validation?: string
   disabled?: boolean
   multiLine?: boolean
@@ -18,6 +19,7 @@ const Input = ({
   placeholder,
   inputButton,
   buttonText = '추가',
+  buttonColor = 'green',
   validation,
   disabled,
   multiLine,
@@ -43,7 +45,9 @@ const Input = ({
             type={type}
             className={cls(
               'text-t-gray-900 placeholder-t-gray-400 disabled:placeholder-t-gray-300 rounded-md border border-t-slate-600 bg-bgColor px-3 py-2.5 text-sm font-medium outline-none disabled:border-t-gray-300',
-              inputButton && 'border-t-emerald-600 pr-20',
+              inputButton &&
+                buttonColor === 'green' &&
+                'border-t-emerald-600 pr-20',
             )}
             placeholder={placeholder}
             disabled={disabled}
@@ -51,7 +55,12 @@ const Input = ({
           />
           {inputButton && (
             <button
-              className="bg-t-emerald-500 absolute right-0 top-0 flex rounded-r-md border border-t-emerald-600  px-4 py-2.5 text-sm font-semibold text-white"
+              className={cls(
+                'absolute right-0 top-0 flex rounded-r-md border px-4 py-2.5 text-sm font-semibold text-white',
+                buttonColor === 'green'
+                  ? 'bg-t-emerald-500 border-t-emerald-600'
+                  : 'bg-t-slate-400 border-t-slate-600',
+              )}
               onClick={onbuttonClick}>
               {buttonText}
             </button>
