@@ -89,13 +89,13 @@
 }
 
 .button-white {
-  @apply bg-bgColor text-slate-600 border-slate-600;
+  @apply bg-bgColor text-slate6 border-slate6;
 }
 
 .button-emerald {
-  @apply bg-t-emerald-500 text-white border-t-emerald-600;
+  @apply bg-emerald5 text-white border-emerald6;
 }
 
 .button-gray {
-  @apply bg-t-slate-400 text-white border-t-slate-500;
+  @apply bg-slate4 text-white border-slate5;
 }
