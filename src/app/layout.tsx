@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={cls('bg-bgColor text-textColor', inter.className)}>
+      <body className={cls('bg-bgColor', inter.className)}>
         <Providers>
           <div className="mx-auto w-full max-w-[500px]">{children}</div>
           <ThemeButton />
