@@ -48,7 +48,7 @@ const AvatarGroup = ({
         ))}
       </div>
       {allAvatars.length > limit && (
-        <div className="text-xs font-normal leading-4 text-gray-600">
+        <div className="text-slate6 text-xs font-normal">
           +{allAvatars.length - limit}명
         </div>
       )}
