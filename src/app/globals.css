@@ -67,3 +67,35 @@
     --red1: rgb(118, 39, 32);
   }
 }
+
+.button {
+  @apply font-bold font-['Pretendard'] text-sm border gap-2 rounded-md;
+}
+
+.button-sm {
+  @apply p-2;
+}
+
+.button-md {
+  @apply px-4 py-2.5;
+}
+
+.button-lg {
+  @apply w-[109px];
+}
+
+.button-round {
+  @apply gap-1 px-1.5 py-1 font-medium text-xs rounded-xl flex justify-center items-center;
+}
+
+.button-white {
+  @apply bg-bgColor text-slate-600 border-slate-600;
+}
+
+.button-emerald {
+  @apply bg-emerald-500 text-white border-emerald-600;
+}
+
+.button-gray {
+  @apply bg-slate-400 text-white border-slate-500;
+}
