@@ -8,7 +8,7 @@ import { DEFAULT_CANCEL_TEXT, DEFAULT_CONFIRM_TEXT } from './constants'
 import { useModalLogic } from './hooks'
 
 export interface ModalProps {
-  title: string
+  title?: string
   isCancelButton?: boolean
   isConfirmButton?: boolean
   cancelText?: string
