@@ -16,8 +16,8 @@ const TabItem = ({ active, text, dest, onClick }: TabItemProps) => {
       <div
         onClick={onClick}
         className={cls(
-          active ? 'border-emerald-500' : 'border-slate-300',
-          `text-gray9 flex w-[100%] cursor-pointer items-center justify-center border-b py-4 text-sm font-bold transition ease-in-out`,
+          active ? 'border-emerald5' : 'border-slate3',
+          `flex w-[100%] cursor-pointer items-center justify-center border-b py-4 text-sm font-bold text-gray9 transition ease-in-out`,
         )}>
         {text}
       </div>
