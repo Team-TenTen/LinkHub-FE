@@ -1,5 +1,5 @@
 export { default as Providers } from './Providers/Providers'
-export { default as ThemeButton } from './ThemeButton/ThemeButton'
+export { default as ThemeButton } from './common/ThemeButton/ThemeButton'
 export { default as Avatar } from './common/Avatar/Avatar'
 export { default as AvatarGroup } from './common/AvatarGroup/AvatarGroup'
 export { default as Chip } from './common/Chip/Chip'
