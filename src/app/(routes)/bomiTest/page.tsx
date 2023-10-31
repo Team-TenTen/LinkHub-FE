@@ -1,5 +1,5 @@
 // 컴포넌트 테스트 코드입니다
-import Button from '@/components/common/Button/Button'
+// import Button from '@/components/common/Button/Button'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
@@ -7,7 +7,7 @@ import { PlusSmallIcon } from '@heroicons/react/24/solid'
 const TestPage = () => {
   return (
     <>
-      <div className="m-1">
+      {/* <div className="m-1">
         <Button className="button button-md button-white">흰색 버튼</Button>
       </div>
       <div className="m-1">
@@ -54,7 +54,7 @@ const TestPage = () => {
           <HeartIcon className="h-4 w-4" />
           Button
         </Button>
-      </div>
+      </div> */}
     </>
   )
 }
