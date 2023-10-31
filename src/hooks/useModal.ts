@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Modal } from '@/components'
 
 const useModal = (initialState = false) => {
