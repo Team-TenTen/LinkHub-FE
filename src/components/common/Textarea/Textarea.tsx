@@ -2,7 +2,6 @@ import { ForwardedRef, forwardRef } from 'react'
 
 export interface TextareaProps {
   label?: string
-  type?: string
   placeholder?: string
   validation?: string
   disabled?: boolean
@@ -10,7 +9,7 @@ export interface TextareaProps {
 
 const Textarea = forwardRef(
   (
-    { label, type, placeholder, validation, disabled, ...rest }: TextareaProps,
+    { label, placeholder, validation, disabled, ...rest }: TextareaProps,
     ref: ForwardedRef<HTMLTextAreaElement>,
   ) => {
     return (
