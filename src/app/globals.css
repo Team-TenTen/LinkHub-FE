@@ -81,7 +81,7 @@
 }
 
 .button-lg {
-  @apply w-[109px];
+  @apply w-full;
 }
 
 .button-round {
