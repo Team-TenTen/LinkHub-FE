@@ -72,3 +72,35 @@
     --red1: rgb(118, 39, 32);
   }
 }
+
+.button {
+  @apply font-bold text-sm border gap-2 rounded-md;
+}
+
+.button-sm {
+  @apply p-2;
+}
+
+.button-md {
+  @apply px-4 py-2.5;
+}
+
+.button-lg {
+  @apply w-full;
+}
+
+.button-round {
+  @apply gap-1 px-1.5 py-1 font-medium text-xs rounded-xl flex justify-center items-center;
+}
+
+.button-white {
+  @apply bg-bgColor text-slate6 border-slate6;
+}
+
+.button-emerald {
+  @apply bg-emerald5 text-white border-emerald6;
+}
+
+.button-gray {
+  @apply bg-slate4 text-white border-slate5;
+}
