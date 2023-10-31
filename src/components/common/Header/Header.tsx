@@ -10,9 +10,10 @@ import Button from '../Button/Button'
 
 const Header = () => {
   const pathName = usePathname()
-  const currentPage = pathName
-    .split('/')[1]
-    .replace(/^[a-z]/, (char) => char.toUpperCase())
+  const currentPage =
+    pathName
+      .split(/[^a-zA-Z]/)[1] // 라우터명
+      .replace(/^[a-z]/, (char) => char.toUpperCase()) || 'Home' // 첫글자 대문자 치환
 
   return (
     <div className="flex items-center justify-between bg-bgColor">
