@@ -69,7 +69,7 @@
 }
 
 .button {
-  @apply font-bold font-['Pretendard'] text-sm border gap-2 rounded-md;
+  @apply font-bold text-sm border gap-2 rounded-md;
 }
 
 .button-sm {
