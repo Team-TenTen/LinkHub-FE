@@ -1,4 +1,5 @@
 import { Providers, ThemeButton } from '@/components'
+import Header from '@/components/common/Header/Header'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -16,7 +17,10 @@ export default function RootLayout({
     <html lang="ko">
       <body className="bg-bgColor">
         <Providers>
-          <div className="mx-auto w-full max-w-[500px]">{children}</div>
+          <div className="mx-auto w-full max-w-[500px]">
+            <Header />
+            <main>{children}</main>
+          </div>
           <ThemeButton />
         </Providers>
       </body>
