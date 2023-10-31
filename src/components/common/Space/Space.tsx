@@ -2,6 +2,7 @@ import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import Image from 'next/image'
+import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 
 interface SpaceProps {
@@ -42,22 +43,14 @@ const Space = ({
             <div className="flex items-center justify-end">
               <Chip label={category} />
               <div className="flex grow items-center justify-end gap-2">
-                <button
-                  className="
-                    flex items-center justify-center gap-1 rounded-xl border border-slate6 bg-bgColor px-1.5 py-1
-                    text-xs font-medium text-slate6
-                  ">
+                <Button className="button button-round button-white">
                   <InboxArrowDownIcon className="h-4 w-4" />
                   가져오기 {scrap}
-                </button>
-                <button
-                  className="
-                    flex items-center justify-center gap-1 rounded-xl border border-slate6 bg-bgColor px-1.5 py-1
-                    text-xs font-medium text-slate6
-                  ">
+                </Button>
+                <Button className="button button-round button-white">
                   <StarIconOutline className="h-4 w-4" />
                   즐겨찾기 {favorite}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -65,7 +58,7 @@ const Space = ({
       ) : (
         <div className="relative flex flex-col gap-10 p-4">
           <Image
-            className="z-[-100] h-[188px] object-cover"
+            className="z-[-100] object-cover"
             src={spaceImage}
             alt="space-image"
             fill
