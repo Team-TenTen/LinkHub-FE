@@ -44,7 +44,7 @@ const Modal = ({
                   {title}
                 </div>
                 <button onClick={onClose}>
-                  <XMarkIcon className="h-4 w-4" />
+                  <XMarkIcon className="h-6 w-6 text-slate6" />
                 </button>
               </div>
               {children}
