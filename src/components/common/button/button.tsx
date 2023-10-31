@@ -12,7 +12,7 @@ const Button = ({
   className,
   style,
   onClick,
-  ...rests
+  ...rest
 }: ButtonProps) => {
   return (
     <button
@@ -20,7 +20,7 @@ const Button = ({
       className={className}
       style={{ ...style }}
       type={type}
-      {...rests}>
+      {...rest}>
       {children}
     </button>
   )

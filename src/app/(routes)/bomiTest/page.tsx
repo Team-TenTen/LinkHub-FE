@@ -1,5 +1,5 @@
 // 컴포넌트 테스트 코드입니다
-import { Button } from '@/components'
+import Button from '@/components/common/Button/Button'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
