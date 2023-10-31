@@ -5,4 +5,5 @@ export { default as Textarea } from './common/Textarea/Textarea'
 export { default as Avatar } from './common/Avatar/Avatar'
 export { default as AvatarGroup } from './common/AvatarGroup/AvatarGroup'
 export { default as Chip } from './common/Chip/Chip'
+export { default as Toggle } from './common/Toggle/Toggle'
 
