@@ -10,10 +10,9 @@ import Button from '../Button/Button'
 
 const Header = () => {
   const pathName = usePathname()
-  const currentPage =
-    pathName
-      .split(/[^a-zA-Z]/)[1] // 라우터명
-      .replace(/^[a-z]/, (char) => char.toUpperCase()) || 'Home' // 첫글자 대문자 치환
+  const currentPage = pathName
+    .split(/[^a-zA-Z]/)[1] // 라우터명
+    .replace(/^[a-z]/, (char) => char.toUpperCase()) // 첫글자 대문자 치환
 
   return (
     <div className="flex items-center justify-between bg-bgColor">
@@ -25,7 +24,7 @@ const Header = () => {
         </Button>
       </div>
       <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center">
-        {currentPage}
+        {currentPage || 'Home'}
       </div>
       <div className="flex items-center justify-center">
         <Button className="flex h-8 w-8 items-center justify-center">
