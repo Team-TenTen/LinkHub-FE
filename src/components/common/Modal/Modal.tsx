@@ -15,7 +15,7 @@ export interface ModalProps {
   confirmText?: string
   onClose: (e?: React.MouseEvent<HTMLButtonElement>) => void
   onConfirm?: (e?: React.MouseEvent<HTMLButtonElement>) => void
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 const Modal = ({
