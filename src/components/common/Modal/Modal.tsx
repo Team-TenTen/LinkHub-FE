@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import Button from '../Button/Button'
+import { DEFAULT_CANCEL_TEXT, DEFAULT_CONFIRM_TEXT } from './constants'
 import { useModalLogic } from './hooks'
 
 export interface ModalProps {
@@ -21,8 +22,8 @@ const Modal = ({
   title,
   isCancelButton,
   isConfirmButton,
-  cancelText = '취소',
-  confirmText = '확인',
+  cancelText = DEFAULT_CANCEL_TEXT,
+  confirmText = DEFAULT_CONFIRM_TEXT,
   onClose,
   onConfirm,
   children,
