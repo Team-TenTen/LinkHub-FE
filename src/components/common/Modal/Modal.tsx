@@ -10,6 +10,8 @@ export interface ModalProps {
   title: string
   isCancelButton?: boolean
   isConfirmButton?: boolean
+  cancelText?: string
+  confirmText?: string
   onClose: (e?: React.MouseEvent<HTMLButtonElement>) => void
   onConfirm?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   children: React.ReactNode
@@ -19,6 +21,8 @@ const Modal = ({
   title,
   isCancelButton,
   isConfirmButton,
+  cancelText = '취소',
+  confirmText = '확인',
   onClose,
   onConfirm,
   children,
@@ -54,14 +58,14 @@ const Modal = ({
                   <Button
                     className="button button-gray flex items-center justify-center px-2.5 py-1.5"
                     onClick={onClose}>
-                    취소
+                    {cancelText}
                   </Button>
                 )}
                 {isConfirmButton && (
                   <Button
                     className="button button-emerald flex items-center justify-center px-2.5 py-1.5"
                     onClick={handleClickConfirm}>
-                    추가
+                    {confirmText}
                   </Button>
                 )}
               </div>
