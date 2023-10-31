@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { XMarkIcon } from '@heroicons/react/24/solid'
+import Button from '../Button/Button'
 import { useModalLogic } from './hooks'
 
 export interface ModalProps {
@@ -43,25 +44,25 @@ const Modal = ({
                 <div className="text-base font-semibold text-gray9">
                   {title}
                 </div>
-                <button onClick={onClose}>
-                  <XMarkIcon className="h-6 w-6 text-slate6" />
-                </button>
+                <Button onClick={onClose}>
+                  <XMarkIcon className="h-6 w-6 p-0.5 text-slate6" />
+                </Button>
               </div>
               {children}
               <div className="flex justify-end gap-2">
                 {isCancelButton && (
-                  <button
-                    className="flex items-center justify-center rounded-md border border-slate5 bg-slate4 px-2.5 py-1.5 text-sm font-bold text-white"
+                  <Button
+                    className="button button-gray flex items-center justify-center px-2.5 py-1.5"
                     onClick={onClose}>
                     취소
-                  </button>
+                  </Button>
                 )}
                 {isConfirmButton && (
-                  <button
-                    className="flex items-center justify-center rounded-md border border-emerald6 bg-emerald5 px-2.5 py-1.5 text-sm font-bold text-white"
+                  <Button
+                    className="button button-emerald flex items-center justify-center px-2.5 py-1.5"
                     onClick={handleClickConfirm}>
                     추가
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
