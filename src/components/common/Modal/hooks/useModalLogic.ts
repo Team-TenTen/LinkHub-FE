@@ -35,7 +35,7 @@ const useModalLogic = ({
     }
   }
 
-  const handleClickConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickConfirm = (e?: React.MouseEvent<HTMLButtonElement>) => {
     onConfirm?.()
     onClose()
   }
