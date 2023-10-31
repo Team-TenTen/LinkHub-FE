@@ -10,7 +10,7 @@ export interface TextareaProps {
 const Textarea = forwardRef(
   (
     { label, placeholder, validation, disabled, ...rest }: TextareaProps,
-    ref: ForwardedRef<HTMLTextAreaElement>,
+    ref?: ForwardedRef<HTMLTextAreaElement>,
   ) => {
     return (
       <div className="flex flex-col justify-center">

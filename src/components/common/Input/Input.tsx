@@ -27,7 +27,7 @@ const Input = forwardRef(
       onButtonClick,
       ...rest
     }: InputProps,
-    ref: ForwardedRef<HTMLInputElement>,
+    ref?: ForwardedRef<HTMLInputElement>,
   ) => {
     return (
       <div className="flex flex-col justify-center">
