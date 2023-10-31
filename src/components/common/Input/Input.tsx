@@ -1,3 +1,4 @@
+import { ForwardedRef, forwardRef } from 'react'
 import { cls } from '@/utils'
 
 export interface InputProps {
@@ -9,40 +10,38 @@ export interface InputProps {
   buttonColor?: 'green' | 'gray'
   validation?: string
   disabled?: boolean
-  multiLine?: boolean
   onButtonClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const Input = ({
-  label,
-  type,
-  placeholder,
-  inputButton,
-  buttonText = '추가',
-  buttonColor = 'green',
-  validation,
-  disabled,
-  multiLine,
-  onButtonClick,
-  ...rest
-}: InputProps) => {
-  return (
-    <div className="flex flex-col justify-center">
-      {label && (
-        <label className="text-gray9 py-2 text-sm font-semibold">{label}</label>
-      )}
-      {multiLine ? (
-        <textarea
-          className="text-gray9 placeholder-gray4 disabled:placeholder-gray3 border-slate5 disabled:border-gray3 rounded-md border bg-bgColor px-3 py-2.5 text-sm font-medium outline-none"
-          placeholder={placeholder}
-          disabled={disabled}
-          {...rest}></textarea>
-      ) : (
+const Input = forwardRef(
+  (
+    {
+      label,
+      type,
+      placeholder,
+      inputButton,
+      buttonText = '추가',
+      buttonColor = 'green',
+      validation,
+      disabled,
+      onButtonClick,
+      ...rest
+    }: InputProps,
+    ref: ForwardedRef<HTMLInputElement>,
+  ) => {
+    return (
+      <div className="flex flex-col justify-center">
+        {label && (
+          <label className="py-2 text-sm font-semibold text-gray9">
+            {label}
+          </label>
+        )}
         <div className="relative flex flex-col">
           <input
+            ref={ref}
             type={type}
             className={cls(
-              'text-gray9 placeholder-gray4 disabled:placeholder-gray3 disabled:border-gray3 rounded-md border bg-bgColor px-3 py-2.5 text-sm font-medium outline-none',
+              'rounded-md border bg-bgColor px-3 py-2.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none disabled:border-gray3 disabled:placeholder-gray3',
               inputButton && buttonColor === 'green'
                 ? 'border-emerald6 pr-20'
                 : 'border-slate5',
@@ -56,7 +55,7 @@ const Input = ({
               className={cls(
                 'absolute right-0 top-0 flex rounded-r-md border px-4 py-2.5 text-sm font-semibold text-white',
                 buttonColor === 'green'
-                  ? 'bg-emerald5 border-emerald6'
+                  ? 'border-emerald6 bg-emerald5'
                   : 'border-slate5 bg-slate4',
               )}
               onClick={onButtonClick}>
@@ -64,12 +63,16 @@ const Input = ({
             </button>
           )}
         </div>
-      )}
-      {validation && (
-        <span className="text-red6 py-2 text-xs font-normal">{validation}</span>
-      )}
-    </div>
-  )
-}
+        {validation && (
+          <span className="py-2 text-xs font-normal text-red6">
+            {validation}
+          </span>
+        )}
+      </div>
+    )
+  },
+)
+
+Input.displayName = 'Input'
 
 export default Input
