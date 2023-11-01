@@ -26,10 +26,10 @@ const CategoryList = ({
   return (
     <ul
       className={cls(
-        'flex w-full gap-1.5 py-4',
+        'flex w-full gap-1.5',
         horizontal
-          ? 'snap-x scroll-px-4 overflow-x-auto  scroll-smooth'
-          : 'flex-wrap px-4',
+          ? 'snap-x scroll-px-4 overflow-x-auto scroll-smooth py-4'
+          : 'flex-wrap',
       )}>
       {CATEGORIES[type].map((category, i) => (
         <li
