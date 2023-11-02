@@ -13,3 +13,4 @@ export { default as CategoryListItem } from './common/CategoryList/CategoryListI
 export { default as CategoryList } from './common/CategoryList/CategoryList'
 export { default as DropdownItem } from './common/Dropdown/DropdownItem'
 export { default as Dropdown } from './common/Dropdown/Dropdown'
+export { default as SpaceMemberList } from './common/SpaceMemberList/SpaceMemberList'
