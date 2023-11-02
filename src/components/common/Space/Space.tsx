@@ -37,11 +37,11 @@ const Space = ({
   const [clicked, toggle] = useToggle()
   const router = useRouter()
 
-  const clickScrapButtonHandler = () => {
+  const handleClickScrapButton = () => {
     onClickScrap && onClickScrap()
   }
 
-  const clickFavoriteButtonHandler = () => {
+  const handleClickFavoriteButton = () => {
     toggle()
     onClickFavorite && onClickFavorite()
   }
@@ -69,13 +69,13 @@ const Space = ({
               <div className="flex grow items-center justify-end gap-2">
                 <Button
                   className="button button-round button-white"
-                  onClick={clickScrapButtonHandler}>
+                  onClick={handleClickScrapButton}>
                   <InboxArrowDownIcon className="h-4 w-4" />
                   가져오기 {scrap}
                 </Button>
                 <Button
                   className="button button-round button-white"
-                  onClick={clickFavoriteButtonHandler}>
+                  onClick={handleClickFavoriteButton}>
                   {clicked ? (
                     <StarIconSolid className="h-4 w-4" />
                   ) : (
@@ -103,13 +103,13 @@ const Space = ({
             <div className="flex grow items-center gap-2">
               <Button
                 className="button button-round button-white"
-                onClick={clickScrapButtonHandler}>
+                onClick={handleClickScrapButton}>
                 <InboxArrowDownIcon className="h-4 w-4" />
                 가져오기 {scrap}
               </Button>
               <Button
                 className="button button-round button-white"
-                onClick={clickFavoriteButtonHandler}>
+                onClick={handleClickFavoriteButton}>
                 {clicked ? (
                   <StarIconSolid className="h-4 w-4" />
                 ) : (
