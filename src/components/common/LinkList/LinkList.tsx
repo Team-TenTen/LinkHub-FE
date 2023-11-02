@@ -2,26 +2,28 @@ import { cls } from '@/utils'
 import LinkItem from '../LinkItem/LinkItem'
 import { ADD_LINK } from './constants'
 
-interface LinkListProps {
-  links: {
-    id: number
-    title: string
-    tag: string
-    readUsers: { id: string; profile: string }[]
-    likes: number
-  }[] // 'TODO Link type으로 변환'
-  read: boolean
-  summary: boolean
-  edit: boolean
+export interface LinkProps {
+  id: number
+  title: string
+  tag: string
+  readUsers: { id: string; profile: string }[]
+  likes: number
+}
+
+export interface LinkListProps {
+  links: LinkProps[]
+  read?: boolean
+  summary?: boolean
+  edit?: boolean
   type?: 'list' | 'card'
 }
 
 const LinkList = ({
-  type = 'list',
   links,
-  read,
-  summary,
-  edit,
+  read = false,
+  summary = false,
+  edit = false,
+  type = 'list',
 }: LinkListProps) => {
   return (
     <div
