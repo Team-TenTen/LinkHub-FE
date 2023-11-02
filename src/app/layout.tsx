@@ -16,7 +16,11 @@ export default function RootLayout({
     <html lang="ko">
       <body className="bg-bgColor">
         <Providers>
-          <div className="mx-auto w-full max-w-[500px]">{children}</div>
+          <div
+            id="root"
+            className="relative mx-auto w-full max-w-[500px]">
+            {children}
+          </div>
           <ThemeButton />
         </Providers>
       </body>
