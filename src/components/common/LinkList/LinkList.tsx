@@ -29,7 +29,7 @@ const LinkList = ({
     <div
       className={cls(
         type === 'list'
-          ? 'flex flex-col border-slate3 last:border-b'
+          ? 'flex flex-col border border-slate3 last:border-b'
           : 'grid grid-cols-2 gap-2',
       )}>
       <button
