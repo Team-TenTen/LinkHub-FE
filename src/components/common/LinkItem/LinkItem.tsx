@@ -1,14 +1,18 @@
+'use client'
+
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
-  HeartIcon,
+  HeartIcon as HeartIconOutline,
   PencilSquareIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline'
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import Avatar from '../Avatar/Avatar'
 import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
+import useToggle from '../Toggle/hooks/useToggle'
 
 export interface User {
   id: string
@@ -36,6 +40,8 @@ const LinkItem = ({
   edit = false,
   type = 'list',
 }: LinkItemProps) => {
+  const [isLike, likeToggle] = useToggle()
+
   return (
     <>
       {type === 'list' ? (
@@ -75,8 +81,14 @@ const LinkItem = ({
               </>
             ) : (
               <>
-                <Button className="button button-round button-white">
-                  {<HeartIcon className="h-4 w-4 text-slate6" />}
+                <Button
+                  className="button button-round button-white"
+                  onClick={() => likeToggle()}>
+                  {isLike ? (
+                    <HeartIconSolid className="h-4 w-4 text-slate6" />
+                  ) : (
+                    <HeartIconOutline className="h-4 w-4  text-slate6" />
+                  )}
                   <div>{likes}</div>
                 </Button>
                 {summary && (
@@ -129,8 +141,14 @@ const LinkItem = ({
               </div>
             ) : (
               <div className="flex gap-1.5">
-                <Button className="button button-round button-white">
-                  {<HeartIcon className="h-4 w-4 text-slate6" />}
+                <Button
+                  className="button button-round button-white"
+                  onClick={() => likeToggle()}>
+                  {isLike ? (
+                    <HeartIconSolid className="h-4 w-4 text-slate6" />
+                  ) : (
+                    <HeartIconOutline className="h-4 w-4  text-slate6" />
+                  )}
                   <div>{likes}</div>
                 </Button>
                 {summary && (
