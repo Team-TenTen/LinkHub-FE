@@ -16,10 +16,10 @@ export interface User {
 }
 
 export interface LinkItemProps {
-  title: string
-  tag: string
-  readUsers: User[]
-  likes: number
+  title?: string
+  tag?: string
+  readUsers?: User[]
+  likes?: number
   read?: boolean
   summary?: boolean
   edit?: boolean
