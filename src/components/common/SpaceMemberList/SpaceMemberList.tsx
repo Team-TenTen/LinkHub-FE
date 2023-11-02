@@ -32,7 +32,7 @@ const SpaceMemberList = ({ members, edit }: SpaceMemberListProps) => {
               height={30}
               alt="프로필"
             />
-            <div className="text-sm font-semibold">name</div>
+            <div className="text-sm font-semibold">{member.name}</div>
           </div>
           {member.auth === 'owner' ? (
             <DropdownItem
