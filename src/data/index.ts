@@ -73,3 +73,24 @@ export const mock_LinkData = [
     likes: 6,
   },
 ]
+
+export const mock_memberData = [
+  {
+    id: 1,
+    profile: '/duck.jpg',
+    name: '프롱이',
+    auth: 'owner',
+  },
+  {
+    id: 2,
+    profile: '/duck.jpg',
+    name: '백둥이',
+    auth: 'view',
+  },
+  {
+    id: 3,
+    profile: '/duck.jpg',
+    name: '풀택이',
+    auth: 'view',
+  },
+]
