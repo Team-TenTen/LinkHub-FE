@@ -20,10 +20,10 @@ export interface User {
 }
 
 export interface LinkItemProps {
-  title?: string
-  tag?: string
-  readUsers?: User[]
-  likes?: number
+  title: string
+  tag: string
+  readUsers: User[]
+  likes: number
   read?: boolean
   summary?: boolean
   edit?: boolean
@@ -55,7 +55,7 @@ const LinkItem = ({
                 <Chip label={tag} />
               </div>
             )}
-            {readUsers && read && !edit ? (
+            {readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
@@ -115,7 +115,7 @@ const LinkItem = ({
             </div>
           )}
           <div className="flex items-center justify-between">
-            {readUsers && read && !edit ? (
+            {readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
