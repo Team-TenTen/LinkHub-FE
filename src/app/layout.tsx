@@ -1,4 +1,4 @@
-import { Providers, ThemeButton } from '@/components'
+import { Providers, SidebarButton } from '@/components'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -19,9 +19,9 @@ export default function RootLayout({
           <div
             id="root"
             className="relative mx-auto w-full max-w-[500px]">
+            <SidebarButton />
             {children}
           </div>
-          <ThemeButton />
         </Providers>
       </body>
     </html>
