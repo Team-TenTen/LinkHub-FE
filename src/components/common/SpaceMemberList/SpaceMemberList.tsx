@@ -47,7 +47,7 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
                 size="medium"
                 placement="left"
                 onChange={(e) => {
-                  console.log(e?.currentTarget.value)
+                  console.log(e?.currentTarget.value) // TODO: 멤버 리스트 권한 기능 구현할 때 여기에 함수 작성
                 }}
               />
             )
