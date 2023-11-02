@@ -8,7 +8,7 @@ import { PLACEMENTS, TYPES, VERTICAL_PADDING } from './constants'
 import useDropdown from './hooks/useDropdown'
 
 export interface DropdownProps {
-  type: 'space' | 'link' | 'user' | 'search' | 'tag'
+  type: 'space' | 'link' | 'search' | 'user_edit' | 'user_invite' | 'tag'
   size?: 'large' | 'medium' | 'small'
   placement: 'left' | 'right'
   tags?: string[]
@@ -53,7 +53,7 @@ const Dropdown = ({
           <DropdownItem
             label={item}
             active={index === i}
-            danger={type === 'user' && i === dropdownItems.length - 1}
+            danger={type === 'user_edit' && i === dropdownItems.length - 1}
             onClick={(e) => handleClick(e, i)}
             key={item}
           />
