@@ -1,4 +1,8 @@
+'use client'
+
 import Avatar from '../Avatar/Avatar'
+import Dropdown from '../Dropdown/Dropdown'
+import DropdownItem from '../Dropdown/DropdownItem'
 
 export interface Member {
   id: number
@@ -9,9 +13,10 @@ export interface Member {
 
 export interface SpaceMemberListProps {
   members: Member[]
+  edit: boolean
 }
 
-const SpaceMemberList = ({ members }: SpaceMemberListProps) => {
+const SpaceMemberList = ({ members, edit }: SpaceMemberListProps) => {
   return (
     <div className="flex flex-col">
       <div className="py-4 text-base font-bold text-gray9">스페이스 멤버</div>
@@ -28,10 +33,23 @@ const SpaceMemberList = ({ members }: SpaceMemberListProps) => {
             />
             <div className="text-sm font-semibold">name</div>
           </div>
-          {member.auth === 'owner' && (
-            <div className="flex items-center justify-center rounded-md border border-slate6 px-2.5 py-1 text-xs font-normal text-slate6">
-              Owner
-            </div>
+          {member.auth === 'owner' ? (
+            <DropdownItem
+              label="관리자"
+              border={true}
+              disabled={true}
+            />
+          ) : (
+            edit && (
+              <Dropdown
+                type="user_edit"
+                size="medium"
+                placement="left"
+                onChange={(e) => {
+                  console.log(e?.currentTarget.value)
+                }}
+              />
+            )
           )}
         </div>
       ))}
