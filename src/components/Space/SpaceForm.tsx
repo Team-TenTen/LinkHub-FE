@@ -3,8 +3,11 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, Toggle } from '@/components'
+import { useModal } from '@/hooks'
+import { PlusSmallIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import Button from '../common/Button/Button'
+import { SPACE_FORM_CONSTNAT } from './constant'
 
 interface FormValues {
   image: File | null
@@ -17,9 +20,36 @@ interface FormValues {
   viewer: boolean
 }
 
-const SpaceForm = ({ buttonText }: { buttonText: string }) => {
+interface SpaceFormProps {
+  spaceType: 'Create' | 'Setting'
+  spaceImage?: string
+  spaceName?: string
+  description?: string
+  category?: string
+  favorite?: number
+  scrap?: number
+  spacePublic?: boolean
+  comment?: boolean
+  summary?: boolean
+  viewer?: boolean
+}
+
+const SpaceForm = ({
+  spaceType,
+  spaceImage,
+  spaceName,
+  description,
+  category,
+  favorite,
+  scrap,
+  spacePublic,
+  comment,
+  summary,
+  viewer,
+}: SpaceFormProps) => {
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
-  const [thumnail, setThumnail] = useState<string | null>(null)
+  const [thumnail, setThumnail] = useState(spaceImage)
+  const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 
   const {
     register,
@@ -29,11 +59,19 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      name: '',
-      description: '',
-      category: '엔터테인먼트•예술',
+      name: spaceName || '',
+      description: description || '',
+      category: category || '엔터테인먼트•예술',
+      public: spacePublic || false,
+      comment: comment || false,
+      summary: summary || false,
+      viewer: viewer || false,
     },
   })
+
+  useEffect(() => {
+    setThumnail(spaceImage)
+  }, [spaceImage])
 
   const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
     e?.preventDefault()
@@ -47,6 +85,11 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
       setThumnail(thumbNailImage)
       setValue('image', e.target.files[0])
     }
+  }
+
+  const handleConfirm = () => {
+    // 스페이스 나간 후 로직
+    console.log('스페이스를 나갔습니다.')
   }
 
   return (
@@ -117,6 +160,7 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
             <Toggle
               {...register('public')}
               name="public"
+              on={spacePublic || false}
               onChange={() => setValue('public', !getValues('public'))}
             />
           </div>
@@ -124,6 +168,7 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
             <div className="text-sm font-medium text-gray9">댓글 작성 여부</div>
             <Toggle
               {...register('comment')}
+              on={comment || false}
               name="comment"
               onChange={() => setValue('comment', !getValues('comment'))}
             />
@@ -134,6 +179,7 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
             </div>
             <Toggle
               {...register('summary')}
+              on={summary}
               name="summary"
               onChange={() => setValue('summary', !getValues('summary'))}
             />
@@ -142,6 +188,7 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
             <div className="text-sm font-medium text-gray9">읽음 처리 여부</div>
             <Toggle
               {...register('viewer')}
+              on={viewer}
               name="viewer"
               onChange={() => setValue('viewer', !getValues('viewer'))}
             />
@@ -151,9 +198,46 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
           <Button
             type="submit"
             className="button button-md button-emerald">
-            {buttonText}
+            {spaceType === 'Setting'
+              ? SPACE_FORM_CONSTNAT.SETTING_SPACE
+              : SPACE_FORM_CONSTNAT.CREATE_SPACE}
           </Button>
         </div>
+        {spaceType === 'Setting' && (
+          <div>
+            <div>
+              <div>
+                <Button
+                  onClick={modalOpen}
+                  className="button button-sm button-emerald">
+                  <PlusSmallIcon className="h-5 w-5" />
+                </Button>
+                {isOpen && (
+                  <Modal
+                    title="스페이스 나가기"
+                    isCancelButton={true}
+                    isConfirmButton={true}
+                    cancelText="취소"
+                    confirmText="나가기"
+                    onClose={modalClose}
+                    onConfirm={handleConfirm}>
+                    <div className="flex justify-center">
+                      정말로 나가시겠습니까?
+                    </div>
+                  </Modal>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center justify-between pb-6">
+              <div className="pb-4 pt-4 text-base font-bold text-gray9">
+                스페이스 삭제
+              </div>
+              <Button className="button button-md button-gray">
+                스페이스 삭제
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </form>
   )
