@@ -2,7 +2,14 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { CategoryList, Input, Toggle } from '@/components'
+import {
+  CategoryList,
+  Dropdown,
+  Input,
+  SpaceMemberList,
+  Toggle,
+} from '@/components'
+import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
@@ -89,7 +96,7 @@ const SpaceForm = ({
 
   const handleConfirm = () => {
     // 스페이스 나간 후 로직
-    console.log('스페이스를 나갔습니다.')
+    console.log('스페이스가 삭제되었습니다.')
   }
 
   return (
@@ -205,36 +212,33 @@ const SpaceForm = ({
         </div>
         {spaceType === 'Setting' && (
           <div>
-            <div>
-              <div>
-                <Button
-                  onClick={modalOpen}
-                  className="button button-sm button-emerald">
-                  <PlusSmallIcon className="h-5 w-5" />
-                </Button>
-                {isOpen && (
-                  <Modal
-                    title="스페이스 나가기"
-                    isCancelButton={true}
-                    isConfirmButton={true}
-                    cancelText="취소"
-                    confirmText="나가기"
-                    onClose={modalClose}
-                    onConfirm={handleConfirm}>
-                    <div className="flex justify-center">
-                      정말로 나가시겠습니까?
-                    </div>
-                  </Modal>
-                )}
-              </div>
+            <div className="mb-10 border-b border-slate3">
+              <SpaceMemberList
+                members={mock_memberData}
+                edit
+              />
             </div>
             <div className="flex items-center justify-between pb-6">
               <div className="pb-4 pt-4 text-base font-bold text-gray9">
                 스페이스 삭제
               </div>
-              <Button className="button button-md button-gray">
+              <Button
+                className="button button-md button-gray"
+                onClick={modalOpen}>
                 스페이스 삭제
               </Button>
+              {isOpen && (
+                <Modal
+                  title="스페이스 삭제"
+                  isCancelButton={true}
+                  isConfirmButton={true}
+                  cancelText="취소"
+                  confirmText="삭제"
+                  onClose={modalClose}
+                  onConfirm={handleConfirm}>
+                  <div className="flex justify-center">삭제하시겠습니까?</div>
+                </Modal>
+              )}
             </div>
           </div>
         )}
