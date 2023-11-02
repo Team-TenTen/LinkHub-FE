@@ -24,7 +24,7 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
       {members.map((member) => (
         <div
           key={member.id}
-          className="flex justify-between border-t border-slate3 p-2">
+          className="flex items-center justify-between border-t border-slate3 p-2">
           <div className="flex items-center gap-2">
             <Avatar
               src={member.profile}
@@ -44,7 +44,7 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
             edit && (
               <Dropdown
                 type="user_edit"
-                size="medium"
+                size="small"
                 placement="left"
                 onChange={(e) => {
                   console.log(e?.currentTarget.value) // TODO: 멤버 리스트 권한 기능 구현할 때 여기에 함수 작성
