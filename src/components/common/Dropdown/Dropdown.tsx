@@ -10,7 +10,7 @@ import useDropdown from './hooks/useDropdown'
 export interface DropdownProps {
   type: 'space' | 'link' | 'search' | 'user_edit' | 'user_invite' | 'tag'
   size?: 'large' | 'medium' | 'small'
-  placement: 'left' | 'right'
+  placement?: 'left' | 'right'
   tags?: string[]
   onChange: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -18,7 +18,7 @@ export interface DropdownProps {
 const Dropdown = ({
   type,
   size = 'medium',
-  placement,
+  placement = 'left',
   tags,
   onChange,
 }: DropdownProps) => {
