@@ -94,3 +94,53 @@ export const mock_memberData = [
     auth: 'view',
   },
 ]
+
+export const mock_userData = {
+  id: 'frong',
+  name: '프롱이',
+  profile: '/duck.jpg',
+  mySpaces: [
+    {
+      name: 'My Space 1',
+      id: 'my-space-1',
+    },
+    {
+      name: 'My Space 2',
+      id: 'my-space-2',
+    },
+    {
+      name: 'My Space 3',
+      id: 'my-space-3',
+    },
+    {
+      name: 'My Space 4',
+      id: 'my-space-4',
+    },
+    {
+      name: 'My Space 5',
+      id: 'my-space-5',
+    },
+  ],
+  favoriteSpaces: [
+    {
+      name: 'Favorite Space 1',
+      id: 'favorite-space-1',
+    },
+    {
+      name: 'Favorite Space 2',
+      id: 'favorite-space-2',
+    },
+    {
+      name: 'Favorite Space 3',
+      id: 'favorite-space-3',
+    },
+    {
+      name: 'Favorite Space 4',
+      id: 'favorite-space-4',
+    },
+    {
+      name: 'Favorite Space 5',
+      id: 'favorite-space-5',
+    },
+  ],
+}
