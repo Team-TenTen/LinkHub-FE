@@ -49,7 +49,7 @@ const LinkItem = ({
                 <Chip label={tag} />
               </div>
             )}
-            {readUsers.length > 0 && read && !edit ? (
+            {readUsers && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
@@ -74,20 +74,22 @@ const LinkItem = ({
                 </Button>
               </>
             ) : (
-              <Button className="button button-round button-white">
-                {<HeartIcon className="h-4 w-4 text-slate6" />}
-                <div>{likes}</div>
-              </Button>
-            )}
-            {summary && !edit && (
-              <Button>
-                <DocumentTextIcon className="h-6 w-6 p-0.5 text-slate6" />
-              </Button>
+              <>
+                <Button className="button button-round button-white">
+                  {<HeartIcon className="h-4 w-4 text-slate6" />}
+                  <div>{likes}</div>
+                </Button>
+                {summary && (
+                  <Button>
+                    <DocumentTextIcon className="h-6 w-6 p-0.5 text-slate6" />
+                  </Button>
+                )}
+              </>
             )}
           </div>
         </div>
       ) : (
-        <div className="flex w-56 flex-col gap-1 rounded-md border px-3 py-2.5">
+        <div className="flex flex-col gap-1 rounded-md border px-3 py-2.5">
           <div
             className={cls(
               'block overflow-hidden text-ellipsis  text-sm font-medium text-gray9',
@@ -101,7 +103,7 @@ const LinkItem = ({
             </div>
           )}
           <div className="flex items-center justify-between">
-            {readUsers.length > 0 && read && !edit ? (
+            {readUsers && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
@@ -116,28 +118,28 @@ const LinkItem = ({
             ) : (
               <div />
             )}
-            <div className={cls('flex gap-1')}>
-              {edit ? (
-                <>
-                  <Button>
-                    <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
-                  </Button>
-                  <Button>
-                    <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
-                  </Button>
-                </>
-              ) : (
+            {edit ? (
+              <div className="flex gap-1.5">
+                <Button>
+                  <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
+                </Button>
+                <Button>
+                  <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex gap-1.5">
                 <Button className="button button-round button-white">
                   {<HeartIcon className="h-4 w-4 text-slate6" />}
                   <div>{likes}</div>
                 </Button>
-              )}
-              {summary && !edit && (
-                <Button>
-                  <DocumentTextIcon className="h-6 w-6 p-0.5 text-slate6" />
-                </Button>
-              )}
-            </div>
+                {summary && (
+                  <Button>
+                    <DocumentTextIcon className="h-6 w-6 p-0.5 text-slate6" />
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
