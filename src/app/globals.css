@@ -74,7 +74,7 @@
 }
 
 .button {
-  @apply font-bold text-sm border gap-2 rounded-md;
+  @apply gap-2 rounded-md border text-sm font-bold;
 }
 
 .button-sm {
@@ -90,17 +90,24 @@
 }
 
 .button-round {
-  @apply gap-1 px-1.5 py-1 font-medium text-xs rounded-xl flex justify-center items-center;
+  @apply flex items-center justify-center gap-1 rounded-xl px-1.5 py-1 text-xs font-medium;
 }
 
 .button-white {
-  @apply bg-bgColor text-slate6 border-slate6;
+  @apply border-slate6 bg-bgColor text-slate6;
 }
 
 .button-emerald {
-  @apply bg-emerald5 text-white border-emerald6;
+  @apply border-emerald6 bg-emerald5 text-white;
 }
 
 .button-gray {
-  @apply bg-slate4 text-white border-slate5;
+  @apply border-slate5 bg-slate4 text-white;
+}
+
+.text-overflow-2 {
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
