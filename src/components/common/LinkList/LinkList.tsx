@@ -2,7 +2,7 @@ import { cls } from '@/utils'
 import LinkItem from '../LinkItem/LinkItem'
 import { ADD_LINK } from './constants'
 
-export interface LinkProps {
+export interface Link {
   id: number
   title: string
   tag: string
@@ -11,7 +11,7 @@ export interface LinkProps {
 }
 
 export interface LinkListProps {
-  links: LinkProps[]
+  links: Link[]
   read?: boolean
   summary?: boolean
   edit?: boolean
