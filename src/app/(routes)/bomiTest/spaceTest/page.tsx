@@ -17,6 +17,7 @@ const TestPage = () => {
       <div className="m-4">
         <Space
           type="Card"
+          userName={spaceObj.userName}
           spaceName={spaceObj.spaceName}
           spaceImage={spaceObj.spaceImage}
           description={spaceObj.description}
@@ -29,6 +30,7 @@ const TestPage = () => {
       <div>
         <Space
           type="Header"
+          userName={spaceObj.userName}
           spaceName={spaceObj.spaceName}
           spaceImage={spaceObj.spaceImage}
           description={spaceObj.description}

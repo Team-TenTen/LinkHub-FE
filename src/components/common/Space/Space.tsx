@@ -11,6 +11,7 @@ import useToggle from '../Toggle/hooks/useToggle'
 import { SPACE_CONSTANT } from './constants'
 
 interface SpaceProps {
+  userName: string
   _spaceId?: string
   type: 'Card' | 'Header'
   spaceName: string
@@ -24,6 +25,7 @@ interface SpaceProps {
 }
 
 const Space = ({
+  userName,
   _spaceId,
   type,
   spaceName,
@@ -62,7 +64,14 @@ const Space = ({
             fill
           />
           <div className="flex grow flex-col justify-center gap-1 rounded-md bg-white bg-opacity-60 px-3 py-1.5 dark:bg-gray-900 dark:bg-opacity-60">
-            <div className="text-sm font-bold text-gray9">{spaceName}</div>
+            <div>
+              <div className="mr-1 inline-flex text-sm text-gray9">
+                {userName} /
+              </div>
+              <div className="inline-flex text-sm font-bold text-gray9">
+                {spaceName}
+              </div>
+            </div>
             <div className="line-clamp-1 text-xs font-normal text-gray6">
               {description}
             </div>
@@ -97,7 +106,14 @@ const Space = ({
             <Chip label={category} />
           </div>
           <div className="flex flex-col gap-1.5 rounded-md bg-white bg-opacity-60 px-3 py-1.5 dark:bg-gray-900 dark:bg-opacity-60">
-            <div className="text-lg font-bold text-gray9">{spaceName}</div>
+            <div>
+              <div className="mr-1 inline-flex text-lg text-gray9">
+                {userName} /
+              </div>
+              <div className="inline-flex text-lg font-bold text-gray9">
+                {spaceName}
+              </div>
+            </div>
             <div className="flex grow items-center gap-2">
               <Button
                 className="button button-round button-white"
