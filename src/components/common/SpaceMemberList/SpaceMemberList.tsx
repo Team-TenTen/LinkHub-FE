@@ -14,10 +14,10 @@ export interface Member {
 
 export interface SpaceMemberListProps {
   members: Member[]
-  edit: boolean
+  edit?: boolean
 }
 
-const SpaceMemberList = ({ members, edit }: SpaceMemberListProps) => {
+const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
   return (
     <div className="flex flex-col">
       <div className="py-4 text-base font-bold text-gray9">{SPACE_MEMBER}</div>
