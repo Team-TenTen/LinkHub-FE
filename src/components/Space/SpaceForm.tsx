@@ -18,7 +18,6 @@ interface FormValues {
 
 const SpaceForm = ({ buttonText }: { buttonText: string }) => {
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
-  const [imageFile, setImageFile] = useState<File | null>(null)
   const [thumnail, setThumnail] = useState<string | null>(null)
 
   const {
@@ -29,28 +28,25 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      image: null,
       name: '',
       description: '',
     },
   })
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
+  const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
+    e?.preventDefault()
 
-    if (e.target.files) {
+    if (e?.target.files) {
       const blob = new Blob([e.target.files[0]], {
         type: e.target.files[0].type,
       })
 
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
-      setImageFile(e.target.files[0])
-      setValue('image', imageFile)
+      setValue('image', e.target.files[0])
     }
   }
 
-  // todo: 이미지 파일 처리
   return (
     <form
       className="flex flex-col gap-3"
@@ -61,9 +57,9 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
         <input
           {...register('image')}
           type="file"
-          className="hidden"
           ref={selectSpaceImage}
           onChange={handleFileChange}
+          hidden
         />
         <div onClick={() => selectSpaceImage?.current?.click()}>
           {thumnail ? (
