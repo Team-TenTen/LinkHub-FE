@@ -1,8 +1,8 @@
 'use client'
 
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Input, Toggle } from '@/components'
+import { CategoryList, Input, Toggle } from '@/components'
 import Image from 'next/image'
 import Button from '../common/Button/Button'
 
@@ -10,6 +10,7 @@ interface FormValues {
   image: File | null
   name: string
   description: string
+  category: string
   public: boolean
   comment: boolean
   summary: boolean
@@ -30,6 +31,7 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
     defaultValues: {
       name: '',
       description: '',
+      category: '엔터테인먼트•예술',
     },
   })
 
@@ -97,9 +99,17 @@ const SpaceForm = ({ buttonText }: { buttonText: string }) => {
             type="text"
           />
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           <div className="text-sm font-semibold text-gray9">관심 카테고리</div>
-          <div>대충 카테고리 들어갈 영역</div>
+          <div>
+            <CategoryList
+              type="default"
+              horizontal={false}
+              onChange={(e) =>
+                setValue('category', e?.currentTarget.value || '')
+              }
+            />
+          </div>
         </div>
         <div>
           <div className="flex items-center justify-between border-t border-slate3 p-3">

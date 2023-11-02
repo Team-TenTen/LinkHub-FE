@@ -15,6 +15,7 @@ const CategoryListItem = ({
 }: CategoryListItemProps) => {
   return (
     <button
+      type="button"
       value={label}
       className={cls(
         'rounded-3xl border px-4 py-2 text-sm font-medium',
