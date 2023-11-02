@@ -40,7 +40,7 @@ const LinkItem = ({
     <>
       {type === 'list' ? (
         <div className="flex justify-between gap-2 border-t border-slate3 px-3 py-2">
-          <div className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9">
+          <div className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9">
             {title}
           </div>
           <div className="flex shrink-0 gap-1.5">
