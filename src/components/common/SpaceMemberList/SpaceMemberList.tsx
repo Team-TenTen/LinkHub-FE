@@ -3,6 +3,7 @@
 import Avatar from '../Avatar/Avatar'
 import Dropdown from '../Dropdown/Dropdown'
 import DropdownItem from '../Dropdown/DropdownItem'
+import { SPACE_MEMBER } from './constants'
 
 export interface Member {
   id: number
@@ -19,7 +20,7 @@ export interface SpaceMemberListProps {
 const SpaceMemberList = ({ members, edit }: SpaceMemberListProps) => {
   return (
     <div className="flex flex-col">
-      <div className="py-4 text-base font-bold text-gray9">스페이스 멤버</div>
+      <div className="py-4 text-base font-bold text-gray9">{SPACE_MEMBER}</div>
       {members.map((member) => (
         <div
           key={member.id}
