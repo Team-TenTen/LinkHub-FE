@@ -17,11 +17,6 @@ const useModalLogic = ({
         e.preventDefault()
         onClose()
       }
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        onConfirm?.()
-        onClose()
-      }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => {
