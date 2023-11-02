@@ -2,6 +2,7 @@ import Space from '@/components/common/Space/Space'
 
 const TestPage = () => {
   const spaceObj = {
+    userName: 'Bomi',
     spaceId: '123',
     spaceImage: '/TestImage.svg',
     spaceName: '강남역 맛집 리스트 모음 스페이스',

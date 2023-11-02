@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import useToggle from '../Toggle/hooks/useToggle'
+import { SPACE_CONSTANT } from './constants'
 
 interface SpaceProps {
   _spaceId?: string
@@ -38,50 +39,47 @@ const Space = ({
   const router = useRouter()
 
   const handleClickScrapButton = () => {
-    onClickScrap && onClickScrap()
+    onClickScrap?.()
   }
 
   const handleClickFavoriteButton = () => {
     toggle()
-    onClickFavorite && onClickFavorite()
+    onClickFavorite?.()
   }
 
   return (
     <>
       {type === 'Card' ? (
-        <div className="flex gap-3 rounded-md border border-slate3 p-3">
-          <div className="items-center justify-center">
-            <Image
-              className="h-20 w-20 rounded-full border border-slate-300 object-cover"
-              src={spaceImage}
-              width={80}
-              height={80}
-              alt="space-image"
-            />
-          </div>
-          <div
-            className="flex grow flex-col justify-center gap-1"
-            onClick={() => router.push(`/space/${_spaceId}`)}>
+        <div
+          className="relative flex gap-3 rounded-md border border-slate3 p-2"
+          onClick={() => {
+            router.push(`/space/${_spaceId}`)
+          }}>
+          <Image
+            className="z-[-100] rounded-md object-cover opacity-50"
+            src={spaceImage}
+            alt="space-image"
+            fill
+          />
+          <div className="flex grow flex-col justify-center gap-1 rounded-md bg-white bg-opacity-60 px-3 py-1.5 dark:bg-gray-900 dark:bg-opacity-60">
             <div className="text-sm font-bold text-gray9">{spaceName}</div>
-            <div className="text-xs font-normal text-gray6">{description}</div>
+            <div className="line-clamp-1 text-xs font-normal text-gray6">
+              {description}
+            </div>
             <div className="flex items-center justify-end">
               <Chip label={category} />
               <div className="flex grow items-center justify-end gap-2">
-                <Button
-                  className="button button-round button-white"
-                  onClick={handleClickScrapButton}>
+                <Button className="button button-round button-white">
                   <InboxArrowDownIcon className="h-4 w-4" />
-                  가져오기 {scrap}
+                  {scrap}
                 </Button>
-                <Button
-                  className="button button-round button-white"
-                  onClick={handleClickFavoriteButton}>
+                <Button className="button button-round button-white">
                   {clicked ? (
-                    <StarIconSolid className="h-4 w-4" />
+                    <StarIconSolid className="h-4 w-4 text-yellow-300" />
                   ) : (
                     <StarIconOutline className="h-4 w-4" />
                   )}
-                  즐겨찾기 {favorite}
+                  {favorite}
                 </Button>
               </div>
             </div>
@@ -105,20 +103,22 @@ const Space = ({
                 className="button button-round button-white"
                 onClick={handleClickScrapButton}>
                 <InboxArrowDownIcon className="h-4 w-4" />
-                가져오기 {scrap}
+                {SPACE_CONSTANT.SCRAP} {scrap}
               </Button>
               <Button
                 className="button button-round button-white"
                 onClick={handleClickFavoriteButton}>
                 {clicked ? (
-                  <StarIconSolid className="h-4 w-4" />
+                  <StarIconSolid className="h-4 w-4 text-yellow-300" />
                 ) : (
                   <StarIconOutline className="h-4 w-4" />
                 )}
-                즐겨찾기 {favorite}
+                {SPACE_CONSTANT.FAVORITE} {favorite}
               </Button>
             </div>
-            <div className="text-xs font-normal text-gray6">{description}</div>
+            <div className="line-clamp-1 text-xs font-normal text-gray6">
+              {description}
+            </div>
           </div>
         </div>
       )}
