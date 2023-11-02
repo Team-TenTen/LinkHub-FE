@@ -5,6 +5,7 @@ import {
   DEFAULT_SIZE,
   MARGIN_LEFT_DIVIDE,
   PADDING_LEFT_DIVIDE,
+  PLUS,
 } from './constants'
 
 export interface AvatarGroupProps {
@@ -48,8 +49,9 @@ const AvatarGroup = ({
         ))}
       </div>
       {allAvatars.length > limit && (
-        <div className="text-slate6 text-xs font-normal">
-          +{allAvatars.length - limit}명
+        <div className="text-xs font-normal text-slate6">
+          {PLUS}
+          {allAvatars.length - limit}
         </div>
       )}
     </div>
