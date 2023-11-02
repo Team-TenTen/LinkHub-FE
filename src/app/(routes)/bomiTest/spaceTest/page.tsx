@@ -2,6 +2,7 @@ import Space from '@/components/common/Space/Space'
 
 const TestPage = () => {
   const spaceObj = {
+    spaceId: '123',
     spaceImage: '/TestImage.svg',
     spaceName: '강남역 맛집 리스트 모음 스페이스',
     description: '내 기준 강남역에서 맛있는 맛집 링크 모음집',
@@ -21,6 +22,7 @@ const TestPage = () => {
           category={spaceObj.category}
           scrap={spaceObj.scrap}
           favorite={spaceObj.favorite}
+          _spaceId={spaceObj.spaceId}
         />
       </div>
       <div>
