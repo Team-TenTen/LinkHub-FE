@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { cls } from '@/utils'
 import CategoryListItem from './CategoryListItem'
 import { CATEGORIES } from './constants'
+import useCategoryList from './hooks/useCategoryList'
 
 export interface CategoryListProps {
   type?: 'all' | 'all_follow' | 'default'
@@ -16,12 +16,7 @@ const CategoryList = ({
   horizontal = true,
   onChange,
 }: CategoryListProps) => {
-  const [index, setIndex] = useState(0)
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, i: number) => {
-    setIndex(i)
-    onChange?.(e)
-  }
+  const { index, handleClick } = useCategoryList({ onChange })
 
   return (
     <ul
