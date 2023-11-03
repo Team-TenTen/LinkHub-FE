@@ -4,7 +4,7 @@ import { useModal } from '@/hooks'
 import { cls } from '@/utils'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
-import { ADD_LINK } from './constants'
+import { ADD_LINK_TEXT } from './constants'
 
 export interface Link {
   id: number
@@ -45,7 +45,7 @@ const LinkList = ({
               : 'items-center justify-center rounded-md border',
           )}
           onClick={modalOpen}>
-          <div className="text-gray9">{ADD_LINK}</div>
+          <div className="text-gray9">{ADD_LINK_TEXT}</div>
         </button>
         {links.map((link) => (
           <LinkItem
