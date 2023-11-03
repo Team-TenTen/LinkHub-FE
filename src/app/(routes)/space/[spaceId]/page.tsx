@@ -7,6 +7,7 @@ import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
+import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { mock_LinkData, mock_memberData, mock_spaceData } from '@/data'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
@@ -20,8 +21,7 @@ import {
 const SpacePage = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
-  const [isEdit, setIsEdit] = useState(false)
-
+  const [isEdit, editToggle] = useToggle(false)
   const user = 'dudwns'
   const spaceData = mock_spaceData
 
@@ -80,7 +80,7 @@ const SpacePage = () => {
           <div className="flex gap-2">
             <Button
               className="button button-white p-1.5"
-              onClick={() => setIsEdit((prev) => !prev)}>
+              onClick={editToggle}>
               {isEdit ? (
                 <EyeIcon className="h-5 w-5" />
               ) : (
