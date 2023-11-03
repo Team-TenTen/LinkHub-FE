@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
+import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
@@ -18,8 +19,9 @@ import {
 
 const SpacePage = () => {
   const [currentTab, setCurrentTab] = useState(0)
-  const [view, setView] = useState<'list' | 'card'>('list')
+  const [view, handleChangeList, handleChangeCard] = useViewLink()
   const [isEdit, setIsEdit] = useState(false)
+
   const user = 'dudwns'
   const spaceData = mock_spaceData
 
@@ -91,7 +93,7 @@ const SpacePage = () => {
                   'rounded-md rounded-r-none border border-slate3 p-1.5 text-sm font-bold text-white',
                   view === 'list' ? 'bg-emerald5' : 'bg-slate4',
                 )}
-                onClick={() => setView('list')}>
+                onClick={handleChangeList}>
                 <ListBulletIcon className="h-5 w-5" />
               </Button>
               <Button
@@ -99,7 +101,7 @@ const SpacePage = () => {
                   'rounded-md rounded-l-none border border-l-0 border-slate3 p-1.5 text-sm font-bold text-white',
                   view === 'card' ? 'bg-emerald5' : 'bg-slate4',
                 )}
-                onClick={() => setView('card')}>
+                onClick={handleChangeCard}>
                 <Squares2X2Icon className="h-5 w-5" />
               </Button>
             </div>
