@@ -49,34 +49,6 @@ const LinkItem = ({
 
   return (
     <>
-      {isOpen && currentModal === 'update' && (
-        <Modal
-          title="링크 수정"
-          isConfirmButton={true}
-          confirmText="수정"
-          onClose={modalClose}>
-          <div className="flex flex-col gap-2">
-            <Input
-              label="URl"
-              inputButton={true}
-            />
-            <Input label="이름" />
-            <Input label="태그" />
-          </div>
-        </Modal>
-      )}
-      {isOpen && currentModal === 'delete' && (
-        <Modal
-          title="링크 삭제"
-          isCancelButton={true}
-          isConfirmButton={true}
-          confirmText="삭제"
-          onClose={modalClose}>
-          <div className="flex justify-center text-base text-gray9">
-            삭제하시겠습니까?
-          </div>
-        </Modal>
-      )}
       {type === 'list' ? (
         <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
           <div className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9">
@@ -203,6 +175,34 @@ const LinkItem = ({
             )}
           </div>
         </div>
+      )}
+      {isOpen && currentModal === 'update' && (
+        <Modal
+          title="링크 수정"
+          isConfirmButton={true}
+          confirmText="수정"
+          onClose={modalClose}>
+          <div className="flex flex-col gap-2">
+            <Input
+              label="URl"
+              inputButton={true}
+            />
+            <Input label="이름" />
+            <Input label="태그" />
+          </div>
+        </Modal>
+      )}
+      {isOpen && currentModal === 'delete' && (
+        <Modal
+          title="링크 삭제"
+          isCancelButton={true}
+          isConfirmButton={true}
+          confirmText="삭제"
+          onClose={modalClose}>
+          <div className="flex justify-center text-base text-gray9">
+            삭제하시겠습니까?
+          </div>
+        </Modal>
       )}
     </>
   )

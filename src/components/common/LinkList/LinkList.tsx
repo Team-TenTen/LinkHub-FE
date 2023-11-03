@@ -33,23 +33,6 @@ const LinkList = ({
 
   return (
     <>
-      {isOpen && (
-        <Modal
-          title="링크 추가"
-          isConfirmButton={true}
-          confirmText="추가"
-          onClose={modalClose}>
-          <div className="flex flex-col gap-2">
-            <Input
-              label="URl"
-              inputButton={true}></Input>
-            <Input
-              label="이름"
-              disabled={true}></Input>
-            <Input label="태그"></Input>
-          </div>
-        </Modal>
-      )}
       <div
         className={cls(
           type === 'list' ? 'flex flex-col' : 'grid grid-cols-2 gap-2',
@@ -78,6 +61,23 @@ const LinkList = ({
           />
         ))}
       </div>
+      {isOpen && (
+        <Modal
+          title="링크 추가"
+          isConfirmButton={true}
+          confirmText="추가"
+          onClose={modalClose}>
+          <div className="flex flex-col gap-2">
+            <Input
+              label="URl"
+              inputButton={true}></Input>
+            <Input
+              label="이름"
+              disabled={true}></Input>
+            <Input label="태그"></Input>
+          </div>
+        </Modal>
+      )}
     </>
   )
 }
