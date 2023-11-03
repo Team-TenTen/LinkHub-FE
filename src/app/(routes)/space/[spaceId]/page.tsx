@@ -88,7 +88,7 @@ const SpacePage = () => {
             <div>
               <Button
                 className={cls(
-                  'rounded-md rounded-r-none border border-slate3  p-1.5 text-sm font-bold text-white',
+                  'rounded-md rounded-r-none border border-slate3 p-1.5 text-sm font-bold text-white',
                   view === 'list' ? 'bg-emerald5' : 'bg-slate4',
                 )}
                 onClick={() => setView('list')}>
@@ -96,7 +96,7 @@ const SpacePage = () => {
               </Button>
               <Button
                 className={cls(
-                  'rounded-md rounded-l-none border border-slate3 p-1.5 text-sm font-bold text-white',
+                  'rounded-md rounded-l-none border border-l-0 border-slate3 p-1.5 text-sm font-bold text-white',
                   view === 'card' ? 'bg-emerald5' : 'bg-slate4',
                 )}
                 onClick={() => setView('card')}>
