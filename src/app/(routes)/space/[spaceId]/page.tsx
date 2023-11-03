@@ -54,69 +54,71 @@ const SpacePage = () => {
           ))}
         </Tab>
       )}
-      <div className="flex items-center justify-between py-3">
-        <div className="flex items-center gap-1.5">
-          <Dropdown
-            type="tag"
-            tags={['JavaScript', 'TypeScript', 'Java', 'Python']}
-            size="medium"
-            placement="left"
-            onChange={(e) => {
-              console.log(e?.currentTarget.value)
-            }}
-          />
-          <Dropdown
-            type="space"
-            size="medium"
-            placement="left"
-            onChange={(e) => {
-              console.log(e?.currentTarget.value)
-            }}
-          />
-        </div>
-        <div className="flex gap-2">
-          <Button
-            className="button button-white p-1.5"
-            onClick={() => setIsEdit((prev) => !prev)}>
-            {isEdit ? (
-              <EyeIcon className="h-5 w-5" />
-            ) : (
-              <PencilSquareIcon className="h-5 w-5" />
-            )}
-          </Button>
-          <div>
+      <div className="flex flex-col px-4">
+        <div className="flex items-center justify-between py-3">
+          <div className="flex items-center gap-1.5">
+            <Dropdown
+              type="tag"
+              tags={['JavaScript', 'TypeScript', 'Java', 'Python']}
+              size="medium"
+              placement="left"
+              onChange={(e) => {
+                console.log(e?.currentTarget.value)
+              }}
+            />
+            <Dropdown
+              type="space"
+              size="medium"
+              placement="left"
+              onChange={(e) => {
+                console.log(e?.currentTarget.value)
+              }}
+            />
+          </div>
+          <div className="flex gap-2">
             <Button
-              className={cls(
-                'rounded-md rounded-r-none border border-slate3  p-1.5 text-sm font-bold text-white',
-                view === 'list' ? 'bg-emerald5' : 'bg-slate4',
+              className="button button-white p-1.5"
+              onClick={() => setIsEdit((prev) => !prev)}>
+              {isEdit ? (
+                <EyeIcon className="h-5 w-5" />
+              ) : (
+                <PencilSquareIcon className="h-5 w-5" />
               )}
-              onClick={() => setView('list')}>
-              <ListBulletIcon className="h-5 w-5" />
             </Button>
-            <Button
-              className={cls(
-                'rounded-md rounded-l-none border border-slate3 p-1.5 text-sm font-bold text-white',
-                view === 'card' ? 'bg-emerald5' : 'bg-slate4',
-              )}
-              onClick={() => setView('card')}>
-              <Squares2X2Icon className="h-5 w-5" />
-            </Button>
+            <div>
+              <Button
+                className={cls(
+                  'rounded-md rounded-r-none border border-slate3  p-1.5 text-sm font-bold text-white',
+                  view === 'list' ? 'bg-emerald5' : 'bg-slate4',
+                )}
+                onClick={() => setView('list')}>
+                <ListBulletIcon className="h-5 w-5" />
+              </Button>
+              <Button
+                className={cls(
+                  'rounded-md rounded-l-none border border-slate3 p-1.5 text-sm font-bold text-white',
+                  view === 'card' ? 'bg-emerald5' : 'bg-slate4',
+                )}
+                onClick={() => setView('card')}>
+                <Squares2X2Icon className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
+        <LinkList
+          links={mock_LinkData}
+          read={true}
+          summary={true}
+          edit={isEdit}
+          type={view}
+        />
+        <div className="flex justify-center py-2">
+          <Button className="button button-round button-white">
+            <PlusSmallIcon className="h-4 w-4" /> 더보기
+          </Button>
+        </div>
+        <SpaceMemberList members={mock_memberData} />
       </div>
-      <LinkList
-        links={mock_LinkData}
-        read={true}
-        summary={true}
-        edit={isEdit}
-        type={view}
-      />
-      <div className="flex justify-center py-2">
-        <Button className="button button-round button-white">
-          <PlusSmallIcon className="h-4 w-4" /> 더보기
-        </Button>
-      </div>
-      <SpaceMemberList members={mock_memberData} />
     </>
   )
 }
