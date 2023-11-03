@@ -6,7 +6,7 @@ import Button from '@/components/common/Button/Button'
 import Space from '@/components/common/Space/Space'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
-import { mock_LinkData, mock_memberData } from '@/data'
+import { mock_LinkData, mock_memberData, mock_spaceData } from '@/data'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -21,17 +21,7 @@ const SpacePage = () => {
   const [view, setView] = useState<'list' | 'card'>('list')
   const [isEdit, setIsEdit] = useState(false)
   const user = 'dudwns'
-  const spaceObj = {
-    userName: 'dudwns',
-    spaceId: '123',
-    spaceImage: '/TestImage.svg',
-    spaceName: '강남역 맛집 리스트 모음 스페이스',
-    description: '내 기준 강남역에서 맛있는 맛집 링크 모음집',
-    category: '생활•노하우•쇼핑',
-    favorite: 60,
-    scrap: 40,
-    comment: true,
-  }
+  const spaceData = mock_spaceData
 
   const tabArr = [
     { text: '스페이스', content: '스페이스 페이지', dest: '/space/123' },
@@ -43,15 +33,15 @@ const SpacePage = () => {
     <>
       <Space
         type="Header"
-        userName={spaceObj.userName}
-        spaceName={spaceObj.spaceName}
-        spaceImage={spaceObj.spaceImage}
-        description={spaceObj.description}
-        category={spaceObj.category}
-        scrap={spaceObj.scrap}
-        favorite={spaceObj.favorite}
+        userName={spaceData.userName}
+        spaceName={spaceData.spaceName}
+        spaceImage={spaceData.spaceImage}
+        description={spaceData.description}
+        category={spaceData.category}
+        scrap={spaceData.scrap}
+        favorite={spaceData.favorite}
       />
-      {user === spaceObj.userName && (
+      {user === spaceData.userName && (
         <Tab>
           {tabArr.map((tabItem, index) => (
             <TabItem
