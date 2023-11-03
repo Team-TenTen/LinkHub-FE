@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
+import { MORE_TEXT } from '@/components/common/LinkList/constants'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import Tab from '@/components/common/Tab/Tab'
@@ -116,7 +117,7 @@ const SpacePage = () => {
         />
         <div className="flex justify-center py-2">
           <Button className="button button-round button-white">
-            <PlusSmallIcon className="h-4 w-4" /> 더보기
+            {MORE_TEXT}
           </Button>
         </div>
         <SpaceMemberList members={mock_memberData} />
