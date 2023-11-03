@@ -7,6 +7,7 @@ import Space from '@/components/common/Space/Space'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import { mock_LinkData, mock_memberData } from '@/data'
+import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
   EyeIcon,
@@ -38,9 +39,6 @@ const SpacePage = () => {
     { text: '설정', content: '설정 페이지', dest: '/space/123/setting' },
   ]
 
-  const handleEditSpace = () => {
-    setIsEdit(true)
-  }
   return (
     <>
       <Space
@@ -98,12 +96,18 @@ const SpacePage = () => {
           </Button>
           <div>
             <Button
-              className="rounded-md rounded-r-none border border-slate3 bg-emerald5 p-1.5 text-sm font-bold text-white"
+              className={cls(
+                'rounded-md rounded-r-none border border-slate3  p-1.5 text-sm font-bold text-white',
+                view === 'list' ? 'bg-emerald5' : 'bg-slate4',
+              )}
               onClick={() => setView('list')}>
               <ListBulletIcon className="h-5 w-5" />
             </Button>
             <Button
-              className="rounded-md rounded-l-none border border-slate3  bg-slate4 p-1.5 text-sm font-bold text-white"
+              className={cls(
+                'rounded-md rounded-l-none border border-slate3 p-1.5 text-sm font-bold text-white',
+                view === 'card' ? 'bg-emerald5' : 'bg-slate4',
+              )}
               onClick={() => setView('card')}>
               <Squares2X2Icon className="h-5 w-5" />
             </Button>
