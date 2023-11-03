@@ -2,13 +2,7 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  CategoryList,
-  Dropdown,
-  Input,
-  SpaceMemberList,
-  Toggle,
-} from '@/components'
+import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
 import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
@@ -33,8 +27,6 @@ interface SpaceFormProps {
   spaceName?: string
   description?: string
   category?: string
-  favorite?: number
-  scrap?: number
   spacePublic?: boolean
   comment?: boolean
   summary?: boolean
@@ -47,8 +39,6 @@ const SpaceForm = ({
   spaceName,
   description,
   category,
-  favorite,
-  scrap,
   spacePublic,
   comment,
   summary,

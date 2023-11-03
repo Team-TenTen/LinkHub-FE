@@ -23,8 +23,6 @@ const SpaceSettingPage = () => {
         spaceName={spaceObj.spaceName}
         description={spaceObj.description}
         category={spaceObj.category}
-        favorite={spaceObj.favorite}
-        scrap={spaceObj.scrap}
         spacePublic={spaceObj.spacePublic}
         comment={spaceObj.comment}
         summary={spaceObj.summary}
