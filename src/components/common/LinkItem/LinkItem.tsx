@@ -78,7 +78,7 @@ const LinkItem = ({
         </Modal>
       )}
       {type === 'list' ? (
-        <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2">
+        <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
           <div className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9">
             {title}
           </div>
