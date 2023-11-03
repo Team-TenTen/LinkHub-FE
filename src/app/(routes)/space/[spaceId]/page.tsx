@@ -18,7 +18,7 @@ import {
 
 const SpacePage = () => {
   const [currentTab, setCurrentTab] = useState(0)
-  const [view, setView] = useState<'list' | 'card' | undefined>('list')
+  const [view, setView] = useState<'list' | 'card'>('list')
   const [isEdit, setIsEdit] = useState(false)
   const user = 'dudwns'
   const spaceObj = {
