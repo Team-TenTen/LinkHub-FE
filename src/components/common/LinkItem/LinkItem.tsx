@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+import { useModal } from '@/hooks'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
@@ -12,6 +14,7 @@ import Avatar from '../Avatar/Avatar'
 import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
+import Input from '../Input/Input'
 import useToggle from '../Toggle/hooks/useToggle'
 
 export interface User {
@@ -41,9 +44,39 @@ const LinkItem = ({
   type = 'list',
 }: LinkItemProps) => {
   const [isLike, likeToggle] = useToggle()
+  const { Modal, isOpen, modalOpen, modalClose } = useModal()
+  const [currentModal, setCurrentModal] = useState('')
 
   return (
     <>
+      {isOpen && currentModal === 'update' && (
+        <Modal
+          title="링크 수정"
+          isConfirmButton={true}
+          confirmText="수정"
+          onClose={modalClose}>
+          <div className="flex flex-col gap-2">
+            <Input
+              label="URl"
+              inputButton={true}
+            />
+            <Input label="이름" />
+            <Input label="태그" />
+          </div>
+        </Modal>
+      )}
+      {isOpen && currentModal === 'delete' && (
+        <Modal
+          title="링크 삭제"
+          isCancelButton={true}
+          isConfirmButton={true}
+          confirmText="삭제"
+          onClose={modalClose}>
+          <div className="flex justify-center text-base text-gray9">
+            삭제하시겠습니까?
+          </div>
+        </Modal>
+      )}
       {type === 'list' ? (
         <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2">
           <div className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9">
@@ -73,9 +106,19 @@ const LinkItem = ({
             {edit ? (
               <>
                 <Button>
-                  <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
+                  <TrashIcon
+                    onClick={() => {
+                      setCurrentModal('delete')
+                      modalOpen()
+                    }}
+                    className="h-6 w-6 p-0.5 text-slate6"
+                  />
                 </Button>
-                <Button>
+                <Button
+                  onClick={() => {
+                    setCurrentModal('update')
+                    modalOpen()
+                  }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
               </>
