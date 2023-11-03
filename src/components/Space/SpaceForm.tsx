@@ -7,6 +7,7 @@ import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
 import Image from 'next/image'
 import Button from '../common/Button/Button'
+import { CATEGORIES } from '../common/CategoryList/constants'
 import { SPACE_FORM_CONSTNAT } from './constant'
 
 interface FormValues {
@@ -144,6 +145,9 @@ const SpaceForm = ({
             <CategoryList
               type="default"
               horizontal={false}
+              defaultIndex={CATEGORIES['default'].indexOf(
+                getValues('category'),
+              )}
               onChange={(e) =>
                 setValue('category', e?.currentTarget.value || '')
               }

@@ -12,7 +12,7 @@ const useCategoryList = ({ onChange }: useCategoryListProps) => {
     onChange?.(e)
   }
 
-  return { index, handleClick }
+  return { index, setIndex, handleClick }
 }
 
 export default useCategoryList
