@@ -144,7 +144,7 @@ const LinkItem = ({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-1 rounded-md border px-3 py-2.5">
+        <div className="flex min-h-[101.5px] flex-col justify-between gap-1 rounded-md border px-3 py-2.5">
           <div
             className={cls(
               'block overflow-hidden text-ellipsis  text-sm font-medium text-gray9',
