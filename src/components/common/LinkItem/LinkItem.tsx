@@ -182,32 +182,28 @@ const LinkItem = ({
           </div>
         </div>
       )}
-      {isOpen && currentModal === 'update' && (
+      {isOpen && (
         <Modal
-          title="링크 수정"
+          title={currentModal === 'update' ? '링크 수정' : '링크 삭제'}
+          isCancelButton={currentModal === 'update' ? false : true}
           isConfirmButton={true}
-          confirmText="수정"
+          confirmText={currentModal === 'update' ? '수정' : '삭제'}
           onClose={modalClose}>
-          <div className="flex flex-col gap-2">
-            <Input
-              label="URl"
-              inputButton={true}
-            />
-            <Input label="이름" />
-            <Input label="태그" />
-          </div>
-        </Modal>
-      )}
-      {isOpen && currentModal === 'delete' && (
-        <Modal
-          title="링크 삭제"
-          isCancelButton={true}
-          isConfirmButton={true}
-          confirmText="삭제"
-          onClose={modalClose}>
-          <div className="flex justify-center text-base text-gray9">
-            {DELETE_TEXT}
-          </div>
+          {currentModal === 'update' && (
+            <div className="flex flex-col gap-2">
+              <Input
+                label="URl"
+                inputButton={true}
+              />
+              <Input label="이름" />
+              <Input label="태그" />
+            </div>
+          )}
+          {currentModal === 'delete' && (
+            <div className="flex justify-center text-base text-gray9">
+              {DELETE_TEXT}
+            </div>
+          )}
         </Modal>
       )}
     </>
