@@ -15,7 +15,6 @@ import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
   EyeIcon,
   ListBulletIcon,
-  PlusSmallIcon,
   Squares2X2Icon,
 } from '@heroicons/react/24/solid'
 
