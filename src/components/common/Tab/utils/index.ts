@@ -2,7 +2,7 @@ import { Space } from '@/types'
 import { TabList } from '../hooks/useTab'
 
 export const getCurrentTabList = (spaceData: Space): TabList[] => {
-  const myName = 'dudwns'
+  const myName = 'dudwns' // TODO: 실제 유저로 변경
   const { userName, spaceId, comment } = spaceData
   const tabList = [
     { text: '스페이스', content: '스페이스 페이지', dest: `/space/${spaceId}` },
