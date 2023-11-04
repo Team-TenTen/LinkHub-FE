@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export interface useModalLogicProps {
   onClose: (e?: React.MouseEvent<HTMLButtonElement>) => void
@@ -29,16 +29,22 @@ const useModalLogic = ({
     }
   }, [onClose, onConfirm])
 
-  const handleClickOverlay = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === modalRef.current) {
-      onClose()
-    }
-  }
+  const handleClickOverlay = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === modalRef.current) {
+        onClose()
+      }
+    },
+    [modalRef, onClose],
+  )
 
-  const handleClickConfirm = (e?: React.MouseEvent<HTMLButtonElement>) => {
-    onConfirm?.()
-    onClose()
-  }
+  const handleClickConfirm = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement>) => {
+      onConfirm?.()
+      onClose()
+    },
+    [onConfirm, onClose],
+  )
 
   return { handleClickOverlay, handleClickConfirm }
 }
