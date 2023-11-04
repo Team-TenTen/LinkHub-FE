@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { useModal } from '@/hooks'
+import { useCurrentModal, useModal } from '@/hooks'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
@@ -46,7 +45,7 @@ const LinkItem = ({
 }: LinkItemProps) => {
   const [isLike, likeToggle] = useToggle()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const [currentModal, setCurrentModal] = useState('')
+  const [currentModal, handleCurrentModal] = useCurrentModal()
 
   return (
     <>
@@ -81,7 +80,7 @@ const LinkItem = ({
                 <Button>
                   <TrashIcon
                     onClick={() => {
-                      setCurrentModal('delete')
+                      handleCurrentModal('delete')
                       modalOpen()
                     }}
                     className="h-6 w-6 p-0.5 text-slate6"
@@ -89,7 +88,7 @@ const LinkItem = ({
                 </Button>
                 <Button
                   onClick={() => {
-                    setCurrentModal('update')
+                    handleCurrentModal('update')
                     modalOpen()
                   }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
