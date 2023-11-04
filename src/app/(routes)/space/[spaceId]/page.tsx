@@ -9,6 +9,7 @@ import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
+import { MIN_TAB_NUMBER } from '@/constants'
 import { mock_LinkData, mock_memberData, mock_spaceData } from '@/data'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
@@ -36,7 +37,7 @@ const SpacePage = () => {
         scrap={spaceData.scrap}
         favorite={spaceData.favorite}
       />
-      {tabList.length > 1 && (
+      {tabList.length > MIN_TAB_NUMBER && (
         <Tab>
           {tabList.map((tabItem, index) => (
             <TabItem
