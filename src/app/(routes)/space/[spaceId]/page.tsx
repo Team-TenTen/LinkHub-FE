@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
 import { MORE_TEXT } from '@/components/common/LinkList/constants'
@@ -8,6 +7,7 @@ import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
+import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { mock_LinkData, mock_memberData, mock_spaceData } from '@/data'
 import { cls } from '@/utils'
@@ -19,17 +19,10 @@ import {
 } from '@heroicons/react/24/solid'
 
 const SpacePage = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+  const spaceData = mock_spaceData
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const [isEdit, editToggle] = useToggle(false)
-  const user = 'dudwns'
-  const spaceData = mock_spaceData
-
-  const tabArr = [
-    { text: '스페이스', content: '스페이스 페이지', dest: '/space/123' },
-    { text: '댓글', content: '댓글 페이지', dest: '/space/123/comment' },
-    { text: '설정', content: '설정 페이지', dest: '/space/123/setting' },
-  ]
+  const { currentTab, handleChangeTab, tabList } = useTab(spaceData)
 
   return (
     <>
@@ -43,15 +36,15 @@ const SpacePage = () => {
         scrap={spaceData.scrap}
         favorite={spaceData.favorite}
       />
-      {user === spaceData.userName && (
+      {tabList.length > 1 && (
         <Tab>
-          {tabArr.map((tabItem, index) => (
+          {tabList.map((tabItem, index) => (
             <TabItem
               key={index}
               active={currentTab === index ? true : false}
               dest={tabItem.dest}
               text={tabItem.text}
-              onClick={() => setCurrentTab(index)}
+              onClick={() => handleChangeTab(index)}
             />
           ))}
         </Tab>
