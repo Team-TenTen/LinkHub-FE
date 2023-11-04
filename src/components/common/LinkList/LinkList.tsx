@@ -70,11 +70,13 @@ const LinkList = ({
           <div className="flex flex-col gap-2">
             <Input
               label="URl"
-              inputButton={true}></Input>
+              inputButton={true}
+            />
             <Input
               label="이름"
-              disabled={true}></Input>
-            <Input label="태그"></Input>
+              disabled={true}
+            />
+            <Input label="태그" />
           </div>
         </Modal>
       )}
