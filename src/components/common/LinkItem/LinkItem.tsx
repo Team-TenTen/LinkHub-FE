@@ -77,14 +77,12 @@ const LinkItem = ({
             )}
             {edit ? (
               <>
-                <Button>
-                  <TrashIcon
-                    onClick={() => {
-                      handleChangeCurrentModal('delete')
-                      modalOpen()
-                    }}
-                    className="h-6 w-6 p-0.5 text-slate6"
-                  />
+                <Button
+                  onClick={() => {
+                    handleChangeCurrentModal('delete')
+                    modalOpen()
+                  }}>
+                  <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
                 <Button
                   onClick={() => {
@@ -147,10 +145,18 @@ const LinkItem = ({
             )}
             {edit ? (
               <div className="flex gap-1.5">
-                <Button>
+                <Button
+                  onClick={() => {
+                    handleChangeCurrentModal('delete')
+                    modalOpen()
+                  }}>
                   <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
-                <Button>
+                <Button
+                  onClick={() => {
+                    handleChangeCurrentModal('update')
+                    modalOpen()
+                  }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
               </div>
