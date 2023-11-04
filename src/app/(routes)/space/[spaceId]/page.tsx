@@ -20,8 +20,8 @@ import {
 
 const SpacePage = () => {
   const spaceData = mock_spaceData
-  const [view, handleChangeList, handleChangeCard] = useViewLink()
   const [isEdit, editToggle] = useToggle(false)
+  const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, handleChangeTab, tabList } = useTab(spaceData)
 
   return (
