@@ -45,7 +45,7 @@ const LinkItem = ({
 }: LinkItemProps) => {
   const [isLike, likeToggle] = useToggle()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const [currentModal, handleCurrentModal] = useCurrentModal()
+  const [currentModal, handleChangeCurrentModal] = useCurrentModal()
 
   return (
     <>
@@ -80,7 +80,7 @@ const LinkItem = ({
                 <Button>
                   <TrashIcon
                     onClick={() => {
-                      handleCurrentModal('delete')
+                      handleChangeCurrentModal('delete')
                       modalOpen()
                     }}
                     className="h-6 w-6 p-0.5 text-slate6"
@@ -88,7 +88,7 @@ const LinkItem = ({
                 </Button>
                 <Button
                   onClick={() => {
-                    handleCurrentModal('update')
+                    handleChangeCurrentModal('update')
                     modalOpen()
                   }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
