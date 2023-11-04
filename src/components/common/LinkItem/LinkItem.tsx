@@ -16,6 +16,7 @@ import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import Input from '../Input/Input'
 import useToggle from '../Toggle/hooks/useToggle'
+import { DELETE_TEXT } from './\bconstants'
 
 export interface User {
   id: string
@@ -200,7 +201,7 @@ const LinkItem = ({
           confirmText="삭제"
           onClose={modalClose}>
           <div className="flex justify-center text-base text-gray9">
-            삭제하시겠습니까?
+            {DELETE_TEXT}
           </div>
         </Modal>
       )}
