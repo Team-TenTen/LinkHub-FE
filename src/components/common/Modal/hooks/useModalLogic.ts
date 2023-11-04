@@ -6,11 +6,16 @@ export interface useModalLogicProps {
   modalRef: React.RefObject<HTMLDivElement | null>
 }
 
+export interface UseModalLogicReturnType {
+  handleClickOverlay: (e: React.MouseEvent<HTMLDivElement>) => void
+  handleClickConfirm: (e?: React.MouseEvent<HTMLButtonElement>) => void
+}
+
 const useModalLogic = ({
   onClose,
   onConfirm,
   modalRef,
-}: useModalLogicProps) => {
+}: useModalLogicProps): UseModalLogicReturnType => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
