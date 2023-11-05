@@ -1,12 +1,14 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { useForm } from 'react-hook-form'
 import { Comment, Input } from '@/components'
 import Button from '@/components/common/Button/Button'
 import Space from '@/components/common/Space/Space'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
+import useTab from '@/components/common/Tab/hooks/useTab'
+import { MIN_TAB_NUMBER } from '@/constants'
 import { useModal } from '@/hooks'
 import useSpaceComment from '@/hooks/useSpaceComment'
 import { XMarkIcon } from '@heroicons/react/20/solid'
@@ -16,7 +18,6 @@ export interface CommentFormValues {
 }
 
 const SpaceCommentPage = () => {
-  // TODO: useTab
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
   const { register, setValue, setFocus, handleSubmit } =
     useForm<CommentFormValues>({
@@ -36,12 +37,7 @@ const SpaceCommentPage = () => {
     handleReplyCancel,
     onSubmit,
   } = useSpaceComment({ setValue, setFocus, modalOpen })
-  const [currentTab, setCurrentTab] = useState(1)
-  const tabArr = [
-    { text: '스페이스', content: '스페이스 페이지', dest: '/space/1' },
-    { text: '댓글', content: '댓글 페이지', dest: '/space/1/comment' },
-    { text: '설정', content: '설정 페이지', dest: '/space/1/setting' },
-  ]
+  const { currentTab, tabList } = useTab(space)
 
   return (
     <>
@@ -55,16 +51,18 @@ const SpaceCommentPage = () => {
         scrap={space.scrap}
         favorite={space.favorite}
       />
-      <Tab>
-        {tabArr.map((tabItem, index) => (
-          <TabItem
-            active={currentTab === index ? true : false}
-            dest={tabItem.dest}
-            text={tabItem.text}
-            key={index}
-          />
-        ))}
-      </Tab>
+      {tabList.length > MIN_TAB_NUMBER && (
+        <Tab>
+          {tabList.map((tabItem) => (
+            <TabItem
+              active={currentTab === tabItem.content}
+              text={tabItem.text}
+              dest={tabItem.dest}
+              key={tabItem.content}
+            />
+          ))}
+        </Tab>
+      )}
       <section className="px-4 pb-32 pt-1">
         {comments.map((comment) => (
           <Fragment key={comment.commentId}>
