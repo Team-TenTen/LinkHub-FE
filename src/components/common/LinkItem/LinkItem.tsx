@@ -1,5 +1,6 @@
 'use client'
 
+import { useCurrentModal, useModal } from '@/hooks'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
@@ -12,7 +13,9 @@ import Avatar from '../Avatar/Avatar'
 import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
+import Input from '../Input/Input'
 import useToggle from '../Toggle/hooks/useToggle'
+import { DELETE_TEXT } from './\bconstants'
 
 export interface User {
   id: string
@@ -41,11 +44,13 @@ const LinkItem = ({
   type = 'list',
 }: LinkItemProps) => {
   const [isLike, likeToggle] = useToggle()
+  const { Modal, isOpen, modalOpen, modalClose } = useModal()
+  const [currentModal, handleChangeCurrentModal] = useCurrentModal()
 
   return (
     <>
       {type === 'list' ? (
-        <div className="flex justify-between gap-2 border-t border-slate3 px-3 py-2">
+        <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
           <div className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9">
             {title}
           </div>
@@ -72,10 +77,18 @@ const LinkItem = ({
             )}
             {edit ? (
               <>
-                <Button>
+                <Button
+                  onClick={() => {
+                    handleChangeCurrentModal('delete')
+                    modalOpen()
+                  }}>
                   <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
-                <Button>
+                <Button
+                  onClick={() => {
+                    handleChangeCurrentModal('update')
+                    modalOpen()
+                  }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
               </>
@@ -101,7 +114,7 @@ const LinkItem = ({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-1 rounded-md border px-3 py-2.5">
+        <div className="flex min-h-[101.5px] flex-col justify-between gap-1 rounded-md border px-3 py-2.5">
           <div
             className={cls(
               'block overflow-hidden text-ellipsis  text-sm font-medium text-gray9',
@@ -132,10 +145,18 @@ const LinkItem = ({
             )}
             {edit ? (
               <div className="flex gap-1.5">
-                <Button>
+                <Button
+                  onClick={() => {
+                    handleChangeCurrentModal('delete')
+                    modalOpen()
+                  }}>
                   <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
-                <Button>
+                <Button
+                  onClick={() => {
+                    handleChangeCurrentModal('update')
+                    modalOpen()
+                  }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
               </div>
@@ -160,6 +181,30 @@ const LinkItem = ({
             )}
           </div>
         </div>
+      )}
+      {isOpen && (
+        <Modal
+          title={currentModal === 'update' ? '링크 수정' : '링크 삭제'}
+          isCancelButton={currentModal === 'update' ? false : true}
+          isConfirmButton={true}
+          confirmText={currentModal === 'update' ? '수정' : '삭제'}
+          onClose={modalClose}>
+          {currentModal === 'update' && (
+            <div className="flex flex-col gap-2">
+              <Input
+                label="URl"
+                inputButton={true}
+              />
+              <Input label="이름" />
+              <Input label="태그" />
+            </div>
+          )}
+          {currentModal === 'delete' && (
+            <div className="flex justify-center text-base text-gray9">
+              {DELETE_TEXT}
+            </div>
+          )}
+        </Modal>
       )}
     </>
   )

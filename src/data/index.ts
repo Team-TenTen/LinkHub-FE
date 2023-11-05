@@ -94,3 +94,15 @@ export const mock_memberData = [
     auth: 'view',
   },
 ]
+
+export const mock_spaceData = {
+  userName: 'dudwns',
+  spaceId: 123,
+  spaceImage: '/TestImage.svg',
+  spaceName: '강남역 맛집 리스트 모음 스페이스',
+  description: '내 기준 강남역에서 맛있는 맛집 링크 모음집',
+  category: '생활•노하우•쇼핑',
+  favorite: 60,
+  scrap: 40,
+  comment: true,
+}
