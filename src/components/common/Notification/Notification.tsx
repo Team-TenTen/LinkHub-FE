@@ -30,7 +30,7 @@ const Notification = ({
         'rounded-md border border-slate3 p-3',
         isRead ? 'bg-bgColor' : 'bg-emerald05',
       )}>
-      <div className="flex w-full items-center justify-between text-sm font-medium text-gray9">
+      <div className="flex w-full items-start justify-between text-sm font-medium text-gray9">
         {type === 'follow' && (
           <div>
             <span className="font-bold">{userName}</span>
@@ -47,7 +47,7 @@ const Notification = ({
         )}
         {type === 'space' && (
           <div className="flex w-full flex-col gap-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between">
               <div>
                 <span className="font-bold">{userName}</span>
                 {NOTIFICATION_MSG.USER}
