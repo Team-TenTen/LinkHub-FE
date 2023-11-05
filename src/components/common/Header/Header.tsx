@@ -19,7 +19,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="fixed z-10 flex w-full max-w-[500px] items-center justify-between border-b border-slate-100 bg-bgColor px-4 py-2.5 dark:border-slate-800">
+      <div className="fixed z-50 flex w-full max-w-[500px] items-center justify-between border-b border-slate-100 bg-bgColor px-4 py-2.5 dark:border-slate-800">
         <div className="flex items-center justify-center">
           <Button>
             <Link href="/">
