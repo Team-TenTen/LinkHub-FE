@@ -21,7 +21,7 @@ export default function RootLayout({
             id="root"
             className="relative mx-auto w-full max-w-[500px]">
             <Header />
-            <main>{children}</main>
+            <main className="pt-[53px]">{children}</main>
           </div>
         </Providers>
       </body>
