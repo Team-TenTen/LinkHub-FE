@@ -1,4 +1,5 @@
-import { Providers, SidebarButton } from '@/components'
+import { Providers } from '@/components'
+import Header from '@/components/common/Header/Header'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -19,8 +20,8 @@ export default function RootLayout({
           <div
             id="root"
             className="relative mx-auto w-full max-w-[500px]">
-            <SidebarButton />
-            {children}
+            <Header />
+            <main>{children}</main>
           </div>
         </Providers>
       </body>

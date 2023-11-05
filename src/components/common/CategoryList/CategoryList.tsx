@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { cls } from '@/utils'
 import CategoryListItem from './CategoryListItem'
 import { CATEGORIES } from './constants'
@@ -8,15 +9,21 @@ import useCategoryList from './hooks/useCategoryList'
 export interface CategoryListProps {
   type?: 'all' | 'all_follow' | 'default'
   horizontal?: boolean
+  defaultIndex?: number
   onChange: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const CategoryList = ({
   type = 'default',
   horizontal = true,
+  defaultIndex,
   onChange,
 }: CategoryListProps) => {
-  const { index, handleClick } = useCategoryList({ onChange })
+  const { index, setIndex, handleClick } = useCategoryList({ onChange })
+
+  useEffect(() => {
+    defaultIndex && setIndex(defaultIndex)
+  }, [defaultIndex, setIndex])
 
   return (
     <ul

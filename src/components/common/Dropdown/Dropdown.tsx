@@ -32,6 +32,7 @@ const Dropdown = ({
   return (
     <div className="relative inline-block text-left">
       <button
+        type="button"
         className={cls(
           'inline-flex w-full justify-center gap-x-1.5 rounded-md border border-slate6 pl-2.5 pr-1.5 text-sm font-medium text-slate6',
           VERTICAL_PADDING[size],

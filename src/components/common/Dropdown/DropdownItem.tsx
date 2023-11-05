@@ -20,6 +20,7 @@ const DropdownItem = ({
 }: DropdownItemProps) => {
   return (
     <button
+      type="button"
       value={label}
       className={cls(
         'inline-flex items-center px-2.5 py-1 text-sm',
