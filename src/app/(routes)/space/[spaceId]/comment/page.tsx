@@ -66,7 +66,7 @@ const SpaceCommentPage = () => {
           />
         ))}
       </Tab>
-      <section className="px-4 pb-28 pt-1">
+      <section className="px-4 pb-32 pt-1">
         {comments.map((comment) => (
           <Fragment key={comment.commentId}>
             <Comment
@@ -109,7 +109,7 @@ const SpaceCommentPage = () => {
         ))}
       </section>
       <form
-        className="fixed bottom-0 w-full max-w-[500px]"
+        className="fixed bottom-0 z-10 w-full max-w-[500px] bg-bgColor"
         onSubmit={handleSubmit(onSubmit)}>
         {comment.type === 'reply' && (
           <div className="flex items-center justify-between border-t border-slate3 px-4 py-3 text-xs font-medium text-gray6">
