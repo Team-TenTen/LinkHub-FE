@@ -16,7 +16,7 @@ export interface SidebarProps {
 
 const Sidebar = ({ onClose }: SidebarProps) => {
   const user = mock_userData
-  const sidebarRef = useRef<HTMLDivElement | null>(null)
+  const sidebarRef = useRef<HTMLDivElement>(null)
   const { spaceType, handleSpaceType, handleOverlayClick, logout } = useSidebar(
     {
       sidebarRef,
@@ -28,7 +28,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
     <div
       ref={sidebarRef}
       onClick={handleOverlayClick}
-      className="fixed left-0 right-0 top-0 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center bg-black/40 shadow-xl">
+      className="fixed left-0 right-0 top-0 z-10 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center bg-black/40 shadow-xl">
       <div className="absolute right-0 flex h-full w-full max-w-[300px] flex-col justify-between rounded-l-xl bg-bgColor px-2 pb-1 pt-6">
         <div className="flex flex-col">
           {user ? (
