@@ -61,7 +61,6 @@ const SpaceCommentPage = () => {
             active={currentTab === index ? true : false}
             dest={tabItem.dest}
             text={tabItem.text}
-            onClick={() => setCurrentTab(index)}
             key={index}
           />
         ))}

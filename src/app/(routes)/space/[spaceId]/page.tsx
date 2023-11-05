@@ -45,7 +45,6 @@ const SpacePage = () => {
               active={currentTab === index ? true : false}
               dest={tabItem.dest}
               text={tabItem.text}
-              onClick={() => handleChangeTab(index)}
             />
           ))}
         </Tab>

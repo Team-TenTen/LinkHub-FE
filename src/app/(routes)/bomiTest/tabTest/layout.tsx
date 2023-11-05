@@ -22,7 +22,6 @@ const TabTestPage = ({ children }: { children: React.ReactNode }) => {
             active={currentTab === index ? true : false}
             dest={tabItem.dest}
             text={tabItem.text}
-            onClick={() => setCurrentTab(index)}
           />
         ))}
       </Tab>
