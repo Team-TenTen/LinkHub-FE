@@ -146,7 +146,7 @@ export const mock_userData = {
 }
 
 export const mock_spaceData = {
-  userName: 'dudwns',
+  userName: 'frong',
   spaceId: 123,
   spaceImage: '/TestImage.svg',
   spaceName: '강남역 맛집 리스트 모음 스페이스',
@@ -156,3 +156,39 @@ export const mock_spaceData = {
   scrap: 40,
   comment: true,
 }
+
+export const mock_commentData = [
+  {
+    commentId: 1,
+    user: { id: 1, name: '프롱이', profile: '/duck.jpg' },
+    comment: '어쩌구',
+    date: new Date(),
+    auth: true,
+    replyCount: 0,
+  },
+  {
+    commentId: 2,
+    user: { id: 2, name: '백둥이', profile: '/duck.jpg' },
+    comment: '저쩌구',
+    date: new Date(),
+    auth: false,
+    replyCount: 2,
+  },
+]
+
+export const mock_replyData = [
+  {
+    commentId: 3,
+    user: { id: 3, name: '풀택이', profile: '/duck.jpg' },
+    comment: '쏼라쏼라',
+    date: new Date(),
+    auth: false,
+  },
+  {
+    commentId: 4,
+    user: { id: 1, name: '프롱이', profile: '/duck.jpg' },
+    comment: '훌라훌라',
+    date: new Date(),
+    auth: true,
+  },
+]
