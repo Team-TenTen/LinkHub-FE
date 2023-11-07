@@ -37,14 +37,14 @@ const Notification = ({
   return (
     <div
       className={cls(
-        'rounded-md border border-slate3 p-3',
+        'flex flex-col gap-6 rounded-md border border-slate3 p-3',
         isRead ? 'bg-bgColor' : 'bg-emerald05',
       )}>
       <div className="flex w-full items-start justify-between text-sm font-medium text-gray9">
         {type === 'follow' && (
           <div>
             <span
-              onClick={(e) =>
+              onClick={() =>
                 handleClickUser({ notificationId, userId, isRead })
               }
               className="cursor-pointer font-bold">
@@ -86,55 +86,50 @@ const Notification = ({
           </div>
         )}
         {type === 'space' && (
-          <div className="flex w-full flex-col gap-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <span
-                  onClick={() =>
-                    handleClickUser({ notificationId, userId, isRead })
-                  }
-                  className="cursor-pointer font-bold">
-                  {userName}
-                </span>
-                {NOTIFICATION_MSG.USER}
-                <span
-                  onClick={() =>
-                    handleClickSpace({
-                      notificationId,
-                      spaceId: spaceId!,
-                      isRead,
-                    })
-                  }
-                  className="cursor-pointer font-bold">
-                  {spaceName}
-                </span>
-                {NOTIFICATION_MSG.SPACE_INVITE}
-              </div>
-              <Button onClick={onClose}>
-                <XMarkIcon className="h-5 w-5 p-0.5 text-slate6" />
-              </Button>
-            </div>
-            <div className="flex justify-end">
-              {isAccept ? (
-                <div className="text-sm font-semibold text-slate6">
-                  {NOTIFICATION_MSG.APPROVE}
-                </div>
-              ) : (
-                <Button
-                  className="button button-emerald px-2.5 py-1.5"
-                  onClick={onAccept}>
-                  {NOTIFICATION_MSG.APPROVE_BUTTON}
-                </Button>
-              )}
+          <div className="flex items-start justify-between">
+            <div>
+              <span
+                onClick={() =>
+                  handleClickUser({ notificationId, userId, isRead })
+                }
+                className="cursor-pointer font-bold">
+                {userName}
+              </span>
+              {NOTIFICATION_MSG.USER}
+              <span
+                onClick={() =>
+                  handleClickSpace({
+                    notificationId,
+                    spaceId: spaceId!,
+                    isRead,
+                  })
+                }
+                className="cursor-pointer font-bold">
+                {spaceName}
+              </span>
+              {NOTIFICATION_MSG.SPACE_INVITE}
             </div>
           </div>
         )}
-        {type !== 'space' && 'comment' && (
-          <Button onClick={onClose}>
-            <XMarkIcon className="h-5 w-5 p-0.5 text-slate6" />
-          </Button>
-        )}
+        <Button onClick={onClose}>
+          <XMarkIcon className="h-5 w-5 p-0.5 text-slate6" />
+        </Button>
       </div>
+      {type === 'space' && (
+        <div className="flex justify-end">
+          {isAccept ? (
+            <div className="text-sm font-semibold text-slate6">
+              {NOTIFICATION_MSG.APPROVE}
+            </div>
+          ) : (
+            <Button
+              className="button button-emerald px-2.5 py-1.5"
+              onClick={onAccept}>
+              {NOTIFICATION_MSG.APPROVE_BUTTON}
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   )
 }
