@@ -1,33 +1,35 @@
 import { useRouter } from 'next/navigation'
 
-export interface handleClickUserProps {
+export interface HandleClickUserProps {
   notificationId: number
   userId: number
   isRead: boolean
 }
 
-export interface handleClickSpaceProps {
+export interface HandleClickSpaceProps {
   notificationId: number
   spaceId?: number
   isRead: boolean
 }
+
+export interface HandleClickCommentProps extends HandleClickSpaceProps {}
 
 export interface UseNotificationReturn {
   handleClickUser: ({
     notificationId,
     userId,
     isRead,
-  }: handleClickUserProps) => void
+  }: HandleClickUserProps) => void
   handleClickSpace: ({
     notificationId,
     spaceId,
     isRead,
-  }: handleClickSpaceProps) => void
+  }: HandleClickSpaceProps) => void
   handleClickComment: ({
     notificationId,
     spaceId,
     isRead,
-  }: handleClickSpaceProps) => void
+  }: HandleClickCommentProps) => void
 }
 
 const useNotification = (): UseNotificationReturn => {
@@ -37,7 +39,7 @@ const useNotification = (): UseNotificationReturn => {
     notificationId,
     userId,
     isRead,
-  }: handleClickUserProps) => {
+  }: HandleClickUserProps) => {
     router.push(`/user/${userId}`)
     if (!isRead) {
       console.log(`${notificationId} 읽음 처리 추가`)
@@ -48,7 +50,7 @@ const useNotification = (): UseNotificationReturn => {
     notificationId,
     spaceId,
     isRead,
-  }: handleClickSpaceProps) => {
+  }: HandleClickSpaceProps) => {
     router.push(`/space/${spaceId}`)
     if (!isRead) {
       console.log(`${notificationId} 읽음 처리 추가`)
@@ -59,7 +61,7 @@ const useNotification = (): UseNotificationReturn => {
     notificationId,
     spaceId,
     isRead,
-  }: handleClickSpaceProps) => {
+  }: HandleClickCommentProps) => {
     router.push(`/space/${spaceId}/comment`)
     if (!isRead) {
       console.log(`${notificationId} 읽음 처리 로직 추가`)

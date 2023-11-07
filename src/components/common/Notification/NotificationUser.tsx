@@ -1,4 +1,5 @@
 import { NOTIFICATION_MSG } from './constants'
+import { HandleClickUserProps } from './hooks/useNotification'
 
 export interface NotificationUserProps {
   notificationId: number
@@ -9,11 +10,7 @@ export interface NotificationUserProps {
     notificationId,
     userId,
     isRead,
-  }: {
-    notificationId: number
-    userId: number
-    isRead: boolean
-  }) => void
+  }: HandleClickUserProps) => void
 }
 
 const NotificationUser = ({

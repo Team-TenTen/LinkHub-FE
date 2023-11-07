@@ -1,4 +1,5 @@
 import { NOTIFICATION_MSG } from './constants'
+import { HandleClickCommentProps } from './hooks/useNotification'
 
 export interface NotificationCommentProps {
   notificationId: number
@@ -8,11 +9,7 @@ export interface NotificationCommentProps {
     notificationId,
     spaceId,
     isRead,
-  }: {
-    notificationId: number
-    spaceId?: number
-    isRead: boolean
-  }) => void
+  }: HandleClickCommentProps) => void
 }
 
 const NotificationComment = ({

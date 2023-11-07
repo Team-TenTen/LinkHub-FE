@@ -1,4 +1,5 @@
 import { NOTIFICATION_MSG } from './constants'
+import { HandleClickSpaceProps } from './hooks/useNotification'
 
 export interface NotificationSpaceProps {
   notificationId: number
@@ -9,11 +10,7 @@ export interface NotificationSpaceProps {
     notificationId,
     spaceId,
     isRead,
-  }: {
-    notificationId: number
-    spaceId?: number
-    isRead: boolean
-  }) => void
+  }: HandleClickSpaceProps) => void
 }
 
 const NotificationSpace = ({
