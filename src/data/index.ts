@@ -180,10 +180,49 @@ export const mock_notificationData: {
     userId: 1,
     userName: '프롱이',
     spaceId: 123,
-    spaceName: '개발 모음',
+    spaceName: '리액트 모음집',
     isRead: false,
     isAccept: false,
   },
+  {
+    id: 3,
+    type: 'comment',
+    userId: 1,
+    userName: '백둥이',
+    spaceId: 456,
+    spaceName: '스프링',
+    isRead: false,
+    isAccept: false,
+  },
+  {
+    id: 4,
+    type: 'follow',
+    userId: 1,
+    userName: '백둥이',
+    isRead: true,
+  },
+  {
+    id: 5,
+    type: 'comment',
+    userId: 1,
+    userName: '풀택이',
+    spaceId: 789,
+    spaceName: '풀스택 지식 모음집',
+    isRead: true,
+    isAccept: false,
+  },
+]
+
+export const mock_notificationInviteData: {
+  id: number
+  type: 'comment' | 'follow' | 'space'
+  userId: number
+  userName: string
+  spaceId?: number
+  spaceName?: string
+  isRead: boolean
+  isAccept?: boolean
+}[] = [
   {
     id: 3,
     type: 'space',
@@ -193,6 +232,26 @@ export const mock_notificationData: {
     spaceName: '개발 모음',
     isRead: false,
     isAccept: false,
+  },
+  {
+    id: 4,
+    type: 'space',
+    userId: 1,
+    userName: '백둥이',
+    spaceId: 123,
+    spaceName: '스프링',
+    isRead: false,
+    isAccept: false,
+  },
+  {
+    id: 5,
+    type: 'space',
+    userId: 1,
+    userName: '풀택이',
+    spaceId: 123,
+    spaceName: '풀스택 지식 모음집',
+    isRead: true,
+    isAccept: true,
   },
 ]
 
