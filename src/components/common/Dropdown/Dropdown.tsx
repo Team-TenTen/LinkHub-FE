@@ -12,7 +12,7 @@ export interface DropdownProps {
   size?: 'large' | 'medium' | 'small'
   placement?: 'left' | 'right'
   tags?: string[]
-  onChange: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  onChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Dropdown = ({
