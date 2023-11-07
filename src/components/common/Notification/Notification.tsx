@@ -81,8 +81,8 @@ const Notification = ({
             </div>
           ) : (
             <Button
-              className="button button-emerald px-2.5 py-1.5"
-              onClick={onAccept}>
+              onClick={onAccept}
+              className="button button-emerald px-2.5 py-1.5">
               {NOTIFICATION_MSG.APPROVE_BUTTON}
             </Button>
           )}
