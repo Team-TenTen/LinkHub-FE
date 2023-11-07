@@ -96,7 +96,7 @@ export const mock_memberData = [
 ]
 
 export const mock_userData = {
-  id: 'frong',
+  id: 3,
   name: '프롱이',
   profile: '/duck.jpg',
   mySpaces: [
@@ -190,5 +190,29 @@ export const mock_replyData = [
     comment: '훌라훌라',
     date: new Date(),
     auth: true,
+  },
+]
+
+export const mock_usersData = [
+  {
+    id: 1,
+    name: 'dudwns',
+    oneLiner: '안녕하세요',
+    profile: '/duck.jpg',
+    isFollow: true,
+  },
+  {
+    id: 2,
+    name: 'bomi',
+    oneLiner: '안녕하세요',
+    profile: '/duck.jpg',
+    isFollow: false,
+  },
+  {
+    id: 3,
+    name: '프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱이',
+    oneLiner:
+      '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
+    profile: '/duck.jpg',
   },
 ]
