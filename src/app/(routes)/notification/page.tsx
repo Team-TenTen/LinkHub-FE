@@ -17,7 +17,7 @@ const NotificationPage = () => {
           userName={notification.userName}
           spaceId={notification.spaceId}
           spaceName={notification.spaceName}
-          onAccept={() => console.log('스페이스 수락')}
+          isRead={notification.isRead}
           onClose={() => console.log('알람 닫기')}
         />
       ))}
