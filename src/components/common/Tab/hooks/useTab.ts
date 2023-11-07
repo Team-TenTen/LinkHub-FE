@@ -34,8 +34,9 @@ const useTab = ({ type, spaceData, userData }: UseTabProps): useTabReturn => {
   }
 
   if (type === 'notification') {
-    const currentTab = getPathname({ path: pathname, n: 3, defaultPath: type })
+    const currentTab = getPathname({ path: pathname, n: 2, defaultPath: type })
     const tabList = NOTIFICATION_TAB_LIST
+
     return { currentTab, tabList }
   }
 
