@@ -157,6 +157,45 @@ export const mock_spaceData = {
   comment: true,
 }
 
+export const mock_notificationData: {
+  id: number
+  type: 'comment' | 'follow' | 'space'
+  userId: number
+  userName: string
+  spaceId?: number
+  spaceName?: string
+  isRead: boolean
+  isAccept?: boolean
+}[] = [
+  {
+    id: 1,
+    type: 'follow',
+    userId: 1,
+    userName: '프롱이',
+    isRead: false,
+  },
+  {
+    id: 2,
+    type: 'comment',
+    userId: 1,
+    userName: '프롱이',
+    spaceId: 123,
+    spaceName: '개발 모음',
+    isRead: false,
+    isAccept: false,
+  },
+  {
+    id: 3,
+    type: 'space',
+    userId: 1,
+    userName: '프롱이',
+    spaceId: 123,
+    spaceName: '개발 모음',
+    isRead: false,
+    isAccept: false,
+  },
+]
+
 export const mock_commentData = [
   {
     commentId: 1,
