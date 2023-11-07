@@ -23,7 +23,7 @@ const SpacePage = () => {
   const spaceData = mock_spaceData
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
-  const { currentTab, handleChangeTab, tabList } = useTab(spaceData)
+  const { currentTab, tabList } = useTab(spaceData)
 
   return (
     <>
@@ -39,13 +39,12 @@ const SpacePage = () => {
       />
       {tabList.length > MIN_TAB_NUMBER && (
         <Tab>
-          {tabList.map((tabItem, index) => (
+          {tabList.map((tabItem) => (
             <TabItem
-              key={index}
-              active={currentTab === index ? true : false}
-              dest={tabItem.dest}
+              active={currentTab === tabItem.content}
               text={tabItem.text}
-              onClick={() => handleChangeTab(index)}
+              dest={tabItem.dest}
+              key={tabItem.content}
             />
           ))}
         </Tab>

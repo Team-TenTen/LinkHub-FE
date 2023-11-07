@@ -4,17 +4,17 @@ import { Avatar } from '..'
 import Button from '../common/Button/Button'
 
 export interface CommentProps {
-  commentId: string
-  user: { id: string; name: string; profile: string }
+  commentId: number
+  user: { id: number; name: string; profile: string }
   comment: string
   date: Date
   auth?: boolean
   firstDepth?: boolean
   replyCount?: number
-  onEdit?: (commentId: string) => void
-  onDelete?: (commentId: string) => void
-  onOpen?: (commentId: string) => void
-  onReply?: (commentId: string, userName: string) => void
+  onEdit?: (commentId: number, comment: string) => void
+  onDelete?: (commentId: number) => void
+  onOpen?: (commentId: number) => void
+  onReply?: (commentId: number, userName: string) => void
 }
 
 const Comment = ({
@@ -31,7 +31,7 @@ const Comment = ({
   onReply,
 }: CommentProps) => {
   return (
-    <article className="flex gap-x-2 p-3">
+    <article className="flex gap-x-2 py-3">
       <Avatar
         src={user.profile}
         width={30}
@@ -54,7 +54,7 @@ const Comment = ({
               </Button>
               <Button
                 className="p-0.5"
-                onClick={() => onEdit(commentId)}>
+                onClick={() => onEdit(commentId, comment)}>
                 <PencilSquareIcon className="h-5 w-5 text-slate6" />
               </Button>
             </div>

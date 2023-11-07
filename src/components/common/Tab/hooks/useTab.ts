@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react'
 import { Space } from '@/types'
+import { usePathname } from 'next/navigation'
 import { getCurrentTabList } from '../utils'
 
 export interface TabList {
@@ -11,17 +11,13 @@ export interface TabList {
 const useTab = (
   spaceData: Space,
 ): {
-  currentTab: number
-  handleChangeTab: (index: number) => void
+  currentTab: string
   tabList: TabList[]
 } => {
-  const [currentTab, setCurrentTab] = useState(0)
-  const handleChangeTab = useCallback(
-    (index: number) => setCurrentTab(index),
-    [],
-  )
+  const currentTab = usePathname().split('/')[3] ?? 'space'
   const tabList = getCurrentTabList(spaceData)
-  return { currentTab, handleChangeTab, tabList }
+
+  return { currentTab, tabList }
 }
 
 export default useTab
