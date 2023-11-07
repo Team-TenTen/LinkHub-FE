@@ -3,9 +3,6 @@
 import { cls } from '@/utils'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import Button from '../Button/Button'
-import NotificationComment from './NotificationComment'
-import NotificationSpace from './NotificationSpace'
-import NotificationUser from './NotificationUser'
 import { NOTIFICATION_MSG } from './constants'
 import useNotification from './hooks/useNotification'
 
@@ -45,32 +42,36 @@ const Notification = ({
       )}>
       <div className="flex w-full items-start justify-between text-sm font-medium text-gray9">
         <div>
-          <NotificationUser
-            notificationId={notificationId}
-            userId={userId}
-            isRead={isRead}
-            userName={userName}
-            onClickUser={handleClickUser}
-          />
+          <span
+            onClick={() => handleClickUser({ notificationId, userId, isRead })}
+            className="cursor-pointer font-bold">
+            {userName}
+          </span>
+          {NOTIFICATION_MSG.USER}
           {type === 'follow' ? (
             NOTIFICATION_MSG.FOLLOW
           ) : (
             <>
-              <NotificationSpace
-                notificationId={notificationId}
-                spaceId={spaceId}
-                isRead={isRead}
-                spaceName={spaceName}
-                onClickSpace={handleClickSpace}
-              />
-              {type === 'comment' && (
-                <NotificationComment
-                  notificationId={notificationId}
-                  spaceId={spaceId}
-                  isRead={isRead}
-                  onClickComment={handleClickComment}
-                />
-              )}
+              <span
+                onClick={() =>
+                  handleClickSpace({ notificationId, spaceId, isRead })
+                }
+                className="cursor-pointer font-bold">
+                {spaceName}
+              </span>
+              {NOTIFICATION_MSG.SPACE}
+              <span
+                onClick={() =>
+                  handleClickComment({
+                    notificationId,
+                    spaceId,
+                    isRead,
+                  })
+                }
+                className="cursor-pointer font-bold">
+                {NOTIFICATION_MSG.COMMENT}
+              </span>
+              {NOTIFICATION_MSG.COMMENT_LEAVE}
               {type === 'space' && NOTIFICATION_MSG.SPACE_INVITE}
             </>
           )}
