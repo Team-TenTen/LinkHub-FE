@@ -60,19 +60,24 @@ const Notification = ({
                 {spaceName}
               </span>
               {NOTIFICATION_MSG.SPACE}
-              <span
-                onClick={() =>
-                  handleClickComment({
-                    notificationId,
-                    spaceId,
-                    isRead,
-                  })
-                }
-                className="cursor-pointer font-bold">
-                {NOTIFICATION_MSG.COMMENT}
-              </span>
-              {NOTIFICATION_MSG.COMMENT_LEAVE}
-              {type === 'space' && NOTIFICATION_MSG.SPACE_INVITE}
+              {type === 'comment' ? (
+                <>
+                  <span
+                    onClick={() =>
+                      handleClickComment({
+                        notificationId,
+                        spaceId,
+                        isRead,
+                      })
+                    }
+                    className="cursor-pointer font-bold">
+                    {NOTIFICATION_MSG.COMMENT}
+                  </span>
+                  {NOTIFICATION_MSG.COMMENT_LEAVE}
+                </>
+              ) : (
+                NOTIFICATION_MSG.SPACE_INVITE
+              )}
             </>
           )}
         </div>
