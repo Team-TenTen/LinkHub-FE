@@ -1,6 +1,7 @@
 'use client'
 
 import { useCurrentModal, useModal } from '@/hooks'
+import { User } from '@/types'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
@@ -16,11 +17,6 @@ import Chip from '../Chip/Chip'
 import Input from '../Input/Input'
 import useToggle from '../Toggle/hooks/useToggle'
 import { DELETE_TEXT } from './\bconstants'
-
-export interface User {
-  id: string
-  profile: string
-}
 
 export interface LinkItemProps {
   title: string
