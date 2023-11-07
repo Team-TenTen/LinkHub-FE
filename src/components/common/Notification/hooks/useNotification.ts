@@ -8,7 +8,7 @@ export interface handleClickUserProps {
 
 export interface handleClickSpaceProps {
   notificationId: number
-  spaceId: number
+  spaceId?: number
   isRead: boolean
 }
 
