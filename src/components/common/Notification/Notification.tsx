@@ -4,10 +4,14 @@ import { cls } from '@/utils'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import Button from '../Button/Button'
 import { NOTIFICATION_MSG } from './constants'
+import useNotification from './hooks/useNotification'
 
 export interface NotificationProps {
+  notificationId: number
   type: 'follow' | 'comment' | 'space'
+  userId: number
   userName: string
+  spaceId?: number
   spaceName?: string
   isRead?: boolean
   isAccept?: boolean
@@ -16,14 +20,20 @@ export interface NotificationProps {
 }
 
 const Notification = ({
+  notificationId,
   type,
+  userId,
   userName,
+  spaceId,
   spaceName,
   isRead = false,
   isAccept = false,
   onAccept,
   onClose,
 }: NotificationProps) => {
+  const { handleClickUser, handleClickComment, handleClickSpace } =
+    useNotification()
+
   return (
     <div
       className={cls(
@@ -33,26 +43,72 @@ const Notification = ({
       <div className="flex w-full items-start justify-between text-sm font-medium text-gray9">
         {type === 'follow' && (
           <div>
-            <span className="font-bold">{userName}</span>
+            <span
+              onClick={(e) =>
+                handleClickUser({ notificationId, userId, isRead })
+              }
+              className="cursor-pointer font-bold">
+              {userName}
+            </span>
             {NOTIFICATION_MSG.FOLLOW}
           </div>
         )}
         {type === 'comment' && (
           <div>
-            <span className="font-bold">{userName}</span>
+            <span
+              onClick={() =>
+                handleClickUser({ notificationId, userId, isRead })
+              }
+              className="cursor-pointer font-bold">
+              {userName}
+            </span>
             {NOTIFICATION_MSG.USER}
-            <span className="font-bold">{spaceName}</span>
-            {NOTIFICATION_MSG.COMMENT}
+            <span
+              onClick={() =>
+                handleClickSpace({ notificationId, spaceId: spaceId!, isRead })
+              }
+              className="cursor-pointer font-bold">
+              {spaceName}
+            </span>
+            {NOTIFICATION_MSG.SPACE}
+            <span
+              onClick={() =>
+                handleClickComment({
+                  notificationId,
+                  spaceId: spaceId!,
+                  isRead,
+                })
+              }
+              className="cursor-pointer font-bold">
+              {NOTIFICATION_MSG.COMMENT}
+            </span>
+            {NOTIFICATION_MSG.COMMENT_LEAVE}
           </div>
         )}
         {type === 'space' && (
           <div className="flex w-full flex-col gap-6">
             <div className="flex items-start justify-between">
               <div>
-                <span className="font-bold">{userName}</span>
+                <span
+                  onClick={() =>
+                    handleClickUser({ notificationId, userId, isRead })
+                  }
+                  className="cursor-pointer font-bold">
+                  {userName}
+                </span>
                 {NOTIFICATION_MSG.USER}
-                <span className="font-bold">{spaceName}</span>
-                {NOTIFICATION_MSG.SPACE}
+                <span
+                  onClick={() =>
+                    handleClickSpace({
+                      notificationId,
+                      spaceId: spaceId!,
+                      isRead,
+                    })
+                  }
+                  className="cursor-pointer font-bold">
+                  {spaceName}
+                </span>
+                {NOTIFICATION_MSG.SPACE_INVITE}
               </div>
               <Button onClick={onClose}>
                 <XMarkIcon className="h-5 w-5 p-0.5 text-slate6" />
