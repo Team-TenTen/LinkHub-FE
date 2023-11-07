@@ -1,19 +1,31 @@
-import { NotificationSpaceProps } from './NotificationSpace'
 import { NOTIFICATION_MSG } from './constants'
-import useNotification from './hooks/useNotification'
+
+export interface NotificationCommentProps {
+  notificationId: number
+  spaceId?: number
+  isRead: boolean
+  onClickComment: ({
+    notificationId,
+    spaceId,
+    isRead,
+  }: {
+    notificationId: number
+    spaceId?: number
+    isRead: boolean
+  }) => void
+}
 
 const NotificationComment = ({
   notificationId,
   spaceId,
   isRead,
-  spaceName,
-}: NotificationSpaceProps) => {
-  const { handleClickComment } = useNotification()
+  onClickComment,
+}: NotificationCommentProps) => {
   return (
     <>
       <span
         onClick={() =>
-          handleClickComment({
+          onClickComment({
             notificationId,
             spaceId,
             isRead,

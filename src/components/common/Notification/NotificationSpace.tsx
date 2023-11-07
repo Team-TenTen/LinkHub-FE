@@ -1,11 +1,19 @@
 import { NOTIFICATION_MSG } from './constants'
-import useNotification from './hooks/useNotification'
 
 export interface NotificationSpaceProps {
   notificationId: number
   spaceId?: number
   isRead: boolean
   spaceName?: string
+  onClickSpace: ({
+    notificationId,
+    spaceId,
+    isRead,
+  }: {
+    notificationId: number
+    spaceId?: number
+    isRead: boolean
+  }) => void
 }
 
 const NotificationSpace = ({
@@ -13,12 +21,12 @@ const NotificationSpace = ({
   spaceId,
   isRead,
   spaceName,
+  onClickSpace,
 }: NotificationSpaceProps) => {
-  const { handleClickSpace } = useNotification()
   return (
     <>
       <span
-        onClick={() => handleClickSpace({ notificationId, spaceId, isRead })}
+        onClick={() => onClickSpace({ notificationId, spaceId, isRead })}
         className="cursor-pointer font-bold">
         {spaceName}
       </span>

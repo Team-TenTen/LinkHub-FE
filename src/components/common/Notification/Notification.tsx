@@ -7,6 +7,7 @@ import NotificationComment from './NotificationComment'
 import NotificationSpace from './NotificationSpace'
 import NotificationUser from './NotificationUser'
 import { NOTIFICATION_MSG } from './constants'
+import useNotification from './hooks/useNotification'
 
 export interface NotificationProps {
   notificationId: number
@@ -33,6 +34,9 @@ const Notification = ({
   onAccept,
   onClose,
 }: NotificationProps) => {
+  const { handleClickUser, handleClickSpace, handleClickComment } =
+    useNotification()
+
   return (
     <div
       className={cls(
@@ -46,6 +50,7 @@ const Notification = ({
             userId={userId}
             isRead={isRead}
             userName={userName}
+            onClickUser={handleClickUser}
           />
           {type === 'follow' ? (
             NOTIFICATION_MSG.FOLLOW
@@ -56,13 +61,14 @@ const Notification = ({
                 spaceId={spaceId}
                 isRead={isRead}
                 spaceName={spaceName}
+                onClickSpace={handleClickSpace}
               />
               {type === 'comment' && (
                 <NotificationComment
                   notificationId={notificationId}
                   spaceId={spaceId}
                   isRead={isRead}
-                  spaceName={spaceName}
+                  onClickComment={handleClickComment}
                 />
               )}
               {type === 'space' && NOTIFICATION_MSG.SPACE_INVITE}

@@ -1,11 +1,19 @@
 import { NOTIFICATION_MSG } from './constants'
-import useNotification from './hooks/useNotification'
 
 export interface NotificationUserProps {
   notificationId: number
   userId: number
   isRead: boolean
   userName: string
+  onClickUser: ({
+    notificationId,
+    userId,
+    isRead,
+  }: {
+    notificationId: number
+    userId: number
+    isRead: boolean
+  }) => void
 }
 
 const NotificationUser = ({
@@ -13,12 +21,12 @@ const NotificationUser = ({
   userId,
   isRead,
   userName,
+  onClickUser,
 }: NotificationUserProps) => {
-  const { handleClickUser } = useNotification()
   return (
     <>
       <span
-        onClick={() => handleClickUser({ notificationId, userId, isRead })}
+        onClick={() => onClickUser({ notificationId, userId, isRead })}
         className="cursor-pointer font-bold">
         {userName}
       </span>
