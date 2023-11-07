@@ -3,7 +3,7 @@ interface ButtonProps {
   type?: 'button' | 'reset' | 'submit' | undefined
   className?: string
   style?: React.CSSProperties
-  onClick?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Button = ({
