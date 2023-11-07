@@ -6,7 +6,7 @@ export const NOTIFICATION_TAB_LIST = [
   },
   {
     text: '초대',
-    content: 'notification/invite',
+    content: 'invite',
     dest: `/notification/invite`,
   },
 ]
