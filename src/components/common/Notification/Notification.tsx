@@ -3,8 +3,10 @@
 import { cls } from '@/utils'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import Button from '../Button/Button'
+import NotificationComment from './NotificationComment'
+import NotificationSpace from './NotificationSpace'
+import NotificationUser from './NotificationUser'
 import { NOTIFICATION_MSG } from './constants'
-import useNotification from './hooks/useNotification'
 
 export interface NotificationProps {
   notificationId: number
@@ -31,9 +33,6 @@ const Notification = ({
   onAccept,
   onClose,
 }: NotificationProps) => {
-  const { handleClickUser, handleClickComment, handleClickSpace } =
-    useNotification()
-
   return (
     <div
       className={cls(
@@ -41,76 +40,35 @@ const Notification = ({
         isRead ? 'bg-bgColor' : 'bg-emerald05',
       )}>
       <div className="flex w-full items-start justify-between text-sm font-medium text-gray9">
-        {type === 'follow' && (
-          <div>
-            <span
-              onClick={() =>
-                handleClickUser({ notificationId, userId, isRead })
-              }
-              className="cursor-pointer font-bold">
-              {userName}
-            </span>
-            {NOTIFICATION_MSG.FOLLOW}
-          </div>
-        )}
-        {type === 'comment' && (
-          <div>
-            <span
-              onClick={() =>
-                handleClickUser({ notificationId, userId, isRead })
-              }
-              className="cursor-pointer font-bold">
-              {userName}
-            </span>
-            {NOTIFICATION_MSG.USER}
-            <span
-              onClick={() =>
-                handleClickSpace({ notificationId, spaceId: spaceId!, isRead })
-              }
-              className="cursor-pointer font-bold">
-              {spaceName}
-            </span>
-            {NOTIFICATION_MSG.SPACE}
-            <span
-              onClick={() =>
-                handleClickComment({
-                  notificationId,
-                  spaceId: spaceId!,
-                  isRead,
-                })
-              }
-              className="cursor-pointer font-bold">
-              {NOTIFICATION_MSG.COMMENT}
-            </span>
-            {NOTIFICATION_MSG.COMMENT_LEAVE}
-          </div>
-        )}
-        {type === 'space' && (
-          <div className="flex items-start justify-between">
-            <div>
-              <span
-                onClick={() =>
-                  handleClickUser({ notificationId, userId, isRead })
-                }
-                className="cursor-pointer font-bold">
-                {userName}
-              </span>
-              {NOTIFICATION_MSG.USER}
-              <span
-                onClick={() =>
-                  handleClickSpace({
-                    notificationId,
-                    spaceId: spaceId!,
-                    isRead,
-                  })
-                }
-                className="cursor-pointer font-bold">
-                {spaceName}
-              </span>
-              {NOTIFICATION_MSG.SPACE_INVITE}
-            </div>
-          </div>
-        )}
+        <div>
+          <NotificationUser
+            notificationId={notificationId}
+            userId={userId}
+            isRead={isRead}
+            userName={userName}
+          />
+          {type === 'follow' ? (
+            NOTIFICATION_MSG.FOLLOW
+          ) : (
+            <>
+              <NotificationSpace
+                notificationId={notificationId}
+                spaceId={spaceId}
+                isRead={isRead}
+                spaceName={spaceName}
+              />
+              {type === 'comment' && (
+                <NotificationComment
+                  notificationId={notificationId}
+                  spaceId={spaceId}
+                  isRead={isRead}
+                  spaceName={spaceName}
+                />
+              )}
+              {type === 'space' && NOTIFICATION_MSG.SPACE_INVITE}
+            </>
+          )}
+        </div>
         <Button onClick={onClose}>
           <XMarkIcon className="h-5 w-5 p-0.5 text-slate6" />
         </Button>
