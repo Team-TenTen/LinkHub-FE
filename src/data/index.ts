@@ -192,3 +192,21 @@ export const mock_replyData = [
     auth: true,
   },
 ]
+
+export const mock_trendData = [
+  {
+    keyword: '어쩌구',
+  },
+  {
+    keyword: '저쩌구',
+  },
+  {
+    keyword: '쏼라쏼라',
+  },
+  {
+    keyword: '훌라훌라',
+  },
+  {
+    keyword: '나하항',
+  },
+]
