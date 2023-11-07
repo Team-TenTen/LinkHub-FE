@@ -26,6 +26,10 @@ const Dropdown = ({
     type !== 'tag'
       ? Object.keys(DROPDOWN_OPTIONS[type])
       : tags && ['전체', ...tags]
+  const optionValues =
+    type !== 'tag'
+      ? Object.values(DROPDOWN_OPTIONS[type])
+      : tags && ['전체', ...tags]
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const { isOpen, setIsOpen, index, handleClick } = useDropdown({
     el: dropdownRef,
@@ -56,6 +60,7 @@ const Dropdown = ({
         {optionKeys?.map((option, i) => (
           <DropdownItem
             label={option}
+            value={optionValues?.[i]}
             active={index === i}
             danger={type === 'user_edit' && i === optionKeys.length - 1}
             onClick={(e) => handleClick(e, i)}
