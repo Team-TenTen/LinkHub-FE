@@ -9,6 +9,7 @@ import { ADD_LINK_TEXT } from './constants'
 export interface Link {
   id: number
   title: string
+  url: string
   tag: string
   readUsers: { id: string; profile: string }[]
   likes: number
@@ -51,6 +52,7 @@ const LinkList = ({
           <LinkItem
             key={link.id}
             title={link.title}
+            url={link.url}
             tag={link.tag}
             readUsers={link.readUsers}
             likes={link.likes}

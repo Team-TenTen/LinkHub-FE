@@ -20,8 +20,9 @@ import { DELETE_TEXT } from './\bconstants'
 
 export interface LinkItemProps {
   title: string
+  url: string
   tag: string
-  readUsers: User[]
+  readUsers?: User[]
   likes: number
   read?: boolean
   summary?: boolean
@@ -31,6 +32,7 @@ export interface LinkItemProps {
 
 const LinkItem = ({
   title,
+  url,
   tag,
   readUsers,
   likes,
@@ -56,7 +58,7 @@ const LinkItem = ({
                 <Chip label={tag} />
               </div>
             )}
-            {readUsers.length > 0 && read && !edit ? (
+            {readUsers && readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
@@ -124,7 +126,7 @@ const LinkItem = ({
             </div>
           )}
           <div className="flex items-center justify-between">
-            {readUsers.length > 0 && read && !edit ? (
+            {readUsers && readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
