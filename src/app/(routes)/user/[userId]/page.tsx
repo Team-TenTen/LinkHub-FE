@@ -12,7 +12,7 @@ const UserPage = () => {
       <div className="flex flex-col gap-4 px-4 py-6">
         <div className="flex gap-3">
           <Avatar
-            src="/duck.jpg"
+            src={userData.profile}
             width={80}
             height={80}
             alt="profile"
