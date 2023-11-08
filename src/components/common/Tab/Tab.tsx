@@ -4,7 +4,7 @@ interface TabProps {
 
 const Tab = ({ children }: TabProps) => {
   return (
-    <div className="sticky top-[53px] flex bg-bgColor transition ease-in-out">
+    <div className="sticky top-[53px] z-40 flex bg-bgColor transition ease-in-out">
       {children}
     </div>
   )

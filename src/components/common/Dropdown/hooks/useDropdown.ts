@@ -10,7 +10,7 @@ import {
 
 export interface useDropdownProps {
   el: React.RefObject<HTMLDivElement>
-  onChange: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  onChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const useDropdown = ({

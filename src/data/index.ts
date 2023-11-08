@@ -291,6 +291,24 @@ export const mock_replyData = [
   },
 ]
 
+export const mock_trendData = [
+  {
+    keyword: '어쩌구',
+  },
+  {
+    keyword: '저쩌구',
+  },
+  {
+    keyword: '쏼라쏼라',
+  },
+  {
+    keyword: '훌라훌라',
+  },
+  {
+    keyword: '나하항',
+  },
+]
+
 export const mock_usersData = [
   {
     id: 1,
