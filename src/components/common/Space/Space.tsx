@@ -12,7 +12,7 @@ import { SPACE_CONSTANT } from './constants'
 
 interface SpaceProps {
   userName: string
-  _spaceId?: string
+  spaceId?: number
   type: 'Card' | 'Header'
   spaceName: string
   spaceImage: string
@@ -26,7 +26,7 @@ interface SpaceProps {
 
 const Space = ({
   userName,
-  _spaceId,
+  spaceId,
   type,
   spaceName,
   spaceImage,
@@ -55,7 +55,7 @@ const Space = ({
         <div
           className="relative flex gap-3 rounded-md border border-slate3 p-2"
           onClick={() => {
-            router.push(`/space/${_spaceId}`)
+            router.push(`/space/${spaceId}`)
           }}>
           <Image
             className="z-[-100] rounded-md object-cover opacity-50"
