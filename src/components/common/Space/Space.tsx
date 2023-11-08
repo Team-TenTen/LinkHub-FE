@@ -4,7 +4,7 @@ import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import useToggle from '../Toggle/hooks/useToggle'
@@ -38,7 +38,6 @@ const Space = ({
   onClickFavorite,
 }: SpaceProps) => {
   const [clicked, toggle] = useToggle()
-  const router = useRouter()
 
   const handleClickScrapButton = () => {
     onClickScrap?.()
@@ -52,11 +51,9 @@ const Space = ({
   return (
     <>
       {type === 'Card' ? (
-        <div
+        <Link
           className="relative flex gap-3 rounded-md border border-slate3 p-2"
-          onClick={() => {
-            router.push(`/space/${spaceId}`)
-          }}>
+          href={`/space/${spaceId}`}>
           <Image
             className="z-[-100] rounded-md object-cover opacity-50"
             src={spaceImage}
@@ -89,7 +86,7 @@ const Space = ({
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ) : (
         <div className="relative flex flex-col gap-10 p-4">
           <Image
