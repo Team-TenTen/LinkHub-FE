@@ -2,27 +2,13 @@
 
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
-import Tab from '@/components/common/Tab/Tab'
-import TabItem from '@/components/common/Tab/TabItem'
-import useTab from '@/components/common/Tab/hooks/useTab'
 import { mock_userData } from '@/data'
 
 const UserPage = () => {
   const userData = mock_userData
-  const { currentTab, tabList } = useTab({ type: 'user', userData })
 
   return (
     <>
-      <Tab>
-        {tabList.map((tabItem) => (
-          <TabItem
-            active={currentTab === tabItem.content}
-            text={tabItem.text}
-            dest={tabItem.dest}
-            key={tabItem.content}
-          />
-        ))}
-      </Tab>
       <div className="flex flex-col gap-4 px-4 py-6">
         <div className="flex gap-3">
           <Avatar
