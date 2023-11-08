@@ -110,6 +110,8 @@ export const mock_userData = {
   newsLetter: false,
   email: 'abc@gmail.com',
   description: '쇼핑 정보를 모으고 있어요!',
+  follower: 138,
+  following: 182,
   mySpaces: [
     {
       name: 'My Space 1',

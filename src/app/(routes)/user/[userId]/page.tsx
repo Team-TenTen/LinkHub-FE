@@ -25,7 +25,7 @@ const UserPage = () => {
               {userData.email}
             </div>
             <div className="text-xs font-medium text-gray6">
-              팔로잉 0 | 팔로워 0
+              팔로잉 {userData.following} | 팔로워 {userData.follower}
             </div>
           </div>
         </div>
