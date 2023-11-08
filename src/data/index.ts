@@ -2,6 +2,7 @@ export const mock_LinkData = [
   {
     id: 1,
     title: '자바스크립트 클로저를 활용하는 방법 말줄임표 확인하는 제목입니다',
+    url: 'https://naver.com',
     tag: '개발',
     readUsers: [
       { id: 'user1', profile: '/duck.jpg' },
@@ -15,6 +16,7 @@ export const mock_LinkData = [
   {
     id: 2,
     title: '링크 제목',
+    url: 'https://github.com',
     tag: '오둥이',
     readUsers: [
       { id: 'user6', profile: '/duck.jpg' },
@@ -28,6 +30,7 @@ export const mock_LinkData = [
   {
     id: 3,
     title: '링크 제목',
+    url: 'https://programmers.co.kr',
     tag: '데브코스',
     readUsers: [
       { id: 'user11', profile: '/duck.jpg' },
@@ -41,6 +44,7 @@ export const mock_LinkData = [
   {
     id: 4,
     title: '링크 제목',
+    url: 'https://nextjs.org/docs/app/api-reference/components/link',
     tag: '개발',
     readUsers: [
       { id: 'user16', profile: '/duck.jpg' },
@@ -54,6 +58,7 @@ export const mock_LinkData = [
   {
     id: 5,
     title: '링크 제목',
+    url: 'https://tailwindcss.com/docs/installation',
     tag: '개발',
     readUsers: [
       { id: 'user21', profile: '/duck.jpg' },
@@ -68,6 +73,7 @@ export const mock_LinkData = [
     id: 6,
     title:
       '자바스크립트 클로저를 활용하는 방법 말줄임표 확인하는 제목입니다 자바스크립트 클로저를 활용하는 방법 말줄임표 확인하는 제목입니다',
+    url: 'https://velog.io/',
     tag: '',
     readUsers: [],
     likes: 6,
