@@ -3,10 +3,10 @@
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
 import { PROFILE_MSG } from '@/constants'
-import { mock_userData } from '@/data'
+import { mock_userData2 } from '@/data'
 
 const UserPage = () => {
-  const userData = mock_userData
+  const userData = mock_userData2
 
   return (
     <>
