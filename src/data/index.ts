@@ -108,6 +108,8 @@ export const mock_userData = {
   profile: '/duck.jpg',
   category: '엔터테인먼트•예술',
   newsLetter: false,
+  email: 'abc@gmail.com',
+  description: '쇼핑 정보를 모으고 있어요!',
   mySpaces: [
     {
       name: 'My Space 1',
