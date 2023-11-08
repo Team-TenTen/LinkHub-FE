@@ -30,7 +30,7 @@ const CategoryList = ({
       className={cls(
         'flex w-full gap-1.5',
         horizontal
-          ? 'snap-x scroll-px-4 overflow-x-auto scroll-smooth py-4'
+          ? 'horizontal-scroll snap-x scroll-px-4 overflow-x-auto scroll-smooth py-4'
           : 'flex-wrap',
       )}>
       {CATEGORIES[type].map((category, i) => (
