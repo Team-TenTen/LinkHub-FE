@@ -99,6 +99,9 @@ export const mock_userData = {
   id: 3,
   name: '프롱이',
   profile: '/duck.jpg',
+  email: 'abc@gmail.com',
+  category: '생활•노하우•쇼핑',
+  description: '쇼핑 정보를 모으고 있어요!',
   mySpaces: [
     {
       name: 'My Space 1',
