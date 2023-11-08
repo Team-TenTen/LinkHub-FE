@@ -75,21 +75,17 @@ const Space = ({
             <div className="line-clamp-1 text-xs font-normal text-gray6">
               {description}
             </div>
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-end pt-1">
               <Chip label={category} />
-              <div className="flex grow items-center justify-end gap-2">
-                <Button className="button button-round button-white">
+              <div className="flex grow items-center justify-end gap-x-1.5 text-xs font-medium text-slate6">
+                <span className="flex gap-x-0.5">
                   <InboxArrowDownIcon className="h-4 w-4" />
                   {scrap}
-                </Button>
-                <Button className="button button-round button-white">
-                  {clicked ? (
-                    <StarIconSolid className="h-4 w-4 text-yellow-300" />
-                  ) : (
-                    <StarIconOutline className="h-4 w-4" />
-                  )}
+                </span>
+                <span className="flex gap-x-0.5">
+                  <StarIconOutline className="h-4 w-4" />
                   {favorite}
-                </Button>
+                </span>
               </div>
             </div>
           </div>
