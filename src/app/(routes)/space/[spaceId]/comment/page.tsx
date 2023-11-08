@@ -37,7 +37,7 @@ const SpaceCommentPage = () => {
     handleReplyCancel,
     onSubmit,
   } = useSpaceComment({ setValue, setFocus, modalOpen })
-  const { currentTab, tabList } = useTab(space)
+  const { currentTab, tabList } = useTab({ type: 'space', spaceData: space })
 
   return (
     <>

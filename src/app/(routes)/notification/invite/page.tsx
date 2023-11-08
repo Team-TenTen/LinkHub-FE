@@ -1,10 +1,10 @@
 'use client'
 
 import { Notification } from '@/components'
-import { mock_notificationData } from '@/data'
+import { mock_notificationInviteData } from '@/data'
 
-const NotificationPage = () => {
-  const notifications = mock_notificationData
+const NotificationInvitePage = () => {
+  const notifications = mock_notificationInviteData
 
   return (
     <div className="flex flex-col gap-2">
@@ -18,6 +18,8 @@ const NotificationPage = () => {
           spaceId={notification.spaceId}
           spaceName={notification.spaceName}
           isRead={notification.isRead}
+          isAccept={notification.isAccept}
+          onAccept={() => console.log('스페이스 수락')}
           onClose={() => console.log('알람 닫기')}
         />
       ))}
@@ -25,4 +27,4 @@ const NotificationPage = () => {
   )
 }
 
-export default NotificationPage
+export default NotificationInvitePage
