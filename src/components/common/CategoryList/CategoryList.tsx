@@ -10,7 +10,7 @@ export interface CategoryListProps {
   type?: 'all' | 'all_follow' | 'default'
   horizontal?: boolean
   defaultIndex?: number
-  onChange: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  onChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const CategoryList = ({
