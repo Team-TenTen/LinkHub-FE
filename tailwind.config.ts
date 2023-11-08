@@ -33,6 +33,7 @@ const config: Config = {
         emerald4: 'var(--emerald4)',
         emerald3: 'var(--emerald3)',
         emerald1: 'var(--emerald1)',
+        emerald05: 'var(--emerald05)',
         red9: 'var(--red9)',
         red7: 'var(--red7)',
         red6: 'var(--red6)',

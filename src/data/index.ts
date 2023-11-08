@@ -96,7 +96,7 @@ export const mock_memberData = [
 ]
 
 export const mock_userData = {
-  id: 'frong',
+  id: 3,
   name: '프롱이',
   profile: '/duck.jpg',
   mySpaces: [
@@ -157,6 +157,104 @@ export const mock_spaceData = {
   comment: true,
 }
 
+export const mock_notificationData: {
+  id: number
+  type: 'comment' | 'follow' | 'space'
+  userId: number
+  userName: string
+  spaceId?: number
+  spaceName?: string
+  isRead: boolean
+  isAccept?: boolean
+}[] = [
+  {
+    id: 1,
+    type: 'follow',
+    userId: 1,
+    userName: '프롱이',
+    isRead: false,
+  },
+  {
+    id: 2,
+    type: 'comment',
+    userId: 1,
+    userName: '프롱이',
+    spaceId: 123,
+    spaceName: '리액트 모음집',
+    isRead: false,
+    isAccept: false,
+  },
+  {
+    id: 3,
+    type: 'comment',
+    userId: 1,
+    userName: '백둥이',
+    spaceId: 456,
+    spaceName: '스프링',
+    isRead: false,
+    isAccept: false,
+  },
+  {
+    id: 4,
+    type: 'follow',
+    userId: 1,
+    userName: '백둥이',
+    isRead: true,
+  },
+  {
+    id: 5,
+    type: 'comment',
+    userId: 1,
+    userName: '풀택이',
+    spaceId: 789,
+    spaceName: '풀스택 지식 모음집',
+    isRead: true,
+    isAccept: false,
+  },
+]
+
+export const mock_notificationInviteData: {
+  id: number
+  type: 'comment' | 'follow' | 'space'
+  userId: number
+  userName: string
+  spaceId?: number
+  spaceName?: string
+  isRead: boolean
+  isAccept?: boolean
+}[] = [
+  {
+    id: 3,
+    type: 'space',
+    userId: 1,
+    userName: '프롱이',
+    spaceId: 123,
+    spaceName: '개발 모음',
+    isRead: false,
+    isAccept: false,
+  },
+  {
+    id: 4,
+    type: 'space',
+    userId: 1,
+    userName: '백둥이',
+    spaceId: 123,
+    spaceName: '스프링',
+    isRead: false,
+    isAccept: false,
+  },
+  {
+    id: 5,
+    type: 'space',
+    userId: 1,
+    userName: '풀택이',
+    spaceId: 123,
+    spaceName: '풀스택 지식 모음집',
+    isRead: true,
+    isAccept: true,
+  },
+]
+
 export const mock_commentData = [
   {
     commentId: 1,
@@ -208,5 +306,29 @@ export const mock_trendData = [
   },
   {
     keyword: '나하항',
+  },
+]
+
+export const mock_usersData = [
+  {
+    id: 1,
+    name: 'dudwns',
+    oneLiner: '안녕하세요',
+    profile: '/duck.jpg',
+    isFollow: true,
+  },
+  {
+    id: 2,
+    name: 'bomi',
+    oneLiner: '안녕하세요',
+    profile: '/duck.jpg',
+    isFollow: false,
+  },
+  {
+    id: 3,
+    name: '프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱프롱이',
+    oneLiner:
+      '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
+    profile: '/duck.jpg',
   },
 ]
