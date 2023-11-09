@@ -17,8 +17,20 @@ export interface UserData {
   email: string
   category: string
   description: string
-  follower: number
-  following: number
+  follower: {
+    userId: number
+    userName: string
+    profile: string
+    description: string
+    isFollow: boolean
+  }[]
+  following: {
+    userId: number
+    userName: string
+    profile: string
+    description: string
+    isFollow: boolean
+  }[]
   mySpaces: Space[]
   favoriteSpaces: Space[]
 }
