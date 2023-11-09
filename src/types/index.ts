@@ -10,19 +10,27 @@ export interface Space {
   comment: boolean
 }
 
-export interface User {
+export interface UserData {
   id: number
   name: string
-  introduce: string
   profile: string
-  category: string
-  newsLetter: boolean
-  mySpaces: {
-    name: string
-    id: string
+  mySpaces: { name: string; id: string }[]
+  favoriteSpaces: { name: string; id: string }[]
+}
+
+export interface User {
+  id?: string
+  name?: string
+  introduce?: string
+  profile?: string
+  category?: string
+  newsLetter?: boolean
+  mySpaces?: {
+    name?: string
+    id?: string
   }[]
-  favoriteSpaces: {
-    name: string
-    id: string
+  favoriteSpaces?: {
+    name?: string
+    id?: string
   }[]
 }

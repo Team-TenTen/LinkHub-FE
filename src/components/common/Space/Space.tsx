@@ -4,7 +4,7 @@ import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import useToggle from '../Toggle/hooks/useToggle'
@@ -12,7 +12,7 @@ import { SPACE_CONSTANT } from './constants'
 
 interface SpaceProps {
   userName: string
-  _spaceId?: string
+  spaceId?: number
   type: 'Card' | 'Header'
   spaceName: string
   spaceImage: string
@@ -26,7 +26,7 @@ interface SpaceProps {
 
 const Space = ({
   userName,
-  _spaceId,
+  spaceId,
   type,
   spaceName,
   spaceImage,
@@ -38,7 +38,6 @@ const Space = ({
   onClickFavorite,
 }: SpaceProps) => {
   const [clicked, toggle] = useToggle()
-  const router = useRouter()
 
   const handleClickScrapButton = () => {
     onClickScrap?.()
@@ -52,11 +51,9 @@ const Space = ({
   return (
     <>
       {type === 'Card' ? (
-        <div
+        <Link
           className="relative flex gap-3 rounded-md border border-slate3 p-2"
-          onClick={() => {
-            router.push(`/space/${_spaceId}`)
-          }}>
+          href={`/space/${spaceId}`}>
           <Image
             className="z-[-100] rounded-md object-cover opacity-50"
             src={spaceImage}
@@ -75,25 +72,21 @@ const Space = ({
             <div className="line-clamp-1 text-xs font-normal text-gray6">
               {description}
             </div>
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-end pt-1">
               <Chip label={category} />
-              <div className="flex grow items-center justify-end gap-2">
-                <Button className="button button-round button-white">
+              <div className="flex grow items-center justify-end gap-x-1.5 text-xs font-medium text-slate6">
+                <span className="flex gap-x-0.5">
                   <InboxArrowDownIcon className="h-4 w-4" />
                   {scrap}
-                </Button>
-                <Button className="button button-round button-white">
-                  {clicked ? (
-                    <StarIconSolid className="h-4 w-4 text-yellow-300" />
-                  ) : (
-                    <StarIconOutline className="h-4 w-4" />
-                  )}
+                </span>
+                <span className="flex gap-x-0.5">
+                  <StarIconOutline className="h-4 w-4" />
                   {favorite}
-                </Button>
+                </span>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ) : (
         <div className="relative flex flex-col gap-10 p-4">
           <Image

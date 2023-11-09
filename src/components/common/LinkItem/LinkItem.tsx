@@ -1,6 +1,7 @@
 'use client'
 
 import { useCurrentModal, useModal } from '@/hooks'
+import { User } from '@/types'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
@@ -9,6 +10,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
+import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
 import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
@@ -17,15 +19,11 @@ import Input from '../Input/Input'
 import useToggle from '../Toggle/hooks/useToggle'
 import { DELETE_TEXT } from './\bconstants'
 
-export interface User {
-  id: string
-  profile: string
-}
-
 export interface LinkItemProps {
   title: string
+  url: string
   tag: string
-  readUsers: User[]
+  readUsers?: User[]
   likes: number
   read?: boolean
   summary?: boolean
@@ -35,6 +33,7 @@ export interface LinkItemProps {
 
 const LinkItem = ({
   title,
+  url,
   tag,
   readUsers,
   likes,
@@ -51,16 +50,19 @@ const LinkItem = ({
     <>
       {type === 'list' ? (
         <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
-          <div className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9">
+          <Link
+            className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
+            href={url}
+            target="_blank">
             {title}
-          </div>
+          </Link>
           <div className="flex shrink-0 gap-1.5">
             {tag && (
               <div>
                 <Chip label={tag} />
               </div>
             )}
-            {readUsers.length > 0 && read && !edit ? (
+            {readUsers && readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
@@ -128,7 +130,7 @@ const LinkItem = ({
             </div>
           )}
           <div className="flex items-center justify-between">
-            {readUsers.length > 0 && read && !edit ? (
+            {readUsers && readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar

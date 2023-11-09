@@ -23,7 +23,7 @@ const SpacePage = () => {
   const spaceData = mock_spaceData
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
-  const { currentTab, tabList } = useTab(spaceData)
+  const { currentTab, tabList } = useTab({ type: 'space', spaceData })
 
   return (
     <>

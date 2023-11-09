@@ -4,7 +4,7 @@ import { useRef } from 'react'
 import { cls } from '@/utils'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import DropdownItem from './DropdownItem'
-import { PLACEMENTS, TYPES, VERTICAL_PADDING } from './constants'
+import { DROPDOWN_OPTIONS, PLACEMENTS, VERTICAL_PADDING } from './constants'
 import useDropdown from './hooks/useDropdown'
 
 export interface DropdownProps {
@@ -12,7 +12,7 @@ export interface DropdownProps {
   size?: 'large' | 'medium' | 'small'
   placement?: 'left' | 'right'
   tags?: string[]
-  onChange: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  onChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Dropdown = ({
@@ -22,7 +22,14 @@ const Dropdown = ({
   tags,
   onChange,
 }: DropdownProps) => {
-  const dropdownItems = type !== 'tag' ? TYPES[type] : tags && ['전체', ...tags]
+  const optionKeys =
+    type !== 'tag'
+      ? Object.keys(DROPDOWN_OPTIONS[type])
+      : tags && ['전체', ...tags]
+  const optionValues =
+    type !== 'tag'
+      ? Object.values(DROPDOWN_OPTIONS[type])
+      : tags && ['전체', ...tags]
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const { isOpen, setIsOpen, index, handleClick } = useDropdown({
     el: dropdownRef,
@@ -38,7 +45,7 @@ const Dropdown = ({
           VERTICAL_PADDING[size],
         )}
         onClick={() => setIsOpen(!isOpen)}>
-        {type === 'tag' ? dropdownItems?.[index] : dropdownItems?.[index]}
+        {type === 'tag' ? optionKeys?.[index] : optionKeys?.[index]}
         <ChevronDownIcon className="h-5 w-5" />
       </button>
       <div
@@ -50,13 +57,14 @@ const Dropdown = ({
             : 'hidden',
           PLACEMENTS[placement],
         )}>
-        {dropdownItems?.map((item, i) => (
+        {optionKeys?.map((option, i) => (
           <DropdownItem
-            label={item}
+            label={option}
+            value={optionValues?.[i]}
             active={index === i}
-            danger={type === 'user_edit' && i === dropdownItems.length - 1}
+            danger={type === 'user_edit' && i === optionKeys.length - 1}
             onClick={(e) => handleClick(e, i)}
-            key={item}
+            key={option}
           />
         ))}
       </div>

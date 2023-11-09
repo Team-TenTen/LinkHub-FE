@@ -10,7 +10,7 @@ export interface CategoryListProps {
   type?: 'all' | 'all_follow' | 'default'
   horizontal?: boolean
   defaultIndex?: number
-  onChange: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  onChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const CategoryList = ({
@@ -30,7 +30,7 @@ const CategoryList = ({
       className={cls(
         'flex w-full gap-1.5',
         horizontal
-          ? 'snap-x scroll-px-4 overflow-x-auto scroll-smooth py-4'
+          ? 'horizontal-scroll snap-x scroll-px-4 overflow-x-auto scroll-smooth py-4'
           : 'flex-wrap',
       )}>
       {CATEGORIES[type].map((category, i) => (

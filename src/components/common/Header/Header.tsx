@@ -1,19 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
 import { Bars3Icon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Button from '../Button/Button'
+import SearchModal from '../SearchModal/SearchModal'
 import Sidebar from '../Sidebar/Sidebar'
 
 const Header = () => {
+  const pathname = usePathname()
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const pathName = usePathname()
-  const currentPage = pathName
+  const isSearchModalOpen = searchParams.get('search')
+  const currentPage = pathname
     .split(/[^a-zA-Z]/)[1] // 라우터명
     .replace(/^[a-z]/, (char) => char.toUpperCase()) // 첫글자 대문자 치환
 
@@ -36,7 +40,9 @@ const Header = () => {
               <BellIcon className="h-6 w-6 text-slate9" />
             </Link>
           </Button>
-          <Button className="flex h-8 w-8 items-center justify-center">
+          <Button
+            className="flex h-8 w-8 items-center justify-center"
+            onClick={() => router.push(`${pathname}?search=true`)}>
             <MagnifyingGlassCircleIcon className="h-6 w-6 text-slate9" />
           </Button>
           <Button
@@ -47,6 +53,7 @@ const Header = () => {
         </div>
       </div>
       {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+      {isSearchModalOpen && <SearchModal onClose={() => router.back()} />}
     </>
   )
 }
