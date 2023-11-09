@@ -157,8 +157,67 @@ export const mock_userData2 = {
   email: 'abc@gmail.com',
   category: '생활•노하우•쇼핑',
   description: '쇼핑 정보를 모으고 있어요!',
-  follower: 138,
-  following: 182,
+  follower: [
+    {
+      userId: 1,
+      userName: '백둥이',
+      profile: '/duck.jpg',
+      description: '안녕 난 백둥이',
+      isFollow: false,
+    },
+    {
+      userId: 2,
+      userName: '풀택이',
+      profile: '/duck.jpg',
+      description: '안녕 난 풀택이',
+      isFollow: true,
+    },
+    {
+      userId: 3,
+      userName: '오둥이',
+      profile: '/duck.jpg',
+      description: '안녕 난 오둥이',
+      isFollow: false,
+    },
+    {
+      userId: 123,
+      userName: '프롱이',
+      profile: '/duck.jpg',
+      description: '안녕 난 프롱이',
+      isFollow: false,
+    },
+  ],
+
+  following: [
+    {
+      userId: 1,
+      userName: '육둥이',
+      profile: '/duck.jpg',
+      description: '안녕 난 육둥이',
+      isFollow: false,
+    },
+    {
+      userId: 2,
+      userName: '칠둥이',
+      profile: '/duck.jpg',
+      description: '안녕 난 칠둥이',
+      isFollow: true,
+    },
+    {
+      userId: 3,
+      userName: '팔둥이',
+      profile: '/duck.jpg',
+      description: '안녕 난 팔둥이',
+      isFollow: false,
+    },
+    {
+      userId: 123,
+      userName: '프롱이',
+      profile: '/duck.jpg',
+      description: '안녕 난 프롱이',
+      isFollow: false,
+    },
+  ],
   mySpaces: [
     {
       userName: '프롱이',
