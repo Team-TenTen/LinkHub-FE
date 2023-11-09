@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
+import { User } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
 import Button from '../common/Button/Button'
@@ -10,18 +11,24 @@ import useToggle from '../common/Toggle/hooks/useToggle'
 import { useRegister } from './hooks/useRegister'
 
 interface FormValues {
+  image: File | null
   nickName: string
   introduce: string
   email: string
   category: string
   newsLetter: boolean
-  emailAuth: boolean
 }
 
-const UserInfoForm = () => {
+const UserInfoForm = ({ userData }: { userData?: User }) => {
+  const selectUserImage = useRef<HTMLInputElement | null>(null)
+  const [thumnail, setThumnail] = useState(userData?.profile)
   const [isEmailAuthOpen, setIsEmailAuthOpen] = useState(false)
   const [checked, toggle] = useToggle(false)
   const { registerLinkHub } = useRegister()
+
+  useEffect(() => {
+    setThumnail(userData?.profile)
+  }, [userData?.profile])
 
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?&_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]/
@@ -33,11 +40,36 @@ const UserInfoForm = () => {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      category: '엔터테인먼트•예술',
-      newsLetter: false,
-      emailAuth: false,
+      nickName: userData?.name || '',
+      introduce: userData?.introduce || '',
+      category: userData?.category || '엔터테인먼트•예술',
+      newsLetter: userData?.newsLetter || false,
     },
   })
+
+  const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
+    e?.preventDefault()
+
+    if (e?.target.files) {
+      const blob = new Blob([e.target.files[0]], {
+        type: e.target.files[0].type,
+      })
+
+      const thumbNailImage = URL.createObjectURL(blob)
+      setThumnail(thumbNailImage)
+      setValue('image', e.target.files[0])
+    }
+  }
+
+  const handleEmailAuth = () => {
+    // Todo: 이메일 로직
+
+    setIsEmailAuthOpen(true)
+  }
+
+  const handleCheckAuthNum = () => {
+    // Todo: 인증번호 확인 로직
+  }
 
   const handleClickCheckButton = () => {
     toggle()
@@ -51,12 +83,23 @@ const UserInfoForm = () => {
         registerLinkHub(data)
       })}>
       <div className="flex justify-center">
-        <Avatar
-          src="/duck.jpg"
-          width={80}
-          height={80}
-          alt="프로필"
+        <input
+          {...register('image')}
+          type="file"
+          ref={selectUserImage}
+          onChange={handleFileChange}
+          hidden
         />
+        <div onClick={() => selectUserImage?.current?.click()}>
+          <Avatar
+            // Todo: 기본 이미지로 변경
+            src={thumnail || '/duck.jpg'}
+            width={80}
+            height={80}
+            alt="프로필"
+            className="h-20"
+          />
+        </div>
       </div>
       <div>
         <Input
@@ -91,7 +134,7 @@ const UserInfoForm = () => {
           inputButton
           buttonText="인증번호 전송"
           buttonColor="gray"
-          onButtonClick={() => setIsEmailAuthOpen(true)}
+          onButtonClick={handleEmailAuth}
         />
       </div>
       {isEmailAuthOpen && (
@@ -102,7 +145,7 @@ const UserInfoForm = () => {
             inputButton
             buttonText="인증번호 확인"
             buttonColor="gray"
-            onButtonClick={() => {}}
+            onButtonClick={handleCheckAuthNum}
           />
         </div>
       )}

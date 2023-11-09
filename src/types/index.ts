@@ -9,3 +9,20 @@ export interface Space {
   scrap: number
   comment: boolean
 }
+
+export interface User {
+  id: number
+  name: string
+  introduce: string
+  profile: string
+  category: string
+  newsLetter: boolean
+  mySpaces: {
+    name: string
+    id: string
+  }[]
+  favoriteSpaces: {
+    name: string
+    id: string
+  }[]
+}

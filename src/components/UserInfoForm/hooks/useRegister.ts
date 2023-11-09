@@ -4,7 +4,6 @@ interface RegisterReqBody {
   email: string
   category: string
   newsLetter: boolean
-  emailAuth: boolean
 }
 
 const useRegister = () => {
