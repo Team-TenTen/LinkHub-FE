@@ -1,12 +1,3 @@
-// import returnFetch from "return-fetch"
-
-// export const apiClient = returnFetch({
-//   baseUrl: process.env.NEXT_PUBLIC_API_INTERNAL_ADDRESS,
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-// })
-
 class FetchAPI {
   private baseURL: string
   private headers: { [key: string]: string }
@@ -16,7 +7,7 @@ class FetchAPI {
   private constructor() {
     this.baseURL = process.env.NEXT_PUBLIC_API_ADDRESS || ''
     this.headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
     }
   }
   public static getInstance(): FetchAPI {
@@ -41,7 +32,8 @@ class FetchAPI {
       headers: { ...this.headers, ...customHeaders },
       ...nextInit,
     })
-    return response
+    const data = response.json()
+    return data
   }
   public async post(
     endpoint: string,

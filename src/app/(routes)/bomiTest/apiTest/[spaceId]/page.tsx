@@ -1,7 +1,5 @@
 'use client'
 
-import { getSpaceDetail } from '@/services/space/space'
-
 interface ApiTestProps {
   params: {
     spaceId: string
@@ -28,8 +26,8 @@ const fetchSpaceDetail = async (id: string) => {
 
 const ApiTest = ({ params }: ApiTestProps) => {
   const handleClickButton = async () => {
-    const space = await getSpaceDetail(params.spaceId)
-    console.log(space)
+    const data = await fetchSpaceDetail(params.spaceId)
+    console.log(data)
   }
 
   return (
