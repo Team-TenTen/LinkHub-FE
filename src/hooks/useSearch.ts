@@ -36,7 +36,6 @@ const useSearch = ({ setValue }: UseSearchProps) => {
 
   const onSubmit = useCallback(
     ({ keyword, path }: { keyword: string; path: string }) => {
-      console.log(params.get('category'))
       setValue('keyword', '')
       if (params.get('category')) {
         router.push(
