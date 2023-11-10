@@ -4,10 +4,12 @@ import { useForm } from 'react-hook-form'
 import { CategoryList, Input } from '@/components'
 import Space from '@/components/common/Space/Space'
 import { mock_userData2 } from '@/data'
+import { useRouter } from 'next/navigation'
 import { SearchFormValue } from '../space/page'
 
 const UserFavoritePage = () => {
   const spaceData = mock_userData2.favoriteSpaces
+  const router = useRouter()
   const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
       keyword: '',
@@ -23,7 +25,7 @@ const UserFavoritePage = () => {
       <form
         onSubmit={handleSubmit(({ keyword }) => {
           setValue('keyword', '')
-          console.log(`${keyword} 검색 로직 추가`)
+          router.push(`/user/${mock_userData2.id}/favorite?keyword=${keyword}`)
         })}>
         <Input
           {...register('keyword')}

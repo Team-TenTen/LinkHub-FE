@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { CategoryList, Input } from '@/components'
 import Space from '@/components/common/Space/Space'
 import { mock_userData2 } from '@/data'
+import { useRouter } from 'next/navigation'
 
 export interface SearchFormValue {
   keyword: string
@@ -11,6 +12,7 @@ export interface SearchFormValue {
 
 const UserSpacePage = () => {
   const spaceData = mock_userData2.mySpaces
+  const router = useRouter()
   const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
       keyword: '',
@@ -26,7 +28,7 @@ const UserSpacePage = () => {
       <form
         onSubmit={handleSubmit(({ keyword }) => {
           setValue('keyword', '')
-          console.log(`${keyword} 검색 로직 추가`)
+          router.push(`/user/${mock_userData2.id}/space?keyword=${keyword}`)
         })}>
         <Input
           {...register('keyword')}
