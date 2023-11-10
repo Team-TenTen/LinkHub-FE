@@ -9,7 +9,6 @@ import { SearchFormValue } from '../space/page'
 
 const UserFavoritePage = () => {
   const spaceData = mock_userData2.favoriteSpaces
-
   const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
       keyword: '',
