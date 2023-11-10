@@ -2,11 +2,15 @@
 
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
+import User from '@/components/common/User/User'
 import { PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
+import { useCurrentModal, useModal } from '@/hooks'
 
 const UserPage = () => {
   const userData = mock_userData2
+  const { Modal, isOpen, modalOpen, modalClose } = useModal()
+  const [currentModal, handleChangeCurrentModal] = useCurrentModal()
 
   return (
     <>
@@ -26,12 +30,22 @@ const UserPage = () => {
               {userData.email}
             </div>
             <div className="flex gap-1 text-xs font-medium text-gray6">
-              <div>
-                {PROFILE_MSG.FOLLOWING} {userData.following}
+              <div
+                className="cursor-pointer hover:font-semibold"
+                onClick={() => {
+                  handleChangeCurrentModal('following')
+                  modalOpen()
+                }}>
+                {PROFILE_MSG.FOLLOWING} {userData.following.length}
               </div>
               {PROFILE_MSG.LIST_DIVIDER}
-              <div>
-                {PROFILE_MSG.FOLLOWER} {userData.follower}
+              <div
+                className="cursor-pointer hover:font-semibold"
+                onClick={() => {
+                  handleChangeCurrentModal('follower')
+                  modalOpen()
+                }}>
+                {PROFILE_MSG.FOLLOWER} {userData.follower.length}
               </div>
             </div>
           </div>
@@ -62,6 +76,45 @@ const UserPage = () => {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <Modal
+          title={currentModal === 'following' ? '팔로잉' : '팔로워'}
+          onClose={modalClose}
+          type={'follow'}>
+          <div className="flex flex-col gap-2">
+            {currentModal === 'following' &&
+              userData.following.map((user) => (
+                <User
+                  id={user.userId}
+                  name={user.userName}
+                  profile={user.profile}
+                  oneLiner={user.description}
+                  isFollow={user.isFollow}
+                  isAuth={123 === user.userId}
+                  onClick={(id, isFollow) =>
+                    console.log(isFollow ? `unfollow ${id}` : `follow ${id}`)
+                  }
+                  key={user.userId}
+                />
+              ))}
+            {currentModal === 'follower' &&
+              userData.follower.map((user) => (
+                <User
+                  id={user.userId}
+                  name={user.userName}
+                  profile={user.profile}
+                  oneLiner={user.description}
+                  isFollow={user.isFollow}
+                  isAuth={123 === user.userId}
+                  onClick={(id, isFollow) =>
+                    console.log(isFollow ? `unfollow ${id}` : `follow ${id}`)
+                  }
+                  key={user.userId}
+                />
+              ))}
+          </div>
+        </Modal>
+      )}
     </>
   )
 }
