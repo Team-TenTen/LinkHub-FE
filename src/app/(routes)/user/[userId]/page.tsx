@@ -6,9 +6,13 @@ import User from '@/components/common/User/User'
 import { PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
 import { useCurrentModal, useModal } from '@/hooks'
+import { cls, getFollowChecked, getProfileButtonChecked } from '@/utils'
+import { useRouter } from 'next/navigation'
 
 const UserPage = () => {
+  const myId = 3
   const userData = mock_userData2
+  const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const [currentModal, handleChangeCurrentModal] = useCurrentModal()
 
@@ -52,8 +56,24 @@ const UserPage = () => {
         </div>
         <Button
           type="button"
-          className="button button-md button-lg button-white">
-          {PROFILE_MSG.PROFILE_EDIT}
+          onClick={() => {
+            if (userData.id === myId) {
+              router.push('user/setting')
+            } else if (getFollowChecked({ userData, myId })) {
+              console.log('팔로잉 로직 추가')
+            } else {
+              console.log('팔로우 로직 추가')
+            }
+          }}
+          className={cls(
+            'button button-md button-lg',
+            userData.id === myId
+              ? 'button-white'
+              : getFollowChecked({ userData, myId })
+              ? 'button-gray'
+              : 'button-emerald',
+          )}>
+          {getProfileButtonChecked({ userData, myId })}
         </Button>
         <div className="flex flex-col ">
           <div className="py-3 text-sm font-semibold text-gray9">
