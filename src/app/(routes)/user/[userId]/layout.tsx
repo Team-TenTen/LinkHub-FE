@@ -10,7 +10,6 @@ const UserLayout = ({ children }: { children: React.ReactNode }) => {
   const userData = mock_userData2
   const { currentTab, tabList } = useTab({ type: 'user', userData })
 
-  const childrenComponent = React.Children.only(children) as React.ReactElement
   return (
     <>
       <Tab>
@@ -23,7 +22,7 @@ const UserLayout = ({ children }: { children: React.ReactNode }) => {
           />
         ))}
       </Tab>
-      {React.cloneElement(childrenComponent, { userData })}
+      {children}
     </>
   )
 }
