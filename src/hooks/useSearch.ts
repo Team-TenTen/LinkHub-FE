@@ -35,17 +35,13 @@ const useSearch = ({ setValue }: UseSearchProps) => {
   )
 
   const onSubmit = useCallback(
-    ({ keyword, path }: { keyword: string; path: string }) => {
+    ({ keyword }: { keyword: string }) => {
       setValue('keyword', '')
-      if (params.get('category')) {
-        router.push(
-          `${path}?category=${params.get('category')}&keyword=${keyword}`,
-        )
-      } else {
-        router.push(`${path}?category=전체&keyword=${keyword}`)
-      }
+      router.replace(pathname + '?' + createQueryString('keyword', keyword), {
+        scroll: false,
+      })
     },
-    [router, params, , setValue],
+    [router, pathname, createQueryString, setValue],
   )
 
   return {

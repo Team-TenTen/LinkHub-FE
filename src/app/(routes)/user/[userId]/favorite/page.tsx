@@ -25,7 +25,7 @@ const UserFavoritePage = () => {
       />
       <form
         onSubmit={handleSubmit(({ keyword }) => {
-          onSubmit({ keyword, path: `/user/${mock_userData2.id}/favorite` })
+          onSubmit({ keyword })
         })}>
         <Input
           {...register('keyword')}

@@ -28,7 +28,7 @@ const UserSpacePage = () => {
       />
       <form
         onSubmit={handleSubmit(({ keyword }) => {
-          onSubmit({ keyword, path: `/user/${mock_userData2.id}/space` })
+          onSubmit({ keyword })
         })}>
         <Input
           {...register('keyword')}
