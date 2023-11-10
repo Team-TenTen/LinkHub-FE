@@ -98,7 +98,11 @@ const UserPage = () => {
       </div>
       {isOpen && (
         <Modal
-          title={currentModal === 'following' ? '팔로잉' : '팔로워'}
+          title={
+            currentModal === 'following'
+              ? `${PROFILE_MSG.FOLLOWING}`
+              : `${PROFILE_MSG.FOLLOWER}`
+          }
           onClose={modalClose}
           type={'follow'}>
           <div className="flex flex-col gap-2">
