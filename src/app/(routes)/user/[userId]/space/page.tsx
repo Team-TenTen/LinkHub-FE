@@ -1,11 +1,21 @@
 'use client'
 
+import { useForm } from 'react-hook-form'
 import { CategoryList, Input } from '@/components'
 import Space from '@/components/common/Space/Space'
 import { mock_userData2 } from '@/data'
 
+export interface SearchFormValue {
+  keyword: string
+}
+
 const UserSpacePage = () => {
   const spaceData = mock_userData2.mySpaces
+  const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
+    defaultValues: {
+      keyword: '',
+    },
+  })
   return (
     <div className="px-4">
       <CategoryList
@@ -13,12 +23,18 @@ const UserSpacePage = () => {
         horizontal={true}
         onChange={(e) => console.log(e?.currentTarget.value)}
       />
-      <Input
-        inputButton={true}
-        buttonText="검색"
-        buttonColor="gray"
-        onButtonClick={() => console.log('검색 로직 추가')}
-      />
+      <form
+        onSubmit={handleSubmit(({ keyword }) => {
+          setValue('keyword', '')
+          console.log(`${keyword} 검색 로직 추가`)
+        })}>
+        <Input
+          {...register('keyword')}
+          inputButton={true}
+          buttonText="검색"
+          buttonColor="gray"
+        />
+      </form>
       <div className="flex flex-col gap-2 py-4">
         {spaceData.map((space) => (
           <Space
