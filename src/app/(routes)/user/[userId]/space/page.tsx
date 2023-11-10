@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { CategoryList, Input } from '@/components'
 import Space from '@/components/common/Space/Space'
 import { mock_userData2 } from '@/data'
+import useHome from '@/hooks/useHome'
 import { useRouter } from 'next/navigation'
 
 export interface SearchFormValue {
@@ -13,6 +14,7 @@ export interface SearchFormValue {
 const UserSpacePage = () => {
   const spaceData = mock_userData2.mySpaces
   const router = useRouter()
+  const { handleCategoryChange } = useHome()
   const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
       keyword: '',
@@ -23,7 +25,7 @@ const UserSpacePage = () => {
       <CategoryList
         type="all"
         horizontal={true}
-        onChange={(e) => console.log(e?.currentTarget.value)}
+        onChange={handleCategoryChange}
       />
       <form
         onSubmit={handleSubmit(({ keyword }) => {
