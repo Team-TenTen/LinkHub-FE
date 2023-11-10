@@ -52,6 +52,7 @@ const Input = forwardRef(
           />
           {inputButton && (
             <button
+              type="button"
               className={cls(
                 'absolute right-0 top-0 flex rounded-r-md border px-4 py-2.5 text-sm font-semibold text-white',
                 buttonColor === 'green'

@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react'
+import { cls } from '@/utils'
 import Image from 'next/image'
 
 export interface AvatarProps {
@@ -7,9 +8,10 @@ export interface AvatarProps {
   height: number
   alt: string
   style?: CSSProperties
+  className?: string
 }
 
-const Avatar = ({ src, width, height, alt }: AvatarProps) => {
+const Avatar = ({ src, width, height, alt, className }: AvatarProps) => {
   return (
     <div className="inline-block">
       <Image
@@ -17,7 +19,10 @@ const Avatar = ({ src, width, height, alt }: AvatarProps) => {
         width={width}
         height={height}
         alt={alt}
-        className="border-slate3 rounded-full border object-cover"
+        className={cls(
+          className,
+          'rounded-full border border-slate3 object-cover',
+        )}
       />
     </div>
   )
