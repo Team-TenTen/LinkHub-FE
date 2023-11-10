@@ -9,11 +9,13 @@ import {
 } from 'react'
 
 export interface useDropdownProps {
+  defaultIndex?: number
   el: React.RefObject<HTMLDivElement>
   onChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const useDropdown = ({
+  defaultIndex,
   el,
   onChange,
 }: useDropdownProps): {
@@ -23,7 +25,7 @@ const useDropdown = ({
   handleClick: (e: React.MouseEvent<HTMLButtonElement>, i: number) => void
 } => {
   const [isOpen, setIsOpen] = useState(false)
-  const [index, setIndex] = useState(0)
+  const [index, setIndex] = useState(defaultIndex ?? 0)
 
   useEffect(() => {
     const handleOutsideClose = (e: { target: any }) => {

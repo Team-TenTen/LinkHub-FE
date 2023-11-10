@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { cls } from '@/utils'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { useSearchParams } from 'next/navigation'
 import DropdownItem from './DropdownItem'
 import { DROPDOWN_OPTIONS, PLACEMENTS, VERTICAL_PADDING } from './constants'
 import useDropdown from './hooks/useDropdown'
@@ -11,6 +12,7 @@ export interface DropdownProps {
   type: 'space' | 'link' | 'search' | 'user_edit' | 'user_invite' | 'tag'
   size?: 'large' | 'medium' | 'small'
   placement?: 'left' | 'right'
+  defaultIndex?: number
   tags?: string[]
   onChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -19,6 +21,7 @@ const Dropdown = ({
   type,
   size = 'medium',
   placement = 'left',
+  defaultIndex,
   tags,
   onChange,
 }: DropdownProps) => {
@@ -32,6 +35,7 @@ const Dropdown = ({
       : tags && ['전체', ...tags]
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const { isOpen, setIsOpen, index, handleClick } = useDropdown({
+    defaultIndex,
     el: dropdownRef,
     onChange,
   })
