@@ -7,7 +7,7 @@ import { mock_userData2 } from '@/data'
 const UserFavoritePage = () => {
   const spaceData = mock_userData2.favoriteSpaces
   return (
-    <>
+    <div className="px-4">
       <CategoryList
         type="all"
         horizontal={true}
@@ -34,7 +34,7 @@ const UserFavoritePage = () => {
           />
         ))}
       </div>
-    </>
+    </div>
   )
 }
 
