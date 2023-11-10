@@ -3,6 +3,7 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 
 export interface DropdownItemProps {
   label: string
+  value?: string
   active?: boolean
   border?: boolean
   danger?: boolean
@@ -12,6 +13,7 @@ export interface DropdownItemProps {
 
 const DropdownItem = ({
   label,
+  value,
   active = false,
   border = false,
   danger = false,
@@ -21,7 +23,7 @@ const DropdownItem = ({
   return (
     <button
       type="button"
-      value={label}
+      value={value ?? label}
       className={cls(
         'inline-flex items-center px-2.5 py-1 text-sm',
         active ? 'font-medium' : 'font-normal',

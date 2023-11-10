@@ -7,7 +7,7 @@ const ThemeButton = () => {
 
   return (
     <button
-      className="fixed bottom-2 right-2 rounded-md border p-2 text-xs"
+      className="rounded-md border p-2 text-xs"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
       테마 버튼
     </button>

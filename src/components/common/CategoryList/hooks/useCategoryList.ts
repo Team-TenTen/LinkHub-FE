@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 export interface useCategoryListProps {
-  onChange: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  onChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const useCategoryList = ({ onChange }: useCategoryListProps) => {
