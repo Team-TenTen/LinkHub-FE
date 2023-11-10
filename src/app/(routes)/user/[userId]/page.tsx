@@ -10,7 +10,7 @@ import { cls, getFollowChecked, getProfileButtonChecked } from '@/utils'
 import { useRouter } from 'next/navigation'
 
 const UserPage = () => {
-  const myId = 3
+  const myId = 3 // TODO: 실제 유저의 데이터를 가져오는 로직으로 수정
   const userData = mock_userData2
   const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
