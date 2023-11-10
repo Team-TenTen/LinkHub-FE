@@ -58,7 +58,7 @@ const UserPage = () => {
           type="button"
           onClick={() => {
             if (userData.id === myId) {
-              router.push('user/setting')
+              router.push('/user/setting')
             } else if (getFollowChecked({ userData, myId })) {
               console.log('팔로잉 로직 추가')
             } else {
