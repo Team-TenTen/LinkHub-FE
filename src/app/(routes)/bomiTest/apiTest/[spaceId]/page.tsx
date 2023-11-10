@@ -1,32 +1,16 @@
 'use client'
 
+import { getSpaceDetail } from '@/services/space/space'
+
 interface ApiTestProps {
   params: {
     spaceId: string
   }
 }
 
-const fetchSpaceDetail = async (id: string) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_ADDRESS}/spaces/${id}`,
-    {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-    },
-  )
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch space details. Status: ${response.status}`)
-  }
-
-  const spaceDetail = await response.json()
-
-  return spaceDetail
-}
-
 const ApiTest = ({ params }: ApiTestProps) => {
   const handleClickButton = async () => {
-    const data = await fetchSpaceDetail(params.spaceId)
+    const data = await getSpaceDetail(params.spaceId)
     console.log(data)
   }
 

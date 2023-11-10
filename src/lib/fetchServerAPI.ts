@@ -1,20 +1,20 @@
-class FetchAPI {
+class FetchServerAPI {
   private baseURL: string
   private headers: { [key: string]: string }
 
-  private static instance: FetchAPI
+  private static instance: FetchServerAPI
 
   private constructor() {
-    this.baseURL = process.env.NEXT_PUBLIC_API_INTERNAL_ADDRESS || ''
+    this.baseURL = process.env.NEXT_PUBLIC_API_ADDRESS || ''
     this.headers = {
       'Content-Type': 'application/json;charset=UTF-8',
     }
   }
-  public static getInstance(): FetchAPI {
-    if (!FetchAPI.instance) {
-      FetchAPI.instance = new FetchAPI()
+  public static getInstance(): FetchServerAPI {
+    if (!FetchServerAPI.instance) {
+      FetchServerAPI.instance = new FetchServerAPI()
     }
-    return FetchAPI.instance
+    return FetchServerAPI.instance
   }
   public setBaseURL(url: string): void {
     this.baseURL = url
@@ -76,4 +76,4 @@ class FetchAPI {
     return response
   }
 }
-export default FetchAPI
+export default FetchServerAPI
