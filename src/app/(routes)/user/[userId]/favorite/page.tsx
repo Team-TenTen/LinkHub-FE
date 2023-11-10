@@ -15,6 +15,7 @@ const UserFavoritePage = () => {
     },
   })
   const { handleCategoryChange, onSubmit } = useSearch({ setValue })
+
   return (
     <div className="px-4">
       <CategoryList
