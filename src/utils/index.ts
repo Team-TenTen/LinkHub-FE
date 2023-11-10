@@ -20,3 +20,16 @@ export const getFollowChecked = ({
     return false
   }
 }
+
+export const getProfileButtonChecked = ({
+  userData,
+  myId,
+}: GetFollowCheckedProps): string => {
+  if (userData?.id === myId) {
+    return PROFILE_MSG.PROFILE_EDIT
+  } else if (userData.follower.find((user) => user.userId === myId)) {
+    return PROFILE_MSG.FOLLOWING
+  } else {
+    return PROFILE_MSG.FOLLOW
+  }
+}
