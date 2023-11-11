@@ -7,6 +7,7 @@ export interface InputProps {
   placeholder?: string
   inputButton?: boolean
   buttonText?: string
+  buttonType?: 'button' | 'submit' | 'reset'
   buttonColor?: 'green' | 'gray'
   validation?: string
   disabled?: boolean
@@ -21,6 +22,7 @@ const Input = forwardRef(
       placeholder,
       inputButton,
       buttonText = '추가',
+      buttonType = 'button',
       buttonColor = 'green',
       validation,
       disabled,
@@ -52,7 +54,7 @@ const Input = forwardRef(
           />
           {inputButton && (
             <button
-              type="button"
+              type={buttonType}
               className={cls(
                 'absolute right-0 top-0 flex rounded-r-md border px-4 py-2.5 text-sm font-semibold text-white',
                 buttonColor === 'green'
