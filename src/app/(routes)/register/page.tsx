@@ -3,7 +3,7 @@ import UserInfoForm from '@/components/UserInfoForm/UserInfoForm'
 const RegisterPage = () => {
   return (
     <div>
-      <UserInfoForm />
+      <UserInfoForm formType="Register" />
     </div>
   )
 }

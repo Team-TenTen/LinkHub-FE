@@ -19,17 +19,17 @@ export interface UserData {
 }
 
 export interface User {
-  id?: string
-  name?: string
+  id: string
+  name: string
   introduce?: string
-  profile?: string
+  profile: string
   category?: string
-  newsLetter?: boolean
-  mySpaces?: {
+  newsLetter: boolean
+  mySpaces: {
     name?: string
     id?: string
   }[]
-  favoriteSpaces?: {
+  favoriteSpaces: {
     name?: string
     id?: string
   }[]

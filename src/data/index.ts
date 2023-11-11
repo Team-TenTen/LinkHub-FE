@@ -1,3 +1,5 @@
+import { User } from '@/types'
+
 export const mock_LinkData = [
   {
     id: 1,
@@ -101,13 +103,13 @@ export const mock_memberData = [
   },
 ]
 
-export const mock_userData = {
-  id: 3,
+export const mock_userData: User = {
+  id: '3',
   name: '프롱이',
   introduce: '반갑습니다!!',
   profile: '/duck.jpg',
-  category: '엔터테인먼트•예술',
-  newsLetter: false,
+  category: '취미•여가•여행',
+  newsLetter: true,
   mySpaces: [
     {
       name: 'My Space 1',

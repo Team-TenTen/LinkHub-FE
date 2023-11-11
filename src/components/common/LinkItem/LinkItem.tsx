@@ -23,7 +23,7 @@ export interface LinkItemProps {
   title: string
   url: string
   tag: string
-  readUsers?: User[]
+  readUsers?: Pick<User, 'id' | 'profile'>[]
   likes: number
   read?: boolean
   summary?: boolean
