@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import { cls } from '@/utils'
 import CategoryListItem from './CategoryListItem'
 import { CATEGORIES } from './constants'
@@ -19,11 +18,10 @@ const CategoryList = ({
   defaultIndex,
   onChange,
 }: CategoryListProps) => {
-  const { index, setIndex, handleClick } = useCategoryList({ onChange })
-
-  useEffect(() => {
-    defaultIndex && setIndex(defaultIndex)
-  }, [defaultIndex, setIndex])
+  const { index, handleClick } = useCategoryList({
+    defaultIndex,
+    onChange,
+  })
 
   return (
     <ul
