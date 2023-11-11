@@ -21,9 +21,9 @@ export interface UserData {
 export interface User {
   id: string
   name: string
-  introduce?: string
+  introduce: string
   profile: string
-  category?: string
+  category: string
   newsLetter: boolean
   mySpaces: {
     name?: string
