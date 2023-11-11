@@ -104,7 +104,10 @@ export const mock_memberData = [
 export const mock_userData = {
   id: 3,
   name: '프롱이',
+  introduce: '반갑습니다!!',
   profile: '/duck.jpg',
+  category: '엔터테인먼트•예술',
+  newsLetter: false,
   mySpaces: [
     {
       name: 'My Space 1',
