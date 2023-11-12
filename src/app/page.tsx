@@ -5,7 +5,14 @@ import Space from '@/components/common/Space/Space'
 import useHome from '@/hooks/useHome'
 
 export default function Home() {
-  const { links, spaces, handleSortChange, handleCategoryChange } = useHome()
+  const {
+    links,
+    spaces,
+    sortIndex,
+    categoryIndex,
+    handleSortChange,
+    handleCategoryChange,
+  } = useHome()
   return (
     <>
       <section className="px-4 pb-10">
@@ -27,11 +34,13 @@ export default function Home() {
             <Dropdown
               type="space"
               placement="right"
+              defaultIndex={sortIndex}
               onChange={handleSortChange}
             />
           </div>
           <CategoryList
             type="all_follow"
+            defaultIndex={categoryIndex}
             onChange={handleCategoryChange}
           />
         </div>
