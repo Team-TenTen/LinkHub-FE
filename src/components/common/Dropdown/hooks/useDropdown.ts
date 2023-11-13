@@ -27,7 +27,7 @@ const useDropdown = ({
 
   useEffect(() => {
     const handleOutsideClose = (e: { target: any }) => {
-      if (el.current !== null && !el.current?.contains(e.target)) {
+      if (isOpen && el.current && !el.current?.contains(e.target)) {
         setIsOpen(false)
       }
     }

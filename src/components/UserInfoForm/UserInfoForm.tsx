@@ -48,7 +48,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   } = useForm<FormValues>({
     defaultValues: {
       nickName: userData?.name || '',
-      introduce: userData?.introduce || '',
+      introduce: userData?.description || '',
       category: userData?.category || '엔터테인먼트•예술',
       newsLetter: userData?.newsLetter || false,
     },
