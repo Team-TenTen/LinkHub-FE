@@ -36,17 +36,20 @@ export interface UserData {
 }
 
 export interface User {
-  id?: string
-  name?: string
-  introduce?: string
-  profile?: string
-  category?: string
-  newsLetter?: boolean
-  mySpaces?: {
+  id: string
+  name: string
+  description: string
+  profile: string
+  email: string
+  category: string
+  newsLetter: boolean
+  follower: number
+  following: number
+  mySpaces: {
     name?: string
     id?: string
   }[]
-  favoriteSpaces?: {
+  favoriteSpaces: {
     name?: string
     id?: string
   }[]

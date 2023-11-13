@@ -7,6 +7,7 @@ import { User } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
 import Button from '../common/Button/Button'
+import { CATEGORIES } from '../common/CategoryList/constants'
 import useToggle from '../common/Toggle/hooks/useToggle'
 import { useRegister } from './hooks/useRegister'
 
@@ -19,11 +20,16 @@ interface FormValues {
   newsLetter: boolean
 }
 
-const UserInfoForm = ({ userData }: { userData?: User }) => {
+interface UserInfoFormProps {
+  userData?: User
+  formType: 'Register' | 'Setting'
+}
+
+const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const selectUserImage = useRef<HTMLInputElement | null>(null)
   const [thumnail, setThumnail] = useState(userData?.profile)
   const [isEmailAuthOpen, setIsEmailAuthOpen] = useState(false)
-  const [checked, toggle] = useToggle(false)
+  const [checked, toggle] = useToggle(userData?.newsLetter || false)
   const { registerLinkHub } = useRegister()
 
   useEffect(() => {
@@ -35,13 +41,14 @@ const UserInfoForm = ({ userData }: { userData?: User }) => {
 
   const {
     register,
+    getValues,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
       nickName: userData?.name || '',
-      introduce: userData?.introduce || '',
+      introduce: userData?.description || '',
       category: userData?.category || '엔터테인먼트•예술',
       newsLetter: userData?.newsLetter || false,
     },
@@ -73,7 +80,11 @@ const UserInfoForm = ({ userData }: { userData?: User }) => {
 
   const handleClickCheckButton = () => {
     toggle()
-    setValue('newsLetter', !checked)
+    setValue('newsLetter', !getValues('newsLetter'))
+  }
+
+  const handleWithdrawButton = () => {
+    // Todo: 회원탈퇴 로직
   }
 
   return (
@@ -156,6 +167,7 @@ const UserInfoForm = ({ userData }: { userData?: User }) => {
         <CategoryList
           type="default"
           horizontal={false}
+          defaultIndex={CATEGORIES['default'].indexOf(getValues('category'))}
           onChange={(e) => setValue('category', e?.currentTarget.value || '')}
         />
       </div>
@@ -179,9 +191,19 @@ const UserInfoForm = ({ userData }: { userData?: User }) => {
         <Button
           type="submit"
           className="button button-lg button-gray px-4 py-2.5">
-          가입하기
+          {formType === 'Setting' ? '수정하기' : '가입하기'}
         </Button>
       </div>
+      {formType === 'Setting' && (
+        <div className="flex flex-col items-center justify-center py-6">
+          <button
+            onClick={handleWithdrawButton}
+            className="text-xs font-normal text-gray4 underline"
+            type="button">
+            회원탈퇴
+          </button>
+        </div>
+      )}
     </form>
   )
 }
