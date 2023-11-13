@@ -15,7 +15,7 @@ interface SpaceProps {
   spaceId?: number
   type: 'Card' | 'Header'
   spaceName: string
-  spaceImage: string
+  spaceImage?: string
   description: string
   category: string
   scrap: number
@@ -56,7 +56,7 @@ const Space = ({
           href={`/space/${spaceId}`}>
           <Image
             className="z-[-100] rounded-md object-cover opacity-50"
-            src={spaceImage}
+            src={spaceImage || ''}
             alt="space-image"
             fill
           />
@@ -91,7 +91,7 @@ const Space = ({
         <div className="relative flex flex-col gap-10 p-4">
           <Image
             className="z-[-100] object-cover"
-            src={spaceImage}
+            src={spaceImage || ''}
             alt="space-image"
             fill
           />
