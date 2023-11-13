@@ -17,7 +17,6 @@ const ApiTest = async ({ params }: ApiTestProps) => {
         userName="tester"
         spaceId={space.spaceId}
         spaceName={space.spaceName}
-        spaceImage={space.spaceImagePath}
         description={space.description}
         category={space.category}
         scrap={space.scrapCount}
