@@ -39,10 +39,10 @@ export const getCurrentSpaceTabList = (spaceData: Space): TabList[] => {
 }
 
 export const getCurrentUserTabList = (userData: UserData): TabList[] => {
-  const myName = 'dudwns' // TODO: 실제 유저로 변경
+  const myName = '프롱이' // TODO: 실제 유저로 변경
   const { id, name } = userData
   const tabList = [
-    { text: '프로필', content: 'profile', dest: `/user/${id}` },
+    { text: '프로필', content: 'user', dest: `/user/${id}` },
     { text: '스페이스', content: 'space', dest: `/user/${id}/space` },
   ]
 
@@ -50,7 +50,7 @@ export const getCurrentUserTabList = (userData: UserData): TabList[] => {
     tabList.push({
       text: '즐겨찾기',
       content: 'favorite',
-      dest: `/space/${id}/favorite`,
+      dest: `/user/${id}/favorite`,
     })
   }
 

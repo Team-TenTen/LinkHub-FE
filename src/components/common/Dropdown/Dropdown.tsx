@@ -33,7 +33,7 @@ const Dropdown = ({
     type !== 'tag'
       ? Object.values(DROPDOWN_OPTIONS[type])
       : tags && ['전체', ...tags]
-  const dropdownRef = useRef<HTMLDivElement | null>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
   const { isOpen, setIsOpen, index, handleClick } = useDropdown({
     defaultIndex,
     el: dropdownRef,
@@ -41,19 +41,20 @@ const Dropdown = ({
   })
 
   return (
-    <div className="relative inline-block text-left">
+    <div
+      ref={dropdownRef}
+      className="relative inline-block text-left">
       <button
         type="button"
         className={cls(
           'inline-flex w-full justify-center gap-x-1.5 rounded-md border border-slate6 pl-2.5 pr-1.5 text-sm font-medium text-slate6',
           VERTICAL_PADDING[size],
         )}
-        onClick={() => setIsOpen(!isOpen)}>
+        onClick={() => setIsOpen(true)}>
         {type === 'tag' ? optionKeys?.[index] : optionKeys?.[index]}
         <ChevronDownIcon className="h-5 w-5" />
       </button>
       <div
-        ref={dropdownRef}
         className={cls(
           'flex flex-col rounded-md border border-slate6 bg-bgColor p-2 shadow-lg',
           isOpen
