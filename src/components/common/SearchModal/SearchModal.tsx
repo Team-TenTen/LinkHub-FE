@@ -60,6 +60,7 @@ const SearchModal = ({ onClose }: SearchModalProps) => {
               placeholder="검색어를 입력하세요."
               inputButton={true}
               buttonText="검색"
+              buttonType="submit"
             />
           </div>
         </form>

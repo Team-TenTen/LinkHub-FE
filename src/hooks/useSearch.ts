@@ -1,52 +1,58 @@
-import { useCallback, useMemo } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
-import { SearchFormValue } from '@/app/(routes)/user/[userId]/space/page'
+import { useCallback } from 'react'
+import { CATEGORIES } from '@/components/common/CategoryList/constants'
+import { DROPDOWN_OPTIONS } from '@/components/common/Dropdown/constants'
+import { mock_spacesData, mock_usersData } from '@/data'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-export interface UseSearchProps {
-  setValue: UseFormSetValue<SearchFormValue>
-}
-
-const useSearch = ({ setValue }: UseSearchProps) => {
+const useSearch = () => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const params = useMemo(
-    () => new URLSearchParams(searchParams),
-    [searchParams],
-  )
+  const target = searchParams.get('target')
+  const sort = searchParams.get('sort')
+  const category = searchParams.get('category')
+  const sortIndex = sort
+    ? Object.values(DROPDOWN_OPTIONS['space']).indexOf(sort)
+    : 0
+  const categoryIndex = category ? CATEGORIES['all'].indexOf(category) : 0
+  const keyword = searchParams.get('keyword')
+  const result =
+    target === 'space'
+      ? { spaces: mock_spacesData, users: [] }
+      : target === 'user'
+      ? { spaces: [], users: mock_usersData }
+      : {}
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams)
       params.set(name, value)
+
       return params.toString()
     },
-    [params],
+    [searchParams],
   )
 
-  const handleCategoryChange = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      router.replace(
-        pathname + '?' + createQueryString('category', e.currentTarget.value),
-        { scroll: false },
-      )
-    },
-    [router, pathname, createQueryString],
-  )
+  const handleSortChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+    router.replace(
+      pathname + '?' + createQueryString('sort', e.currentTarget.value),
+    )
+  }
 
-  const onSubmit = useCallback(
-    ({ keyword }: { keyword: string }) => {
-      setValue('keyword', '')
-      router.replace(pathname + '?' + createQueryString('keyword', keyword), {
-        scroll: false,
-      })
-    },
-    [router, pathname, createQueryString, setValue],
-  )
+  const handleCategoryChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+    router.replace(
+      pathname + '?' + createQueryString('category', e.currentTarget.value),
+    )
+  }
 
   return {
+    target,
+    sortIndex,
+    categoryIndex,
+    keyword,
+    result,
+    handleSortChange,
     handleCategoryChange,
-    onSubmit,
   }
 }
 

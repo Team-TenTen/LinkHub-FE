@@ -124,6 +124,7 @@ const SpaceCommentPage = () => {
             {...register('comment', { required: true })}
             inputButton={true}
             buttonText="작성"
+            buttonType="submit"
             buttonColor="gray"
             placeholder="댓글을 작성해 주세요"
           />

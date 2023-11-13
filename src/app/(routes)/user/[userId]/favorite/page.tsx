@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { CategoryList, Input } from '@/components'
 import Space from '@/components/common/Space/Space'
 import { mock_userData2 } from '@/data'
-import useSearch from '@/hooks/useSearch'
+import useSpaceSearch from '@/hooks/useSpaceSearch'
 import { SearchFormValue } from '../space/page'
 
 const UserFavoritePage = () => {
@@ -14,7 +14,7 @@ const UserFavoritePage = () => {
       keyword: '',
     },
   })
-  const { handleCategoryChange, onSubmit } = useSearch({ setValue })
+  const { handleCategoryChange, onSubmit } = useSpaceSearch({ setValue })
 
   return (
     <div className="px-4">
