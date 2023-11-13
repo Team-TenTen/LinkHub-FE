@@ -14,8 +14,25 @@ export interface UserData {
   id: number
   name: string
   profile: string
-  mySpaces: { name: string; id: string }[]
-  favoriteSpaces: { name: string; id: string }[]
+  email: string
+  category: string
+  description: string
+  follower: {
+    userId: number
+    userName: string
+    profile: string
+    description: string
+    isFollow: boolean
+  }[]
+  following: {
+    userId: number
+    userName: string
+    profile: string
+    description: string
+    isFollow: boolean
+  }[]
+  mySpaces: Space[]
+  favoriteSpaces: Space[]
 }
 
 export interface User {
