@@ -8,5 +8,6 @@ REPOSITORY=/home/ubuntu/deploy
 
 cd $REPOSITORY
 
+nvm install
 nvm use
 npm install
