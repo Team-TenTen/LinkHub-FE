@@ -3,15 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "deploy": "pm2 start ecosystem.config.js --env production",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "next": "13.5.6",
+    "next-themes": "^0.2.1",
+    "open-graph-scraper": "^6.3.2",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.47.0",
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
@@ -21,8 +29,18 @@
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "13.5.6",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2",
     "postcss": "^8",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.6",
     "tailwindcss": "^3",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix --max-warnings=0"
+    ]
   }
 }
