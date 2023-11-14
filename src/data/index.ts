@@ -17,7 +17,7 @@ export const mock_LinkData = [
   },
   {
     id: 2,
-    title: '링크 제목',
+    title: '배포!!!!!!!',
     url: 'https://github.com',
     tag: '오둥이',
     readUsers: [
