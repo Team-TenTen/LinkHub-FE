@@ -7,10 +7,10 @@ files:
     overwrite: yes
 
 permissions:
-  - object: /home/ubuntu/deploy
+  - object: /
+    pattern: '**'
     owner: ubuntu
     group: ubuntu
-    mode: 755
 
 hooks:
   AfterInstall:
