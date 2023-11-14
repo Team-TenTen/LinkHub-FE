@@ -14,6 +14,10 @@ permissions:
 
 hooks:
   AfterInstall:
-    - location: ./deploy.sh
+    - location: scripts/after-install.sh
+      timeout: 600
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/application-start.sh
       timeout: 60
       runas: ubuntu
