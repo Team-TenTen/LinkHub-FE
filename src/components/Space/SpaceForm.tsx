@@ -23,42 +23,6 @@ interface SpaceFormProps {
   summary?: boolean
   viewer?: boolean
 }
-const token =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMTU0MjI3MDg1IiwibWVtYmVySWQiOjUsInJvbGUiOiJVU0VSIiwicHJvdmlkZXIiOiJrYWthbyIsImlhdCI6MTcwMDAyODM3NCwiZXhwIjoxNzAzNjI4Mzc0fQ.naE2QfYWsY9xYxJXvpdUQcbxkETgk3QlI4t0QTTQkjs'
-// const createSpaces = async ({
-//   spaceName,
-//   description,
-//   category,
-//   isVisible,
-//   isComment,
-//   isLinkSummarizable,
-//   isReadMarkEnabled,
-// }: CreateSpaceReqBody) => {
-//   const formData = new FormData()
-
-//   const data2 = {
-//     "spaceName": "제발돼라",
-//     "description": "제발요",
-//     "category": "KNOWLEDGE_ISSUE_CAREER",
-//     "isVisible": true,
-//     "isComment": true,
-//     "isLinkSummarizable": true,
-//     "isReadMarkEnabled": true
-//   }
-
-//   formData.append('request', JSON.stringify(data2))
-//   formData.append('file', file)
-
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_API_ADDRESS}/spaces`, {
-//     method: 'POST',
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//     body: formData
-//   })
-
-//   return res
-// }
 
 const SpaceForm = ({
   spaceType,
