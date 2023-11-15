@@ -59,7 +59,7 @@ const Modal = ({
                   onSubmit={onSubmit}
                   className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
-                    <div className="text-base font-semibold text-gray9">
+                    <div className="mb-3 text-base font-semibold text-gray9">
                       {title}
                     </div>
                     <Button onClick={onClose}>
@@ -67,7 +67,7 @@ const Modal = ({
                     </Button>
                   </div>
                   {children}
-                  <div className="flex justify-end gap-2">
+                  <div className="mt-3 flex justify-end gap-2">
                     {isCancelButton && (
                       <Button
                         className="button button-gray flex items-center justify-center px-2.5 py-1.5"
@@ -87,7 +87,7 @@ const Modal = ({
               ) : (
                 <>
                   <div className="flex items-center justify-between">
-                    <div className="text-base font-semibold text-gray9">
+                    <div className="mb-3 text-base font-semibold text-gray9">
                       {title}
                     </div>
                     <Button onClick={onClose}>
@@ -95,7 +95,7 @@ const Modal = ({
                     </Button>
                   </div>
                   {children}
-                  <div className="flex justify-end gap-2">
+                  <div className="mt-3 flex justify-end gap-2">
                     {isCancelButton && (
                       <Button
                         className="button button-gray flex items-center justify-center px-2.5 py-1.5"
