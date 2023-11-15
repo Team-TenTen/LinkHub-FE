@@ -1,7 +1,11 @@
 'use client'
 
+import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
-import { cls } from '@/utils'
+import { fetchCreateLink } from '@/services/link/link'
+import { CreateLinkReqBody } from '@/types'
+import { cls, getRandomColor } from '@/utils'
+import { usePathname } from 'next/navigation'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
 import { ADD_LINK_TEXT } from './constants'
@@ -23,6 +27,12 @@ export interface LinkListProps {
   type?: 'list' | 'card'
 }
 
+export interface CreateLinkFormValue {
+  url: string
+  title: string
+  tag: string
+}
+
 const LinkList = ({
   links,
   read = false,
@@ -30,7 +40,32 @@ const LinkList = ({
   edit = false,
   type = 'list',
 }: LinkListProps) => {
+  const path = usePathname()
+  const spaceId = Number(path.split('/')[2])
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
+  const { register, handleSubmit } = useForm<CreateLinkFormValue>({
+    defaultValues: {
+      url: '',
+      title: '',
+      tag: '',
+    },
+  })
+
+  const handleCreateLink = async ({
+    url,
+    title,
+    tag,
+    color,
+  }: CreateLinkReqBody) => {
+    const data = await fetchCreateLink({
+      spaceId,
+      url,
+      title,
+      tag,
+      color,
+    })
+    console.log(data)
+  }
 
   return (
     <>
@@ -68,17 +103,31 @@ const LinkList = ({
           title="링크 추가"
           isConfirmButton={true}
           confirmText="추가"
-          onClose={modalClose}>
+          onClose={modalClose}
+          onSubmit={handleSubmit(({ url, title, tag }) => {
+            handleCreateLink({
+              url,
+              title: '맛집 모음',
+              tag,
+              color: getRandomColor(),
+            })
+          })}
+          type="form">
           <div className="flex flex-col gap-2">
             <Input
+              {...register('url')}
               label="URl"
               inputButton={true}
             />
             <Input
-              label="이름"
+              {...register('title')}
+              label="제목"
               disabled={true}
             />
-            <Input label="태그" />
+            <Input
+              label="태그"
+              {...register('tag')}
+            />
           </div>
         </Modal>
       )}
