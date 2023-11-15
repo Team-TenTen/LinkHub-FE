@@ -54,3 +54,10 @@ export interface User {
     id?: string
   }[]
 }
+
+export interface CreateLinkReqBody {
+  url: string
+  title: string
+  tag: string
+  color: string
+}
