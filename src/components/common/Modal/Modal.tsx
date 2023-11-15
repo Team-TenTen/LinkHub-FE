@@ -38,6 +38,7 @@ const Modal = ({
   const { handleClickOverlay, handleClickConfirm } = useModalLogic({
     onClose,
     onConfirm,
+    onSubmit,
     modalRef,
   })
 
@@ -56,7 +57,9 @@ const Modal = ({
               )}>
               {type === 'form' ? (
                 <form
-                  onSubmit={onSubmit}
+                  onSubmit={() => {
+                    handleClickConfirm()
+                  }}
                   className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
                     <div className="mb-3 text-base font-semibold text-gray9">
@@ -105,7 +108,7 @@ const Modal = ({
                     )}
                     {isConfirmButton && (
                       <Button
-                        type="submit"
+                        onClick={handleClickConfirm}
                         className="button button-emerald flex items-center justify-center px-2.5 py-1.5">
                         {confirmText}
                       </Button>
