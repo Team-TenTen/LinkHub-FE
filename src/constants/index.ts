@@ -9,3 +9,14 @@ export const PROFILE_MSG = {
   DESCRIPTION: '한 줄 소개',
   LIST_DIVIDER: '|',
 }
+
+export const COLOR_LIST = [
+  'emerald',
+  'red',
+  'yellow',
+  'blue',
+  'indigo',
+  'purple',
+  'pink',
+  'gray',
+]
