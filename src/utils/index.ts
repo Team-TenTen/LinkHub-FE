@@ -1,4 +1,4 @@
-import { PROFILE_MSG } from '@/constants'
+import { COLOR_LIST, PROFILE_MSG } from '@/constants'
 import { UserData } from '@/types'
 
 export const cls = (...classnames: (string | boolean | undefined)[]) => {
@@ -32,4 +32,9 @@ export const getProfileButtonChecked = ({
   } else {
     return PROFILE_MSG.FOLLOW
   }
+}
+
+export const getRandomColor = () => {
+  const colorIndex = Math.floor(Math.random() * COLOR_LIST.length)
+  return COLOR_LIST[colorIndex]
 }
