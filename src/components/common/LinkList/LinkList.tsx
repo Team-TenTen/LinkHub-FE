@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { fetchCreateLink } from '@/services/link/link'
+import { FetchGetMetaProps, fetchGetMeta } from '@/services/meta/meta'
 import { CreateLinkReqBody } from '@/types'
 import { cls, getRandomColor } from '@/utils'
 import { usePathname } from 'next/navigation'
@@ -43,13 +45,28 @@ const LinkList = ({
   const path = usePathname()
   const spaceId = Number(path.split('/')[2])
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const { register, handleSubmit } = useForm<CreateLinkFormValue>({
-    defaultValues: {
-      url: '',
-      title: '',
-      tag: '',
-    },
-  })
+  const { register, getValues, setValue, handleSubmit, reset } =
+    useForm<CreateLinkFormValue>({
+      defaultValues: {
+        url: '',
+        title: '',
+        tag: '',
+      },
+    })
+
+  const [isUrlCheck, setIsUrlCheck] = useState(false)
+  const [isError, setIsError] = useState(false)
+
+  const handleGetMeta = async ({ url }: FetchGetMetaProps) => {
+    const { data, error } = await fetchGetMeta({
+      url,
+    })
+    setValue('title', data)
+    setIsError(error)
+    if (error === false) {
+      setIsUrlCheck(true)
+    }
+  } // 나중에 분리
 
   const handleCreateLink = async ({
     url,
@@ -57,15 +74,14 @@ const LinkList = ({
     tag,
     color,
   }: CreateLinkReqBody) => {
-    const data = await fetchCreateLink({
+    await fetchCreateLink({
       spaceId,
       url,
       title,
       tag,
       color,
     })
-    console.log(data)
-  }
+  } // 나중에 분리
 
   return (
     <>
@@ -103,14 +119,20 @@ const LinkList = ({
           title="링크 추가"
           isConfirmButton={true}
           confirmText="추가"
-          onClose={modalClose}
-          onSubmit={handleSubmit(({ url, title, tag }) => {
-            handleCreateLink({
+          onClose={() => {
+            modalClose()
+            reset()
+            setIsUrlCheck(false)
+          }}
+          onSubmit={handleSubmit(async ({ url, title, tag }) => {
+            await handleCreateLink({
               url,
-              title: '맛집 모음',
+              title,
               tag,
               color: getRandomColor(),
             })
+            reset()
+            setIsUrlCheck(false)
           })}
           type="form">
           <div className="flex flex-col gap-2">
@@ -118,11 +140,13 @@ const LinkList = ({
               {...register('url')}
               label="URl"
               inputButton={true}
+              onButtonClick={() => handleGetMeta({ url: getValues('url') })}
+              validation={isError ? '올바르지 않은 URL입니다.' : ''}
             />
             <Input
               {...register('title')}
               label="제목"
-              disabled={true}
+              disabled={!isUrlCheck}
             />
             <Input
               label="태그"
