@@ -6,7 +6,7 @@ import { cls, getRandomColor } from '@/utils'
 import { usePathname } from 'next/navigation'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
-import { ADD_LINK_TEXT } from './constants'
+import { ADD_LINK_TEXT, URL_INPUT_VALIDATION_TEXT } from './constants'
 import useCreateLink from './hooks/useCreateLink'
 
 export interface Link {
@@ -117,7 +117,7 @@ const LinkList = ({
               label="URl"
               inputButton={true}
               onButtonClick={() => handleGetMeta({ url: getValues('url') })}
-              validation={isError ? '올바르지 않은 URL입니다.' : ''}
+              validation={isError ? URL_INPUT_VALIDATION_TEXT : ''}
             />
             <Input
               {...register('title')}
