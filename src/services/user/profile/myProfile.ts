@@ -1,7 +1,7 @@
-import { apiClient } from '../apiServices'
+import { apiClient } from '@/services/apiServices'
 
-const fetchGetProfile = async () => {
-  const path = '/api/profile'
+const fetchGetMyProfile = async () => {
+  const path = '/api/user/profile'
 
   try {
     const response = await apiClient.get(path)
@@ -11,4 +11,4 @@ const fetchGetProfile = async () => {
   }
 }
 
-export { fetchGetProfile }
+export { fetchGetMyProfile }

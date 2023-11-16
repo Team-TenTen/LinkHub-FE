@@ -9,6 +9,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   try {
     const user = await apiServer.get(path, {}, authorization)
+    console.log(user)
     return NextResponse.json(user)
   } catch (error: any) {
     return NextResponse.json(
