@@ -1,12 +1,18 @@
 import { apiClient } from '../apiServices'
 
-const getSpaceDetail = async (spaceId: string) => {
+export interface FetchGetSpaceProps {
+  spaceId: number
+}
+
+const fetchGetSpace = async ({ spaceId }: FetchGetSpaceProps) => {
+  const path = `/api/space/${spaceId}`
+
   try {
-    const response = await apiClient.get(`/api/space/${spaceId}`, {})
+    const response = await apiClient.get(path)
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
 }
 
-export { getSpaceDetail }
+export { fetchGetSpace }
