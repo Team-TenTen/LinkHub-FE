@@ -9,7 +9,7 @@ import { CreateLinkFormValue } from '../LinkList'
 export interface UseCreateLinkReturnType {
   isUrlCheck: boolean
   setIsUrlCheck: Dispatch<SetStateAction<boolean>>
-  isError: boolean
+  isUrlError: boolean
   handleGetMeta: ({ url }: FetchGetMetaProps) => Promise<void>
   handleCreateLink: ({
     spaceId,
@@ -24,14 +24,14 @@ const useCreateLink = (
   setValue: UseFormSetValue<CreateLinkFormValue>,
 ): UseCreateLinkReturnType => {
   const [isUrlCheck, setIsUrlCheck] = useState(false)
-  const [isError, setIsError] = useState(false)
+  const [isUrlError, setIsUrlError] = useState(false)
 
   const handleGetMeta = async ({ url }: FetchGetMetaProps) => {
     const { data, error } = await fetchGetMeta({
       url,
     })
     setValue('title', data)
-    setIsError(error)
+    setIsUrlError(error)
     if (error === false) {
       setIsUrlCheck(true)
     }
@@ -53,7 +53,13 @@ const useCreateLink = (
     })
   }
 
-  return { isUrlCheck, setIsUrlCheck, isError, handleGetMeta, handleCreateLink }
+  return {
+    isUrlCheck,
+    setIsUrlCheck,
+    isUrlError,
+    handleGetMeta,
+    handleCreateLink,
+  }
 }
 
 export default useCreateLink
