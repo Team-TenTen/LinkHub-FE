@@ -53,7 +53,7 @@ const LinkList = ({
   const {
     isUrlCheck,
     setIsUrlCheck,
-    isError,
+    isUrlError,
     handleGetMeta,
     handleCreateLink,
   } = useCreateLink(setValue)
@@ -117,7 +117,7 @@ const LinkList = ({
               label="URl"
               inputButton={true}
               onButtonClick={() => handleGetMeta({ url: getValues('url') })}
-              validation={isError ? URL_INPUT_VALIDATION_TEXT : ''}
+              validation={isUrlError ? URL_INPUT_VALIDATION_TEXT : ''}
             />
             <Input
               {...register('title')}
