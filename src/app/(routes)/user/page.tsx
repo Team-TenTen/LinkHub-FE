@@ -7,7 +7,7 @@ import User from '@/components/common/User/User'
 import { CATEGORIES_MAP, PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
 import { useCurrentModal, useModal } from '@/hooks'
-import { fetchGetProfile } from '@/services/profile/profile'
+import { fetchGetMyProfile } from '@/services/user/profile/myProfile'
 import { UserProfileResBody } from '@/types'
 import { useRouter } from 'next/navigation'
 
@@ -18,7 +18,7 @@ const MyPage = () => {
   const [currentModal, handleChangeCurrentModal] = useCurrentModal()
   const [user, setUser] = useState<UserProfileResBody>()
   const handleGetProfile = async () => {
-    const user = await fetchGetProfile()
+    const user = await fetchGetMyProfile()
     setUser(user)
   }
 
