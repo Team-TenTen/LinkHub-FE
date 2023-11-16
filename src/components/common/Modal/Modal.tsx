@@ -16,7 +16,6 @@ export interface ModalProps {
   confirmText?: string
   onClose: (e?: React.MouseEvent<HTMLButtonElement>) => void
   onConfirm?: (e?: React.MouseEvent<HTMLButtonElement>) => void
-  onSubmit: () => void
   type?: 'default' | 'follow' | 'form'
   children?: React.ReactNode
 }
@@ -29,7 +28,6 @@ const Modal = ({
   confirmText = DEFAULT_CONFIRM_TEXT,
   onClose,
   onConfirm,
-  onSubmit,
   type = 'default',
   children,
 }: ModalProps) => {
@@ -38,7 +36,6 @@ const Modal = ({
   const { handleClickOverlay, handleClickConfirm } = useModalLogic({
     onClose,
     onConfirm,
-    onSubmit,
     modalRef,
   })
 

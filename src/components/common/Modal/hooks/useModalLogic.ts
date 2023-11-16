@@ -3,7 +3,6 @@ import { useCallback, useEffect } from 'react'
 export interface useModalLogicProps {
   onClose: (e?: React.MouseEvent<HTMLButtonElement>) => void
   onConfirm?: (e?: React.MouseEvent<HTMLButtonElement>) => void
-  onSubmit?: () => void
   modalRef: React.RefObject<HTMLDivElement | null>
 }
 
@@ -15,7 +14,6 @@ export interface UseModalLogicReturnType {
 const useModalLogic = ({
   onClose,
   onConfirm,
-  onSubmit,
   modalRef,
 }: useModalLogicProps): UseModalLogicReturnType => {
   useEffect(() => {
@@ -43,10 +41,9 @@ const useModalLogic = ({
   const handleClickConfirm = useCallback(
     (e?: React.MouseEvent<HTMLButtonElement>) => {
       onConfirm?.()
-      onSubmit?.()
       onClose()
     },
-    [onConfirm, onSubmit, onClose],
+    [onConfirm, onClose],
   )
 
   return { handleClickOverlay, handleClickConfirm }

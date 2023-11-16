@@ -99,7 +99,7 @@ const LinkList = ({
             reset()
             setIsUrlCheck(false)
           }}
-          onSubmit={handleSubmit(async ({ url, title, tag }) => {
+          onConfirm={handleSubmit(async ({ url, title, tag }) => {
             await handleCreateLink({
               spaceId,
               url,
