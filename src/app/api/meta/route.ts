@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+const ogs = require('open-graph-scraper')
+
 export interface MetaResType {
   error: boolean
   result: Result
@@ -31,8 +33,6 @@ export interface Result {
   requestUrl: string
   success: boolean
 }
-
-const ogs = require('open-graph-scraper')
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const { url } = await req.json()
