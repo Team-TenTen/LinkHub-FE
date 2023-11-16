@@ -1,16 +1,13 @@
 'use client'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
-import { fetchCreateLink } from '@/services/link/link'
-import { FetchGetMetaProps, fetchGetMeta } from '@/services/meta/meta'
-import { CreateLinkReqBody } from '@/types'
 import { cls, getRandomColor } from '@/utils'
 import { usePathname } from 'next/navigation'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
 import { ADD_LINK_TEXT } from './constants'
+import useCreateLink from './hooks/useCreateLink'
 
 export interface Link {
   id: number
@@ -53,35 +50,13 @@ const LinkList = ({
         tag: '',
       },
     })
-
-  const [isUrlCheck, setIsUrlCheck] = useState(false)
-  const [isError, setIsError] = useState(false)
-
-  const handleGetMeta = async ({ url }: FetchGetMetaProps) => {
-    const { data, error } = await fetchGetMeta({
-      url,
-    })
-    setValue('title', data)
-    setIsError(error)
-    if (error === false) {
-      setIsUrlCheck(true)
-    }
-  } // 나중에 분리
-
-  const handleCreateLink = async ({
-    url,
-    title,
-    tag,
-    color,
-  }: CreateLinkReqBody) => {
-    await fetchCreateLink({
-      spaceId,
-      url,
-      title,
-      tag,
-      color,
-    })
-  } // 나중에 분리
+  const {
+    isUrlCheck,
+    setIsUrlCheck,
+    isError,
+    handleGetMeta,
+    handleCreateLink,
+  } = useCreateLink(setValue)
 
   return (
     <>
@@ -126,6 +101,7 @@ const LinkList = ({
           }}
           onSubmit={handleSubmit(async ({ url, title, tag }) => {
             await handleCreateLink({
+              spaceId,
               url,
               title,
               tag,
