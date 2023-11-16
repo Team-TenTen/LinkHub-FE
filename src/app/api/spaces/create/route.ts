@@ -1,11 +1,10 @@
-import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const token = ''
-  const { data, imageData } = await request.json()
-
-  console.log(imageData)
+  const { data } = await request.json()
+  // const imageData = await request.formData()
+  // console.log(imageData)
 
   const formData = new FormData()
 
@@ -20,7 +19,7 @@ export async function POST(request: NextRequest) {
   }
 
   formData.append('request', JSON.stringify(req))
-  formData.append('file', imageData)
+  //formData.append('file', imageData)
 
   try {
     const response = await fetch(

@@ -38,7 +38,7 @@ const SpaceForm = ({
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
   const [thumnail, setThumnail] = useState(spaceImage)
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
-  const [imageFile, setImageFile] = useState<string>()
+  const [imageFile, setImageFile] = useState<File>()
 
   const {
     register,
@@ -73,7 +73,7 @@ const SpaceForm = ({
 
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
-      setImageFile(JSON.stringify(e.target.files[0]))
+      setImageFile(e.target.files[0])
     }
   }
 
@@ -86,8 +86,8 @@ const SpaceForm = ({
     <form
       className="flex flex-col gap-3"
       onSubmit={handleSubmit(async (data) => {
-        console.log(data)
-        console.log(imageFile)
+        // console.log(data)
+        // console.log(imageFile)
         {
           spaceType === 'Create'
             ? await createSpace(data, imageFile)

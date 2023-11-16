@@ -10,26 +10,16 @@ const getSpaceDetail = async (spaceId: string) => {
   }
 }
 
-const createSpace = async (data: CreateSpaceReqBody, file?: string) => {
+const createSpace = async (data: CreateSpaceReqBody, file?: File) => {
   const imageData = new FormData()
-  // const request = {
-  //   spaceName,
-  //   description,
-  //   category,
-  //   isVisible,
-  //   isComment,
-  //   isLinkSummarizable,
-  //   isReadMarkEnabled
-  // }
-
-  //formData.append('request', JSON.stringify(data))
   file && imageData.append('file', file)
 
-  console.log(imageData.get('file'))
+  console.log(file)
 
+  //Todo: 파일 처리
   const response = await apiClient.post('/api/spaces/create', {
     data,
-    imageData,
+    file,
   })
 
   return response
