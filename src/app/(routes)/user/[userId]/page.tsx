@@ -1,37 +1,53 @@
 'use client'
 
+import { useCallback, useEffect, useState } from 'react'
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
 import User from '@/components/common/User/User'
-import { PROFILE_MSG } from '@/constants'
+import { CATEGORIES_MAP, PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
 import { useCurrentModal, useModal } from '@/hooks'
+import { fetchGetUserProfile } from '@/services/user/profile/userProfile'
+import { UserProfileResBody } from '@/types'
 import { cls, getFollowChecked, getProfileButtonChecked } from '@/utils'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 const UserPage = () => {
-  const myId = 3 // TODO: 실제 유저의 데이터를 가져오는 로직으로 수정
+  const myId = 6 // TODO: 실제 유저의 데이터를 가져오는 로직으로 수정
   const userData = mock_userData2
+  const path = usePathname()
+  const userId = Number(path.split('/')[2])
   const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const [currentModal, handleChangeCurrentModal] = useCurrentModal()
+  const [user, setUser] = useState<UserProfileResBody>()
+  const handleGetUserProfile = useCallback(async () => {
+    const user = await fetchGetUserProfile({ userId })
+    setUser(user)
+  }, [userId])
+
+  useEffect(() => {
+    handleGetUserProfile()
+  }, [])
 
   return (
     <>
       <div className="flex flex-col gap-4 px-4 py-6">
         <div className="flex gap-3">
-          <Avatar
-            src={userData.profile}
-            width={80}
-            height={80}
-            alt="profile"
-          />
+          {user?.profileImagePath && (
+            <Avatar
+              src={user.profileImagePath}
+              width={80}
+              height={80}
+              alt="profile"
+            />
+          )}
           <div className="flex flex-col gap-1 py-0.5">
             <div className="text-xl font-semibold text-gray9">
-              {userData.name}
+              {user?.nickname}
             </div>
             <div className="text-xs font-medium text-gray6">
-              {userData.email}
+              {user?.newsEmail}
             </div>
             <div className="flex gap-1 text-xs font-medium text-gray6">
               <div
@@ -40,7 +56,7 @@ const UserPage = () => {
                   handleChangeCurrentModal('following')
                   modalOpen()
                 }}>
-                {PROFILE_MSG.FOLLOWING} {userData.following.length}
+                {PROFILE_MSG.FOLLOWING} {user?.followingCount}
               </div>
               {PROFILE_MSG.LIST_DIVIDER}
               <div
@@ -49,7 +65,7 @@ const UserPage = () => {
                   handleChangeCurrentModal('follower')
                   modalOpen()
                 }}>
-                {PROFILE_MSG.FOLLOWER} {userData.follower.length}
+                {PROFILE_MSG.FOLLOWER} {user?.followerCount}
               </div>
             </div>
           </div>
@@ -57,7 +73,7 @@ const UserPage = () => {
         <Button
           type="button"
           onClick={() => {
-            if (userData.id === myId) {
+            if (user?.memberId === myId) {
               router.push('/user/setting')
             } else if (getFollowChecked({ userData, myId })) {
               console.log('팔로잉 로직 추가')
@@ -67,7 +83,7 @@ const UserPage = () => {
           }}
           className={cls(
             'button button-md button-lg',
-            userData.id === myId
+            user?.memberId === myId
               ? 'button-white'
               : getFollowChecked({ userData, myId })
               ? 'button-gray'
@@ -81,7 +97,11 @@ const UserPage = () => {
           </div>
           <div>
             <CategoryListItem
-              label={userData.category}
+              label={
+                user?.favoriteCategory
+                  ? CATEGORIES_MAP[user.favoriteCategory]
+                  : '없음'
+              }
               active={true}
               disabled={true}
             />
@@ -91,9 +111,7 @@ const UserPage = () => {
           <div className="py-3 text-sm font-semibold text-gray9">
             {PROFILE_MSG.DESCRIPTION}
           </div>
-          <div className="text-sm font-normal text-gray9">
-            {userData.description}
-          </div>
+          <div className="text-sm font-normal text-gray9">{user?.aboutMe}</div>
         </div>
       </div>
       {isOpen && (
