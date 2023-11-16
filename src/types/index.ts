@@ -56,7 +56,7 @@ export interface User {
 }
 
 // 유저 프로필 res body
-interface UserProfileResBody {
+export interface UserProfileResBody {
   memberId: number
   nickname: string
   aboutMe: string
@@ -69,7 +69,7 @@ interface UserProfileResBody {
 }
 
 // 회원가입 req body
-interface RegisterReqBody {
+export interface RegisterReqBody {
   socialId: string
   provider: string
   nickname: string
@@ -81,7 +81,7 @@ interface RegisterReqBody {
 }
 
 // 스페이스 상세 res body
-interface SpaceDetailResBody {
+export interface SpaceDetailResBody {
   spaceId: number
   spaceName: string
   description: string
@@ -98,7 +98,7 @@ interface SpaceDetailResBody {
   isOwner: boolean
 }
 
-interface UserDetailInfo {
+export interface UserDetailInfo {
   memberId: number
   nickname: string
   aboutMe: string
@@ -107,7 +107,7 @@ interface UserDetailInfo {
 }
 
 // 검색 req body
-interface SearchSpaceReqBody {
+export interface SearchSpaceReqBody {
   pageNumber: number
   pageSize: number
   sort: string
@@ -116,7 +116,7 @@ interface SearchSpaceReqBody {
 }
 
 // 내 스페이스 검색 req body
-interface SearchMySpaceReqBody {
+export interface SearchMySpaceReqBody {
   pageNumber: number
   pageSize: number
   keyWord: string
@@ -124,7 +124,7 @@ interface SearchMySpaceReqBody {
 }
 
 // 스페이스 생성/수정 req body
-interface SpaceReqBody {
+export interface SpaceReqBody {
   request: {
     spaceName: string
     description: string
@@ -138,7 +138,8 @@ interface SpaceReqBody {
 }
 
 // 링크 생성 req body
-interface CreateLinkReqBody {
+
+export interface CreateLinkReqBody {
   url: string
   title: string
   tag: string
