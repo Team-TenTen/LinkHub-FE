@@ -138,6 +138,7 @@ export interface SpaceReqBody {
 }
 
 // 링크 생성 req body
+
 export interface CreateLinkReqBody {
   url: string
   title: string
