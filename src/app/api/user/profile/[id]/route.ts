@@ -6,8 +6,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const path = `/members/${userId}/profile`
 
   try {
-    const user = await apiServer.get(path)
-    return NextResponse.json(user)
+    const userData = await apiServer.get(path)
+    return NextResponse.json(userData)
   } catch (error: any) {
     return NextResponse.json(
       { error: error.response.data.message },

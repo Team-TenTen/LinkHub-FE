@@ -21,9 +21,10 @@ const UserPage = () => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const [currentModal, handleChangeCurrentModal] = useCurrentModal()
   const [user, setUser] = useState<UserProfileResBody>()
+
   const handleGetUserProfile = useCallback(async () => {
-    const user = await fetchGetUserProfile({ userId })
-    setUser(user)
+    const userData = await fetchGetUserProfile({ userId })
+    setUser(userData)
   }, [userId])
 
   useEffect(() => {
