@@ -10,11 +10,11 @@ const useHome = () => {
   const searchParams = useSearchParams()
   const sort = searchParams.get('sort')
   const category = searchParams.get('category')
-  const categoryIndex = category
-    ? CATEGORIES['all_follow'].indexOf(category)
-    : 0
   const sortIndex = sort
     ? Object.values(DROPDOWN_OPTIONS['space']).indexOf(sort)
+    : 0
+  const categoryIndex = category
+    ? Object.values(CATEGORIES['all_follow']).indexOf(category)
     : 0
   const links = mock_LinkData.slice(0, 5)
   const spaces = mock_spacesData
