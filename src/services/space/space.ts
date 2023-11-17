@@ -21,18 +21,10 @@ const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
     isLinkSummarizable: true,
     isReadMarkEnabled: true,
   }
-
   const formData = new FormData()
   formData.append('request', JSON.stringify(reqData))
   file && formData.append('file', file)
-
-  //Todo: 파일 처리
-
-  // const response = await apiClient.post(path, formData)
-  const response = await fetch(path, {
-    method: 'POST',
-    body: formData,
-  })
+  const response = await apiClient.post(path, formData, {}, {}, 'multipart')
   return response
 }
 

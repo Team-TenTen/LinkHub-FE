@@ -40,11 +40,15 @@ class FetchServerAPI {
     body: any,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
+    type: string = 'default',
   ): Promise<any> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       method: 'POST',
-      headers: { ...this.headers, ...customHeaders },
-      body: JSON.stringify(body),
+      headers:
+        type === 'multipart'
+          ? { ...customHeaders }
+          : { ...this.headers, ...customHeaders },
+      body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
     return response
