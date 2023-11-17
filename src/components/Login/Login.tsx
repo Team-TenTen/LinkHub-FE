@@ -17,6 +17,7 @@ const Login = () => {
       router.push('/')
     } else if (searchParams.get('socialId')) {
       Cookies.set('Social-Id', searchParams.get('socialId') || '')
+      Cookies.set('Provider', searchParams.get('provider') || '')
       router.push('/register')
     }
   }, [router, searchParams])
