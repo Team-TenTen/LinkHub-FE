@@ -42,6 +42,7 @@ const CategoryList = ({
           key={category}>
           <CategoryListItem
             label={category}
+            value={categoryValues[i]}
             active={index === i}
             onClick={(e) => handleClick(e, i)}
           />
