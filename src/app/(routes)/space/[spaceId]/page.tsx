@@ -1,5 +1,6 @@
 'use client'
 
+import { useCallback, useEffect, useState } from 'react'
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
 import { MORE_TEXT } from '@/components/common/LinkList/constants'
@@ -11,6 +12,8 @@ import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { MIN_TAB_NUMBER } from '@/constants'
 import { mock_LinkData, mock_memberData, mock_spaceData } from '@/data'
+import { fetchGetSpace } from '@/services/space/space'
+import { SpaceDetailResBody } from '@/types'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -18,25 +21,40 @@ import {
   ListBulletIcon,
   Squares2X2Icon,
 } from '@heroicons/react/24/solid'
+import { usePathname } from 'next/navigation'
 
 const SpacePage = () => {
   const spaceData = mock_spaceData
+  const path = usePathname()
+  const spaceId = Number(path.split('/')[2])
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', spaceData })
+  const [space, setSpace] = useState<SpaceDetailResBody>()
+
+  const handleGetSpace = useCallback(async () => {
+    const { space } = await fetchGetSpace({ spaceId })
+    setSpace(space)
+  }, [spaceId])
+
+  useEffect(() => {
+    handleGetSpace()
+  }, [])
 
   return (
     <>
-      <Space
-        type="Header"
-        userName={spaceData.userName}
-        spaceName={spaceData.spaceName}
-        spaceImage={spaceData.spaceImage}
-        description={spaceData.description}
-        category={spaceData.category}
-        scrap={spaceData.scrap}
-        favorite={spaceData.favorite}
-      />
+      {space && (
+        <Space
+          type="Header"
+          userName={space.memberDetailInfos[0].nickname}
+          spaceName={space.spaceName}
+          spaceImage={space.spaceImagePath}
+          description={space.description}
+          category={space.category}
+          scrap={space.scrapCount}
+          favorite={space.favoriteCount}
+        />
+      )}
       {tabList.length > MIN_TAB_NUMBER && (
         <Tab>
           {tabList.map((tabItem) => (
@@ -112,7 +130,7 @@ const SpacePage = () => {
             {MORE_TEXT}
           </Button>
         </div>
-        <SpaceMemberList members={mock_memberData} />
+        <SpaceMemberList members={space?.memberDetailInfos} />
       </div>
     </>
   )
