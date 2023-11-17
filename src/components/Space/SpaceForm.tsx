@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
 import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
-import { createSpace, getSpaceDetail } from '@/services/space/space'
+import { feachCreateSpace, getSpaceDetail } from '@/services/space/space'
 import { CreateSpaceReqBody } from '@/types'
 import Image from 'next/image'
 import Button from '../common/Button/Button'
@@ -65,15 +65,13 @@ const SpaceForm = ({
 
   const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
     e?.preventDefault()
-
     if (e?.target.files) {
       const blob = new Blob([e.target.files[0]], {
         type: e.target.files[0].type,
       })
-
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
-      setImageFile(e.target.files[0])
+      setImageFile(e?.target.files[0])
     }
   }
 
@@ -86,13 +84,9 @@ const SpaceForm = ({
     <form
       className="flex flex-col gap-3"
       onSubmit={handleSubmit(async (data) => {
-        // console.log(data)
-        // console.log(imageFile)
-        {
-          spaceType === 'Create'
-            ? await createSpace(data, imageFile)
-            : console.log(data)
-        }
+        spaceType === 'Create'
+          ? await feachCreateSpace(data, imageFile)
+          : console.log(data)
       })}>
       <div>
         <input

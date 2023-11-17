@@ -10,19 +10,30 @@ const getSpaceDetail = async (spaceId: string) => {
   }
 }
 
-const createSpace = async (data: CreateSpaceReqBody, file?: File) => {
-  const imageData = new FormData()
-  file && imageData.append('file', file)
+const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
+  const path = '/api/spaces/create'
+  const reqData = {
+    spaceName: 'java 개발자 출근길 보기 좋은 글 모음',
+    description: 'java 개발자 하루 30분 매일 하나씩 보기 좋은 글 모음입니다.',
+    category: 'KNOWLEDGE_ISSUE_CAREER',
+    isVisible: true,
+    isComment: true,
+    isLinkSummarizable: true,
+    isReadMarkEnabled: true,
+  }
 
-  console.log(file)
+  const formData = new FormData()
+  formData.append('request', JSON.stringify(reqData))
+  file && formData.append('file', file)
 
   //Todo: 파일 처리
-  const response = await apiClient.post('/api/spaces/create', {
-    data,
-    file,
-  })
 
+  // const response = await apiClient.post(path, formData)
+  const response = await fetch(path, {
+    method: 'POST',
+    body: formData,
+  })
   return response
 }
 
-export { getSpaceDetail, createSpace }
+export { getSpaceDetail, feachCreateSpace }
