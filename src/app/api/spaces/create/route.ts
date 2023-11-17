@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await apiServer.post(path, body, {}, headers, 'multipart')
-    console.log(response)
     return response
   } catch (error: any) {
     return NextResponse.json(
