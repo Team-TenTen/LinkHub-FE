@@ -82,6 +82,7 @@ const SpaceForm = ({
 
   return (
     <form
+      encType="multipart/form-data"
       className="flex flex-col gap-3"
       onSubmit={handleSubmit(async (data) => {
         spaceType === 'Create'
