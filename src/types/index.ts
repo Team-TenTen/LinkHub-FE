@@ -111,7 +111,7 @@ export interface SearchSpaceReqBody {
   pageNumber: number
   pageSize: number
   sort: string
-  keyWord: string
+  keyWord?: string
   filter: string
 }
 
