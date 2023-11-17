@@ -12,15 +12,7 @@ const getSpaceDetail = async (spaceId: string) => {
 
 const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
   const path = '/api/spaces/create'
-  const reqData = {
-    spaceName: 'java 개발자 출근길 보기 좋은 글 모음',
-    description: 'java 개발자 하루 30분 매일 하나씩 보기 좋은 글 모음입니다.',
-    category: 'KNOWLEDGE_ISSUE_CAREER',
-    isVisible: true,
-    isComment: true,
-    isLinkSummarizable: true,
-    isReadMarkEnabled: true,
-  }
+  const reqData = { ...data, category: 'KNOWLEDGE_ISSUE_CAREER' }
   const formData = new FormData()
   formData.append('request', JSON.stringify(reqData))
   file && formData.append('file', file)
