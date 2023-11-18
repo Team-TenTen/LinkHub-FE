@@ -37,19 +37,19 @@ const SpaceCommentPage = () => {
     handleReplyCancel,
     onSubmit,
   } = useSpaceComment({ setValue, setFocus, modalOpen })
-  const { currentTab, tabList } = useTab({ type: 'space', spaceData: space })
+  const { currentTab, tabList } = useTab({ type: 'space', space })
 
   return (
     <>
       <Space
-        userName={space.userName}
+        userName={space.memberDetailInfos[0].nickname}
         type="Header"
         spaceName={space.spaceName}
-        spaceImage={space.spaceImage}
+        spaceImage={space.spaceImagePath}
         description={space.description}
         category={space.category}
-        scrap={space.scrap}
-        favorite={space.favorite}
+        scrap={space.scrapCount}
+        favorite={space.favoriteCount}
       />
       {tabList.length > MIN_TAB_NUMBER && (
         <Tab>

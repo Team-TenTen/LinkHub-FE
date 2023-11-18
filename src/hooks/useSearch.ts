@@ -14,7 +14,9 @@ const useSearch = () => {
   const sortIndex = sort
     ? Object.values(DROPDOWN_OPTIONS['space']).indexOf(sort)
     : 0
-  const categoryIndex = category ? CATEGORIES['all'].indexOf(category) : 0
+  const categoryIndex = category
+    ? Object.values(CATEGORIES['all']).indexOf(category)
+    : 0
   const keyword = searchParams.get('keyword')
   const result =
     target === 'space'

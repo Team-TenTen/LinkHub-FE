@@ -2,6 +2,7 @@ import { cls } from '@/utils'
 
 export interface CategoryListItemProps {
   label: string
+  value?: string
   active: boolean
   disabled?: boolean
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
@@ -9,6 +10,7 @@ export interface CategoryListItemProps {
 
 const CategoryListItem = ({
   label,
+  value,
   active = false,
   disabled,
   onClick,
@@ -16,7 +18,7 @@ const CategoryListItem = ({
   return (
     <button
       type="button"
-      value={label}
+      value={value}
       className={cls(
         'rounded-3xl border px-4 py-2 text-sm font-medium',
         active

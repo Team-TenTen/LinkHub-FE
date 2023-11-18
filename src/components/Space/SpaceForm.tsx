@@ -3,9 +3,10 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
+import { CATEGORIES_RENDER } from '@/constants'
 import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
-import { feachCreateSpace, getSpaceDetail } from '@/services/space/space'
+import { feachCreateSpace, fetchGetSpace } from '@/services/space/space'
 import { CreateSpaceReqBody } from '@/types'
 import Image from 'next/image'
 import Button from '../common/Button/Button'
@@ -50,7 +51,6 @@ const SpaceForm = ({
     defaultValues: {
       spaceName: spaceName || '',
       description: description || '',
-      //category: category || 'ENTER_ART',
       category: 'ENTER_ART',
       isVisible: spacePublic || false,
       isComment: comment || false,
@@ -138,11 +138,11 @@ const SpaceForm = ({
             <CategoryList
               type="default"
               horizontal={false}
-              defaultIndex={CATEGORIES['default'].indexOf(
+              defaultIndex={Object.values(CATEGORIES['default']).indexOf(
                 getValues('category'),
               )}
               onChange={(e) =>
-                setValue('category', e?.currentTarget.value || '')
+                setValue('category', e?.currentTarget.value.toUpperCase() || '')
               }
             />
           </div>

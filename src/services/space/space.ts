@@ -1,9 +1,15 @@
 import { CreateSpaceReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
-const getSpaceDetail = async (spaceId: string) => {
+export interface FetchGetSpaceProps {
+  spaceId: number
+}
+
+const fetchGetSpace = async ({ spaceId }: FetchGetSpaceProps) => {
+  const path = `/api/space/${spaceId}`
+
   try {
-    const response = await apiClient.get(`/api/space/${spaceId}`)
+    const response = await apiClient.get(path)
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
@@ -12,7 +18,7 @@ const getSpaceDetail = async (spaceId: string) => {
 
 const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
   const path = '/api/spaces/create'
-  const reqData = { ...data, category: 'KNOWLEDGE_ISSUE_CAREER' }
+  const reqData = { ...data }
   const formData = new FormData()
   formData.append('request', JSON.stringify(reqData))
   file && formData.append('file', file)
@@ -20,4 +26,4 @@ const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
   return response
 }
 
-export { getSpaceDetail, feachCreateSpace }
+export { fetchGetSpace, feachCreateSpace }
