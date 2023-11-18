@@ -58,7 +58,7 @@ const SpaceForm = ({
     defaultValues: {
       name: spaceName || '',
       description: description || '',
-      category: category || '엔터테인먼트•예술',
+      category: category?.toLowerCase() || 'enter_art',
       public: spacePublic || false,
       comment: comment || false,
       summary: summary || false,
@@ -145,7 +145,7 @@ const SpaceForm = ({
             <CategoryList
               type="default"
               horizontal={false}
-              defaultIndex={CATEGORIES['default'].indexOf(
+              defaultIndex={Object.values(CATEGORIES['default']).indexOf(
                 getValues('category'),
               )}
               onChange={(e) =>

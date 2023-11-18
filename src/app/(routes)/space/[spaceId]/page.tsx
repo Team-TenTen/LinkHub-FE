@@ -5,12 +5,13 @@ import Button from '@/components/common/Button/Button'
 import { MORE_TEXT } from '@/components/common/LinkList/constants'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
+import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
-import { MIN_TAB_NUMBER } from '@/constants'
-import { mock_LinkData, mock_memberData, mock_spaceData } from '@/data'
+import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
+import { mock_LinkData } from '@/data'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -20,23 +21,25 @@ import {
 } from '@heroicons/react/24/solid'
 
 const SpacePage = () => {
-  const spaceData = mock_spaceData
+  const [space] = useGetSpace()
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
-  const { currentTab, tabList } = useTab({ type: 'space', spaceData })
+  const { currentTab, tabList } = useTab({ type: 'space', space })
 
   return (
     <>
-      <Space
-        type="Header"
-        userName={spaceData.userName}
-        spaceName={spaceData.spaceName}
-        spaceImage={spaceData.spaceImage}
-        description={spaceData.description}
-        category={spaceData.category}
-        scrap={spaceData.scrap}
-        favorite={spaceData.favorite}
-      />
+      {space && (
+        <Space
+          type="Header"
+          userName={space.memberDetailInfos[0].nickname}
+          spaceName={space.spaceName}
+          spaceImage={space.spaceImagePath}
+          description={space.description}
+          category={CATEGORIES_RENDER[space.category]}
+          scrap={space.scrapCount}
+          favorite={space.favoriteCount}
+        />
+      )}
       {tabList.length > MIN_TAB_NUMBER && (
         <Tab>
           {tabList.map((tabItem) => (
@@ -112,7 +115,7 @@ const SpacePage = () => {
             {MORE_TEXT}
           </Button>
         </div>
-        <SpaceMemberList members={mock_memberData} />
+        <SpaceMemberList members={space?.memberDetailInfos} />
       </div>
     </>
   )

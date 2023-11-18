@@ -2,6 +2,7 @@
 
 import { Input } from '@/components'
 import { useModal } from '@/hooks'
+import { UserDetailInfo } from '@/types'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
 import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
@@ -9,15 +10,8 @@ import Dropdown from '../Dropdown/Dropdown'
 import DropdownItem from '../Dropdown/DropdownItem'
 import { SPACE_MEMBER } from './constants'
 
-export interface Member {
-  id: number
-  name: string
-  profile: string
-  auth: string
-}
-
 export interface SpaceMemberListProps {
-  members: Member[]
+  members?: UserDetailInfo[]
   edit?: boolean
 }
 
@@ -67,20 +61,23 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
           </Modal>
         )}
       </div>
-      {members.map((member) => (
+      {members?.map((member) => (
         <div
-          key={member.id}
+          key={member.memberId}
           className="flex items-center justify-between border-t border-slate3 p-2">
           <div className="flex items-center gap-2">
-            <Avatar
-              src={member.profile}
-              width={30}
-              height={30}
-              alt="프로필"
-            />
-            <div className="text-sm font-semibold">{member.name}</div>
+            {member.profilePath && (
+              <Avatar
+                src={member.profilePath}
+                width={30}
+                height={30}
+                alt="프로필"
+              />
+            )}
+
+            <div className="text-sm font-semibold">{member.nickname}</div>
           </div>
-          {member.auth === 'owner' ? (
+          {member.SpaceMemberRole === 'OWNER' ? (
             <DropdownItem
               label="관리자"
               border={true}

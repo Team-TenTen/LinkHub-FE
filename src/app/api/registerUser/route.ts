@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.formData()
-  const path = `/spacess`
+  const path = `/spaces`
   console.log(body)
   try {
     const response = await apiServer.post(path, body, {}, {}, 'multipart')

@@ -110,7 +110,7 @@ export interface SearchSpaceReqBody {
   pageNumber: number
   pageSize: number
   sort: string
-  keyWord: string
+  keyWord?: string
   filter: string
 }
 
@@ -142,4 +142,16 @@ export interface CreateLinkReqBody {
   title: string
   tag: string
   color: string
+}
+
+export interface SpaceResBody {
+  spaceId: number
+  spaceName: string
+  description: string
+  userName: string
+  category: string
+  viewCount: number
+  scrapCount: number
+  favoriteCount: number
+  spaceImagePath: string
 }

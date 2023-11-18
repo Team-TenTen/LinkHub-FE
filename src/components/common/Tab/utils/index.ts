@@ -1,4 +1,4 @@
-import { Space, UserData } from '@/types'
+import { Space, SpaceDetailResBody, UserData } from '@/types'
 import { TabList } from '../hooks/useTab'
 
 export interface GetPathnameProps {
@@ -9,25 +9,26 @@ export interface GetPathnameProps {
 
 export const getPathname = ({ path, n, defaultPath }: GetPathnameProps) => {
   const currentTab = path.split('/')[n] ?? defaultPath
-
   return currentTab
 }
 
-export const getCurrentSpaceTabList = (spaceData: Space): TabList[] => {
+export const getCurrentSpaceTabList = (
+  space: SpaceDetailResBody,
+): TabList[] => {
   const myName = 'dudwns' // TODO: 실제 유저로 변경
-  const { userName, spaceId, comment } = spaceData
+  const { memberDetailInfos, spaceId, isComment } = space
   const tabList = [
     { text: '스페이스', content: 'space', dest: `/space/${spaceId}` },
   ]
 
-  if (comment) {
+  if (isComment) {
     tabList.push({
       text: '댓글',
       content: 'comment',
       dest: `/space/${spaceId}/comment`,
     })
   }
-  if (userName === myName) {
+  if (memberDetailInfos[0].nickname === myName) {
     tabList.push({
       text: '설정',
       content: 'setting',

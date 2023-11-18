@@ -3,10 +3,10 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
-import { User, UserProfileResBody } from '@/types'
+import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import useToggle from '../common/Toggle/hooks/useToggle'
@@ -161,7 +161,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
         <CategoryList
           type="default"
           horizontal={false}
-          defaultIndex={CATEGORIES['default'].indexOf(
+          defaultIndex={Object.values(CATEGORIES['default']).indexOf(
             getValues('favoriteCategory'),
           )}
           onChange={(e) =>

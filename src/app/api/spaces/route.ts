@@ -2,15 +2,15 @@ import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
-  const spaceId = req.nextUrl.pathname.replace('/api/space/', '')
-  const path = `/spaces/${spaceId}`
+  const { searchParams } = new URL(req.url)
+  const path = '/spaces'
 
   try {
-    const space = await apiServer.get(path)
-    return NextResponse.json({ space })
+    const data = await apiServer.get(`${path}?${searchParams}`)
+    return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
-      { error: error.response.data.message },
+      { error: error.response.data.errorMessage },
       { status: error.response.status },
     )
   }
