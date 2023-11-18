@@ -1,4 +1,4 @@
-import { Space, UserData } from '@/types'
+import { SpaceDetailResBody, UserData } from '@/types'
 import { usePathname } from 'next/navigation'
 import { NOTIFICATION_TAB_LIST } from '../constants'
 import {
@@ -9,7 +9,7 @@ import {
 
 export interface UseTabProps {
   type: 'space' | 'notification' | 'user'
-  spaceData?: Space
+  space?: SpaceDetailResBody
   userData?: UserData
 }
 
@@ -24,12 +24,11 @@ export interface useTabReturn {
   tabList: TabList[]
 }
 
-const useTab = ({ type, spaceData, userData }: UseTabProps): useTabReturn => {
+const useTab = ({ type, space, userData }: UseTabProps): useTabReturn => {
   const pathname = usePathname()
-
-  if (type === 'space') {
+  if (space && type === 'space') {
     const currentTab = getPathname({ path: pathname, n: 3, defaultPath: type })
-    const tabList = getCurrentSpaceTabList(spaceData!)
+    const tabList = getCurrentSpaceTabList(space)
     return { currentTab, tabList }
   }
 

@@ -11,7 +11,7 @@ import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
-import { mock_LinkData, mock_spaceData } from '@/data'
+import { mock_LinkData } from '@/data'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -21,11 +21,10 @@ import {
 } from '@heroicons/react/24/solid'
 
 const SpacePage = () => {
-  const spaceData = mock_spaceData
+  const [space] = useGetSpace()
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
-  const { currentTab, tabList } = useTab({ type: 'space', spaceData })
-  const [space] = useGetSpace()
+  const { currentTab, tabList } = useTab({ type: 'space', space })
 
   return (
     <>
