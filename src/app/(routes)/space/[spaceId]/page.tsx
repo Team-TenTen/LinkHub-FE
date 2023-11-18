@@ -1,19 +1,17 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
 import { MORE_TEXT } from '@/components/common/LinkList/constants'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
+import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
-import { mock_LinkData, mock_memberData, mock_spaceData } from '@/data'
-import { fetchGetSpace } from '@/services/space/space'
-import { SpaceDetailResBody } from '@/types'
+import { mock_LinkData, mock_spaceData } from '@/data'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -21,25 +19,13 @@ import {
   ListBulletIcon,
   Squares2X2Icon,
 } from '@heroicons/react/24/solid'
-import { usePathname } from 'next/navigation'
 
 const SpacePage = () => {
   const spaceData = mock_spaceData
-  const path = usePathname()
-  const spaceId = Number(path.split('/')[2])
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', spaceData })
-  const [space, setSpace] = useState<SpaceDetailResBody>()
-
-  const handleGetSpace = useCallback(async () => {
-    const { space } = await fetchGetSpace({ spaceId })
-    setSpace(space)
-  }, [spaceId])
-
-  useEffect(() => {
-    handleGetSpace()
-  }, [])
+  const [space] = useGetSpace()
 
   return (
     <>
