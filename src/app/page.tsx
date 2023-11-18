@@ -2,6 +2,7 @@
 
 import { CategoryList, Dropdown, LinkItem } from '@/components'
 import Space from '@/components/common/Space/Space'
+import { CATEGORIES_RENDER } from '@/constants'
 import useHome from '@/hooks/useHome'
 
 export default function Home() {
@@ -53,7 +54,7 @@ export default function Home() {
               spaceName={space.spaceName}
               spaceImage={space.spaceImagePath}
               description={space.description}
-              category={space.category}
+              category={CATEGORIES_RENDER[space.category]}
               scrap={space.scrapCount}
               favorite={space.favoriteCount}
               key={space.spaceId}
