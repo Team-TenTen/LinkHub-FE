@@ -45,17 +45,17 @@ export default function Home() {
           />
         </div>
         <div className="flex flex-col gap-y-2 px-4 pt-2">
-          {spaces.map((space) => (
+          {spaces?.map((space) => (
             <Space
               userName={space.userName}
               spaceId={space.spaceId}
               type="Card"
               spaceName={space.spaceName}
-              spaceImage={space.spaceImage}
+              spaceImage={space.spaceImagePath}
               description={space.description}
               category={space.category}
-              scrap={space.scrap}
-              favorite={space.favorite}
+              scrap={space.scrapCount}
+              favorite={space.favoriteCount}
               key={space.spaceId}
             />
           ))}
