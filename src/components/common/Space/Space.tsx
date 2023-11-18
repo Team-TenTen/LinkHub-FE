@@ -54,12 +54,14 @@ const Space = ({
         <Link
           className="relative flex gap-3 rounded-md border border-slate3 p-2"
           href={`/space/${spaceId}`}>
-          <Image
-            className="z-[-100] rounded-md object-cover opacity-50"
-            src={spaceImage || ''}
-            alt="space-image"
-            fill
-          />
+          {spaceImage && (
+            <Image
+              className="z-[-100] rounded-md object-cover opacity-50"
+              src={spaceImage || ''}
+              alt="space-image"
+              fill
+            />
+          )}
           <div className="flex grow flex-col justify-center gap-1 rounded-md bg-white bg-opacity-60 px-3 py-1.5 dark:bg-gray-900 dark:bg-opacity-60">
             <div>
               <div className="mr-1 inline-flex text-sm text-gray9">

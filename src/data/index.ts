@@ -84,22 +84,25 @@ export const mock_LinkData = [
 
 export const mock_memberData = [
   {
-    id: 1,
-    profile: '/duck.jpg',
-    name: '프롱이',
-    auth: 'owner',
+    memberId: 1,
+    nickname: '오둥이',
+    aboutMe: '안녕하세요',
+    profilePath: '/duck.jpg',
+    SpaceMemberRole: 'OWNER',
   },
   {
-    id: 2,
-    profile: '/duck.jpg',
-    name: '백둥이',
-    auth: 'view',
+    memberId: 2,
+    nickname: '백둥이',
+    aboutMe: '안녕하세요',
+    profilePath: '/duck.jpg',
+    SpaceMemberRole: 'CANVIEW',
   },
   {
-    id: 3,
-    profile: '/duck.jpg',
-    name: '풀택이',
-    auth: 'view',
+    memberId: 3,
+    nickname: '풀택이',
+    aboutMe: '안녕하세요',
+    profilePath: '/duck.jpg',
+    SpaceMemberRole: 'CANVIEW',
   },
 ]
 
@@ -344,15 +347,30 @@ export const mock_userData2 = {
 }
 
 export const mock_spaceData = {
-  userName: 'frong',
-  spaceId: 123,
-  spaceImage: '/TestImage.svg',
+  spaceId: 108,
   spaceName: '강남역 맛집 리스트 모음 스페이스',
   description: '내 기준 강남역에서 맛있는 맛집 링크 모음집',
-  category: '생활•노하우•쇼핑',
-  favorite: 60,
-  scrap: 40,
-  comment: true,
+  category: 'ENTER_ART',
+  isVisible: true,
+  isComment: true,
+  isLinkSummarizable: true,
+  isReadMarkEnabled: true,
+  viewCount: 0,
+  scrapCount: 0,
+  favoriteCount: 0,
+  spaceImagePath: '/TestImage.svg',
+  isOwner: true,
+  isCanEdit: true,
+  hasFavorite: true,
+  memberDetailInfos: [
+    {
+      memberId: 0,
+      nickname: 'string',
+      aboutMe: 'string',
+      profilePath: 'string',
+      SpaceMemberRole: 'OWNER',
+    },
+  ],
 }
 
 export const mock_notificationData: {
