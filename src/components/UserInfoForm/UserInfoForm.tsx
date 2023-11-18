@@ -6,7 +6,7 @@ import { Avatar, CategoryList, Input } from '@/components'
 import { User, UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import useToggle from '../common/Toggle/hooks/useToggle'
@@ -24,7 +24,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const [checked, toggle] = useToggle(userData?.isSubscribed || false)
   const { registerLinkHub } = useRegister()
   const [imageFile, setImageFile] = useState<File>()
-  const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
     setThumnail(userData?.profileImagePath)
@@ -43,7 +43,6 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     defaultValues: {
       nickname: userData?.nickname || '',
       aboutMe: userData?.aboutMe || '',
-      //favoriteCategory: userData?.category || '엔터테인먼트•예술',
       favoriteCategory: 'ENTER_ART',
       isSubscribed: userData?.isSubscribed || false,
     },
@@ -86,8 +85,8 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     <form
       className="flex flex-col gap-3 px-4 pt-8"
       onSubmit={handleSubmit(async (data) => {
-        console.log(data)
-        //await registerLinkHub(data, imageFile)
+        await registerLinkHub(data, imageFile)
+        router.replace('/login')
       })}>
       <div className="flex justify-center">
         <input
@@ -166,7 +165,10 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
             getValues('favoriteCategory'),
           )}
           onChange={(e) =>
-            setValue('favoriteCategory', e?.currentTarget.value || '')
+            setValue(
+              'favoriteCategory',
+              e?.currentTarget.value.toUpperCase() || '',
+            )
           }
         />
       </div>

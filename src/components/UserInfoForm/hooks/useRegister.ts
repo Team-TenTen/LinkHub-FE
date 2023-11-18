@@ -16,6 +16,8 @@ const useRegister = () => {
     data.socialId = Cookies.get('Social-Id') || ''
     data.provider = Cookies.get('Provider') || ''
     await registerUser(data, imageFile)
+    Cookies.remove('Social-Id')
+    Cookies.remove('Provider')
   }
 
   return { registerLinkHub }
