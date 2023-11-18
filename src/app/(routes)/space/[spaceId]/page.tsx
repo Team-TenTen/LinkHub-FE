@@ -10,7 +10,7 @@ import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
-import { MIN_TAB_NUMBER } from '@/constants'
+import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
 import { mock_LinkData, mock_memberData, mock_spaceData } from '@/data'
 import { fetchGetSpace } from '@/services/space/space'
 import { SpaceDetailResBody } from '@/types'
@@ -50,7 +50,7 @@ const SpacePage = () => {
           spaceName={space.spaceName}
           spaceImage={space.spaceImagePath}
           description={space.description}
-          category={space.category}
+          category={CATEGORIES_RENDER[space.category]}
           scrap={space.scrapCount}
           favorite={space.favoriteCount}
         />
