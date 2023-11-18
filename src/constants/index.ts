@@ -32,3 +32,7 @@ export const CATEGORIES_RENDER: CategoriesRenderType = {
   KNOWLEDGE_ISSUE_CAREER: '지식•이슈•커리어',
   ETC: '기타',
 }
+
+export const PAGE_SIZE = 10
+export const PAGE_NUMBER = 0
+

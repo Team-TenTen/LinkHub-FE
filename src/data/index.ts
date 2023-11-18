@@ -110,7 +110,7 @@ export const mock_userData: User = {
   id: '3',
   name: '프롱이',
   profile: '/duck.jpg',
-  category: '엔터테인먼트•예술',
+  category: 'ENTER_ART',
   newsLetter: false,
   email: 'abc@gmail.com',
   description: '쇼핑 정보를 모으고 있어요!',

@@ -111,7 +111,7 @@ export interface SearchSpaceReqBody {
   pageNumber: number
   pageSize: number
   sort: string
-  keyWord: string
+  keyWord?: string
   filter: string
 }
 
@@ -138,10 +138,21 @@ export interface SpaceReqBody {
 }
 
 // 링크 생성 req body
-
 export interface CreateLinkReqBody {
   url: string
   title: string
   tag: string
   color: string
+}
+
+export interface SpaceResBody {
+  spaceId: number
+  spaceName: string
+  description: string
+  userName: string
+  category: string
+  viewCount: number
+  scrapCount: number
+  favoriteCount: number
+  spaceImagePath: string
 }

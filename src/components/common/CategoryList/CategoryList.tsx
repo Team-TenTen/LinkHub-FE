@@ -18,6 +18,8 @@ const CategoryList = ({
   defaultIndex,
   onChange,
 }: CategoryListProps) => {
+  const categoryKeys = Object.keys(CATEGORIES[type])
+  const categoryValues = Object.values(CATEGORIES[type])
   const { index, handleClick } = useCategoryList({
     defaultIndex,
     onChange,
@@ -31,7 +33,7 @@ const CategoryList = ({
           ? 'horizontal-scroll snap-x scroll-px-4 overflow-x-auto scroll-smooth py-4'
           : 'flex-wrap',
       )}>
-      {CATEGORIES[type].map((category, i) => (
+      {categoryKeys.map((category, i) => (
         <li
           className={cls(
             'shrink-0',
@@ -40,6 +42,7 @@ const CategoryList = ({
           key={category}>
           <CategoryListItem
             label={category}
+            value={categoryValues[i]}
             active={index === i}
             onClick={(e) => handleClick(e, i)}
           />
