@@ -84,22 +84,25 @@ export const mock_LinkData = [
 
 export const mock_memberData = [
   {
-    id: 1,
-    profile: '/duck.jpg',
-    name: '프롱이',
-    auth: 'owner',
+    memberId: 1,
+    nickname: '오둥이',
+    aboutMe: '안녕하세요',
+    profilePath: '/duck.jpg',
+    SpaceMemberRole: 'OWNER',
   },
   {
-    id: 2,
-    profile: '/duck.jpg',
-    name: '백둥이',
-    auth: 'view',
+    memberId: 2,
+    nickname: '백둥이',
+    aboutMe: '안녕하세요',
+    profilePath: '/duck.jpg',
+    SpaceMemberRole: 'CANVIEW',
   },
   {
-    id: 3,
-    profile: '/duck.jpg',
-    name: '풀택이',
-    auth: 'view',
+    memberId: 3,
+    nickname: '풀택이',
+    aboutMe: '안녕하세요',
+    profilePath: '/duck.jpg',
+    SpaceMemberRole: 'CANVIEW',
   },
 ]
 
