@@ -3,30 +3,32 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
-import { User } from '@/types'
+import { User, UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
+import { usePathname } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import useToggle from '../common/Toggle/hooks/useToggle'
 import { RegisterReqBody, useRegister } from './hooks/useRegister'
 
 interface UserInfoFormProps {
-  userData?: User
+  userData?: UserProfileResBody
   formType: 'Register' | 'Setting'
 }
 
 const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const selectUserImage = useRef<HTMLInputElement | null>(null)
-  const [thumnail, setThumnail] = useState(userData?.profile)
+  const [thumnail, setThumnail] = useState(userData?.profileImagePath)
   const [isEmailAuthOpen, setIsEmailAuthOpen] = useState(false)
-  const [checked, toggle] = useToggle(userData?.newsLetter || false)
+  const [checked, toggle] = useToggle(userData?.isSubscribed || false)
   const { registerLinkHub } = useRegister()
   const [imageFile, setImageFile] = useState<File>()
+  const pathname = usePathname()
 
   useEffect(() => {
-    setThumnail(userData?.profile)
-  }, [userData?.profile])
+    setThumnail(userData?.profileImagePath)
+  }, [userData?.profileImagePath])
 
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?&_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]/
@@ -39,11 +41,11 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     formState: { errors },
   } = useForm<RegisterReqBody>({
     defaultValues: {
-      nickname: userData?.name || '',
-      aboutMe: userData?.description || '',
+      nickname: userData?.nickname || '',
+      aboutMe: userData?.aboutMe || '',
       //favoriteCategory: userData?.category || '엔터테인먼트•예술',
       favoriteCategory: 'ENTER_ART',
-      isSubscribed: userData?.newsLetter || false,
+      isSubscribed: userData?.isSubscribed || false,
     },
   })
 
@@ -80,15 +82,12 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     // Todo: 회원탈퇴 로직
   }
 
-  useEffect(() => {
-    return () => console.log('unmounted')
-  }, [])
-
   return (
     <form
       className="flex flex-col gap-3 px-4 pt-8"
       onSubmit={handleSubmit(async (data) => {
-        await registerLinkHub(data, imageFile)
+        console.log(data)
+        //await registerLinkHub(data, imageFile)
       })}>
       <div className="flex justify-center">
         <input

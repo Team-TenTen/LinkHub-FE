@@ -1,5 +1,7 @@
 import { Providers } from '@/components'
 import Header from '@/components/common/Header/Header'
+import { AuthProvider } from '@/lib/contexts/AuthProvider'
+import TanstackQueryContext from '@/lib/contexts/TanstackQueryContext'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -15,16 +17,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="bg-bgColor">
-        <Providers>
-          <div
-            id="root"
-            className="relative mx-auto w-full max-w-[500px]">
-            <Header />
-            <main className="pt-[53px]">{children}</main>
-          </div>
-        </Providers>
-      </body>
+      <TanstackQueryContext>
+        <AuthProvider>
+          <body className="bg-bgColor">
+            <Providers>
+              <div
+                id="root"
+                className="relative mx-auto w-full max-w-[500px]">
+                <Header />
+                <main className="pt-[53px]">{children}</main>
+              </div>
+            </Providers>
+          </body>
+        </AuthProvider>
+      </TanstackQueryContext>
     </html>
   )
 }

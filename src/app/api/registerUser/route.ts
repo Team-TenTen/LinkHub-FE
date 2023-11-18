@@ -1,11 +1,9 @@
+import { useServerCookie } from '@/hooks/useServerCookie'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  const token = ''
-
-  const { data } = await request.json()
-  // const imageData = await request.formData()
-  // console.log(imageData)
+  const { token } = useServerCookie()
+  const { data, file } = await request.json()
 
   const formData = new FormData()
 
@@ -20,9 +18,7 @@ export async function POST(request: NextRequest) {
   }
 
   formData.append('request', JSON.stringify(req))
-
-  console.log(formData.get('request'))
-  //formData.append('file', imageData)
+  formData.append('file', file)
 
   try {
     const response = await fetch(

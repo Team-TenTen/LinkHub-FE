@@ -5,8 +5,6 @@ const registerUser = async (data: RegisterReqBody, file?: File) => {
   const imageData = new FormData()
   file && imageData.append('file', file)
 
-  console.log(file)
-
   const response = await apiClient.post('/api/registerUser', {
     data,
     file,
@@ -15,4 +13,9 @@ const registerUser = async (data: RegisterReqBody, file?: File) => {
   return response
 }
 
-export { registerUser }
+const validateToken = async () => {
+  const response = await apiClient.get('/api/auth-user')
+  return response
+}
+
+export { registerUser, validateToken }

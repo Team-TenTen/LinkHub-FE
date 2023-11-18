@@ -14,15 +14,17 @@ const Login = () => {
   useEffect(() => {
     if (searchParams.get('jwt')) {
       Cookies.set('Auth-token', searchParams.get('jwt') || '')
-      router.push('/')
+      router.replace('/')
     } else if (searchParams.get('socialId')) {
-      Cookies.set('Social-Id', searchParams.get('socialId') || '')
-      Cookies.set('Provider', searchParams.get('provider') || '')
-      router.push('/register')
+      Cookies.set('Social-Id', searchParams.get('socialId') || '', {
+        expires: 1 / 144,
+      })
+      Cookies.set('Provider', searchParams.get('provider') || '', {
+        expires: 1 / 144,
+      })
+      router.replace('/register')
     }
   }, [router, searchParams])
-
-  //Todo: 카카오 로그인 토큰을 받아서 토큰이 db에 존재하면 로그인, 존재하지 않으면 회원가입
 
   return (
     <div className="flex h-screen translate-y-[-9%] flex-col justify-center gap-10 pl-4 pr-4">
