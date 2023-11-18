@@ -29,8 +29,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter()
   const { currentUser, isLoggedIn } = useCurrentUser()
 
-  console.log(currentUser, isLoggedIn)
-
   const contextValue = useMemo(
     () => ({ currentUser, isLoggedIn }),
     [currentUser, isLoggedIn],
