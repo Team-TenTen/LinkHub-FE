@@ -1,5 +1,4 @@
 import { INITIAL_PAGE_NUMBER, PAGE_SIZE } from '@/constants'
-import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { SpaceListProps } from '../SpaceList'
 
@@ -30,9 +29,8 @@ const useSpacesQuery = ({
     getNextPageParam: (lastPage) =>
       lastPage.metaData?.hasNext ? lastPage.metaData.pageNumber + 1 : undefined,
   })
-  const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
-  return { spaces: data, ref: target }
+  return { spaces: data, fetchNextPage, hasNextPage }
 }
 
 export default useSpacesQuery

@@ -1,6 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
+import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchSpaceReqBody, SpaceResBody } from '@/types'
 import Space from '../common/Space/Space'
 import useSpacesQuery from './hooks/useSpacesQuery'
@@ -26,13 +27,14 @@ const SpaceList = ({
   keyword,
   fetchFn,
 }: SpaceListProps) => {
-  const { spaces, ref } = useSpacesQuery({
+  const { spaces, fetchNextPage, hasNextPage } = useSpacesQuery({
     queryKey,
     sort,
     category,
     keyword,
     fetchFn,
   })
+  const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
   return (
     <ul className="flex flex-col gap-y-2 px-4 pt-2">
@@ -55,7 +57,7 @@ const SpaceList = ({
           ))}
         </Fragment>
       ))}
-      <div ref={ref}></div>
+      <div ref={target}></div>
     </ul>
   )
 }
