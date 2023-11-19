@@ -1,7 +1,7 @@
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   const userId = req.nextUrl.pathname.replace('/api/user/profile/', '')
   const path = `/members/${userId}/profile`
 
