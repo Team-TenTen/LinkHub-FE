@@ -3,7 +3,7 @@ import { InfiniteQueryObserverResult } from '@tanstack/react-query'
 
 interface useInfiniteScrollProps {
   threshold?: number
-  hasNextPage: boolean | undefined
+  hasNextPage: boolean
   fetchNextPage: () => Promise<InfiniteQueryObserverResult>
 }
 
