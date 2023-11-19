@@ -1,20 +1,25 @@
 import { INITIAL_PAGE_NUMBER, PAGE_SIZE } from '@/constants'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
-import { fetchGetSpaces } from '@/services/space/spaces'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { SpaceListProps } from '../SpaceList'
 
-const useSpacesQuery = ({ sort, category }: SpaceListProps) => {
+const useSpacesQuery = ({
+  sort,
+  category,
+  keyword,
+  fetchFn,
+}: SpaceListProps) => {
   const sortValue = sort === 'favorite' ? 'favorite_count' : 'created_at'
   const categoryValue = category === 'all' ? '' : category.toUpperCase()
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ['spaces', { sort: sortValue, category: categoryValue }],
+    queryKey: ['spaces', { sort: sortValue, category: categoryValue, keyword }],
     queryFn: ({ pageParam }) =>
-      fetchGetSpaces({
+      fetchFn({
         pageNumber: pageParam,
         pageSize: PAGE_SIZE,
         sort: sortValue,
         filter: categoryValue,
+        keyWord: keyword,
       }),
     initialPageParam: INITIAL_PAGE_NUMBER,
     getNextPageParam: (lastPage) =>

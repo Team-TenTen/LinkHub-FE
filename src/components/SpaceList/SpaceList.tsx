@@ -1,7 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
-import { SpaceResBody } from '@/types'
+import { SearchSpaceReqBody, SpaceResBody } from '@/types'
 import Space from '../common/Space/Space'
 import useSpacesQuery from './hooks/useSpacesQuery'
 
@@ -9,10 +9,17 @@ export interface SpaceListProps {
   sort?: string
   category: string
   keyword?: string
+  fetchFn: ({
+    pageNumber,
+    pageSize,
+    sort,
+    filter,
+    keyWord,
+  }: SearchSpaceReqBody) => Promise<any>
 }
 
-const SpaceList = ({ sort, category, keyword }: SpaceListProps) => {
-  const { spaces, ref } = useSpacesQuery({ sort, category })
+const SpaceList = ({ sort, category, keyword, fetchFn }: SpaceListProps) => {
+  const { spaces, ref } = useSpacesQuery({ sort, category, keyword, fetchFn })
 
   return (
     <>

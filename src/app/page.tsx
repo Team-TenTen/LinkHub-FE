@@ -4,6 +4,7 @@ import { CategoryList, Dropdown, LinkItem, SpaceList } from '@/components'
 import { mock_LinkData } from '@/data'
 import useCategoryParam from '@/hooks/useCategoryParam'
 import useSortParam from '@/hooks/useSortParam'
+import { fetchGetSpaces } from '@/services/space/spaces'
 
 export default function Home() {
   const links = mock_LinkData.slice(0, 5)
@@ -45,6 +46,7 @@ export default function Home() {
         <SpaceList
           sort={sort ?? ''}
           category={category ?? ''}
+          fetchFn={fetchGetSpaces}
         />
       </section>
     </>
