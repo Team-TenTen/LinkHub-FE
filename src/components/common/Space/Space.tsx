@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
+import LoginModal from '../Modal/LoginModal'
 import { SPACE_CONSTANT } from './constants'
 import useFavorites from './hooks/useFavorites'
 
@@ -41,7 +42,6 @@ const Space = ({
   onClickScrap,
 }: SpaceProps) => {
   const token = document.cookie.split('=')[1] // token 가져오는 훅으로 변경 예정
-  const router = useRouter()
   const { isFavorites, favoritesCount, debounceHandleClickFavoriteButton } =
     useFavorites({
       spaceId,
@@ -141,19 +141,11 @@ const Space = ({
           </div>
         </div>
       )}
-      {isOpen && (
-        <Modal
-          title={'알림'}
-          isCancelButton
-          isConfirmButton
-          onClose={modalClose}
-          onConfirm={() => router.push('/login')}>
-          <div className="flex flex-col items-center text-base font-medium text-gray9">
-            <div>{LOGIN.LOGIN_SERVICE}</div>
-            <div>{LOGIN.LOGIN_ASK}</div>
-          </div>
-        </Modal>
-      )}
+      <LoginModal
+        Modal={Modal}
+        isOpen={isOpen}
+        modalClose={modalClose}
+      />
     </>
   )
 }
