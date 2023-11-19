@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
 import User from '@/components/common/User/User'
-import { CATEGORIES_MAP, PROFILE_MSG } from '@/constants'
+import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
 import { useCurrentModal, useModal } from '@/hooks'
 import { fetchGetUserProfile } from '@/services/user/profile/userProfile'
@@ -29,7 +29,7 @@ const UserPage = () => {
 
   useEffect(() => {
     handleGetUserProfile()
-  }, [])
+  }, [handleGetUserProfile])
 
   return (
     <>
@@ -100,7 +100,7 @@ const UserPage = () => {
             <CategoryListItem
               label={
                 user?.favoriteCategory
-                  ? CATEGORIES_MAP[user.favoriteCategory]
+                  ? CATEGORIES_RENDER[user.favoriteCategory]
                   : '없음'
               }
               active={true}
