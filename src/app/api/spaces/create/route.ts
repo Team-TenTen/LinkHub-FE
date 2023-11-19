@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   const headers = {
     Authorization: `Bearer ${req.cookies.get('token')?.value}`,
   }
-  console.log(body)
+
   try {
     const response = await apiServer.post(path, body, {}, headers, 'multipart')
     return response
