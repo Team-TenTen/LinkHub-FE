@@ -51,8 +51,7 @@ class FetchServerAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    const data = response.json()
-    return data
+    return response
   }
   public async put(
     endpoint: string,
