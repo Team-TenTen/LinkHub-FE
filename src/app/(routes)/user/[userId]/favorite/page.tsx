@@ -40,6 +40,7 @@ const UserFavoritePage = () => {
             key={space.spaceId}
             type="Card"
             userName={space.userName}
+            spaceId={space.spaceId}
             spaceName={space.spaceName}
             spaceImage={space.spaceImage}
             description={space.description}
