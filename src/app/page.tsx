@@ -1,19 +1,19 @@
 'use client'
 
-import { CategoryList, Dropdown, LinkItem } from '@/components'
-import Space from '@/components/common/Space/Space'
-import { CATEGORIES_RENDER } from '@/constants'
+import { CategoryList, Dropdown, LinkItem, SpaceList } from '@/components'
 import useHome from '@/hooks/useHome'
 
 export default function Home() {
   const {
     links,
-    spaces,
+    sort,
     sortIndex,
+    category,
     categoryIndex,
     handleSortChange,
     handleCategoryChange,
   } = useHome()
+
   return (
     <>
       <section className="px-4 pb-10">
@@ -45,22 +45,10 @@ export default function Home() {
             onChange={handleCategoryChange}
           />
         </div>
-        <div className="flex flex-col gap-y-2 px-4 pt-2">
-          {spaces?.map((space) => (
-            <Space
-              userName={space.userName}
-              spaceId={space.spaceId}
-              type="Card"
-              spaceName={space.spaceName}
-              spaceImage={space.spaceImagePath}
-              description={space.description}
-              category={CATEGORIES_RENDER[space.category]}
-              scrap={space.scrapCount}
-              favorite={space.favoriteCount}
-              key={space.spaceId}
-            />
-          ))}
-        </div>
+        <SpaceList
+          sort={sort ?? ''}
+          category={category ?? ''}
+        />
       </section>
     </>
   )
