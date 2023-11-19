@@ -16,4 +16,15 @@ const fetchFavoriteSpace = async ({ spaceId }: FetchFavoriteSpaceProps) => {
   }
 }
 
-export { fetchFavoriteSpace }
+const fetchUnFavoriteSpace = async ({ spaceId }: FetchFavoriteSpaceProps) => {
+  const path = `/api/favorites/${spaceId}`
+
+  try {
+    const response = await apiClient.delete(path)
+    return response.json()
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export { fetchFavoriteSpace, fetchUnFavoriteSpace }
