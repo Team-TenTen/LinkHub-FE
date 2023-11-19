@@ -1,35 +1,21 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
 import User from '@/components/common/User/User'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
 import { useCurrentModal, useModal } from '@/hooks'
-import { fetchGetUserProfile } from '@/services/user/profile/userProfile'
-import { UserProfileResBody } from '@/types'
-import { cls, getFollowChecked, getProfileButtonChecked } from '@/utils'
-import { usePathname, useRouter } from 'next/navigation'
+import useGetProfile from '@/hooks/useGetProfile'
+import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
+import { useRouter } from 'next/navigation'
 
 const UserPage = () => {
-  const myId = 6 // TODO: 실제 유저의 데이터를 가져오는 로직으로 수정
-  const userData = mock_userData2
-  const path = usePathname()
-  const userId = Number(path.split('/')[2])
   const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const [currentModal, handleChangeCurrentModal] = useCurrentModal()
-  const [user, setUser] = useState<UserProfileResBody>()
-
-  const handleGetUserProfile = useCallback(async () => {
-    const userData = await fetchGetUserProfile({ userId })
-    setUser(userData)
-  }, [userId])
-
-  useEffect(() => {
-    handleGetUserProfile()
-  }, [handleGetUserProfile])
+  const { user, myId } = useGetProfile()
+  const userData = mock_userData2 // TODO: 팔로워/팔로우 목록 API 나오면 제거
 
   return (
     <>
@@ -76,7 +62,7 @@ const UserPage = () => {
           onClick={() => {
             if (user?.memberId === myId) {
               router.push('/user/setting')
-            } else if (getFollowChecked({ userData, myId })) {
+            } else if (user?.isFollowing) {
               console.log('팔로잉 로직 추가')
             } else {
               console.log('팔로우 로직 추가')
@@ -84,13 +70,17 @@ const UserPage = () => {
           }}
           className={cls(
             'button button-md button-lg',
-            user?.memberId === myId
-              ? 'button-white'
-              : getFollowChecked({ userData, myId })
-              ? 'button-gray'
-              : 'button-emerald',
+            getProfileButtonColor({
+              isFollowing: user?.isFollowing,
+              memberId: user?.memberId,
+              myId,
+            }),
           )}>
-          {getProfileButtonChecked({ userData, myId })}
+          {getProfileButtonText({
+            isFollowing: user?.isFollowing,
+            memberId: user?.memberId,
+            myId,
+          })}
         </Button>
         <div className="flex flex-col ">
           <div className="py-3 text-sm font-semibold text-gray9">
