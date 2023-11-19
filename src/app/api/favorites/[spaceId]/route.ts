@@ -1,11 +1,13 @@
+import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
+  const { token } = useServerCookie()
   const { spaceId } = await req.json()
   const path = `/spaces/${spaceId}/favorites`
   const headers = {
-    Authorization: `Bearer ${req.cookies.get('token')?.value}`,
+    Authorization: `Bearer ${token}`,
   }
 
   try {
@@ -20,10 +22,11 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const { token } = useServerCookie()
   const spaceId = req.nextUrl.pathname.replace('/api/favorites/', '')
   const path = `/spaces/${spaceId}/favorites`
   const headers = {
-    Authorization: `Bearer ${req.cookies.get('token')?.value}`,
+    Authorization: `Bearer ${token}`,
   }
 
   try {
