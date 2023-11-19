@@ -77,7 +77,6 @@ export interface RegisterReqBody {
   newsEmail: string
   favoriteCategory: string
   isSubscribed: boolean
-  file: File
 }
 
 // 스페이스 상세 res body
@@ -155,4 +154,14 @@ export interface SpaceResBody {
   scrapCount: number
   favoriteCount: number
   spaceImagePath: string
+}
+
+export interface CreateSpaceReqBody {
+  spaceName: string
+  description: string
+  category: string
+  isVisible: boolean
+  isComment: boolean
+  isLinkSummarizable: boolean
+  isReadMarkEnabled: boolean
 }

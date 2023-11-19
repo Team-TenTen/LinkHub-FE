@@ -26,7 +26,7 @@ const useGetSpace = (): [
 
   useEffect(() => {
     handleGetSpace()
-  }, [])
+  }, [handleGetSpace])
 
   return [space, setSpace]
 }
