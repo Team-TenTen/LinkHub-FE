@@ -2,6 +2,7 @@
 
 import { LOGIN } from '@/constants'
 import { useModal } from '@/hooks'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
@@ -41,7 +42,7 @@ const Space = ({
   hasFavorite,
   onClickScrap,
 }: SpaceProps) => {
-  const token = document.cookie.split('=')[1] // token 가져오는 훅으로 변경 예정
+  const { isLoggedIn } = useCurrentUser()
   const { isFavorites, favoritesCount, debounceHandleClickFavoriteButton } =
     useFavorites({
       spaceId,
@@ -125,7 +126,7 @@ const Space = ({
               <Button
                 className="button button-round button-white"
                 onClick={() => {
-                  token ? debounceHandleClickFavoriteButton() : modalOpen()
+                  isLoggedIn ? debounceHandleClickFavoriteButton() : modalOpen()
                 }}>
                 {isFavorites ? (
                   <StarIconSolid className="h-4 w-4 text-yellow-300" />
