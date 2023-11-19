@@ -7,12 +7,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
-import useToggle from '../Toggle/hooks/useToggle'
 import { SPACE_CONSTANT } from './constants'
+import useFavorites from './hooks/useFavorites'
 
 interface SpaceProps {
   userName: string
-  spaceId?: number
+  spaceId: number
   type: 'Card' | 'Header'
   spaceName: string
   spaceImage?: string
@@ -20,6 +20,7 @@ interface SpaceProps {
   category: string
   scrap: number
   favorite: number
+  hasFavorite: boolean
   onClickScrap?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
   onClickFavorite?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -34,18 +35,14 @@ const Space = ({
   category,
   scrap,
   favorite,
+  hasFavorite,
   onClickScrap,
-  onClickFavorite,
 }: SpaceProps) => {
-  const [clicked, toggle] = useToggle()
+  const { isFavorites, favoritesCount, handleClickFavoriteButton } =
+    useFavorites({ spaceId, hasFavorite, favorite })
 
   const handleClickScrapButton = () => {
     onClickScrap?.()
-  }
-
-  const handleClickFavoriteButton = () => {
-    toggle()
-    onClickFavorite?.()
   }
 
   return (
@@ -119,12 +116,12 @@ const Space = ({
               <Button
                 className="button button-round button-white"
                 onClick={handleClickFavoriteButton}>
-                {clicked ? (
+                {isFavorites ? (
                   <StarIconSolid className="h-4 w-4 text-yellow-300" />
                 ) : (
                   <StarIconOutline className="h-4 w-4" />
                 )}
-                {SPACE_CONSTANT.FAVORITE} {favorite}
+                {SPACE_CONSTANT.FAVORITE} {favoritesCount}
               </Button>
             </div>
             <div className="line-clamp-1 text-xs font-normal text-gray6">
