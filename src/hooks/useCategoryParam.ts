@@ -1,6 +1,6 @@
 import { CATEGORIES } from '@/components/common/CategoryList/constants'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import useCreateQueryString from './useCreateQueryString'
+import useQueryString from './useQueryString'
 
 const useCategoryParam = (type: keyof typeof CATEGORIES) => {
   const router = useRouter()
@@ -10,7 +10,7 @@ const useCategoryParam = (type: keyof typeof CATEGORIES) => {
   const categoryIndex = category
     ? Object.values(CATEGORIES[type]).indexOf(category)
     : 0
-  const { createQueryString } = useCreateQueryString(searchParams)
+  const { createQueryString } = useQueryString(searchParams)
 
   const handleCategoryChange = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.replace(

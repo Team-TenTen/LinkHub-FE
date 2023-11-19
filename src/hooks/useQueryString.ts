@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { ReadonlyURLSearchParams } from 'next/navigation'
 
-const useCreateQueryString = (searchParams: ReadonlyURLSearchParams) => {
+const useQueryString = (searchParams: ReadonlyURLSearchParams) => {
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams)
@@ -15,4 +15,4 @@ const useCreateQueryString = (searchParams: ReadonlyURLSearchParams) => {
   return { createQueryString }
 }
 
-export default useCreateQueryString
+export default useQueryString
