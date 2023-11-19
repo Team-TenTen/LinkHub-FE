@@ -1,18 +1,15 @@
 'use client'
 
 import { CategoryList, Dropdown, LinkItem, SpaceList } from '@/components'
-import useHome from '@/hooks/useHome'
+import { mock_LinkData } from '@/data'
+import useCategoryParam from '@/hooks/useCategoryParam'
+import useSortParam from '@/hooks/useSortParam'
 
 export default function Home() {
-  const {
-    links,
-    sort,
-    sortIndex,
-    category,
-    categoryIndex,
-    handleSortChange,
-    handleCategoryChange,
-  } = useHome()
+  const links = mock_LinkData.slice(0, 5)
+  const { sort, sortIndex, handleSortChange } = useSortParam('space')
+  const { category, categoryIndex, handleCategoryChange } =
+    useCategoryParam('all_follow')
 
   return (
     <>
