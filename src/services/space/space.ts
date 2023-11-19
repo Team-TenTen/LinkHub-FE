@@ -1,3 +1,4 @@
+import { CreateSpaceReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
 export interface FetchGetSpaceProps {
@@ -15,4 +16,14 @@ const fetchGetSpace = async ({ spaceId }: FetchGetSpaceProps) => {
   }
 }
 
-export { fetchGetSpace }
+const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
+  const path = '/api/spaces/create'
+  const reqData = { ...data }
+  const formData = new FormData()
+  formData.append('request', JSON.stringify(reqData))
+  file && formData.append('file', file)
+  const response = await apiClient.post(path, formData, {}, {}, 'multipart')
+  return response
+}
+
+export { fetchGetSpace, feachCreateSpace }

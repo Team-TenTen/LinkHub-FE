@@ -1,14 +1,30 @@
 'use client'
 
+import { useEffect } from 'react'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid'
+import Cookies from 'js-cookie'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Button from '../common/Button/Button'
-import { useLogin } from './hooks/useLogin'
 
 const Login = () => {
-  const { loginKakao } = useLogin()
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
-  //Todo: 카카오 로그인 토큰을 받아서 토큰이 db에 존재하면 로그인, 존재하지 않으면 회원가입
+  useEffect(() => {
+    if (searchParams.get('jwt')) {
+      Cookies.set('Auth-token', searchParams.get('jwt') || '')
+      router.replace('/')
+    } else if (searchParams.get('socialId')) {
+      Cookies.set('Social-Id', searchParams.get('socialId') || '', {
+        expires: 1 / 144,
+      })
+      Cookies.set('Provider', searchParams.get('provider') || '', {
+        expires: 1 / 144,
+      })
+      router.replace('/register')
+    }
+  }, [router, searchParams])
 
   return (
     <div className="flex h-screen translate-y-[-9%] flex-col justify-center gap-10 pl-4 pr-4">
@@ -25,7 +41,7 @@ const Login = () => {
         className="button button-md flex w-full items-center justify-center border-none bg-yellow-400 px-3 py-2.5">
         <ChatBubbleOvalLeftIcon className="h-6 w-6 text-gray-800" />
         <div
-          onClick={() => loginKakao()}
+          onClick={() => router.push('/kakaoLogin')}
           className="text-sm font-bold text-gray-800">
           카카오로 시작하기
         </div>
