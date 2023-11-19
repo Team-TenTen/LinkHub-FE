@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.formData()
-  const path = `/spaces`
-  console.log(body)
+  const path = `/members/join`
+
   try {
     const response = await apiServer.post(path, body, {}, {}, 'multipart')
     return response
