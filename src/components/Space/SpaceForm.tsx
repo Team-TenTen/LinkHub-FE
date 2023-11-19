@@ -3,23 +3,15 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
+import { CATEGORIES_RENDER } from '@/constants'
 import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
+import { feachCreateSpace, fetchGetSpace } from '@/services/space/space'
+import { CreateSpaceReqBody } from '@/types'
 import Image from 'next/image'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import { SPACE_FORM_CONSTNAT } from './constant'
-
-interface FormValues {
-  image: File | null
-  name: string
-  description: string
-  category: string
-  public: boolean
-  comment: boolean
-  summary: boolean
-  viewer: boolean
-}
 
 interface SpaceFormProps {
   spaceType: 'Create' | 'Setting'
@@ -47,6 +39,7 @@ const SpaceForm = ({
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
   const [thumnail, setThumnail] = useState(spaceImage)
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
+  const [imageFile, setImageFile] = useState<File>()
 
   const {
     register,
@@ -54,15 +47,15 @@ const SpaceForm = ({
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<CreateSpaceReqBody>({
     defaultValues: {
-      name: spaceName || '',
+      spaceName: spaceName || '',
       description: description || '',
-      category: category?.toLowerCase() || 'enter_art',
-      public: spacePublic || false,
-      comment: comment || false,
-      summary: summary || false,
-      viewer: viewer || false,
+      category: category || 'Enter_ART',
+      isVisible: spacePublic || false,
+      isComment: comment || false,
+      isLinkSummarizable: summary || false,
+      isReadMarkEnabled: viewer || false,
     },
   })
 
@@ -72,15 +65,13 @@ const SpaceForm = ({
 
   const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
     e?.preventDefault()
-
     if (e?.target.files) {
       const blob = new Blob([e.target.files[0]], {
         type: e.target.files[0].type,
       })
-
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
-      setValue('image', e.target.files[0])
+      setImageFile(e?.target.files[0])
     }
   }
 
@@ -91,13 +82,15 @@ const SpaceForm = ({
 
   return (
     <form
+      encType="multipart/form-data"
       className="flex flex-col gap-3"
-      onSubmit={handleSubmit((data) => {
-        console.log(data)
+      onSubmit={handleSubmit(async (data) => {
+        spaceType === 'Create'
+          ? await feachCreateSpace(data, imageFile)
+          : console.log(data)
       })}>
       <div>
         <input
-          {...register('image')}
           type="file"
           ref={selectSpaceImage}
           onChange={handleFileChange}
@@ -122,13 +115,13 @@ const SpaceForm = ({
       <div className="flex flex-col gap-3 pl-4 pr-4">
         <div>
           <Input
-            {...register('name', {
+            {...register('spaceName', {
               required: '스페이스명을 입력해 주세요',
             })}
             label="스페이스 이름"
             placeholder="스페이스 이름을 입력하세요"
             type="text"
-            validation={errors.name?.message}
+            validation={errors.spaceName?.message}
           />
         </div>
         <div>
@@ -146,10 +139,10 @@ const SpaceForm = ({
               type="default"
               horizontal={false}
               defaultIndex={Object.values(CATEGORIES['default']).indexOf(
-                getValues('category'),
+                getValues('category').toLowerCase(),
               )}
               onChange={(e) =>
-                setValue('category', e?.currentTarget.value || '')
+                setValue('category', e?.currentTarget.value.toUpperCase() || '')
               }
             />
           </div>
@@ -158,19 +151,19 @@ const SpaceForm = ({
           <div className="flex items-center justify-between border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">공개여부</div>
             <Toggle
-              {...register('public')}
-              name="public"
+              {...register('isVisible')}
+              name="isVisible"
               on={spacePublic || false}
-              onChange={() => setValue('public', !getValues('public'))}
+              onChange={() => setValue('isVisible', !getValues('isVisible'))}
             />
           </div>
           <div className="flex items-center justify-between border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">댓글 작성 여부</div>
             <Toggle
-              {...register('comment')}
+              {...register('isComment')}
               on={comment || false}
-              name="comment"
-              onChange={() => setValue('comment', !getValues('comment'))}
+              name="isComment"
+              onChange={() => setValue('isComment', !getValues('isComment'))}
             />
           </div>
           <div className="flex items-center justify-between border-t border-slate3 p-3">
@@ -178,19 +171,23 @@ const SpaceForm = ({
               링크 3줄 요약 여부
             </div>
             <Toggle
-              {...register('summary')}
+              {...register('isLinkSummarizable')}
               on={summary}
-              name="summary"
-              onChange={() => setValue('summary', !getValues('summary'))}
+              name="isLinkSummarizable"
+              onChange={() =>
+                setValue('isLinkSummarizable', !getValues('isLinkSummarizable'))
+              }
             />
           </div>
           <div className="flex items-center justify-between border-b border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">읽음 처리 여부</div>
             <Toggle
-              {...register('viewer')}
+              {...register('isReadMarkEnabled')}
               on={viewer}
-              name="viewer"
-              onChange={() => setValue('viewer', !getValues('viewer'))}
+              name="isReadMarkEnabled"
+              onChange={() =>
+                setValue('isReadMarkEnabled', !getValues('isReadMarkEnabled'))
+              }
             />
           </div>
         </div>

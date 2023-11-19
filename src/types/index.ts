@@ -156,3 +156,13 @@ export interface SpaceResBody {
   favoriteCount: number
   spaceImagePath: string
 }
+
+export interface CreateSpaceReqBody {
+  spaceName: string
+  description: string
+  category: string
+  isVisible: boolean
+  isComment: boolean
+  isLinkSummarizable: boolean
+  isReadMarkEnabled: boolean
+}

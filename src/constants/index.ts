@@ -35,4 +35,3 @@ export const CATEGORIES_RENDER: CategoriesRenderType = {
 
 export const PAGE_SIZE = 10
 export const PAGE_NUMBER = 0
-
