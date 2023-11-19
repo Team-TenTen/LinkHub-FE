@@ -44,6 +44,7 @@ export default function Home() {
           />
         </div>
         <SpaceList
+          queryKey="main"
           sort={sort ?? ''}
           category={category ?? ''}
           fetchFn={fetchGetSpaces}

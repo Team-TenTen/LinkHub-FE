@@ -4,6 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { SpaceListProps } from '../SpaceList'
 
 const useSpacesQuery = ({
+  queryKey,
   sort,
   category,
   keyword,
@@ -12,7 +13,11 @@ const useSpacesQuery = ({
   const sortValue = sort === 'favorite' ? 'favorite_count' : 'created_at'
   const categoryValue = category === 'all' ? '' : category.toUpperCase()
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ['spaces', { sort: sortValue, category: categoryValue, keyword }],
+    queryKey: [
+      'spaces',
+      queryKey,
+      { sort: sortValue, category: categoryValue, keyword },
+    ],
     queryFn: ({ pageParam }) =>
       fetchFn({
         pageNumber: pageParam,
