@@ -94,8 +94,10 @@ export interface SpaceDetailResBody {
   scrapCount: number
   favoriteCount: number
   spaceImagePath: string
-  memberDetailInfos: UserDetailInfo[]
+  hasFavorite: boolean
   isOwner: boolean
+  isCanEdit: boolean
+  memberDetailInfos: UserDetailInfo[]
 }
 
 export interface UserDetailInfo {
