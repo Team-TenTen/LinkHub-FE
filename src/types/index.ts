@@ -77,7 +77,6 @@ export interface RegisterReqBody {
   newsEmail: string
   favoriteCategory: string
   isSubscribed: boolean
-  file: File
 }
 
 // 스페이스 상세 res body
