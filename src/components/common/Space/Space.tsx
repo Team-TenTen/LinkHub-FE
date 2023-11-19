@@ -1,10 +1,13 @@
 'use client'
 
+import { LOGIN } from '@/constants'
+import { useModal } from '@/hooks'
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import { SPACE_CONSTANT } from './constants'
@@ -20,7 +23,7 @@ interface SpaceProps {
   category: string
   scrap: number
   favorite: number
-  hasFavorite: boolean
+  hasFavorite?: boolean
   onClickScrap?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -37,12 +40,15 @@ const Space = ({
   hasFavorite,
   onClickScrap,
 }: SpaceProps) => {
+  const token = document.cookie.split('=')[1] // token 가져오는 훅으로 변경 예정
+  const router = useRouter()
   const { isFavorites, favoritesCount, debounceHandleClickFavoriteButton } =
     useFavorites({
       spaceId,
       hasFavorite,
       favorite,
     })
+  const { Modal, isOpen, modalOpen, modalClose } = useModal()
 
   const handleClickScrapButton = () => {
     onClickScrap?.()
@@ -118,7 +124,9 @@ const Space = ({
               </Button>
               <Button
                 className="button button-round button-white"
-                onClick={debounceHandleClickFavoriteButton}>
+                onClick={() => {
+                  token ? debounceHandleClickFavoriteButton() : modalOpen()
+                }}>
                 {isFavorites ? (
                   <StarIconSolid className="h-4 w-4 text-yellow-300" />
                 ) : (
@@ -132,6 +140,19 @@ const Space = ({
             </div>
           </div>
         </div>
+      )}
+      {isOpen && (
+        <Modal
+          title={'알림'}
+          isCancelButton
+          isConfirmButton
+          onClose={modalClose}
+          onConfirm={() => router.push('/login')}>
+          <div className="flex flex-col items-center text-base font-medium text-gray9">
+            <div>{LOGIN.LOGIN_SERVICE}</div>
+            <div>{LOGIN.LOGIN_ASK}</div>
+          </div>
+        </Modal>
       )}
     </>
   )
