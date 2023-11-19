@@ -22,7 +22,6 @@ interface SpaceProps {
   favorite: number
   hasFavorite: boolean
   onClickScrap?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
-  onClickFavorite?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Space = ({
@@ -38,8 +37,12 @@ const Space = ({
   hasFavorite,
   onClickScrap,
 }: SpaceProps) => {
-  const { isFavorites, favoritesCount, handleClickFavoriteButton } =
-    useFavorites({ spaceId, hasFavorite, favorite })
+  const { isFavorites, favoritesCount, debounceHandleClickFavoriteButton } =
+    useFavorites({
+      spaceId,
+      hasFavorite,
+      favorite,
+    })
 
   const handleClickScrapButton = () => {
     onClickScrap?.()
@@ -115,7 +118,7 @@ const Space = ({
               </Button>
               <Button
                 className="button button-round button-white"
-                onClick={handleClickFavoriteButton}>
+                onClick={debounceHandleClickFavoriteButton}>
                 {isFavorites ? (
                   <StarIconSolid className="h-4 w-4 text-yellow-300" />
                 ) : (
