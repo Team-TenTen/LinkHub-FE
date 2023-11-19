@@ -8,7 +8,7 @@ import useToggle from '../../Toggle/hooks/useToggle'
 
 export interface UseFavoritesProps {
   spaceId: number
-  hasFavorite: boolean
+  hasFavorite?: boolean
   favorite: number
 }
 
