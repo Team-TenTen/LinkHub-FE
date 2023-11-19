@@ -1,33 +1,37 @@
 import { COLOR_LIST, PROFILE_MSG } from '@/constants'
-import { UserData } from '@/types'
 
 export const cls = (...classnames: (string | boolean | undefined)[]) => {
   return classnames.join(' ')
 }
 
-export interface GetFollowCheckedProps {
-  userData: UserData
-  myId: number
+export interface GetFollowButtonFnProps {
+  isFollowing?: boolean
+  memberId?: number
+  myId?: number
 }
 
-export const getFollowChecked = ({
-  userData,
+export const getProfileButtonColor = ({
+  isFollowing,
+  memberId,
   myId,
-}: GetFollowCheckedProps): boolean => {
-  if (userData.follower.find((user) => user.userId === myId)) {
-    return true
+}: GetFollowButtonFnProps): string => {
+  if (memberId === myId) {
+    return 'button-white'
+  } else if (isFollowing) {
+    return 'button-gray'
   } else {
-    return false
+    return 'button-emerald'
   }
 }
 
-export const getProfileButtonChecked = ({
-  userData,
+export const getProfileButtonText = ({
+  isFollowing,
+  memberId,
   myId,
-}: GetFollowCheckedProps): string => {
-  if (userData?.id === myId) {
+}: GetFollowButtonFnProps): string => {
+  if (memberId === myId) {
     return PROFILE_MSG.PROFILE_EDIT
-  } else if (userData.follower.find((user) => user.userId === myId)) {
+  } else if (isFollowing) {
     return PROFILE_MSG.FOLLOWING
   } else {
     return PROFILE_MSG.FOLLOW
