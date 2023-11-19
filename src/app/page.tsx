@@ -2,8 +2,7 @@
 
 import { CategoryList, Dropdown, LinkItem, SpaceList } from '@/components'
 import { mock_LinkData } from '@/data'
-import useCategoryParam from '@/hooks/useCategoryParam'
-import useSortParam from '@/hooks/useSortParam'
+import { useCategoryParam, useSortParam } from '@/hooks'
 import { fetchGetSpaces } from '@/services/space/spaces'
 
 export default function Home() {
