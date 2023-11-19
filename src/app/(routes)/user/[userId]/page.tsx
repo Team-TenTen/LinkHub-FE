@@ -11,10 +11,10 @@ import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
 import { useRouter } from 'next/navigation'
 
 const UserPage = () => {
+  const { user, myId } = useGetProfile()
   const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const [currentModal, handleChangeCurrentModal] = useCurrentModal()
-  const { user, myId } = useGetProfile()
   const userData = mock_userData2 // TODO: 팔로워/팔로우 목록 API 나오면 제거
 
   return (
