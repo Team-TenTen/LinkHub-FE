@@ -51,7 +51,7 @@ const SpaceForm = ({
     defaultValues: {
       spaceName: spaceName || '',
       description: description || '',
-      category: 'ENTER_ART',
+      category: category || 'Enter_ART',
       isVisible: spacePublic || false,
       isComment: comment || false,
       isLinkSummarizable: summary || false,
@@ -139,7 +139,7 @@ const SpaceForm = ({
               type="default"
               horizontal={false}
               defaultIndex={Object.values(CATEGORIES['default']).indexOf(
-                getValues('category'),
+                getValues('category').toLowerCase(),
               )}
               onChange={(e) =>
                 setValue('category', e?.currentTarget.value.toUpperCase() || '')
