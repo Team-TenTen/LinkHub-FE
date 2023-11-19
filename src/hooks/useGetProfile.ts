@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { fetchGetUserProfile } from '@/services/user/profile/userProfile'
+import { fetchGetUserProfile } from '@/services/user/profile/profile'
 import { UserProfileResBody } from '@/types'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useCurrentUser } from './useCurrentUser'
 
 const useGetProfile = () => {
