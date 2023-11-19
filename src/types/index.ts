@@ -66,6 +66,7 @@ export interface UserProfileResBody {
   favoriteCategory: string
   profileImagePath: string
   isSubscribed: boolean
+  isFollowing: boolean
 }
 
 // 회원가입 req body
