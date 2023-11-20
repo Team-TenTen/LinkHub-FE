@@ -23,6 +23,7 @@ export default function Home() {
             title={link.title}
             url={link.url}
             tag={link.tag}
+            isInitLiked={link.isLiked}
             likeInitCount={link.likeCount}
             key={link.id}
           />
