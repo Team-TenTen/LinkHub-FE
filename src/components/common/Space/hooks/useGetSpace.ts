@@ -20,8 +20,8 @@ const useGetSpace = (): [
   const spaceId = Number(path.split('/')[2])
 
   const handleGetSpace = useCallback(async () => {
-    const { space } = await fetchGetSpace({ spaceId })
-    setSpace(space)
+    const data = await fetchGetSpace({ spaceId })
+    setSpace(data)
   }, [spaceId])
 
   useEffect(() => {
