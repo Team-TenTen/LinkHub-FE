@@ -113,9 +113,9 @@ const LinkItem = ({
                       : handleOpenCurrentModal('login')
                   }>
                   {isLiked ? (
-                    <HeartIconSolid className="h-4 w-4 text-slate6" />
+                    <HeartIconSolid className="h-4 w-4 text-red-400" />
                   ) : (
-                    <HeartIconOutline className="h-4 w-4  text-slate6" />
+                    <HeartIconOutline className="h-4 w-4 text-slate6" />
                   )}
                   {likeCount}
                 </Button>
@@ -183,7 +183,7 @@ const LinkItem = ({
                       : handleOpenCurrentModal('login')
                   }>
                   {isLiked ? (
-                    <HeartIconSolid className="h-4 w-4 text-slate6" />
+                    <HeartIconSolid className="h-4 w-4 text-red-400" />
                   ) : (
                     <HeartIconOutline className="h-4 w-4  text-slate6" />
                   )}
