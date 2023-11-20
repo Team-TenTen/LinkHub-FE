@@ -1,6 +1,7 @@
 'use client'
 
 import { useCurrentModal, useModal } from '@/hooks'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { User } from '@/types'
 import { cls } from '@/utils'
 import {
@@ -16,15 +17,19 @@ import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import Input from '../Input/Input'
+import LoginModal from '../Modal/LoginModal'
 import useToggle from '../Toggle/hooks/useToggle'
 import { DELETE_TEXT } from './\bconstants'
+import useLikeLink from './hooks/useLikeLink'
 
 export interface LinkItemProps {
+  linkId: number
   title: string
   url: string
   tag: string
   readUsers?: Pick<User, 'id' | 'profile'>[]
-  likes: number
+  isInitLiked?: boolean
+  likeInitCount: number
   read?: boolean
   summary?: boolean
   edit?: boolean
@@ -32,19 +37,26 @@ export interface LinkItemProps {
 }
 
 const LinkItem = ({
+  linkId,
   title,
   url,
   tag,
   readUsers,
-  likes,
+  isInitLiked,
+  likeInitCount,
   read = false,
   summary = false,
   edit = false,
   type = 'list',
 }: LinkItemProps) => {
-  const [isLike, likeToggle] = useToggle()
+  const { isLoggedIn } = useCurrentUser()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const [currentModal, handleChangeCurrentModal] = useCurrentModal()
+  const { isLiked, likeCount, handleLikeClick } = useLikeLink({
+    linkId,
+    isLikedValue: isInitLiked,
+    likeCountValue: likeInitCount,
+  })
 
   return (
     <>
@@ -98,13 +110,15 @@ const LinkItem = ({
               <>
                 <Button
                   className="button button-round button-white"
-                  onClick={() => likeToggle()}>
-                  {isLike ? (
+                  onClick={() =>
+                    isLoggedIn ? handleLikeClick(isLiked) : modalOpen()
+                  }>
+                  {isLiked ? (
                     <HeartIconSolid className="h-4 w-4 text-slate6" />
                   ) : (
                     <HeartIconOutline className="h-4 w-4  text-slate6" />
                   )}
-                  <div>{likes}</div>
+                  <div>{likeCount}</div>
                 </Button>
                 {summary && (
                   <Button>
@@ -166,13 +180,15 @@ const LinkItem = ({
               <div className="flex gap-1.5">
                 <Button
                   className="button button-round button-white"
-                  onClick={() => likeToggle()}>
-                  {isLike ? (
+                  onClick={() =>
+                    isLoggedIn ? handleLikeClick(isLiked) : modalOpen()
+                  }>
+                  {isLiked ? (
                     <HeartIconSolid className="h-4 w-4 text-slate6" />
                   ) : (
                     <HeartIconOutline className="h-4 w-4  text-slate6" />
                   )}
-                  <div>{likes}</div>
+                  <div>{likeCount}</div>
                 </Button>
                 {summary && (
                   <Button>
@@ -208,6 +224,11 @@ const LinkItem = ({
           )}
         </Modal>
       )}
+      <LoginModal
+        Modal={Modal}
+        isOpen={isOpen}
+        modalClose={modalClose}
+      />
     </>
   )
 }
