@@ -17,7 +17,7 @@ const fetchCreateLink = async ({
 
   try {
     const response = await apiClient.post(path, body)
-    return response.json()
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }

@@ -1,5 +1,7 @@
 'use client'
 
+import { useModal } from '@/hooks'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
@@ -7,12 +9,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
-import useToggle from '../Toggle/hooks/useToggle'
+import LoginModal from '../Modal/LoginModal'
 import { SPACE_CONSTANT } from './constants'
+import useFavorites from './hooks/useFavorites'
 
 interface SpaceProps {
   userName: string
-  spaceId?: number
+  spaceId: number
   type: 'Card' | 'Header'
   spaceName: string
   spaceImage?: string
@@ -20,8 +23,8 @@ interface SpaceProps {
   category: string
   scrap: number
   favorite: number
+  hasFavorite?: boolean
   onClickScrap?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
-  onClickFavorite?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Space = ({
@@ -34,18 +37,19 @@ const Space = ({
   category,
   scrap,
   favorite,
+  hasFavorite,
   onClickScrap,
-  onClickFavorite,
 }: SpaceProps) => {
-  const [clicked, toggle] = useToggle()
+  const { isLoggedIn } = useCurrentUser()
+  const { isFavorites, favoritesCount, handleFavoriteClick } = useFavorites({
+    spaceId,
+    hasFavorite,
+    favorite,
+  })
+  const { Modal, isOpen, modalOpen, modalClose } = useModal()
 
   const handleClickScrapButton = () => {
     onClickScrap?.()
-  }
-
-  const handleClickFavoriteButton = () => {
-    toggle()
-    onClickFavorite?.()
   }
 
   return (
@@ -118,13 +122,15 @@ const Space = ({
               </Button>
               <Button
                 className="button button-round button-white"
-                onClick={handleClickFavoriteButton}>
-                {clicked ? (
+                onClick={() => {
+                  isLoggedIn ? handleFavoriteClick(isFavorites) : modalOpen()
+                }}>
+                {isFavorites ? (
                   <StarIconSolid className="h-4 w-4 text-yellow-300" />
                 ) : (
                   <StarIconOutline className="h-4 w-4" />
                 )}
-                {SPACE_CONSTANT.FAVORITE} {favorite}
+                {SPACE_CONSTANT.FAVORITE} {favoritesCount}
               </Button>
             </div>
             <div className="line-clamp-1 text-xs font-normal text-gray6">
@@ -133,6 +139,11 @@ const Space = ({
           </div>
         </div>
       )}
+      <LoginModal
+        Modal={Modal}
+        isOpen={isOpen}
+        modalClose={modalClose}
+      />
     </>
   )
 }

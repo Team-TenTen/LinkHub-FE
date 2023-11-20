@@ -32,12 +32,14 @@ const SpacePage = () => {
         <Space
           type="Header"
           userName={space.memberDetailInfos[0].nickname}
+          spaceId={space.spaceId}
           spaceName={space.spaceName}
           spaceImage={space.spaceImagePath}
           description={space.description}
           category={CATEGORIES_RENDER[space.category]}
           scrap={space.scrapCount}
           favorite={space.favoriteCount}
+          hasFavorite={space.hasFavorite}
         />
       )}
       {tabList.length > MIN_TAB_NUMBER && (

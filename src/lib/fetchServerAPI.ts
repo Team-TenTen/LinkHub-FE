@@ -66,7 +66,8 @@ class FetchServerAPI {
       body: JSON.stringify(body),
       ...nextInit,
     })
-    return response
+    const data = response.json()
+    return data
   }
   public async delete(
     endpoint: string,
@@ -78,7 +79,8 @@ class FetchServerAPI {
       headers: { ...this.headers, ...customHeaders },
       ...nextInit,
     })
-    return response
+    const data = response
+    return data
   }
 }
 export default FetchServerAPI

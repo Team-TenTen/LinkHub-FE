@@ -43,6 +43,7 @@ const SpaceCommentPage = () => {
     <>
       <Space
         userName={space.memberDetailInfos[0].nickname}
+        spaceId={space.spaceId}
         type="Header"
         spaceName={space.spaceName}
         spaceImage={space.spaceImagePath}
