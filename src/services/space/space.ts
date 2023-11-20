@@ -26,11 +26,7 @@ const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
   return response
 }
 
-export interface FetchFavoriteSpaceProps {
-  spaceId: number
-}
-
-const fetchFavoriteSpace = async ({ spaceId }: FetchFavoriteSpaceProps) => {
+const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
   const path = `/api/favorites/${spaceId}`
   const body = { spaceId }
 
@@ -42,7 +38,7 @@ const fetchFavoriteSpace = async ({ spaceId }: FetchFavoriteSpaceProps) => {
   }
 }
 
-const fetchUnFavoriteSpace = async ({ spaceId }: FetchFavoriteSpaceProps) => {
+const fetchUnFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
   const path = `/api/favorites/${spaceId}`
 
   try {
