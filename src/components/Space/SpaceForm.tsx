@@ -32,10 +32,6 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const spaceId = Number(path.split('/')[2])
   const router = useRouter()
 
-  useEffect(() => {
-    console.log(space)
-  }, [space])
-
   const {
     register,
     getValues,
