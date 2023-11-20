@@ -23,4 +23,38 @@ const fetchCreateLink = async ({
   }
 }
 
-export { fetchCreateLink }
+export interface FetchLikeLinkProps {
+  linkId: number
+}
+
+const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
+  const path = '/api/link/like'
+  const params = {
+    linkId: linkId.toString(),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.post(`${path}?${queryString}`, {})
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
+  const path = '/api/link/like'
+  const params = {
+    linkId: linkId.toString(),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.delete(`${path}?${queryString}`)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export { fetchCreateLink, fetchLikeLink, fetchUnLikeLink }
