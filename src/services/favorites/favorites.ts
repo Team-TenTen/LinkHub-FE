@@ -10,7 +10,7 @@ const fetchFavoriteSpace = async ({ spaceId }: FetchFavoriteSpaceProps) => {
 
   try {
     const response = await apiClient.post(path, body)
-    return response.json()
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -21,7 +21,7 @@ const fetchUnFavoriteSpace = async ({ spaceId }: FetchFavoriteSpaceProps) => {
 
   try {
     const response = await apiClient.delete(path)
-    return response.json()
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }

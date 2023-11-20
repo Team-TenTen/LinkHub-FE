@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = await apiServer.post(path, {}, {}, headers)
-    return NextResponse.json({ data })
+    return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
       { error: error.response.data.message },
@@ -31,7 +31,7 @@ export async function DELETE(req: NextRequest) {
 
   try {
     const data = await apiServer.delete(path, {}, headers)
-    return NextResponse.json({ data })
+    return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
       { error: error.response.data.message },
