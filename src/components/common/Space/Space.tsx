@@ -1,6 +1,5 @@
 'use client'
 
-import { LOGIN } from '@/constants'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
@@ -8,7 +7,6 @@ import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import LoginModal from '../Modal/LoginModal'
@@ -43,12 +41,11 @@ const Space = ({
   onClickScrap,
 }: SpaceProps) => {
   const { isLoggedIn } = useCurrentUser()
-  const { isFavorites, favoritesCount, debounceHandleClickFavoriteButton } =
-    useFavorites({
-      spaceId,
-      hasFavorite,
-      favorite,
-    })
+  const { isFavorites, favoritesCount, handleFavoriteClick } = useFavorites({
+    spaceId,
+    hasFavorite,
+    favorite,
+  })
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
 
   const handleClickScrapButton = () => {
@@ -126,7 +123,7 @@ const Space = ({
               <Button
                 className="button button-round button-white"
                 onClick={() => {
-                  isLoggedIn ? debounceHandleClickFavoriteButton() : modalOpen()
+                  isLoggedIn ? handleFavoriteClick(isFavorites) : modalOpen()
                 }}>
                 {isFavorites ? (
                   <StarIconSolid className="h-4 w-4 text-yellow-300" />

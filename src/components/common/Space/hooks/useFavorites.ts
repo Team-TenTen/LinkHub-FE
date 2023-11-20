@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
   fetchFavoriteSpace,
   fetchUnFavoriteSpace,
@@ -20,23 +20,37 @@ const useFavorites = ({
   const [isFavorites, favoritesToggle] = useToggle(hasFavorite)
   const [favoritesCount, setFavoritesCount] = useState<number>(favorite)
 
-  const handleClickFavoriteButton = async () => {
-    favoritesToggle()
+  const debounceUnFetchSpace = useMemo(
+    () =>
+      debounce(async () => {
+        await fetchUnFavoriteSpace({ spaceId })
+      }, 500),
+    [spaceId],
+  )
 
-    if (isFavorites) {
-      await fetchUnFavoriteSpace({ spaceId })
-      setFavoritesCount((prev) => prev - 1)
-    } else {
-      await fetchFavoriteSpace({ spaceId })
-      setFavoritesCount((prev) => prev + 1)
-    }
-  }
+  const debouncefetchSpace = useMemo(
+    () =>
+      debounce(async () => {
+        await fetchFavoriteSpace({ spaceId })
+      }, 500),
+    [spaceId],
+  )
 
-  const debounceHandleClickFavoriteButton = debounce(() => {
-    handleClickFavoriteButton()
-  }, 300)
+  const handleFavoriteClick = useCallback(
+    (isFavorites: boolean) => {
+      favoritesToggle()
+      if (isFavorites) {
+        setFavoritesCount((prev) => prev - 1)
+        debounceUnFetchSpace()
+      } else {
+        setFavoritesCount((prev) => prev + 1)
+        debouncefetchSpace()
+      }
+    },
+    [favoritesToggle, debounceUnFetchSpace, debouncefetchSpace],
+  )
 
-  return { isFavorites, favoritesCount, debounceHandleClickFavoriteButton }
+  return { isFavorites, favoritesCount, handleFavoriteClick }
 }
 
 export default useFavorites
