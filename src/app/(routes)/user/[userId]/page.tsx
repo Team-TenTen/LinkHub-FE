@@ -5,7 +5,7 @@ import Button from '@/components/common/Button/Button'
 import User from '@/components/common/User/User'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
-import { useCurrentModal, useModal } from '@/hooks'
+import { useModal } from '@/hooks'
 import useGetProfile from '@/hooks/useGetProfile'
 import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
 import { useRouter } from 'next/navigation'
@@ -13,8 +13,8 @@ import { useRouter } from 'next/navigation'
 const UserPage = () => {
   const { user, myId } = useGetProfile()
   const router = useRouter()
-  const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const [currentModal, handleOpenCurrentModal] = useCurrentModal({ modalOpen })
+  const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
+    useModal()
   const userData = mock_userData2 // TODO: 팔로워/팔로우 목록 API 나오면 제거
 
   return (
