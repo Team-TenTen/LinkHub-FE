@@ -40,4 +40,10 @@ const fetchSettingSpace = async (
   return response
 }
 
-export { fetchGetSpace, feachCreateSpace, fetchSettingSpace }
+const fetchDeleteSpace = async (spaceId: number) => {
+  const path = `/api/space/${spaceId}`
+  const response = await apiClient.delete(path)
+  return response
+}
+
+export { fetchGetSpace, feachCreateSpace, fetchSettingSpace, fetchDeleteSpace }

@@ -39,3 +39,22 @@ export async function PATCH(req: NextRequest) {
     )
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  const { token } = useServerCookie()
+  const spaceId = req.nextUrl.pathname.replace('/api/space/', '')
+  const path = `/spaces/${spaceId}`
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  }
+
+  try {
+    const response = await apiServer.delete(path, {}, headers)
+    return NextResponse.json(response)
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.response.data.message },
+      { status: error.response.status },
+    )
+  }
+}

@@ -6,7 +6,11 @@ import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
 import { CATEGORIES_RENDER } from '@/constants'
 import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
-import { feachCreateSpace, fetchSettingSpace } from '@/services/space/space'
+import {
+  feachCreateSpace,
+  fetchDeleteSpace,
+  fetchSettingSpace,
+} from '@/services/space/space'
 import { CreateSpaceReqBody, SpaceDetailResBody } from '@/types'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
@@ -27,7 +31,6 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const path = usePathname()
   const spaceId = Number(path.split('/')[2])
   const router = useRouter()
-  //const [currentSpace, setSpace] = useState(space)
 
   useEffect(() => {
     console.log(space)
@@ -67,9 +70,13 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
     }
   }
 
-  const handleConfirm = () => {
-    // 스페이스 나간 후 로직
-    console.log('스페이스가 삭제되었습니다.')
+  const handleConfirm = async () => {
+    try {
+      await fetchDeleteSpace(spaceId)
+      router.replace('/')
+    } catch (e) {
+      alert('스페이스 삭제에 실패하였습니다.')
+    }
   }
 
   return (
@@ -79,7 +86,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       onSubmit={handleSubmit(async (data) => {
         if (spaceType === 'Create') {
           await feachCreateSpace(data, imageFile)
-          router.push('/')
+          router.replace('/')
         } else {
           await fetchSettingSpace(spaceId, data, imageFile)
           router.back()
