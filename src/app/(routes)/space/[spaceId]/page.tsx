@@ -76,15 +76,18 @@ const SpacePage = () => {
             />
           </div>
           <div className="flex gap-2">
-            <Button
-              className="button button-white p-1.5"
-              onClick={editToggle}>
-              {isEdit ? (
-                <EyeIcon className="h-5 w-5" />
-              ) : (
-                <PencilSquareIcon className="h-5 w-5" />
-              )}
-            </Button>
+            {space?.isOwner && (
+              <Button
+                className="button button-white p-1.5"
+                onClick={editToggle}>
+                {isEdit ? (
+                  <EyeIcon className="h-5 w-5" />
+                ) : (
+                  <PencilSquareIcon className="h-5 w-5" />
+                )}
+              </Button>
+            )}
+
             <div>
               <Button
                 className={cls(
