@@ -35,3 +35,8 @@ export const CATEGORIES_RENDER: CategoriesRenderType = {
 
 export const PAGE_SIZE = 10
 export const PAGE_NUMBER = 0
+
+export const LOGIN = {
+  LOGIN_SERVICE: '로그인이 필요한 서비스입니다.',
+  LOGIN_ASK: '로그인하시겠습니까?',
+}
