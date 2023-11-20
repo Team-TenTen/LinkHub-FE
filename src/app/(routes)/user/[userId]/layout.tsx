@@ -4,11 +4,15 @@ import React from 'react'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
-import { mock_userData2 } from '@/data'
+import useGetProfile from '@/hooks/useGetProfile'
 
 const UserLayout = ({ children }: { children: React.ReactNode }) => {
-  const userData = mock_userData2
-  const { currentTab, tabList } = useTab({ type: 'user', userData })
+  const { user, myId } = useGetProfile()
+  const { currentTab, tabList } = useTab({
+    type: 'user',
+    userId: user?.memberId,
+    myId,
+  })
 
   return (
     <>

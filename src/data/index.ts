@@ -163,7 +163,7 @@ export const mock_userData: User = {
 }
 
 export const mock_userData2 = {
-  id: 3,
+  id: 6,
   name: '프롱이',
   profile: '/duck.jpg',
   email: 'abc@gmail.com',
