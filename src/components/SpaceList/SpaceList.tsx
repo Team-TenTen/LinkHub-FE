@@ -1,6 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
+import { CATEGORIES_RENDER } from '@/constants'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchSpaceReqBody, SpaceResBody } from '@/types'
 import Space from '../common/Space/Space'
@@ -49,7 +50,7 @@ const SpaceList = ({
                 spaceName={space.spaceName}
                 spaceImage={space.spaceImagePath}
                 description={space.description}
-                category={space.category}
+                category={CATEGORIES_RENDER[space.category]}
                 scrap={space.scrapCount}
                 favorite={space.favoriteCount}
               />
