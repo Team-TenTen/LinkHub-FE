@@ -54,7 +54,7 @@ class FetchAPI {
     const data = response.json()
     return data
   }
-  public async patch(
+  public async put(
     endpoint: string,
     body: any,
     nextInit: RequestInit = {},
@@ -62,7 +62,7 @@ class FetchAPI {
     type: string = 'default',
   ): Promise<any> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
-      method: 'PATCH',
+      method: 'PUT',
       headers:
         type === 'multipart'
           ? { ...customHeaders }
@@ -80,6 +80,24 @@ class FetchAPI {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       method: 'DELETE',
       headers: { ...this.headers, ...customHeaders },
+      ...nextInit,
+    })
+    return response
+  }
+  public async patch(
+    endpoint: string,
+    body: any,
+    nextInit: RequestInit = {},
+    customHeaders: { [key: string]: string } = {},
+    type: string = 'default',
+  ): Promise<any> {
+    const response = await fetch(`${this.baseURL}${endpoint}`, {
+      method: 'PATCH',
+      headers:
+        type === 'multipart'
+          ? { ...customHeaders }
+          : { ...this.headers, ...customHeaders },
+      body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
     return response
