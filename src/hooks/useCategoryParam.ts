@@ -18,6 +18,7 @@ const useCategoryParam = (type: keyof typeof CATEGORIES) => {
       { scroll: false },
     )
   }
+
   return {
     category,
     categoryIndex,
