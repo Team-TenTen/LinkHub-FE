@@ -76,7 +76,8 @@ const LinkList = ({
         </button>
         {links.map((link) => (
           <LinkItem
-            key={link.id}
+            spaceId={spaceId}
+            linkId={link.id}
             title={link.title}
             url={link.url}
             tag={link.tag}
@@ -86,6 +87,7 @@ const LinkList = ({
             summary={summary}
             edit={edit}
             type={type}
+            key={link.id}
           />
         ))}
       </div>
