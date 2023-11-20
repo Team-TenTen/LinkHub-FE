@@ -15,7 +15,8 @@ export interface Link {
   url: string
   tag: string
   readUsers: { id: string; profile: string }[]
-  likes: number
+  isLiked: boolean
+  likeCount: number
 }
 
 export interface LinkListProps {
@@ -76,16 +77,18 @@ const LinkList = ({
         </button>
         {links.map((link) => (
           <LinkItem
-            key={link.id}
+            linkId={link.id}
             title={link.title}
             url={link.url}
             tag={link.tag}
             readUsers={link.readUsers}
-            likes={link.likes}
+            isInitLiked={link.isLiked}
+            likeInitCount={link.likeCount}
             read={read}
             summary={summary}
             edit={edit}
             type={type}
+            key={link.id}
           />
         ))}
       </div>
