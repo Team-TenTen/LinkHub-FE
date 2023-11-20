@@ -14,7 +14,7 @@ const UserPage = () => {
   const { user, myId } = useGetProfile()
   const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const [currentModal, handleChangeCurrentModal] = useCurrentModal()
+  const [currentModal, handleOpenCurrentModal] = useCurrentModal({ modalOpen })
   const userData = mock_userData2 // TODO: 팔로워/팔로우 목록 API 나오면 제거
 
   return (
@@ -40,8 +40,7 @@ const UserPage = () => {
               <div
                 className="cursor-pointer hover:font-semibold"
                 onClick={() => {
-                  handleChangeCurrentModal('following')
-                  modalOpen()
+                  handleOpenCurrentModal('following')
                 }}>
                 {PROFILE_MSG.FOLLOWING} {user?.followingCount}
               </div>
@@ -49,8 +48,7 @@ const UserPage = () => {
               <div
                 className="cursor-pointer hover:font-semibold"
                 onClick={() => {
-                  handleChangeCurrentModal('follower')
-                  modalOpen()
+                  handleOpenCurrentModal('follower')
                 }}>
                 {PROFILE_MSG.FOLLOWER} {user?.followerCount}
               </div>

@@ -1,12 +1,23 @@
 import { useCallback, useState } from 'react'
 
-const useCurrentModal = (): [string, (current: string) => void] => {
-  const [currentModal, setCurrentModal] = useState('')
-  const handleChangeCurrentModal = useCallback((current: string) => {
-    setCurrentModal(current)
-  }, [])
+export interface UseCurrentModalProps {
+  modalOpen: VoidFunction
+}
 
-  return [currentModal, handleChangeCurrentModal]
+const useCurrentModal = ({
+  modalOpen,
+}: UseCurrentModalProps): [string, (current: string) => void] => {
+  const [currentModal, setCurrentModal] = useState('')
+
+  const handleOpenCurrentModal = useCallback(
+    (current: string) => {
+      setCurrentModal(current)
+      modalOpen()
+    },
+    [modalOpen],
+  )
+
+  return [currentModal, handleOpenCurrentModal]
 }
 
 export default useCurrentModal
