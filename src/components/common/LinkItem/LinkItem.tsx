@@ -117,7 +117,7 @@ const LinkItem = ({
                   ) : (
                     <HeartIconOutline className="h-4 w-4  text-slate6" />
                   )}
-                  <div>{likeCount}</div>
+                  {likeCount}
                 </Button>
                 {summary && (
                   <Button>
@@ -187,7 +187,7 @@ const LinkItem = ({
                   ) : (
                     <HeartIconOutline className="h-4 w-4  text-slate6" />
                   )}
-                  <div>{likeCount}</div>
+                  {likeCount}
                 </Button>
                 {summary && (
                   <Button>
