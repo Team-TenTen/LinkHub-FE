@@ -14,8 +14,9 @@ export const getPathname = ({ path, n, defaultPath }: GetPathnameProps) => {
 
 export const getCurrentSpaceTabList = (
   space: SpaceDetailResBody,
+  userId: number,
 ): TabList[] => {
-  const myName = 'dudwns' // TODO: 실제 유저로 변경
+  const myId = userId // TODO: 실제 유저로 변경
   const { memberDetailInfos, spaceId, isComment } = space
   const tabList = [
     { text: '스페이스', content: 'space', dest: `/space/${spaceId}` },
@@ -28,7 +29,7 @@ export const getCurrentSpaceTabList = (
       dest: `/space/${spaceId}/comment`,
     })
   }
-  if (memberDetailInfos[0].nickname === myName) {
+  if (memberDetailInfos[0].memberId === myId) {
     tabList.push({
       text: '설정',
       content: 'setting',

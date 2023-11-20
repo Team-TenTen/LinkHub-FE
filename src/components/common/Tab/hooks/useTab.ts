@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+import { useAuth } from '@/lib/contexts/AuthProvider'
 import { SpaceDetailResBody, UserData } from '@/types'
 import { usePathname } from 'next/navigation'
 import { NOTIFICATION_TAB_LIST } from '../constants'
@@ -25,10 +27,13 @@ export interface useTabReturn {
 }
 
 const useTab = ({ type, space, userData }: UseTabProps): useTabReturn => {
+  const { currentUser } = useAuth()
+  const cachedCurrentUser = useMemo(() => currentUser, [currentUser])
+
   const pathname = usePathname()
   if (space && type === 'space') {
     const currentTab = getPathname({ path: pathname, n: 3, defaultPath: type })
-    const tabList = getCurrentSpaceTabList(space)
+    const tabList = getCurrentSpaceTabList(space, cachedCurrentUser?.memberId!)
     return { currentTab, tabList }
   }
 
