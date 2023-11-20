@@ -1,6 +1,6 @@
 'use client'
 
-import { useCurrentModal, useModal } from '@/hooks'
+import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { User } from '@/types'
 import { cls } from '@/utils'
@@ -18,7 +18,6 @@ import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import Input from '../Input/Input'
 import LoginModal from '../Modal/LoginModal'
-import useToggle from '../Toggle/hooks/useToggle'
 import { DELETE_TEXT } from './\bconstants'
 import useLikeLink from './hooks/useLikeLink'
 
@@ -50,8 +49,8 @@ const LinkItem = ({
   type = 'list',
 }: LinkItemProps) => {
   const { isLoggedIn } = useCurrentUser()
-  const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const [currentModal, handleChangeCurrentModal] = useCurrentModal()
+  const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
+    useModal()
   const { isLiked, likeCount, handleLikeClick } = useLikeLink({
     linkId,
     isLikedValue: isInitLiked,
@@ -93,15 +92,13 @@ const LinkItem = ({
               <>
                 <Button
                   onClick={() => {
-                    handleChangeCurrentModal('delete')
-                    modalOpen()
+                    handleOpenCurrentModal('delete')
                   }}>
                   <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
                 <Button
                   onClick={() => {
-                    handleChangeCurrentModal('update')
-                    modalOpen()
+                    handleOpenCurrentModal('update')
                   }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
@@ -111,7 +108,9 @@ const LinkItem = ({
                 <Button
                   className="button button-round button-white"
                   onClick={() =>
-                    isLoggedIn ? handleLikeClick(isLiked) : modalOpen()
+                    isLoggedIn
+                      ? handleLikeClick(isLiked)
+                      : handleOpenCurrentModal('login')
                   }>
                   {isLiked ? (
                     <HeartIconSolid className="h-4 w-4 text-slate6" />
@@ -163,15 +162,13 @@ const LinkItem = ({
               <div className="flex gap-1.5">
                 <Button
                   onClick={() => {
-                    handleChangeCurrentModal('delete')
-                    modalOpen()
+                    handleOpenCurrentModal('delete')
                   }}>
                   <TrashIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
                 <Button
                   onClick={() => {
-                    handleChangeCurrentModal('update')
-                    modalOpen()
+                    handleOpenCurrentModal('update')
                   }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
                 </Button>
@@ -181,7 +178,9 @@ const LinkItem = ({
                 <Button
                   className="button button-round button-white"
                   onClick={() =>
-                    isLoggedIn ? handleLikeClick(isLiked) : modalOpen()
+                    isLoggedIn
+                      ? handleLikeClick(isLiked)
+                      : handleOpenCurrentModal('login')
                   }>
                   {isLiked ? (
                     <HeartIconSolid className="h-4 w-4 text-slate6" />
@@ -224,11 +223,13 @@ const LinkItem = ({
           )}
         </Modal>
       )}
-      <LoginModal
-        Modal={Modal}
-        isOpen={isOpen}
-        modalClose={modalClose}
-      />
+      {currentModal === 'login' && (
+        <LoginModal
+          Modal={Modal}
+          isOpen={isOpen}
+          modalClose={modalClose}
+        />
+      )}
     </>
   )
 }
