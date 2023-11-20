@@ -13,8 +13,8 @@ export const mock_LinkData = [
       { id: 'user4', profile: '/duck.jpg' },
       { id: 'user5', profile: '/duck.jpg' },
     ],
-    isLiked: true,
-    likeCount: 9,
+    isLiked: false,
+    likeCount: 7,
   },
   {
     id: 2,
@@ -28,8 +28,8 @@ export const mock_LinkData = [
       { id: 'user9', profile: '/duck.jpg' },
       { id: 'user10', profile: '/duck.jpg' },
     ],
-    isLiked: false,
-    likeCount: 7,
+    isLiked: true,
+    likeCount: 5,
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ export const mock_LinkData = [
       { id: 'user14', profile: '/duck.jpg' },
       { id: 'user15', profile: '/duck.jpg' },
     ],
-    isLiked: true,
+    isLiked: false,
     likeCount: 1,
   },
   {
@@ -58,7 +58,7 @@ export const mock_LinkData = [
       { id: 'user19', profile: '/duck.jpg' },
       { id: 'user20', profile: '/duck.jpg' },
     ],
-    isLiked: false,
+    isLiked: true,
     likeCount: 2,
   },
   {
@@ -73,7 +73,7 @@ export const mock_LinkData = [
       { id: 'user24', profile: '/duck.jpg' },
       { id: 'user25', profile: '/duck.jpg' },
     ],
-    isLiked: true,
+    isLiked: false,
     likeCount: 5,
   },
   {
