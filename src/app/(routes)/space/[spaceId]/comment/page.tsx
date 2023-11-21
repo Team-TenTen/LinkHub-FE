@@ -5,10 +5,11 @@ import { useForm } from 'react-hook-form'
 import { Comment, Input } from '@/components'
 import Button from '@/components/common/Button/Button'
 import Space from '@/components/common/Space/Space'
+import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
-import { MIN_TAB_NUMBER } from '@/constants'
+import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
 import { useModal } from '@/hooks'
 import useSpaceComment from '@/hooks/useSpaceComment'
 import { XMarkIcon } from '@heroicons/react/20/solid'
@@ -18,6 +19,7 @@ export interface CommentFormValues {
 }
 
 const SpaceCommentPage = () => {
+  const [space] = useGetSpace()
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
   const { register, setValue, setFocus, handleSubmit } =
     useForm<CommentFormValues>({
@@ -26,7 +28,6 @@ const SpaceCommentPage = () => {
       },
     })
   const {
-    space,
     comments,
     comment,
     handleEdit,
@@ -41,17 +42,20 @@ const SpaceCommentPage = () => {
 
   return (
     <>
-      <Space
-        userName={space.memberDetailInfos[0].nickname}
-        spaceId={space.spaceId}
-        type="Header"
-        spaceName={space.spaceName}
-        spaceImage={space.spaceImagePath}
-        description={space.description}
-        category={space.category}
-        scrap={space.scrapCount}
-        favorite={space.favoriteCount}
-      />
+      {space && (
+        <Space
+          type="Header"
+          userName={space.memberDetailInfos[0].nickname}
+          spaceId={space.spaceId}
+          spaceName={space.spaceName}
+          spaceImage={space.spaceImagePath}
+          description={space.description}
+          category={CATEGORIES_RENDER[space.category]}
+          scrap={space.scrapCount}
+          favorite={space.favoriteCount}
+          hasFavorite={space.hasFavorite}
+        />
+      )}
       {tabList.length > MIN_TAB_NUMBER && (
         <Tab>
           {tabList.map((tabItem) => (
