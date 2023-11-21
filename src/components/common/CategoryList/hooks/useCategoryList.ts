@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export interface useCategoryListProps {
   defaultIndex?: number
@@ -7,6 +7,10 @@ export interface useCategoryListProps {
 
 const useCategoryList = ({ defaultIndex, onChange }: useCategoryListProps) => {
   const [index, setIndex] = useState(defaultIndex ?? 0)
+
+  useEffect(() => {
+    setIndex(defaultIndex ?? 0)
+  }, [defaultIndex])
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, i: number) => {
     setIndex(i)
