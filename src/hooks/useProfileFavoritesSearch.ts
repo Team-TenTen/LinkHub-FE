@@ -12,6 +12,7 @@ export interface UseSpaceSearchProps {
 const useProfileFavoritesSearch = ({
   userId,
   category,
+  setValue,
 }: UseSpaceSearchProps) => {
   const router = useRouter()
 
@@ -23,6 +24,7 @@ const useProfileFavoritesSearch = ({
     } else {
       router.push(`/user/${userId}/favorite?keyword=${data.keyword}`)
     }
+    setValue('keyword', '')
   }
 
   return { onSubmit }
