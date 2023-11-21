@@ -32,12 +32,14 @@ const SpacePage = () => {
         <Space
           type="Header"
           userName={space.memberDetailInfos[0].nickname}
+          spaceId={space.spaceId}
           spaceName={space.spaceName}
           spaceImage={space.spaceImagePath}
           description={space.description}
           category={CATEGORIES_RENDER[space.category]}
           scrap={space.scrapCount}
           favorite={space.favoriteCount}
+          hasFavorite={space.hasFavorite}
         />
       )}
       {tabList.length > MIN_TAB_NUMBER && (
@@ -74,15 +76,18 @@ const SpacePage = () => {
             />
           </div>
           <div className="flex gap-2">
-            <Button
-              className="button button-white p-1.5"
-              onClick={editToggle}>
-              {isEdit ? (
-                <EyeIcon className="h-5 w-5" />
-              ) : (
-                <PencilSquareIcon className="h-5 w-5" />
-              )}
-            </Button>
+            {space?.isOwner && (
+              <Button
+                className="button button-white p-1.5"
+                onClick={editToggle}>
+                {isEdit ? (
+                  <EyeIcon className="h-5 w-5" />
+                ) : (
+                  <PencilSquareIcon className="h-5 w-5" />
+                )}
+              </Button>
+            )}
+
             <div>
               <Button
                 className={cls(

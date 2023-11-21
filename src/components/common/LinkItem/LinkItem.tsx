@@ -1,6 +1,7 @@
 'use client'
 
 import { useCurrentModal, useModal } from '@/hooks'
+import { fetchDeleteLink } from '@/services/link/link'
 import { User } from '@/types'
 import { cls } from '@/utils'
 import {
@@ -18,8 +19,11 @@ import Chip from '../Chip/Chip'
 import Input from '../Input/Input'
 import useToggle from '../Toggle/hooks/useToggle'
 import { DELETE_TEXT } from './\bconstants'
+import useDeleteLink from './hooks/useDeleteLink'
 
 export interface LinkItemProps {
+  linkId: number
+  spaceId?: number
   title: string
   url: string
   tag: string
@@ -32,6 +36,8 @@ export interface LinkItemProps {
 }
 
 const LinkItem = ({
+  linkId,
+  spaceId,
   title,
   url,
   tag,
@@ -45,6 +51,7 @@ const LinkItem = ({
   const [isLike, likeToggle] = useToggle()
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const [currentModal, handleChangeCurrentModal] = useCurrentModal()
+  const { handleDeleteLink } = useDeleteLink()
 
   return (
     <>
@@ -190,7 +197,8 @@ const LinkItem = ({
           isCancelButton={currentModal === 'update' ? false : true}
           isConfirmButton={true}
           confirmText={currentModal === 'update' ? '수정' : '삭제'}
-          onClose={modalClose}>
+          onClose={modalClose}
+          onConfirm={() => spaceId && handleDeleteLink({ spaceId, linkId })}>
           {currentModal === 'update' && (
             <div className="flex flex-col gap-2">
               <Input

@@ -1,4 +1,10 @@
-import { Space, SpaceDetailResBody, UserData } from '@/types'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
+import {
+  Space,
+  SpaceDetailResBody,
+  UserData,
+  UserProfileResBody,
+} from '@/types'
 import { TabList } from '../hooks/useTab'
 
 export interface GetPathnameProps {
@@ -16,8 +22,7 @@ export const getCurrentSpaceTabList = (
   space: SpaceDetailResBody,
   userId: number,
 ): TabList[] => {
-  const myId = userId // TODO: 실제 유저로 변경
-  const { memberDetailInfos, spaceId, isComment } = space
+  const { isOwner, spaceId, isComment } = space
   const tabList = [
     { text: '스페이스', content: 'space', dest: `/space/${spaceId}` },
   ]
@@ -29,7 +34,7 @@ export const getCurrentSpaceTabList = (
       dest: `/space/${spaceId}/comment`,
     })
   }
-  if (memberDetailInfos[0].memberId === myId) {
+  if (isOwner) {
     tabList.push({
       text: '설정',
       content: 'setting',
@@ -40,19 +45,20 @@ export const getCurrentSpaceTabList = (
   return tabList
 }
 
-export const getCurrentUserTabList = (userData: UserData): TabList[] => {
-  const myName = '프롱이' // TODO: 실제 유저로 변경
-  const { id, name } = userData
+export const getCurrentUserTabList = (
+  userId?: number,
+  myId?: number,
+): TabList[] => {
   const tabList = [
-    { text: '프로필', content: 'user', dest: `/user/${id}` },
-    { text: '스페이스', content: 'space', dest: `/user/${id}/space` },
+    { text: '프로필', content: 'user', dest: `/user/${userId}` },
+    { text: '스페이스', content: 'space', dest: `/user/${userId}/space` },
   ]
 
-  if (name === myName) {
+  if (userId === myId) {
     tabList.push({
       text: '즐겨찾기',
       content: 'favorite',
-      dest: `/user/${id}/favorite`,
+      dest: `/user/${userId}/favorite`,
     })
   }
 

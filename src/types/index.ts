@@ -66,6 +66,7 @@ export interface UserProfileResBody {
   favoriteCategory: string
   profileImagePath: string
   isSubscribed: boolean
+  isFollowing: boolean
 }
 
 // 회원가입 req body
@@ -93,8 +94,10 @@ export interface SpaceDetailResBody {
   scrapCount: number
   favoriteCount: number
   spaceImagePath: string
-  memberDetailInfos: UserDetailInfo[]
+  hasFavorite: boolean
   isOwner: boolean
+  isCanEdit: boolean
+  memberDetailInfos: UserDetailInfo[]
 }
 
 export interface UserDetailInfo {

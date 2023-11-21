@@ -70,7 +70,8 @@ class FetchAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    return response
+    const data = response.json()
+    return data
   }
   public async delete(
     endpoint: string,
