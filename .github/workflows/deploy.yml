@@ -21,6 +21,11 @@ jobs:
         with:
           node-version: 18.x
 
+      - name: Generate Environment Variables File
+        env:
+          NEXT_PUBLIC_API_ADDRESS: ${{ secrets.NEXT_PUBLIC_API_ADDRESS }}
+          NEXT_PUBLIC_API_INTERNAL_ADDRESS: ${{ secrets.NEXT_PUBLIC_API_INTERNAL_ADDRESS }}
+
       - name: Install dependencies
         run: npm install
 
