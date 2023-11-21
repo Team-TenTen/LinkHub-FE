@@ -46,4 +46,34 @@ const fetchDeleteSpace = async (spaceId: number) => {
   return response
 }
 
-export { fetchGetSpace, feachCreateSpace, fetchSettingSpace, fetchDeleteSpace }
+const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
+  const path = `/api/favorites/${spaceId}`
+  const body = { spaceId }
+
+  try {
+    const response = await apiClient.post(path, body)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+const fetchUnFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
+  const path = `/api/favorites/${spaceId}`
+
+  try {
+    const response = await apiClient.delete(path)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export {
+  fetchGetSpace,
+  feachCreateSpace,
+  fetchFavoriteSpace,
+  fetchUnFavoriteSpace,
+  fetchSettingSpace,
+  fetchDeleteSpace,
+}
