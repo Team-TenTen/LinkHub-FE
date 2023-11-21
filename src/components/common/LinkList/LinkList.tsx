@@ -109,7 +109,7 @@ const LinkList = ({
               url,
               title,
               tag,
-              color: getRandomColor(),
+              color: 'emerald',
             })
             reset()
             setIsUrlCheck(false)
