@@ -28,6 +28,10 @@ const useDropdown = ({
   const [index, setIndex] = useState(defaultIndex ?? 0)
 
   useEffect(() => {
+    setIndex(defaultIndex ?? 0)
+  }, [defaultIndex])
+
+  useEffect(() => {
     const handleOutsideClose = (e: { target: any }) => {
       if (isOpen && el.current && !el.current?.contains(e.target)) {
         setIsOpen(false)
