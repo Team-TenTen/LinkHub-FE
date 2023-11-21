@@ -78,4 +78,31 @@ const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   }
 }
 
-export { fetchCreateLink, fetchDeleteLink, fetchLikeLink, fetchUnLikeLink }
+export interface FetchReadSaveLinkProps extends FetchDeleteLinbkProps {}
+
+const fetchReadSaveLink = async ({
+  spaceId,
+  linkId,
+}: FetchReadSaveLinkProps) => {
+  const path = '/api/link/readInfo'
+  const params = {
+    spaceId: spaceId.toString(),
+    linkId: linkId.toString(),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.post(`${path}?${queryString}`, {})
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export {
+  fetchCreateLink,
+  fetchDeleteLink,
+  fetchLikeLink,
+  fetchUnLikeLink,
+  fetchReadSaveLink,
+}
