@@ -6,40 +6,31 @@ import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
 import { CATEGORIES_RENDER } from '@/constants'
 import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
-import { feachCreateSpace, fetchGetSpace } from '@/services/space/space'
-import { CreateSpaceReqBody } from '@/types'
+import {
+  feachCreateSpace,
+  fetchDeleteSpace,
+  fetchSettingSpace,
+} from '@/services/space/space'
+import { CreateSpaceReqBody, SpaceDetailResBody } from '@/types'
 import Image from 'next/image'
+import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import { SPACE_FORM_CONSTNAT } from './constant'
 
 interface SpaceFormProps {
+  space?: SpaceDetailResBody
   spaceType: 'Create' | 'Setting'
-  spaceImage?: string
-  spaceName?: string
-  description?: string
-  category?: string
-  spacePublic?: boolean
-  comment?: boolean
-  summary?: boolean
-  viewer?: boolean
 }
 
-const SpaceForm = ({
-  spaceType,
-  spaceImage,
-  spaceName,
-  description,
-  category,
-  spacePublic,
-  comment,
-  summary,
-  viewer,
-}: SpaceFormProps) => {
+const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
-  const [thumnail, setThumnail] = useState(spaceImage)
+  const [thumnail, setThumnail] = useState(space?.spaceImagePath)
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
   const [imageFile, setImageFile] = useState<File>()
+  const path = usePathname()
+  const spaceId = Number(path.split('/')[2])
+  const router = useRouter()
 
   const {
     register,
@@ -49,19 +40,19 @@ const SpaceForm = ({
     formState: { errors },
   } = useForm<CreateSpaceReqBody>({
     defaultValues: {
-      spaceName: spaceName || '',
-      description: description || '',
-      category: category || 'Enter_ART',
-      isVisible: spacePublic || false,
-      isComment: comment || false,
-      isLinkSummarizable: summary || false,
-      isReadMarkEnabled: viewer || false,
+      spaceName: space?.spaceName || '',
+      description: space?.description || '',
+      category: space?.category || 'Enter_ART',
+      isVisible: space?.isVisible || false,
+      isComment: space?.isComment || false,
+      isLinkSummarizable: space?.isLinkSummarizable || false,
+      isReadMarkEnabled: space?.isReadMarkEnabled || false,
     },
   })
 
   useEffect(() => {
-    setThumnail(spaceImage)
-  }, [spaceImage])
+    setThumnail(space?.spaceImagePath)
+  }, [space])
 
   const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
     e?.preventDefault()
@@ -75,9 +66,13 @@ const SpaceForm = ({
     }
   }
 
-  const handleConfirm = () => {
-    // 스페이스 나간 후 로직
-    console.log('스페이스가 삭제되었습니다.')
+  const handleConfirm = async () => {
+    try {
+      await fetchDeleteSpace(spaceId)
+      router.replace('/')
+    } catch (e) {
+      alert('스페이스 삭제에 실패하였습니다.')
+    }
   }
 
   return (
@@ -85,9 +80,13 @@ const SpaceForm = ({
       encType="multipart/form-data"
       className="flex flex-col gap-3"
       onSubmit={handleSubmit(async (data) => {
-        spaceType === 'Create'
-          ? await feachCreateSpace(data, imageFile)
-          : console.log(data)
+        if (spaceType === 'Create') {
+          await feachCreateSpace(data, imageFile)
+          router.replace('/')
+        } else {
+          await fetchSettingSpace(spaceId, data, imageFile)
+          router.back()
+        }
       })}>
       <div>
         <input
@@ -153,7 +152,7 @@ const SpaceForm = ({
             <Toggle
               {...register('isVisible')}
               name="isVisible"
-              on={spacePublic || false}
+              on={space?.isVisible || false}
               onChange={() => setValue('isVisible', !getValues('isVisible'))}
             />
           </div>
@@ -161,7 +160,7 @@ const SpaceForm = ({
             <div className="text-sm font-medium text-gray9">댓글 작성 여부</div>
             <Toggle
               {...register('isComment')}
-              on={comment || false}
+              on={space?.isComment || false}
               name="isComment"
               onChange={() => setValue('isComment', !getValues('isComment'))}
             />
@@ -172,7 +171,7 @@ const SpaceForm = ({
             </div>
             <Toggle
               {...register('isLinkSummarizable')}
-              on={summary}
+              on={space?.isLinkSummarizable}
               name="isLinkSummarizable"
               onChange={() =>
                 setValue('isLinkSummarizable', !getValues('isLinkSummarizable'))
@@ -183,7 +182,7 @@ const SpaceForm = ({
             <div className="text-sm font-medium text-gray9">읽음 처리 여부</div>
             <Toggle
               {...register('isReadMarkEnabled')}
-              on={viewer}
+              on={space?.isReadMarkEnabled}
               name="isReadMarkEnabled"
               onChange={() =>
                 setValue('isReadMarkEnabled', !getValues('isReadMarkEnabled'))
@@ -204,7 +203,7 @@ const SpaceForm = ({
           <div>
             <div className="mb-10 border-b border-slate3">
               <SpaceMemberList
-                members={mock_memberData}
+                members={space?.memberDetailInfos}
                 edit
               />
             </div>

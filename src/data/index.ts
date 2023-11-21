@@ -13,7 +13,8 @@ export const mock_LinkData = [
       { id: 'user4', profile: '/duck.jpg' },
       { id: 'user5', profile: '/duck.jpg' },
     ],
-    likes: 6,
+    isLiked: false,
+    likeCount: 7,
   },
   {
     id: 2,
@@ -27,7 +28,8 @@ export const mock_LinkData = [
       { id: 'user9', profile: '/duck.jpg' },
       { id: 'user10', profile: '/duck.jpg' },
     ],
-    likes: 6,
+    isLiked: true,
+    likeCount: 5,
   },
   {
     id: 3,
@@ -41,7 +43,8 @@ export const mock_LinkData = [
       { id: 'user14', profile: '/duck.jpg' },
       { id: 'user15', profile: '/duck.jpg' },
     ],
-    likes: 6,
+    isLiked: false,
+    likeCount: 1,
   },
   {
     id: 4,
@@ -55,7 +58,8 @@ export const mock_LinkData = [
       { id: 'user19', profile: '/duck.jpg' },
       { id: 'user20', profile: '/duck.jpg' },
     ],
-    likes: 6,
+    isLiked: true,
+    likeCount: 2,
   },
   {
     id: 5,
@@ -69,7 +73,8 @@ export const mock_LinkData = [
       { id: 'user24', profile: '/duck.jpg' },
       { id: 'user25', profile: '/duck.jpg' },
     ],
-    likes: 0,
+    isLiked: false,
+    likeCount: 5,
   },
   {
     id: 6,
@@ -78,7 +83,8 @@ export const mock_LinkData = [
     url: 'https://velog.io/',
     tag: '',
     readUsers: [],
-    likes: 6,
+    isLiked: true,
+    likeCount: 3,
   },
 ]
 

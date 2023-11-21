@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 import {
   fetchFavoriteSpace,
   fetchUnFavoriteSpace,
-} from '@/services/favorites/favorites'
+} from '@/services/space/space'
 import { debounce } from 'lodash'
 import useToggle from '../../Toggle/hooks/useToggle'
 

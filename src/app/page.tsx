@@ -21,7 +21,8 @@ export default function Home() {
             title={link.title}
             url={link.url}
             tag={link.tag}
-            likes={link.likes}
+            isInitLiked={link.isLiked}
+            likeInitCount={link.likeCount}
             key={link.id}
           />
         ))}
