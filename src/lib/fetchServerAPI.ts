@@ -40,28 +40,38 @@ class FetchServerAPI {
     body: any,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
+    type: string = 'default',
   ): Promise<any> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       method: 'POST',
-      headers: { ...this.headers, ...customHeaders },
-      body: JSON.stringify(body),
+      headers:
+        type === 'multipart'
+          ? { ...customHeaders }
+          : { ...this.headers, ...customHeaders },
+      body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    return response
+    const data = response.json()
+    return data
   }
   public async put(
     endpoint: string,
     body: any,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
+    type: string = 'default',
   ): Promise<any> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       method: 'PUT',
-      headers: { ...this.headers, ...customHeaders },
-      body: JSON.stringify(body),
+      headers:
+        type === 'multipart'
+          ? { ...customHeaders }
+          : { ...this.headers, ...customHeaders },
+      body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    return response
+    const data = response.json()
+    return data
   }
   public async delete(
     endpoint: string,
@@ -71,6 +81,25 @@ class FetchServerAPI {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       method: 'DELETE',
       headers: { ...this.headers, ...customHeaders },
+      ...nextInit,
+    })
+    const data = response
+    return data
+  }
+  public async patch(
+    endpoint: string,
+    body: any,
+    nextInit: RequestInit = {},
+    customHeaders: { [key: string]: string } = {},
+    type: string = 'default',
+  ): Promise<any> {
+    const response = await fetch(`${this.baseURL}${endpoint}`, {
+      method: 'PATCH',
+      headers:
+        type === 'multipart'
+          ? { ...customHeaders }
+          : { ...this.headers, ...customHeaders },
+      body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
     return response

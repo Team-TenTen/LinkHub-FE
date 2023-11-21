@@ -3,50 +3,34 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
+import { CATEGORIES_RENDER } from '@/constants'
 import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
+import {
+  feachCreateSpace,
+  fetchDeleteSpace,
+  fetchSettingSpace,
+} from '@/services/space/space'
+import { CreateSpaceReqBody, SpaceDetailResBody } from '@/types'
 import Image from 'next/image'
+import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import { SPACE_FORM_CONSTNAT } from './constant'
 
-interface FormValues {
-  image: File | null
-  name: string
-  description: string
-  category: string
-  public: boolean
-  comment: boolean
-  summary: boolean
-  viewer: boolean
-}
-
 interface SpaceFormProps {
+  space?: SpaceDetailResBody
   spaceType: 'Create' | 'Setting'
-  spaceImage?: string
-  spaceName?: string
-  description?: string
-  category?: string
-  spacePublic?: boolean
-  comment?: boolean
-  summary?: boolean
-  viewer?: boolean
 }
 
-const SpaceForm = ({
-  spaceType,
-  spaceImage,
-  spaceName,
-  description,
-  category,
-  spacePublic,
-  comment,
-  summary,
-  viewer,
-}: SpaceFormProps) => {
+const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
-  const [thumnail, setThumnail] = useState(spaceImage)
+  const [thumnail, setThumnail] = useState(space?.spaceImagePath)
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
+  const [imageFile, setImageFile] = useState<File>()
+  const path = usePathname()
+  const spaceId = Number(path.split('/')[2])
+  const router = useRouter()
 
   const {
     register,
@@ -54,50 +38,58 @@ const SpaceForm = ({
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<CreateSpaceReqBody>({
     defaultValues: {
-      name: spaceName || '',
-      description: description || '',
-      category: category || '엔터테인먼트•예술',
-      public: spacePublic || false,
-      comment: comment || false,
-      summary: summary || false,
-      viewer: viewer || false,
+      spaceName: space?.spaceName || '',
+      description: space?.description || '',
+      category: space?.category || 'Enter_ART',
+      isVisible: space?.isVisible || false,
+      isComment: space?.isComment || false,
+      isLinkSummarizable: space?.isLinkSummarizable || false,
+      isReadMarkEnabled: space?.isReadMarkEnabled || false,
     },
   })
 
   useEffect(() => {
-    setThumnail(spaceImage)
-  }, [spaceImage])
+    setThumnail(space?.spaceImagePath)
+  }, [space])
 
   const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
     e?.preventDefault()
-
     if (e?.target.files) {
       const blob = new Blob([e.target.files[0]], {
         type: e.target.files[0].type,
       })
-
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
-      setValue('image', e.target.files[0])
+      setImageFile(e?.target.files[0])
     }
   }
 
-  const handleConfirm = () => {
-    // 스페이스 나간 후 로직
-    console.log('스페이스가 삭제되었습니다.')
+  const handleConfirm = async () => {
+    try {
+      await fetchDeleteSpace(spaceId)
+      router.replace('/')
+    } catch (e) {
+      alert('스페이스 삭제에 실패하였습니다.')
+    }
   }
 
   return (
     <form
+      encType="multipart/form-data"
       className="flex flex-col gap-3"
-      onSubmit={handleSubmit((data) => {
-        console.log(data)
+      onSubmit={handleSubmit(async (data) => {
+        if (spaceType === 'Create') {
+          await feachCreateSpace(data, imageFile)
+          router.replace('/')
+        } else {
+          await fetchSettingSpace(spaceId, data, imageFile)
+          router.back()
+        }
       })}>
       <div>
         <input
-          {...register('image')}
           type="file"
           ref={selectSpaceImage}
           onChange={handleFileChange}
@@ -122,13 +114,13 @@ const SpaceForm = ({
       <div className="flex flex-col gap-3 pl-4 pr-4">
         <div>
           <Input
-            {...register('name', {
+            {...register('spaceName', {
               required: '스페이스명을 입력해 주세요',
             })}
             label="스페이스 이름"
             placeholder="스페이스 이름을 입력하세요"
             type="text"
-            validation={errors.name?.message}
+            validation={errors.spaceName?.message}
           />
         </div>
         <div>
@@ -145,11 +137,11 @@ const SpaceForm = ({
             <CategoryList
               type="default"
               horizontal={false}
-              defaultIndex={CATEGORIES['default'].indexOf(
-                getValues('category'),
+              defaultIndex={Object.values(CATEGORIES['default']).indexOf(
+                getValues('category').toLowerCase(),
               )}
               onChange={(e) =>
-                setValue('category', e?.currentTarget.value || '')
+                setValue('category', e?.currentTarget.value.toUpperCase() || '')
               }
             />
           </div>
@@ -158,19 +150,19 @@ const SpaceForm = ({
           <div className="flex items-center justify-between border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">공개여부</div>
             <Toggle
-              {...register('public')}
-              name="public"
-              on={spacePublic || false}
-              onChange={() => setValue('public', !getValues('public'))}
+              {...register('isVisible')}
+              name="isVisible"
+              on={space?.isVisible || false}
+              onChange={() => setValue('isVisible', !getValues('isVisible'))}
             />
           </div>
           <div className="flex items-center justify-between border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">댓글 작성 여부</div>
             <Toggle
-              {...register('comment')}
-              on={comment || false}
-              name="comment"
-              onChange={() => setValue('comment', !getValues('comment'))}
+              {...register('isComment')}
+              on={space?.isComment || false}
+              name="isComment"
+              onChange={() => setValue('isComment', !getValues('isComment'))}
             />
           </div>
           <div className="flex items-center justify-between border-t border-slate3 p-3">
@@ -178,19 +170,23 @@ const SpaceForm = ({
               링크 3줄 요약 여부
             </div>
             <Toggle
-              {...register('summary')}
-              on={summary}
-              name="summary"
-              onChange={() => setValue('summary', !getValues('summary'))}
+              {...register('isLinkSummarizable')}
+              on={space?.isLinkSummarizable}
+              name="isLinkSummarizable"
+              onChange={() =>
+                setValue('isLinkSummarizable', !getValues('isLinkSummarizable'))
+              }
             />
           </div>
           <div className="flex items-center justify-between border-b border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">읽음 처리 여부</div>
             <Toggle
-              {...register('viewer')}
-              on={viewer}
-              name="viewer"
-              onChange={() => setValue('viewer', !getValues('viewer'))}
+              {...register('isReadMarkEnabled')}
+              on={space?.isReadMarkEnabled}
+              name="isReadMarkEnabled"
+              onChange={() =>
+                setValue('isReadMarkEnabled', !getValues('isReadMarkEnabled'))
+              }
             />
           </div>
         </div>
@@ -207,7 +203,7 @@ const SpaceForm = ({
           <div>
             <div className="mb-10 border-b border-slate3">
               <SpaceMemberList
-                members={mock_memberData}
+                members={space?.memberDetailInfos}
                 edit
               />
             </div>

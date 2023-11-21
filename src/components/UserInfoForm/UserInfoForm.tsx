@@ -3,38 +3,32 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
-import { User } from '@/types'
+import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
+import { useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import useToggle from '../common/Toggle/hooks/useToggle'
-import { useRegister } from './hooks/useRegister'
-
-interface FormValues {
-  image: File | null
-  nickName: string
-  introduce: string
-  email: string
-  category: string
-  newsLetter: boolean
-}
+import { RegisterReqBody, useRegister } from './hooks/useRegister'
 
 interface UserInfoFormProps {
-  userData?: User
+  userData?: UserProfileResBody
   formType: 'Register' | 'Setting'
 }
 
 const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const selectUserImage = useRef<HTMLInputElement | null>(null)
-  const [thumnail, setThumnail] = useState(userData?.profile)
+  const [thumnail, setThumnail] = useState(userData?.profileImagePath)
   const [isEmailAuthOpen, setIsEmailAuthOpen] = useState(false)
-  const [checked, toggle] = useToggle(userData?.newsLetter || false)
+  const [checked, toggle] = useToggle(userData?.isSubscribed || false)
   const { registerLinkHub } = useRegister()
+  const [imageFile, setImageFile] = useState<File>()
+  const router = useRouter()
 
   useEffect(() => {
-    setThumnail(userData?.profile)
-  }, [userData?.profile])
+    setThumnail(userData?.profileImagePath)
+  }, [userData?.profileImagePath])
 
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?&_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]/
@@ -45,12 +39,12 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<RegisterReqBody>({
     defaultValues: {
-      nickName: userData?.name || '',
-      introduce: userData?.description || '',
-      category: userData?.category || '엔터테인먼트•예술',
-      newsLetter: userData?.newsLetter || false,
+      nickname: userData?.nickname || '',
+      aboutMe: userData?.aboutMe || '',
+      favoriteCategory: 'ENTER_ART',
+      isSubscribed: userData?.isSubscribed || false,
     },
   })
 
@@ -64,7 +58,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
-      setValue('image', e.target.files[0])
+      setImageFile(e.target.files[0])
     }
   }
 
@@ -80,7 +74,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
   const handleClickCheckButton = () => {
     toggle()
-    setValue('newsLetter', !getValues('newsLetter'))
+    setValue('isSubscribed', !getValues('isSubscribed'))
   }
 
   const handleWithdrawButton = () => {
@@ -90,12 +84,12 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   return (
     <form
       className="flex flex-col gap-3 px-4 pt-8"
-      onSubmit={handleSubmit((data) => {
-        registerLinkHub(data)
+      onSubmit={handleSubmit(async (data) => {
+        await registerLinkHub(data, imageFile)
+        router.replace('/login')
       })}>
       <div className="flex justify-center">
         <input
-          {...register('image')}
           type="file"
           ref={selectUserImage}
           onChange={handleFileChange}
@@ -114,31 +108,31 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
       </div>
       <div>
         <Input
-          {...register('nickName', {
+          {...register('nickname', {
             required: '닉네임을 입력해 주세요',
           })}
           label="닉네임"
-          placeholder="Nickname"
-          validation={errors.nickName?.message}
+          placeholder="nickname"
+          validation={errors.nickname?.message}
         />
       </div>
       <div>
         <Input
-          {...register('introduce')}
+          {...register('aboutMe')}
           label="한줄 소개"
-          placeholder="Introduce"
+          placeholder="aboutMe"
         />
       </div>
       <div>
         <Input
-          {...register('email', {
+          {...register('newsEmail', {
             required: '이메일을 입력해 주세요',
             pattern: emailRegex,
           })}
           validation={
-            errors.email?.type === 'pattern'
+            errors.newsEmail?.type === 'pattern'
               ? '이메일 양식에 맞게 입력해 주세요'
-              : errors.email?.message
+              : errors.newsEmail?.message
           }
           label="이메일"
           placeholder="Email"
@@ -167,8 +161,15 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
         <CategoryList
           type="default"
           horizontal={false}
-          defaultIndex={CATEGORIES['default'].indexOf(getValues('category'))}
-          onChange={(e) => setValue('category', e?.currentTarget.value || '')}
+          defaultIndex={Object.values(CATEGORIES['default']).indexOf(
+            getValues('favoriteCategory'),
+          )}
+          onChange={(e) =>
+            setValue(
+              'favoriteCategory',
+              e?.currentTarget.value.toUpperCase() || '',
+            )
+          }
         />
       </div>
       <div className="flex items-center gap-3 py-2">

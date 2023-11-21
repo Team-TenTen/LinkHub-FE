@@ -1,4 +1,6 @@
-import { Space, UserData } from '@/types'
+import { useMemo } from 'react'
+import { useAuth } from '@/lib/contexts/AuthProvider'
+import { SpaceDetailResBody } from '@/types'
 import { usePathname } from 'next/navigation'
 import { NOTIFICATION_TAB_LIST } from '../constants'
 import {
@@ -9,8 +11,9 @@ import {
 
 export interface UseTabProps {
   type: 'space' | 'notification' | 'user'
-  spaceData?: Space
-  userData?: UserData
+  space?: SpaceDetailResBody
+  userId?: number
+  myId?: number
 }
 
 export interface TabList {
@@ -24,12 +27,13 @@ export interface useTabReturn {
   tabList: TabList[]
 }
 
-const useTab = ({ type, spaceData, userData }: UseTabProps): useTabReturn => {
+const useTab = ({ type, space, userId, myId }: UseTabProps): useTabReturn => {
+  const { currentUser } = useAuth()
+  const cachedCurrentUser = useMemo(() => currentUser, [currentUser])
   const pathname = usePathname()
-
-  if (type === 'space') {
+  if (space && type === 'space') {
     const currentTab = getPathname({ path: pathname, n: 3, defaultPath: type })
-    const tabList = getCurrentSpaceTabList(spaceData!)
+    const tabList = getCurrentSpaceTabList(space, cachedCurrentUser?.memberId!)
     return { currentTab, tabList }
   }
 
@@ -42,7 +46,7 @@ const useTab = ({ type, spaceData, userData }: UseTabProps): useTabReturn => {
 
   if (type === 'user') {
     const currentTab = getPathname({ path: pathname, n: 3, defaultPath: type })
-    const tabList = getCurrentUserTabList(userData!)
+    const tabList = getCurrentUserTabList(userId, myId)
     return { currentTab, tabList }
   }
 

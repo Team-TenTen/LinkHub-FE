@@ -3,53 +3,54 @@
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
 import User from '@/components/common/User/User'
-import { PROFILE_MSG } from '@/constants'
+import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
-import { useCurrentModal, useModal } from '@/hooks'
-import { cls, getFollowChecked, getProfileButtonChecked } from '@/utils'
+import { useModal } from '@/hooks'
+import useGetProfile from '@/hooks/useGetProfile'
+import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
 import { useRouter } from 'next/navigation'
 
 const UserPage = () => {
-  const myId = 3 // TODO: 실제 유저의 데이터를 가져오는 로직으로 수정
-  const userData = mock_userData2
+  const { user, myId } = useGetProfile()
   const router = useRouter()
-  const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const [currentModal, handleChangeCurrentModal] = useCurrentModal()
+  const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
+    useModal()
+  const userData = mock_userData2 // TODO: 팔로워/팔로우 목록 API 나오면 제거
 
   return (
     <>
       <div className="flex flex-col gap-4 px-4 py-6">
         <div className="flex gap-3">
-          <Avatar
-            src={userData.profile}
-            width={80}
-            height={80}
-            alt="profile"
-          />
+          {user?.profileImagePath && (
+            <Avatar
+              src={user.profileImagePath}
+              width={80}
+              height={80}
+              alt="profile"
+            />
+          )}
           <div className="flex flex-col gap-1 py-0.5">
             <div className="text-xl font-semibold text-gray9">
-              {userData.name}
+              {user?.nickname}
             </div>
             <div className="text-xs font-medium text-gray6">
-              {userData.email}
+              {user?.newsEmail}
             </div>
             <div className="flex gap-1 text-xs font-medium text-gray6">
               <div
                 className="cursor-pointer hover:font-semibold"
                 onClick={() => {
-                  handleChangeCurrentModal('following')
-                  modalOpen()
+                  handleOpenCurrentModal('following')
                 }}>
-                {PROFILE_MSG.FOLLOWING} {userData.following.length}
+                {PROFILE_MSG.FOLLOWING} {user?.followingCount}
               </div>
               {PROFILE_MSG.LIST_DIVIDER}
               <div
                 className="cursor-pointer hover:font-semibold"
                 onClick={() => {
-                  handleChangeCurrentModal('follower')
-                  modalOpen()
+                  handleOpenCurrentModal('follower')
                 }}>
-                {PROFILE_MSG.FOLLOWER} {userData.follower.length}
+                {PROFILE_MSG.FOLLOWER} {user?.followerCount}
               </div>
             </div>
           </div>
@@ -57,9 +58,9 @@ const UserPage = () => {
         <Button
           type="button"
           onClick={() => {
-            if (userData.id === myId) {
+            if (user?.memberId === myId) {
               router.push('/user/setting')
-            } else if (getFollowChecked({ userData, myId })) {
+            } else if (user?.isFollowing) {
               console.log('팔로잉 로직 추가')
             } else {
               console.log('팔로우 로직 추가')
@@ -67,13 +68,17 @@ const UserPage = () => {
           }}
           className={cls(
             'button button-md button-lg',
-            userData.id === myId
-              ? 'button-white'
-              : getFollowChecked({ userData, myId })
-              ? 'button-gray'
-              : 'button-emerald',
+            getProfileButtonColor({
+              isFollowing: user?.isFollowing,
+              memberId: user?.memberId,
+              myId,
+            }),
           )}>
-          {getProfileButtonChecked({ userData, myId })}
+          {getProfileButtonText({
+            isFollowing: user?.isFollowing,
+            memberId: user?.memberId,
+            myId,
+          })}
         </Button>
         <div className="flex flex-col ">
           <div className="py-3 text-sm font-semibold text-gray9">
@@ -81,7 +86,11 @@ const UserPage = () => {
           </div>
           <div>
             <CategoryListItem
-              label={userData.category}
+              label={
+                user?.favoriteCategory
+                  ? CATEGORIES_RENDER[user.favoriteCategory]
+                  : '없음'
+              }
               active={true}
               disabled={true}
             />
@@ -91,9 +100,7 @@ const UserPage = () => {
           <div className="py-3 text-sm font-semibold text-gray9">
             {PROFILE_MSG.DESCRIPTION}
           </div>
-          <div className="text-sm font-normal text-gray9">
-            {userData.description}
-          </div>
+          <div className="text-sm font-normal text-gray9">{user?.aboutMe}</div>
         </div>
       </div>
       {isOpen && (
