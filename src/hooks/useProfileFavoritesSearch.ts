@@ -1,6 +1,5 @@
 import { SubmitHandler, UseFormSetValue } from 'react-hook-form'
 import { SearchFormValue } from '@/app/(routes)/user/[userId]/space/page'
-import '@/types'
 import { useRouter } from 'next/navigation'
 
 export interface UseSpaceSearchProps {
