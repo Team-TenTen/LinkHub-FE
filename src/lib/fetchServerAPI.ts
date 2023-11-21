@@ -59,11 +59,15 @@ class FetchServerAPI {
     body: any,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
+    type: string = 'default',
   ): Promise<any> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       method: 'PUT',
-      headers: { ...this.headers, ...customHeaders },
-      body: JSON.stringify(body),
+      headers:
+        type === 'multipart'
+          ? { ...customHeaders }
+          : { ...this.headers, ...customHeaders },
+      body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
     const data = response.json()
@@ -81,6 +85,24 @@ class FetchServerAPI {
     })
     const data = response
     return data
+  }
+  public async patch(
+    endpoint: string,
+    body: any,
+    nextInit: RequestInit = {},
+    customHeaders: { [key: string]: string } = {},
+    type: string = 'default',
+  ): Promise<any> {
+    const response = await fetch(`${this.baseURL}${endpoint}`, {
+      method: 'PATCH',
+      headers:
+        type === 'multipart'
+          ? { ...customHeaders }
+          : { ...this.headers, ...customHeaders },
+      body: type === 'multipart' ? body : JSON.stringify(body),
+      ...nextInit,
+    })
+    return response
   }
 }
 export default FetchServerAPI

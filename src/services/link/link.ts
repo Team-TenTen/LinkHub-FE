@@ -61,7 +61,7 @@ export interface FetchDeleteLinbkProps {
   spaceId: number
   linkId: number
 }
-  
+
 const fetchDeleteLink = async ({ spaceId, linkId }: FetchDeleteLinbkProps) => {
   const path = '/api/link/delete'
   const params = {

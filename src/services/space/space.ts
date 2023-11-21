@@ -26,6 +26,26 @@ const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
   return response
 }
 
+const fetchSettingSpace = async (
+  spaceId: number,
+  data: CreateSpaceReqBody,
+  file?: File,
+) => {
+  const path = `/api/space/${spaceId}`
+  const reqData = { ...data }
+  const formData = new FormData()
+  formData.append('request', JSON.stringify(reqData))
+  file && formData.append('file', file)
+  const response = await apiClient.patch(path, formData, {}, {}, 'multipart')
+  return response
+}
+
+const fetchDeleteSpace = async (spaceId: number) => {
+  const path = `/api/space/${spaceId}`
+  const response = await apiClient.delete(path)
+  return response
+}
+
 const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
   const path = `/api/favorites/${spaceId}`
   const body = { spaceId }
@@ -54,4 +74,6 @@ export {
   feachCreateSpace,
   fetchFavoriteSpace,
   fetchUnFavoriteSpace,
+  fetchSettingSpace,
+  fetchDeleteSpace,
 }

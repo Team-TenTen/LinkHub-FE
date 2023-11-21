@@ -20,6 +20,7 @@ export const getPathname = ({ path, n, defaultPath }: GetPathnameProps) => {
 
 export const getCurrentSpaceTabList = (
   space: SpaceDetailResBody,
+  userId: number,
 ): TabList[] => {
   const { isOwner, spaceId, isComment } = space
   const tabList = [
