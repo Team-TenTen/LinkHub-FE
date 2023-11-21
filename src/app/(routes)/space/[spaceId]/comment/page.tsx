@@ -1,8 +1,8 @@
 'use client'
 
-import { Fragment } from 'react'
 import { useForm } from 'react-hook-form'
-import { Comment, Input } from '@/components'
+import { Input } from '@/components'
+import CommentList from '@/components/CommentList/CommentList'
 import Button from '@/components/common/Button/Button'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
@@ -12,13 +12,14 @@ import useTab from '@/components/common/Tab/hooks/useTab'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
 import { useModal } from '@/hooks'
 import useSpaceComment from '@/hooks/useSpaceComment'
+import { fetchGetComments } from '@/services/comment/comment'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 
 export interface CommentFormValues {
   comment: string
 }
 
-const SpaceCommentPage = () => {
+const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
   const [space] = useGetSpace()
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
   const { register, setValue, setFocus, handleSubmit } =
@@ -28,7 +29,6 @@ const SpaceCommentPage = () => {
       },
     })
   const {
-    comments,
     comment,
     handleEdit,
     handleDelete,
@@ -69,46 +69,10 @@ const SpaceCommentPage = () => {
         </Tab>
       )}
       <section className="px-4 pb-32 pt-1">
-        {comments.map((comment) => (
-          <Fragment key={comment.commentId}>
-            <Comment
-              commentId={comment.commentId}
-              user={{
-                id: comment.user.id,
-                name: comment.user.name,
-                profile: comment.user.profile,
-              }}
-              comment={comment.comment}
-              date={comment.date}
-              auth={comment.auth}
-              firstDepth={true}
-              replyCount={comment.replyCount}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              onOpen={handleOpen}
-              onReply={handleReply}
-            />
-            <div className="ml-8 rounded-md bg-slate-50 px-3 dark:bg-slate-800">
-              {comment.replies?.map((reply) => (
-                <Comment
-                  commentId={reply.commentId}
-                  user={{
-                    id: reply.user.id,
-                    name: reply.user.name,
-                    profile: reply.user.profile,
-                  }}
-                  comment={reply.comment}
-                  date={reply.date}
-                  firstDepth={false}
-                  auth={reply.auth}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                  key={reply.commentId}
-                />
-              ))}
-            </div>
-          </Fragment>
-        ))}
+        <CommentList
+          spaceId={params.spaceId}
+          fetchFn={fetchGetComments}
+        />
       </section>
       <form
         className="fixed bottom-0 z-10 w-full max-w-[500px] bg-bgColor"
