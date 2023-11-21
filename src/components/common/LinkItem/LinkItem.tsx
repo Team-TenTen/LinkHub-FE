@@ -2,8 +2,6 @@
 
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import { useCurrentModal, useModal } from '@/hooks'
-import { fetchDeleteLink } from '@/services/link/link'
 import { User } from '@/types'
 import { cls } from '@/utils'
 import {
@@ -21,8 +19,8 @@ import Chip from '../Chip/Chip'
 import Input from '../Input/Input'
 import LoginModal from '../Modal/LoginModal'
 import { DELETE_TEXT } from './\bconstants'
-import useLikeLink from './hooks/useLikeLink'
 import useDeleteLink from './hooks/useDeleteLink'
+import useLikeLink from './hooks/useLikeLink'
 
 export interface LinkItemProps {
   linkId: number
