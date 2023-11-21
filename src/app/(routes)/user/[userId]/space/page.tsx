@@ -7,14 +7,14 @@ import { mock_userData2 } from '@/data'
 import useSpaceSearch from '@/hooks/useSpaceSearch'
 
 export interface SearchFormValue {
-  keyword: string
+  keyWord: string
 }
 
 const UserSpacePage = () => {
   const spaceData = mock_userData2.mySpaces
   const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
-      keyword: '',
+      keyWord: '',
     },
   })
   const { handleCategoryChange, onSubmit } = useSpaceSearch({ setValue })
@@ -27,11 +27,11 @@ const UserSpacePage = () => {
         onChange={handleCategoryChange}
       />
       <form
-        onSubmit={handleSubmit(({ keyword }) => {
-          onSubmit({ keyword })
+        onSubmit={handleSubmit(({ keyWord }) => {
+          onSubmit({ searchKeyWord: keyWord })
         })}>
         <Input
-          {...register('keyword')}
+          {...register('keyWord')}
           inputButton={true}
           buttonText="검색"
           buttonColor="gray"
