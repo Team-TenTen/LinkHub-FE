@@ -1,17 +1,17 @@
 import { apiClient } from '@/services/apiServices'
-import { SearchMySpaceReqBody } from '@/types'
+import { SearchSpaceReqBody } from '@/types'
 
 const fetchGetMyFavoriteSpaces = async ({
   pageNumber,
   pageSize,
   keyWord,
   filter,
-}: SearchMySpaceReqBody) => {
+}: SearchSpaceReqBody) => {
   const path = '/api/user/favorites'
   const params = {
     pageNumber: pageNumber.toString(),
     pageSize: pageSize.toString(),
-    keyWord,
+    ...(keyWord && { keyWord: keyWord }),
     filter,
   }
   const queryString = new URLSearchParams(params).toString()
