@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { kakaoLogout } from '@/services/auth'
 
 type SpaceType = '내 스페이스' | '즐겨찾기'
 
@@ -10,9 +11,14 @@ export interface useSidebarProps {
 const useSidebar = ({ sidebarRef, onClose }: useSidebarProps) => {
   const [spaceType, setSpaceType] = useState<SpaceType>('내 스페이스')
 
-  const logout = () => {
-    // TODO: 로그아웃
-    onClose()
+  const logout = async () => {
+    try {
+      await kakaoLogout()
+      alert('로그아웃 되었습니다.')
+      onClose()
+    } catch (e) {
+      alert('로그아웃에 실패하였습니다.')
+    }
   }
 
   const handleSpaceType = (e?: React.MouseEvent<HTMLButtonElement>) => {
