@@ -11,24 +11,27 @@ const UserFavoritePage = () => {
   const spaceData = mock_userData2.favoriteSpaces
   const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
-      keyword: '',
+      keyWord: '',
     },
   })
-  const { handleCategoryChange, onSubmit } = useSpaceSearch({ setValue })
+  const { categoryIndex, handleCategoryChange, onSubmit } = useSpaceSearch({
+    setValue,
+  })
 
   return (
     <div className="px-4">
       <CategoryList
         type="all"
+        defaultIndex={categoryIndex}
         horizontal={true}
         onChange={handleCategoryChange}
       />
       <form
-        onSubmit={handleSubmit(({ keyword }) => {
-          onSubmit({ keyword })
+        onSubmit={handleSubmit(({ keyWord }) => {
+          onSubmit({ searchKeyWord: keyWord })
         })}>
         <Input
-          {...register('keyword')}
+          {...register('keyWord')}
           inputButton={true}
           buttonText="검색"
           buttonColor="gray"
