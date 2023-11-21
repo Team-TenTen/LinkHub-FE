@@ -19,34 +19,36 @@ const SearchPage = () => {
 
   return (
     <>
-      <div
-        className={cls(
-          'flex items-center px-4',
-          target === 'space' ? 'pt-4' : 'py-4',
-        )}>
-        <h2 className="grow overflow-hidden text-ellipsis whitespace-nowrap pr-2 font-bold text-gray9">
-          &apos;{keyword}&apos; 에 대한{' '}
-          {target === 'space' ? '스페이스' : target === 'user' ? '유저' : ''}{' '}
-          검색 결과
-        </h2>
+      <div className="sticky top-[53px] z-40 bg-bgColor">
+        <div
+          className={cls(
+            'flex items-center px-4',
+            target === 'space' ? 'pt-4' : 'py-4',
+          )}>
+          <h2 className="grow overflow-hidden text-ellipsis whitespace-nowrap pr-2 font-bold text-gray9">
+            &apos;{keyword}&apos; 에 대한{' '}
+            {target === 'space' ? '스페이스' : target === 'user' ? '유저' : ''}{' '}
+            검색 결과
+          </h2>
+          {target === 'space' && (
+            <div className="shrink-0">
+              <Dropdown
+                type="space"
+                placement="right"
+                defaultIndex={sortIndex}
+                onChange={handleSortChange}
+              />
+            </div>
+          )}
+        </div>
         {target === 'space' && (
-          <div className="shrink-0">
-            <Dropdown
-              type="space"
-              placement="right"
-              defaultIndex={sortIndex}
-              onChange={handleSortChange}
-            />
-          </div>
+          <CategoryList
+            type="all"
+            defaultIndex={categoryIndex}
+            onChange={handleCategoryChange}
+          />
         )}
       </div>
-      {target === 'space' && (
-        <CategoryList
-          type="all"
-          defaultIndex={categoryIndex}
-          onChange={handleCategoryChange}
-        />
-      )}
       <section className="flex flex-col gap-y-2 px-4">
         {target === 'space' && (
           <SpaceList
