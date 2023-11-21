@@ -17,6 +17,7 @@ export default function Home() {
         <h2 className="py-4 font-bold text-gray9">인기있는 링크</h2>
         {links.map((link) => (
           <LinkItem
+            linkId={link.id}
             title={link.title}
             url={link.url}
             tag={link.tag}
