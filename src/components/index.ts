@@ -17,3 +17,4 @@ export { default as SpaceMemberList } from './common/SpaceMemberList/SpaceMember
 export { default as Sidebar } from './common/Sidebar/Sidebar'
 export { default as Comment } from './Comment/Comment'
 export { default as Notification } from './common/Notification/Notification'
+export { default as SpaceList } from './SpaceList/SpaceList'

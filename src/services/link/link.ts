@@ -57,4 +57,25 @@ const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   }
 }
 
-export { fetchCreateLink, fetchLikeLink, fetchUnLikeLink }
+export interface FetchDeleteLinbkProps {
+  spaceId: number
+  linkId: number
+}
+  
+const fetchDeleteLink = async ({ spaceId, linkId }: FetchDeleteLinbkProps) => {
+  const path = '/api/link/delete'
+  const params = {
+    spaceId: spaceId.toString(),
+    linkId: linkId.toString(),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.delete(`${path}?${queryString}`)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export { fetchCreateLink, fetchDeleteLink, fetchLikeLink, fetchUnLikeLink }

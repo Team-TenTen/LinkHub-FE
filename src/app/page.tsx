@@ -1,18 +1,16 @@
 'use client'
 
-import { CategoryList, Dropdown, LinkItem } from '@/components'
-import Space from '@/components/common/Space/Space'
-import useHome from '@/hooks/useHome'
+import { CategoryList, Dropdown, LinkItem, SpaceList } from '@/components'
+import { mock_LinkData } from '@/data'
+import { useCategoryParam, useSortParam } from '@/hooks'
+import { fetchGetSpaces } from '@/services/space/spaces'
 
 export default function Home() {
-  const {
-    links,
-    spaces,
-    sortIndex,
-    categoryIndex,
-    handleSortChange,
-    handleCategoryChange,
-  } = useHome()
+  const links = mock_LinkData.slice(0, 5)
+  const { sort, sortIndex, handleSortChange } = useSortParam('space')
+  const { category, categoryIndex, handleCategoryChange } =
+    useCategoryParam('all_follow')
+
   return (
     <>
       <section className="px-4 pb-10">
@@ -46,22 +44,12 @@ export default function Home() {
             onChange={handleCategoryChange}
           />
         </div>
-        <div className="flex flex-col gap-y-2 px-4 pt-2">
-          {spaces?.map((space) => (
-            <Space
-              userName={space.userName}
-              spaceId={space.spaceId}
-              type="Card"
-              spaceName={space.spaceName}
-              spaceImage={space.spaceImagePath}
-              description={space.description}
-              category={space.category}
-              scrap={space.scrapCount}
-              favorite={space.favoriteCount}
-              key={space.spaceId}
-            />
-          ))}
-        </div>
+        <SpaceList
+          queryKey="main"
+          sort={sort ?? ''}
+          category={category ?? ''}
+          fetchFn={fetchGetSpaces}
+        />
       </section>
     </>
   )

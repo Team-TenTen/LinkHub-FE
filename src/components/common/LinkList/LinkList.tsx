@@ -77,6 +77,7 @@ const LinkList = ({
         </button>
         {links.map((link) => (
           <LinkItem
+            spaceId={spaceId}
             linkId={link.id}
             title={link.title}
             url={link.url}
