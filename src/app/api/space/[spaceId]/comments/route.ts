@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { spaceId: string } },
+  { params }: { params: { spaceId: number } },
 ) {
   const { token } = useServerCookie()
   const spaceId = params.spaceId
