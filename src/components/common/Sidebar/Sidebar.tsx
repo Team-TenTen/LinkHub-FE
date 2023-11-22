@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { mock_userData } from '@/data'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArchiveBoxIcon, StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
@@ -15,6 +16,7 @@ export interface SidebarProps {
 }
 
 const Sidebar = ({ onClose }: SidebarProps) => {
+  const { currentUser } = useCurrentUser()
   const user = mock_userData
   const sidebarRef = useRef<HTMLDivElement>(null)
   const { spaceType, handleSpaceType, handleOverlayClick, logout } = useSidebar(
@@ -31,24 +33,24 @@ const Sidebar = ({ onClose }: SidebarProps) => {
       className="fixed left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center bg-black/40 shadow-xl">
       <div className="absolute right-0 flex h-full w-full max-w-[300px] flex-col justify-between rounded-l-xl bg-bgColor px-2 pb-1 pt-6">
         <div className="flex flex-col">
-          {user ? (
+          {currentUser ? (
             <>
               <div className="flex items-center px-2">
                 <Avatar
-                  src={user.profile}
+                  src={currentUser.profileImagePath}
                   width={40}
                   height={40}
-                  alt={user.name}
+                  alt={currentUser.nickname}
                 />
                 <p className="font-sm ml-3 w-full overflow-hidden text-ellipsis	whitespace-nowrap font-medium text-gray9">
-                  {user.name}
+                  {currentUser.nickname}
                 </p>
                 <Button onClick={onClose}>
                   <XMarkIcon className="h-6 w-6" />
                 </Button>
               </div>
               <Link
-                href={`/user/${user.id}`}
+                href={`/user/${currentUser.memberId}`}
                 className="my-2 px-2 py-2 text-base font-bold text-gray9"
                 onClick={onClose}>
                 프로필
@@ -89,7 +91,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                   ))}
                 </ul>
                 <Link
-                  href={`/user/${user.id}/space`}
+                  href={`/user/${currentUser.memberId}/space`}
                   className="font-gray6 my-2 block w-full rounded-3xl border border-slate6 px-3 py-2.5 text-center text-sm font-medium text-slate6"
                   onClick={onClose}>
                   스페이스 전체보기
