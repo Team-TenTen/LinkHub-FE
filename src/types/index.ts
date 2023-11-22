@@ -168,3 +168,22 @@ export interface CreateSpaceReqBody {
   isLinkSummarizable: boolean
   isReadMarkEnabled: boolean
 }
+
+export interface CommentReqBody {
+  spaceId: number
+  commentId?: number
+  pageNumber: number
+  pageSize: number
+}
+
+export interface CommentResBody {
+  commentId: number
+  content: string
+  createdAt: string
+  updatedAt: string
+  childCount: number
+  memberId: number
+  nickname: string
+  profileImagePath: string
+  isModifiable: boolean
+}

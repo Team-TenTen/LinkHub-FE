@@ -5,7 +5,7 @@ import {
   UseFormSetValue,
 } from 'react-hook-form'
 import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
-import { CommentProps } from '@/components/Comment/Comment'
+import { CommentProps } from '@/components/common/Comment/Comment'
 import { mock_commentData, mock_replyData, mock_spaceData } from '@/data'
 
 export interface SpaceComment extends CommentProps {
