@@ -9,13 +9,22 @@ const useSpacesQuery = ({
   keyword,
   fetchFn,
 }: SpaceListProps) => {
-  const sortValue = sort === 'favorite' ? 'favorite_count' : 'created_at'
+  const sortValue =
+    queryKey === 'main' || queryKey === 'search'
+      ? sort === 'favorite'
+        ? 'favorite_count'
+        : 'created_at'
+      : undefined
   const categoryValue = category === 'all' ? '' : category.toUpperCase()
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [
       'spaces',
       queryKey,
-      { sort: sortValue, category: categoryValue, keyword },
+      {
+        ...(sortValue && { sort: sortValue }),
+        category: categoryValue,
+        keyword,
+      },
     ],
     queryFn: ({ pageParam }) =>
       fetchFn({
