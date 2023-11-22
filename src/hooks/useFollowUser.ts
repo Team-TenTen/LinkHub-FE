@@ -51,7 +51,7 @@ const useFollowUser = ({
     [memberId],
   )
 
-  const handleFollowClick = useCallback(
+  const handleClickFollow = useCallback(
     (isFollowing: boolean) => {
       if (isLoggedIn) {
         setIsFollowing((prev) => !prev)
@@ -74,7 +74,7 @@ const useFollowUser = ({
     ],
   )
 
-  return { isFollowing, followerCount, handleFollowClick }
+  return { isFollowing, followerCount, handleClickFollow }
 }
 
 export default useFollowUser

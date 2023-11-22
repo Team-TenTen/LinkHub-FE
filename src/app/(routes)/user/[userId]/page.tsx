@@ -17,7 +17,7 @@ const UserPage = () => {
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
   const userData = mock_userData2 // TODO: 팔로워/팔로우 목록 API 나오면 제거
-  const { isFollowing, followerCount, handleFollowClick } = useFollowUser({
+  const { isFollowing, followerCount, handleClickFollow } = useFollowUser({
     memberId: user?.memberId || 0,
     isInitFollowing: !!user?.isFollowing,
     followerInitCount: user?.followerCount || 0,
@@ -68,9 +68,9 @@ const UserPage = () => {
             if (user?.memberId === myId) {
               router.push('/user/setting')
             } else if (isFollowing) {
-              handleFollowClick(!!isFollowing)
+              handleClickFollow(!!isFollowing)
             } else {
-              handleFollowClick(!!isFollowing)
+              handleClickFollow(!!isFollowing)
             }
           }}
           className={cls(
