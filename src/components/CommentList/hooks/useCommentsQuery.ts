@@ -8,7 +8,6 @@ const useCommentsQuery = ({ spaceId, fetchFn }: CommentListProps) => {
     queryFn: ({ pageParam }) =>
       fetchFn({
         spaceId,
-
         pageNumber: pageParam,
         pageSize: PAGE_SIZE,
       }),
