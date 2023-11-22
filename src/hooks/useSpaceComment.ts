@@ -7,12 +7,15 @@ import {
 import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
 import { CommentProps } from '@/components/common/Comment/Comment'
 import { mock_commentData, mock_replyData, mock_spaceData } from '@/data'
+import { fetchCreateComment } from '@/services/comment/comment'
+import { useQueryClient } from '@tanstack/react-query'
 
 export interface SpaceComment extends CommentProps {
   replies?: CommentProps[]
 }
 
 export interface useSpaceCommentProps {
+  spaceId: number
   setValue: UseFormSetValue<CommentFormValues>
   setFocus: UseFormSetFocus<CommentFormValues>
   modalOpen: () => void
@@ -30,10 +33,12 @@ export const defaultComment: Comment = {
 }
 
 const useSpaceComment = ({
+  spaceId,
   setValue,
   setFocus,
   modalOpen,
 }: useSpaceCommentProps) => {
+  const queryClient = useQueryClient()
   const [comments, setComments] = useState<SpaceComment[]>(mock_commentData)
   const [comment, setComment] = useState<Comment>(defaultComment)
 
@@ -88,7 +93,11 @@ const useSpaceComment = ({
   }
 
   const onSubmit: SubmitHandler<CommentFormValues> = (data) => {
-    console.log(comment.type, comment.commentId, data)
+    if (comment.type === 'create') {
+      fetchCreateComment(spaceId, { content: data.comment }).then(() => {
+        queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      })
+    }
     setComment(defaultComment)
     setValue('comment', '')
   }

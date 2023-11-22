@@ -37,7 +37,12 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
     handleDeleteConfirm,
     handleReplyCancel,
     onSubmit,
-  } = useSpaceComment({ setValue, setFocus, modalOpen })
+  } = useSpaceComment({
+    spaceId: params.spaceId,
+    setValue,
+    setFocus,
+    modalOpen,
+  })
   const { currentTab, tabList } = useTab({ type: 'space', space })
 
   return (
