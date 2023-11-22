@@ -3,6 +3,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
+import { fetchPostEmail, fetchPostEmailVerify } from '@/services/email'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
@@ -11,6 +12,14 @@ import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import useToggle from '../common/Toggle/hooks/useToggle'
 import { RegisterReqBody, useRegister } from './hooks/useRegister'
+
+export interface EmailReqBody {
+  email: string
+}
+
+export interface EmailVerifyReqBody {
+  code: string
+}
 
 interface UserInfoFormProps {
   userData?: UserProfileResBody
@@ -25,6 +34,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const { registerLinkHub } = useRegister()
   const [imageFile, setImageFile] = useState<File>()
   const router = useRouter()
+  const [isVerification, setVerification] = useState(false)
 
   useEffect(() => {
     setThumnail(userData?.profileImagePath)
@@ -39,11 +49,11 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterReqBody>({
+  } = useForm<RegisterReqBody & EmailVerifyReqBody>({
     defaultValues: {
       nickname: userData?.nickname || '',
       aboutMe: userData?.aboutMe || '',
-      favoriteCategory: 'ENTER_ART',
+      favoriteCategory: userData?.favoriteCategory || 'ENTER_ART',
       isSubscribed: userData?.isSubscribed || false,
     },
   })
@@ -62,14 +72,26 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     }
   }
 
-  const handleEmailAuth = () => {
-    // Todo: 이메일 로직
-
-    setIsEmailAuthOpen(true)
+  const handleEmailAuth = async (email: string) => {
+    try {
+      await fetchPostEmail({ email })
+      setIsEmailAuthOpen(true)
+    } catch (e) {
+      alert('이메일을 다시 확인해 주세요')
+    }
   }
 
-  const handleCheckAuthNum = () => {
-    // Todo: 인증번호 확인 로직
+  const handleCheckAuthNum = async (code: string) => {
+    try {
+      const verification = await fetchPostEmailVerify({
+        email: getValues('newsEmail'),
+        code,
+      })
+      setVerification(verification.isVerificate)
+      alert('인증되었습니다!')
+    } catch (e) {
+      alert('인증번호를 다시 확인해 주세요')
+    }
   }
 
   const handleClickCheckButton = () => {
@@ -86,6 +108,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
       className="flex flex-col gap-3 px-4 pt-8"
       onSubmit={handleSubmit(async (data) => {
         await registerLinkHub(data, imageFile)
+        alert('회원가입 되었습니다!')
         router.replace('/login')
       })}>
       <div className="flex justify-center">
@@ -139,18 +162,19 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
           inputButton
           buttonText="인증번호 전송"
           buttonColor="gray"
-          onButtonClick={handleEmailAuth}
+          onButtonClick={() => handleEmailAuth(getValues('newsEmail'))}
         />
       </div>
       {isEmailAuthOpen && (
         <div>
           <Input
+            {...register('code')}
             label="이메일 인증"
             placeholder="인증번호를 입력해 주세요"
             inputButton
             buttonText="인증번호 확인"
             buttonColor="gray"
-            onButtonClick={handleCheckAuthNum}
+            onButtonClick={() => handleCheckAuthNum(getValues('code'))}
           />
         </div>
       )}
@@ -162,7 +186,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
           type="default"
           horizontal={false}
           defaultIndex={Object.values(CATEGORIES['default']).indexOf(
-            getValues('favoriteCategory'),
+            getValues('favoriteCategory').toLowerCase(),
           )}
           onChange={(e) =>
             setValue(
@@ -189,11 +213,13 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
         </label>
       </div>
       <div className="py-6">
-        <Button
-          type="submit"
-          className="button button-lg button-gray px-4 py-2.5">
-          {formType === 'Setting' ? '수정하기' : '가입하기'}
-        </Button>
+        {isVerification && (
+          <Button
+            type="submit"
+            className="button button-lg button-gray px-4 py-2.5">
+            {formType === 'Setting' ? '수정하기' : '가입하기'}
+          </Button>
+        )}
       </div>
       {formType === 'Setting' && (
         <div className="flex flex-col items-center justify-center py-6">
