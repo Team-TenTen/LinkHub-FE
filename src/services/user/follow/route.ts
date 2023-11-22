@@ -1,5 +1,55 @@
 import { apiClient } from '@/services/apiServices'
 
+export interface FetchGetFollowingProps {
+  memberId: number
+  pageNumber: number
+  pageSize: number
+}
+
+const fetchGetFollowing = async ({
+  memberId,
+  pageNumber,
+  pageSize,
+}: FetchGetFollowingProps) => {
+  const path = `/api/user/following`
+  const params = {
+    memberId: memberId.toString(),
+    pageNumber: pageNumber.toString(),
+    pageSize: pageSize.toString(),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.get(`${path}?${queryString}`)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export interface FetchGetFollowersProps extends FetchGetFollowingProps {}
+
+const fetchGetFollowers = async ({
+  memberId,
+  pageNumber,
+  pageSize,
+}: FetchGetFollowersProps) => {
+  const path = `/api/user/followers`
+  const params = {
+    memberId: memberId.toString(),
+    pageNumber: pageNumber.toString(),
+    pageSize: pageSize.toString(),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.get(`${path}?${queryString}`)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 export interface FetchFollowUserProps {
   memberId: number
 }
@@ -34,4 +84,9 @@ const fetchUnFollowUser = async ({ memberId }: FetchFollowUserProps) => {
   }
 }
 
-export { fetchFollowUser, fetchUnFollowUser }
+export {
+  fetchGetFollowing,
+  fetchGetFollowers,
+  fetchFollowUser,
+  fetchUnFollowUser,
+}
