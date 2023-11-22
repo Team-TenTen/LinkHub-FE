@@ -2,6 +2,7 @@
 
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
+import LoginModal from '@/components/common/Modal/LoginModal'
 import User from '@/components/common/User/User'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
@@ -21,6 +22,7 @@ const UserPage = () => {
     memberId: user?.memberId!,
     isInitFollowing: user?.isFollowing,
     followerInitCount: user?.followerCount!,
+    handleOpenCurrentModal,
   })
 
   return (
@@ -109,7 +111,7 @@ const UserPage = () => {
           <div className="text-sm font-normal text-gray9">{user?.aboutMe}</div>
         </div>
       </div>
-      {isOpen && (
+      {currentModal !== 'login' && isOpen && (
         <Modal
           title={
             currentModal === 'following'
@@ -151,6 +153,13 @@ const UserPage = () => {
               ))}
           </div>
         </Modal>
+      )}
+      {currentModal === 'login' && (
+        <LoginModal
+          Modal={Modal}
+          isOpen={isOpen}
+          modalClose={modalClose}
+        />
       )}
     </>
   )
