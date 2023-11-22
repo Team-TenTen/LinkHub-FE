@@ -1,7 +1,7 @@
 import { apiClient } from '@/services/apiServices'
 
-export interface FetchGetFollowingProps {
-  memberId: number
+export interface FetchGetFollowProps {
+  memberId?: number
   pageNumber: number
   pageSize: number
 }
@@ -10,7 +10,7 @@ const fetchGetFollowing = async ({
   memberId,
   pageNumber,
   pageSize,
-}: FetchGetFollowingProps) => {
+}: FetchGetFollowProps) => {
   const path = `/api/user/${memberId}/following`
   const params = {
     pageNumber: pageNumber.toString(),
@@ -26,13 +26,11 @@ const fetchGetFollowing = async ({
   }
 }
 
-export interface FetchGetFollowersProps extends FetchGetFollowingProps {}
-
 const fetchGetFollowers = async ({
   memberId,
   pageNumber,
   pageSize,
-}: FetchGetFollowersProps) => {
+}: FetchGetFollowProps) => {
   const path = `/api/user/${memberId}/followers`
   const params = {
     pageNumber: pageNumber.toString(),
