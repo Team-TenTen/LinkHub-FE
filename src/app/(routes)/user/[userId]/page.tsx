@@ -6,6 +6,7 @@ import User from '@/components/common/User/User'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
 import { mock_userData2 } from '@/data'
 import { useModal } from '@/hooks'
+import useFollowUser from '@/hooks/useFollowUser'
 import useGetProfile from '@/hooks/useGetProfile'
 import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
 import { useRouter } from 'next/navigation'
@@ -16,6 +17,11 @@ const UserPage = () => {
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
   const userData = mock_userData2 // TODO: 팔로워/팔로우 목록 API 나오면 제거
+  const { isFollowing, followerCount, handleFollowClick } = useFollowUser({
+    memberId: user?.memberId!,
+    isInitFollowing: user?.isFollowing,
+    followerInitCount: user?.followerCount!,
+  })
 
   return (
     <>
@@ -50,7 +56,7 @@ const UserPage = () => {
                 onClick={() => {
                   handleOpenCurrentModal('follower')
                 }}>
-                {PROFILE_MSG.FOLLOWER} {user?.followerCount}
+                {PROFILE_MSG.FOLLOWER} {followerCount}
               </div>
             </div>
           </div>
@@ -60,22 +66,22 @@ const UserPage = () => {
           onClick={() => {
             if (user?.memberId === myId) {
               router.push('/user/setting')
-            } else if (user?.isFollowing) {
-              console.log('팔로잉 로직 추가')
+            } else if (isFollowing) {
+              handleFollowClick(isFollowing)
             } else {
-              console.log('팔로우 로직 추가')
+              handleFollowClick(isFollowing)
             }
           }}
           className={cls(
             'button button-md button-lg',
             getProfileButtonColor({
-              isFollowing: user?.isFollowing,
+              isFollowing,
               memberId: user?.memberId,
               myId,
             }),
           )}>
           {getProfileButtonText({
-            isFollowing: user?.isFollowing,
+            isFollowing,
             memberId: user?.memberId,
             myId,
           })}
