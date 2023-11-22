@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import {
   SubmitHandler,
   UseFormSetFocus,
@@ -6,7 +6,7 @@ import {
 } from 'react-hook-form'
 import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
 import { CommentProps } from '@/components/common/Comment/Comment'
-import { mock_commentData, mock_replyData, mock_spaceData } from '@/data'
+import { mock_commentData, mock_replyData } from '@/data'
 import { fetchCreateComment } from '@/services/comment/comment'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -41,6 +41,7 @@ const useSpaceComment = ({
   const queryClient = useQueryClient()
   const [comments, setComments] = useState<SpaceComment[]>(mock_commentData)
   const [comment, setComment] = useState<Comment>(defaultComment)
+  const commentListRef = useRef<HTMLDivElement>(null)
 
   const handleEdit = useCallback(
     (commentId: number, comment: string) => {
@@ -92,20 +93,20 @@ const useSpaceComment = ({
     setValue('comment', '')
   }
 
-  const onSubmit: SubmitHandler<CommentFormValues> = (data) => {
+  const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
     if (comment.type === 'create') {
-      fetchCreateComment(spaceId, { content: data.comment }).then(() => {
-        queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
-      })
+      await fetchCreateComment(spaceId, { content: data.comment })
+      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      commentListRef.current?.scrollIntoView(false)
     }
     setComment(defaultComment)
     setValue('comment', '')
   }
 
   return {
-    space: mock_spaceData,
     comments,
     comment,
+    commentListRef,
     handleEdit,
     handleDelete,
     handleOpen,
