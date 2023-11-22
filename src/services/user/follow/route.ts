@@ -11,9 +11,8 @@ const fetchGetFollowing = async ({
   pageNumber,
   pageSize,
 }: FetchGetFollowingProps) => {
-  const path = `/api/user/following`
+  const path = `/api/user/${memberId}/following`
   const params = {
-    memberId: memberId.toString(),
     pageNumber: pageNumber.toString(),
     pageSize: pageSize.toString(),
   }
@@ -34,9 +33,8 @@ const fetchGetFollowers = async ({
   pageNumber,
   pageSize,
 }: FetchGetFollowersProps) => {
-  const path = `/api/user/followers`
+  const path = `/api/user/${memberId}/followers`
   const params = {
-    memberId: memberId.toString(),
     pageNumber: pageNumber.toString(),
     pageSize: pageSize.toString(),
   }
