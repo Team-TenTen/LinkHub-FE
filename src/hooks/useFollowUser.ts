@@ -8,7 +8,7 @@ import { useCurrentUser } from './useCurrentUser'
 
 export interface UseFollowUserProps {
   memberId: number
-  isInitFollowing?: boolean
+  isInitFollowing: boolean
   followerInitCount: number
   handleOpenCurrentModal: (current: string) => void
 }
@@ -21,7 +21,7 @@ const useFollowUser = ({
 }: UseFollowUserProps) => {
   const { isLoggedIn } = useCurrentUser()
   const [isFollowing, setIsFollowing] = useState(isInitFollowing)
-  const [followerCount, setFollowerCount] = useState<number>(followerInitCount)
+  const [followerCount, setFollowerCount] = useState(followerInitCount)
 
   useEffect(() => {
     setIsFollowing(isInitFollowing)
@@ -34,7 +34,9 @@ const useFollowUser = ({
   const debounceUnFollowUser = useMemo(
     () =>
       debounce(async () => {
-        await fetchUnFollowUser({ memberId })
+        if (memberId) {
+          await fetchUnFollowUser({ memberId })
+        }
       }, 500),
     [memberId],
   )
@@ -42,13 +44,15 @@ const useFollowUser = ({
   const debounceFollowUser = useMemo(
     () =>
       debounce(async () => {
-        await fetchFollowUser({ memberId })
+        if (memberId) {
+          await fetchFollowUser({ memberId })
+        }
       }, 500),
     [memberId],
   )
 
   const handleFollowClick = useCallback(
-    (isFollowing: boolean | undefined) => {
+    (isFollowing: boolean) => {
       if (isLoggedIn) {
         setIsFollowing((prev) => !prev)
         if (isFollowing) {
