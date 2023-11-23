@@ -15,7 +15,8 @@ export async function POST(
   }
 
   try {
-    const data = await apiServer.post(path, body, {}, headers)
+    const response = await apiServer.post(path, body, {}, headers)
+    const data = await response.json()
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
