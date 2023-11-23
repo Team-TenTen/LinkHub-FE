@@ -168,3 +168,15 @@ export interface CreateSpaceReqBody {
   isLinkSummarizable: boolean
   isReadMarkEnabled: boolean
 }
+
+export interface SearchMySpaceResBody {
+  spaceId: number
+  spaceName: string
+  description: string
+  category: string
+  viewCount: number
+  scrapCount: number
+  favoriteCount: number
+  spaceImagePath: string
+  ownerNickName: string
+}

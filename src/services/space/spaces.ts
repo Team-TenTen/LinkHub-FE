@@ -1,4 +1,4 @@
-import { SearchSpaceReqBody } from '@/types'
+import { SearchMySpaceReqBody, SearchSpaceReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
 const fetchGetSpaces = async ({
@@ -49,4 +49,25 @@ const fetchSearchSpaces = async ({
   }
 }
 
-export { fetchGetSpaces, fetchSearchSpaces }
+const fetchSearchMySpaces = async (
+  memberId: number,
+  { pageNumber, pageSize, filter, keyWord }: SearchMySpaceReqBody,
+) => {
+  const path = `/api/spaces/searchMySpace/${memberId}`
+  const params = {
+    pageNumber: pageNumber.toString(),
+    pageSize: pageSize.toString(),
+    filter: filter,
+    ...(keyWord && { keyWord: keyWord }),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.get(`${path}?${queryString}`)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export { fetchGetSpaces, fetchSearchSpaces, fetchSearchMySpaces }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { mock_userData } from '@/data'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -9,6 +9,7 @@ import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
 import ThemeButton from '../ThemeButton/ThemeButton'
+import { useMySpace } from './hooks/useMySpace'
 import useSidebar from './hooks/useSidebar'
 
 export interface SidebarProps {
@@ -17,6 +18,13 @@ export interface SidebarProps {
 
 const Sidebar = ({ onClose }: SidebarProps) => {
   const { currentUser } = useCurrentUser()
+  const spaces = useMySpace(currentUser?.memberId!, {
+    pageNumber: 0,
+    pageSize: 5,
+    filter: '',
+    keyWord: '',
+  })
+
   const user = mock_userData
   const sidebarRef = useRef<HTMLDivElement>(null)
   const { spaceType, handleSpaceType, handleOverlayClick, logout } = useSidebar(
@@ -75,20 +83,23 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                   )}
                 </div>
                 <ul>
-                  {user[
-                    spaceType === '내 스페이스' ? 'mySpaces' : 'favoriteSpaces'
-                  ].map(({ name, id }) => (
-                    <li
-                      className="border-b border-slate3 last:border-none"
-                      key={id}>
-                      <Link
-                        href={`/space/${id}`}
-                        className="block px-3 py-2.5 text-sm text-gray9"
-                        onClick={onClose}>
-                        {name}
-                      </Link>
-                    </li>
-                  ))}
+                  {spaceType === '내 스페이스' ? (
+                    spaces &&
+                    Object.values(spaces).map(({ spaceId, spaceName }) => (
+                      <li
+                        className="border-b border-slate3 last:border-none"
+                        key={spaceId}>
+                        <Link
+                          href={`/space/${spaceId}`}
+                          className="block px-3 py-2.5 text-sm text-gray9"
+                          onClick={onClose}>
+                          {spaceName}
+                        </Link>
+                      </li>
+                    ))
+                  ) : (
+                    <>{/* 즐겨찾기 스페이스 */}</>
+                  )}
                 </ul>
                 <Link
                   href={`/user/${currentUser.memberId}/space`}
