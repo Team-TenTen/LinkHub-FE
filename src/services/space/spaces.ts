@@ -11,7 +11,7 @@ const fetchGetSpaces = async ({
   const params = {
     pageNumber: pageNumber.toString(),
     pageSize: pageSize.toString(),
-    sort: sort,
+    ...(sort && { sort: sort }),
     filter: filter,
   }
   const queryString = new URLSearchParams(params).toString()
@@ -35,7 +35,7 @@ const fetchSearchSpaces = async ({
   const params = {
     pageNumber: pageNumber.toString(),
     pageSize: pageSize.toString(),
-    sort: sort,
+    ...(sort && { sort: sort }),
     filter: filter,
     ...(keyWord && { keyWord: keyWord }),
   }

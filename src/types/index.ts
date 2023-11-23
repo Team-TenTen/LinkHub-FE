@@ -112,7 +112,7 @@ export interface UserDetailInfo {
 export interface SearchSpaceReqBody {
   pageNumber: number
   pageSize: number
-  sort: string
+  sort?: string
   keyWord?: string
   filter: string
 }
