@@ -51,6 +51,7 @@ const FollowList = ({
                 isAuth={myId === user.memberId}
                 followingCount={followingCount}
                 myId={myId}
+                profileId={memberId}
                 setFollowingCount={setFollowingCount}
               />
             </li>

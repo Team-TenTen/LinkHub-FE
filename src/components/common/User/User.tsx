@@ -18,6 +18,7 @@ interface UserProps {
   isAuth?: boolean
   followingCount?: number
   myId?: number
+  profileId?: number
   setFollowingCount?: Dispatch<SetStateAction<number | undefined>>
 }
 
@@ -30,6 +31,7 @@ const User = ({
   isAuth,
   followingCount,
   myId,
+  profileId,
   setFollowingCount,
 }: UserProps) => {
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
@@ -74,9 +76,11 @@ const User = ({
                 if (myId) {
                   handleClickListInFollow(isFollowingValue)
                   if (isFollowingValue) {
-                    setFollowingCount?.((prev) => prev! - 1)
+                    profileId === myId &&
+                      setFollowingCount?.((prev) => prev! - 1)
                   } else {
-                    setFollowingCount?.((prev) => prev! + 1)
+                    profileId === myId &&
+                      setFollowingCount?.((prev) => prev! + 1)
                   }
                 } else {
                   handleOpenCurrentModal('login')
