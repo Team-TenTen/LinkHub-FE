@@ -124,11 +124,12 @@ const SpacePage = () => {
           </div>
         </div>
         <LinkList
-          links={links!}
+          spaceId={space?.spaceId}
           read={space?.isReadMarkEnabled}
           summary={space?.isLinkSummarizable}
           edit={isEdit}
           type={view}
+          fetchFn={fetchGetLinks}
         />
         <div className="flex justify-center py-2">
           <Button className="button button-round button-white">
