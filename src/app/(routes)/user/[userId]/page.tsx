@@ -19,9 +19,16 @@ const UserPage = () => {
   const router = useRouter()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
-  const { isFollowing, followerCount, handleClickFollow } = useFollowUser({
+  const {
+    isFollowing,
+    followingCount,
+    setFollowingCount,
+    followerCount,
+    handleClickFollow,
+  } = useFollowUser({
     memberId: user?.memberId || 0,
     isInitFollowing: !!user?.isFollowing,
+    followingInitCount: user?.followingCount || 0,
     followerInitCount: user?.followerCount || 0,
     handleOpenCurrentModal,
   })
@@ -51,7 +58,7 @@ const UserPage = () => {
                 onClick={() => {
                   handleOpenCurrentModal('following')
                 }}>
-                {PROFILE_MSG.FOLLOWING} {user?.followingCount}
+                {PROFILE_MSG.FOLLOWING} {followingCount}
               </div>
               {PROFILE_MSG.LIST_DIVIDER}
               <div
@@ -70,9 +77,9 @@ const UserPage = () => {
             if (user?.memberId === myId) {
               router.push('/user/setting')
             } else if (isFollowing) {
-              handleClickFollow(!!isFollowing)
+              handleClickFollow(isFollowing)
             } else {
-              handleClickFollow(!!isFollowing)
+              handleClickFollow(isFollowing)
             }
           }}
           className={cls(
@@ -127,8 +134,9 @@ const UserPage = () => {
                 memberId={user?.memberId}
                 fetchFn={fetchGetFollowing}
                 myId={myId}
-                handleClickFollow={handleClickFollow}
                 type="following"
+                followingCount={followingCount}
+                setFollowingCount={setFollowingCount}
               />
             )}
             {currentModal === 'follower' && (
@@ -136,8 +144,9 @@ const UserPage = () => {
                 memberId={user?.memberId}
                 fetchFn={fetchGetFollowers}
                 myId={myId}
-                handleClickFollow={handleClickFollow}
                 type="follower"
+                followingCount={followingCount}
+                setFollowingCount={setFollowingCount}
               />
             )}
           </div>

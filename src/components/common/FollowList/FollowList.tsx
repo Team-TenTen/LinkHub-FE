@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Dispatch, Fragment, SetStateAction } from 'react'
 import useFollowQuery from '@/components/common/FollowList/hooks/useFollowQuery'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { FetchGetFollowProps } from '@/services/user/follow/route'
@@ -8,8 +8,9 @@ export interface FollowListProps {
   memberId?: number
   fetchFn: ({ pageNumber, pageSize }: FetchGetFollowProps) => Promise<any>
   myId?: number
-  handleClickFollow?: (isFollowing: boolean) => void
   type?: string
+  followingCount?: number
+  setFollowingCount?: Dispatch<SetStateAction<number | undefined>>
 }
 
 export interface FollowUserProps {
@@ -24,8 +25,9 @@ const FollowList = ({
   memberId,
   fetchFn,
   myId,
-  handleClickFollow,
   type,
+  followingCount,
+  setFollowingCount,
 }: FollowListProps) => {
   const { followList, fetchNextPage, hasNextPage } = useFollowQuery({
     memberId,
@@ -47,7 +49,9 @@ const FollowList = ({
                 aboutMe={user.aboutMe}
                 isFollowing={user.isFollowing}
                 isAuth={myId === user.memberId}
-                onClick={handleClickFollow}
+                followingCount={followingCount}
+                myId={myId}
+                setFollowingCount={setFollowingCount}
               />
             </li>
           ))}
