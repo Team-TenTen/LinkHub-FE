@@ -2,8 +2,8 @@
 
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceList } from '@/components'
-import { useCategoryParam, useProfileFavoritesSearch } from '@/hooks'
-import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/route'
+import { useCategoryParam, useProfileSpacesSearch } from '@/hooks'
+import { fetchSearchMySpaces } from '@/services/space/spaces'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 export interface SearchFormValue {
@@ -20,9 +20,10 @@ const UserSpacePage = () => {
   })
   const { category, categoryIndex, handleCategoryChange } =
     useCategoryParam('all')
-  const { onSubmit } = useProfileFavoritesSearch({
+  const { onSubmit } = useProfileSpacesSearch({
     userId,
     category: category || '',
+    type: 'space',
     setValue,
   })
   const searchParams = useSearchParams()
@@ -46,10 +47,11 @@ const UserSpacePage = () => {
       </form>
       <div className="flex flex-col gap-2 py-4">
         <SpaceList
+          memberId={userId}
           queryKey="profile"
           category={category ?? ''}
           keyword={keyword ?? ''}
-          fetchFn={fetchGetMyFavoriteSpaces}
+          fetchFn={fetchSearchMySpaces}
         />
       </div>
     </div>

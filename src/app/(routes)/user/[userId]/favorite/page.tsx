@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceList } from '@/components'
-import { useCategoryParam, useProfileFavoritesSearch } from '@/hooks'
+import { useCategoryParam, useProfileSpacesSearch } from '@/hooks'
 import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/route'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { SearchFormValue } from '../space/page'
@@ -17,9 +17,10 @@ const UserFavoritePage = () => {
   })
   const { category, categoryIndex, handleCategoryChange } =
     useCategoryParam('all')
-  const { onSubmit } = useProfileFavoritesSearch({
+  const { onSubmit } = useProfileSpacesSearch({
     userId,
     category: category || '',
+    type: 'favorite',
     setValue,
   })
   const searchParams = useSearchParams()
