@@ -13,7 +13,7 @@ export interface Link {
   id: number
   title: string
   url: string
-  tag: string
+  tagName: string
   readUsers: { id: string; profile: string }[]
   isLiked: boolean
   likeCount: number
@@ -30,7 +30,7 @@ export interface LinkListProps {
 export interface CreateLinkFormValue {
   url: string
   title: string
-  tag: string
+  tagName: string
 }
 
 const LinkList = ({
@@ -48,7 +48,7 @@ const LinkList = ({
       defaultValues: {
         url: '',
         title: '',
-        tag: '',
+        tagName: '',
       },
     })
   const {
@@ -81,7 +81,7 @@ const LinkList = ({
             linkId={link.id}
             title={link.title}
             url={link.url}
-            tag={link.tag}
+            tag={link.tagName}
             readUsers={link.readUsers}
             isInitLiked={link.isLiked}
             likeInitCount={link.likeCount}
@@ -103,12 +103,12 @@ const LinkList = ({
             reset()
             setIsUrlCheck(false)
           }}
-          onConfirm={handleSubmit(async ({ url, title, tag }) => {
+          onConfirm={handleSubmit(async ({ url, title, tagName }) => {
             await handleCreateLink({
               spaceId,
               url,
               title,
-              tag,
+              tagName,
               color: 'emerald',
             })
             reset()
@@ -130,7 +130,7 @@ const LinkList = ({
             />
             <Input
               label="태그"
-              {...register('tag')}
+              {...register('tagName')}
             />
           </div>
         </Modal>

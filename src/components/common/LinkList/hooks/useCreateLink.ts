@@ -15,7 +15,7 @@ export interface UseCreateLinkReturnType {
     spaceId,
     url,
     title,
-    tag,
+    tagName,
     color,
   }: FetchCreateLinkProps) => Promise<void>
 }
@@ -41,14 +41,14 @@ const useCreateLink = (
     spaceId,
     url,
     title,
-    tag,
+    tagName,
     color,
   }: FetchCreateLinkProps) => {
     await fetchCreateLink({
       spaceId,
       url,
       title,
-      tag,
+      tagName,
       color,
     })
   }

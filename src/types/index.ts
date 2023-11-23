@@ -143,7 +143,7 @@ export interface SpaceReqBody {
 export interface CreateLinkReqBody {
   url: string
   title: string
-  tag: string
+  tagName: string
   color: string
 }
 

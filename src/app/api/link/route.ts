@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   const { token } = useServerCookie()
-  const { spaceId, url, title, tag, color } = await req.json()
+  const { spaceId, url, title, tagName, color } = await req.json()
   const path = `/spaces/${spaceId}/links`
-  const body = { url, title, tag, color }
+  const body = { url, title, tagName, color }
   const headers = {
     Authorization: `Bearer ${token}`,
   }

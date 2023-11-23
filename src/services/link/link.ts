@@ -9,11 +9,11 @@ const fetchCreateLink = async ({
   spaceId,
   url,
   title,
-  tag,
+  tagName,
   color,
 }: FetchCreateLinkProps) => {
   const path = '/api/link'
-  const body = { spaceId, url, title, tag, color }
+  const body = { spaceId, url, title, tagName, color }
 
   try {
     const response = await apiClient.post(path, body)
