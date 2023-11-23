@@ -169,6 +169,18 @@ export interface CreateSpaceReqBody {
   isReadMarkEnabled: boolean
 }
 
+export interface SearchMySpaceResBody {
+  spaceId: number
+  spaceName: string
+  description: string
+  category: string
+  viewCount: number
+  scrapCount: number
+  favoriteCount: number
+  spaceImagePath: string
+  ownerNickName: string
+}
+
 export interface CommentReqBody {
   spaceId: number
   commentId?: number
