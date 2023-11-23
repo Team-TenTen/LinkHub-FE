@@ -12,8 +12,9 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const data = await apiServer.post(path, body, {}, headers)
-    return NextResponse.json({ data })
+    const response = await apiServer.post(path, body, {}, headers)
+    const data = await response.json()
+    return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
       { error: error.response.data.message },

@@ -12,7 +12,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const data = await apiServer.post(path, {}, {}, headers)
+    const response = await apiServer.post(path, {}, {}, headers)
+    const data = await response.json()
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
@@ -33,6 +34,7 @@ export async function DELETE(req: NextRequest) {
 
   try {
     const data = await apiServer.delete(path, {}, headers)
+
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
