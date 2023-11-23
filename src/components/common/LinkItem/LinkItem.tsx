@@ -54,7 +54,7 @@ const LinkItem = ({
   const { isLoggedIn } = useCurrentUser()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
-  const { isLiked, likeCount, handleLikeClick } = useLikeLink({
+  const { isLiked, likeCount, handleClickLike } = useLikeLink({
     linkId,
     isLikedValue: isInitLiked,
     likeCountValue: likeInitCount,
@@ -113,7 +113,7 @@ const LinkItem = ({
                   className="button button-round button-white"
                   onClick={() =>
                     isLoggedIn
-                      ? handleLikeClick(isLiked)
+                      ? handleClickLike(isLiked)
                       : handleOpenCurrentModal('login')
                   }>
                   {isLiked ? (
@@ -183,7 +183,7 @@ const LinkItem = ({
                   className="button button-round button-white"
                   onClick={() =>
                     isLoggedIn
-                      ? handleLikeClick(isLiked)
+                      ? handleClickLike(isLiked)
                       : handleOpenCurrentModal('login')
                   }>
                   {isLiked ? (
