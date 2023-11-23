@@ -1,5 +1,6 @@
 'use client'
 
+import { useCallback, useEffect, useState } from 'react'
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
 import { MORE_TEXT } from '@/components/common/LinkList/constants'
@@ -11,7 +12,7 @@ import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
-import { mock_LinkData } from '@/data'
+import { fetchGetLinks } from '@/services/link/link'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -25,6 +26,20 @@ const SpacePage = () => {
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
+  const [links, setLinks] = useState()
+
+  const handleGetLinks = useCallback(async () => {
+    const data = await fetchGetLinks({
+      spaceId: space?.spaceId,
+      pageNumber: 1,
+      pageSize: 10,
+    })
+    setLinks(data.responses)
+  }, [space?.spaceId])
+
+  useEffect(() => {
+    handleGetLinks()
+  }, [handleGetLinks])
 
   return (
     <>
@@ -109,9 +124,9 @@ const SpacePage = () => {
           </div>
         </div>
         <LinkList
-          links={mock_LinkData}
-          read={true}
-          summary={true}
+          links={links!}
+          read={space?.isReadMarkEnabled}
+          summary={space?.isLinkSummarizable}
           edit={isEdit}
           type={view}
         />
