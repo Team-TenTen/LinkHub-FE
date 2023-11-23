@@ -1,5 +1,29 @@
-import { CreateLinkReqBody } from '@/types'
+import { CreateLinkReqBody, GetLinksReqBody } from '@/types'
 import { apiClient } from '../apiServices'
+
+const fetchGetLinks = async ({
+  spaceId,
+  pageNumber,
+  pageSize,
+  sort,
+  tagId,
+}: GetLinksReqBody) => {
+  const path = `/api/space/${spaceId}/links`
+  const params = {
+    pageNumber: pageNumber.toString(),
+    pageSize: pageSize.toString(),
+    ...(sort && { sort: sort }),
+    ...(tagId && { tagId: tagId.toString() }),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.get(`${path}?${queryString}`)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
 
 export interface FetchCreateLinkProps extends CreateLinkReqBody {
   spaceId: number
@@ -78,4 +102,10 @@ const fetchDeleteLink = async ({ spaceId, linkId }: FetchDeleteLinbkProps) => {
   }
 }
 
-export { fetchCreateLink, fetchDeleteLink, fetchLikeLink, fetchUnLikeLink }
+export {
+  fetchGetLinks,
+  fetchCreateLink,
+  fetchDeleteLink,
+  fetchLikeLink,
+  fetchUnLikeLink,
+}
