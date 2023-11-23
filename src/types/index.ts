@@ -199,3 +199,7 @@ export interface CommentResBody {
   profileImagePath: string
   isModifiable: boolean
 }
+
+export interface CreateCommentReqBody {
+  content: string
+}

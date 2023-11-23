@@ -62,7 +62,7 @@ const Comment = ({
         </div>
         <p className="py-1 text-sm text-gray9">{comment}</p>
         <div className="pt-1 text-xs text-gray6">
-          {date.getFullYear().toString()}.{date.getMonth().toString()}.
+          {date.getFullYear().toString()}.{(date.getMonth() + 1).toString()}.
           {date.getDate().toString()}
           {firstDepth && (
             <>
