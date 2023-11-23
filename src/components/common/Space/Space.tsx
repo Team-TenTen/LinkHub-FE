@@ -41,7 +41,7 @@ const Space = ({
   onClickScrap,
 }: SpaceProps) => {
   const { isLoggedIn } = useCurrentUser()
-  const { isFavorites, favoritesCount, handleFavoriteClick } = useFavorites({
+  const { isFavorites, favoritesCount, handleClickFavorite } = useFavorites({
     spaceId,
     hasFavorite,
     favorite,
@@ -123,7 +123,7 @@ const Space = ({
               <Button
                 className="button button-round button-white"
                 onClick={() => {
-                  isLoggedIn ? handleFavoriteClick(isFavorites) : modalOpen()
+                  isLoggedIn ? handleClickFavorite(isFavorites) : modalOpen()
                 }}>
                 {isFavorites ? (
                   <StarIconSolid className="h-4 w-4 text-yellow-300" />

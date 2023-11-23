@@ -1,7 +1,7 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { Avatar } from '..'
-import Button from '../common/Button/Button'
+import { Avatar } from '../..'
+import Button from '../Button/Button'
 
 export interface CommentProps {
   commentId: number

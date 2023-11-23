@@ -62,9 +62,9 @@ const SearchPage = () => {
         {target === 'user' &&
           users.map((user) => (
             <User
-              id={user.id}
-              name={user.name}
-              profile={user.profile}
+              memberId={user.id}
+              nickname={user.name}
+              profileImagePath={user.profile}
               key={user.id}
             />
           ))}
