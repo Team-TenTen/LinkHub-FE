@@ -34,7 +34,6 @@ export async function DELETE(req: NextRequest) {
 
   try {
     const data = await apiServer.delete(path, {}, headers)
-
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
