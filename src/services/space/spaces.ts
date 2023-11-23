@@ -53,7 +53,7 @@ const fetchSearchMySpaces = async (
   memberId: number,
   { pageNumber, pageSize, filter, keyWord }: SearchMySpaceReqBody,
 ) => {
-  const path = `/api/spaces/searchMySpace/${memberId}`
+  const path = `/api/user/${memberId}/spaces`
   const params = {
     pageNumber: pageNumber.toString(),
     pageSize: pageSize.toString(),

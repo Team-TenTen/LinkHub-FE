@@ -3,10 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
-  const memberId = req.nextUrl.pathname.replace(
-    '/api/spaces/searchMySpace/',
-    '',
-  )
+  const memberId = req.nextUrl.pathname.split('/')[3]
+
   const path = `/members/${memberId}/spaces/search`
 
   try {
