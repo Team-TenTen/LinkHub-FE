@@ -4,6 +4,7 @@ import { SpaceListProps } from '../SpaceList'
 
 const useSpacesQuery = ({
   queryKey,
+  memberId,
   sort,
   category,
   keyword,
@@ -21,6 +22,7 @@ const useSpacesQuery = ({
       'spaces',
       queryKey,
       {
+        ...(memberId && { memberId: memberId }),
         ...(sortValue && { sort: sortValue }),
         category: categoryValue,
         keyword,
@@ -28,6 +30,7 @@ const useSpacesQuery = ({
     ],
     queryFn: ({ pageParam }) =>
       fetchFn({
+        memberId,
         pageNumber: pageParam,
         pageSize: PAGE_SIZE,
         sort: sortValue,
