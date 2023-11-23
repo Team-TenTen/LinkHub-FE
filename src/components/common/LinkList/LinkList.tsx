@@ -9,14 +9,21 @@ import LinkItem from '../LinkItem/LinkItem'
 import { ADD_LINK_TEXT, URL_INPUT_VALIDATION_TEXT } from './constants'
 import useCreateLink from './hooks/useCreateLink'
 
+export interface linkViewHistories {
+  memberName: string
+  memberProfileImage: string
+}
 export interface Link {
-  id: number
+  linkId: number
   title: string
   url: string
   tagName: string
-  readUsers: { id: string; profile: string }[]
-  isLiked: boolean
+  tagColor: string
+  canReadMark: boolean
+  canLinkSummaraizable: boolean
+  isLiked: false
   likeCount: number
+  linkViewHistories: linkViewHistories[]
 }
 
 export interface LinkListProps {
@@ -75,21 +82,22 @@ const LinkList = ({
           onClick={modalOpen}>
           <div className="text-gray9">{ADD_LINK_TEXT}</div>
         </button>
-        {links.map((link) => (
+        {links?.map((link) => (
           <LinkItem
             spaceId={spaceId}
-            linkId={link.id}
+            linkId={link.linkId}
             title={link.title}
             url={link.url}
-            tag={link.tagName}
-            readUsers={link.readUsers}
+            tagName={link.tagName}
+            tagColor={link.tagColor}
+            readUsers={link.linkViewHistories}
             isInitLiked={link.isLiked}
             likeInitCount={link.likeCount}
             read={read}
             summary={summary}
             edit={edit}
             type={type}
-            key={link.id}
+            key={link.linkId}
           />
         ))}
       </div>

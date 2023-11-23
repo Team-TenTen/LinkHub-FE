@@ -17,6 +17,7 @@ import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import Input from '../Input/Input'
+import { linkViewHistories } from '../LinkList/LinkList'
 import LoginModal from '../Modal/LoginModal'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
@@ -27,8 +28,9 @@ export interface LinkItemProps {
   spaceId?: number
   title: string
   url: string
-  tag: string
-  readUsers?: Pick<User, 'id' | 'profile'>[]
+  tagName: string
+  tagColor: string
+  readUsers?: linkViewHistories[]
   isInitLiked?: boolean
   likeInitCount: number
   read?: boolean
@@ -42,7 +44,8 @@ const LinkItem = ({
   spaceId,
   title,
   url,
-  tag,
+  tagName,
+  tagColor,
   readUsers,
   isInitLiked,
   likeInitCount,
@@ -72,16 +75,16 @@ const LinkItem = ({
             {title}
           </Link>
           <div className="flex shrink-0 gap-1.5">
-            {tag && (
+            {tagName && (
               <div>
-                <Chip label={tag} />
+                <Chip label={tagName} />
               </div>
             )}
             {readUsers && readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
-                    key={readUser.id}
+                    key={readUser.memberName}
                     src="/duck.jpg"
                     width={20}
                     height={20}
@@ -137,13 +140,13 @@ const LinkItem = ({
           <div
             className={cls(
               'block overflow-hidden text-ellipsis  text-sm font-medium text-gray9',
-              tag ? 'whitespace-nowrap' : 'text-overflow-2 mb-[9.5px]',
+              tagName ? 'whitespace-nowrap' : 'text-overflow-2 mb-[9.5px]',
             )}>
             {title}
           </div>
-          {tag && (
+          {tagName && (
             <div>
-              <Chip label={tag} />
+              <Chip label={tagName} />
             </div>
           )}
           <div className="flex items-center justify-between">
@@ -151,7 +154,7 @@ const LinkItem = ({
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
-                    key={readUser.id}
+                    key={readUser.memberName}
                     src="/duck.jpg"
                     width={20}
                     height={20}
