@@ -6,7 +6,9 @@ export async function GET(req: NextRequest) {
   const path = '/spaces'
 
   try {
-    const data = await apiServer.get(`${path}?${searchParams}`)
+    const data = await apiServer.get(`${path}?${searchParams}`, {
+      cache: 'no-cache',
+    })
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(

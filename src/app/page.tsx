@@ -1,6 +1,7 @@
 'use client'
 
 import { CategoryList, Dropdown, LinkItem, SpaceList } from '@/components'
+import HydrateSpaceList from '@/components/SpaceList/HydrateSpaceList'
 import { mock_LinkData } from '@/data'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import { fetchGetSpaces } from '@/services/space/spaces'
@@ -44,12 +45,16 @@ export default function Home() {
             onChange={handleCategoryChange}
           />
         </div>
-        <SpaceList
+        <HydrateSpaceList
+          sort={sort ?? ''}
+          category={category ?? ''}
+        />
+        {/* <SpaceList
           queryKey="main"
           sort={sort ?? ''}
           category={category ?? ''}
           fetchFn={fetchGetSpaces}
-        />
+        /> */}
       </section>
     </>
   )
