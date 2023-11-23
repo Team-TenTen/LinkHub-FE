@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import {
   SubmitHandler,
   UseFormSetFocus,
@@ -6,13 +6,16 @@ import {
 } from 'react-hook-form'
 import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
 import { CommentProps } from '@/components/common/Comment/Comment'
-import { mock_commentData, mock_replyData, mock_spaceData } from '@/data'
+import { mock_commentData, mock_replyData } from '@/data'
+import { fetchCreateComment } from '@/services/comment/comment'
+import { useQueryClient } from '@tanstack/react-query'
 
 export interface SpaceComment extends CommentProps {
   replies?: CommentProps[]
 }
 
 export interface useSpaceCommentProps {
+  spaceId: number
   setValue: UseFormSetValue<CommentFormValues>
   setFocus: UseFormSetFocus<CommentFormValues>
   modalOpen: () => void
@@ -30,12 +33,15 @@ export const defaultComment: Comment = {
 }
 
 const useSpaceComment = ({
+  spaceId,
   setValue,
   setFocus,
   modalOpen,
 }: useSpaceCommentProps) => {
+  const queryClient = useQueryClient()
   const [comments, setComments] = useState<SpaceComment[]>(mock_commentData)
   const [comment, setComment] = useState<Comment>(defaultComment)
+  const commentListRef = useRef<HTMLDivElement>(null)
 
   const handleEdit = useCallback(
     (commentId: number, comment: string) => {
@@ -87,16 +93,20 @@ const useSpaceComment = ({
     setValue('comment', '')
   }
 
-  const onSubmit: SubmitHandler<CommentFormValues> = (data) => {
-    console.log(comment.type, comment.commentId, data)
+  const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
+    if (comment.type === 'create') {
+      await fetchCreateComment(spaceId, { content: data.comment })
+      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      commentListRef.current?.scrollIntoView(false)
+    }
     setComment(defaultComment)
     setValue('comment', '')
   }
 
   return {
-    space: mock_spaceData,
     comments,
     comment,
+    commentListRef,
     handleEdit,
     handleDelete,
     handleOpen,

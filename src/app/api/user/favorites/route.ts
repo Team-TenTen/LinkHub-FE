@@ -2,18 +2,16 @@ import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const { token } = useServerCookie()
-  const { spaceId, url, title, tag, color } = await req.json()
-  const path = `/spaces/${spaceId}/links`
-  const body = { url, title, tag, color }
+  const { searchParams } = new URL(req.url)
+  const path = '/spaces/favorites/me'
   const headers = {
     Authorization: `Bearer ${token}`,
   }
 
   try {
-    const response = await apiServer.post(path, body, {}, headers)
-    const data = await response.json()
+    const data = await apiServer.get(`${path}?${searchParams}`, {}, headers)
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(

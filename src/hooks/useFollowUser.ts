@@ -9,23 +9,30 @@ import { useCurrentUser } from './useCurrentUser'
 export interface UseFollowUserProps {
   memberId: number
   isInitFollowing: boolean
+  followingInitCount?: number
   followerInitCount: number
-  handleOpenCurrentModal: (current: string) => void
+  handleOpenCurrentModal?: (current: string) => void
 }
 
 const useFollowUser = ({
   memberId,
   isInitFollowing,
   followerInitCount,
+  followingInitCount,
   handleOpenCurrentModal,
 }: UseFollowUserProps) => {
   const { isLoggedIn } = useCurrentUser()
   const [isFollowing, setIsFollowing] = useState(isInitFollowing)
+  const [followingCount, setFollowingCount] = useState(followingInitCount)
   const [followerCount, setFollowerCount] = useState(followerInitCount)
 
   useEffect(() => {
     setIsFollowing(isInitFollowing)
   }, [isInitFollowing])
+
+  useEffect(() => {
+    setFollowingCount(followingInitCount)
+  }, [followingInitCount])
 
   useEffect(() => {
     setFollowerCount(followerInitCount)
@@ -51,7 +58,7 @@ const useFollowUser = ({
     [memberId],
   )
 
-  const handleFollowClick = useCallback(
+  const handleClickFollow = useCallback(
     (isFollowing: boolean) => {
       if (isLoggedIn) {
         setIsFollowing((prev) => !prev)
@@ -63,7 +70,7 @@ const useFollowUser = ({
           debounceFollowUser()
         }
       } else {
-        handleOpenCurrentModal('login')
+        handleOpenCurrentModal?.('login')
       }
     },
     [
@@ -74,7 +81,26 @@ const useFollowUser = ({
     ],
   )
 
-  return { isFollowing, followerCount, handleFollowClick }
+  const handleClickListInFollow = useCallback(
+    (isFollowing: boolean) => {
+      setIsFollowing((prev) => !prev)
+      if (isFollowing) {
+        debounceUnFollowUser()
+      } else {
+        debounceFollowUser()
+      }
+    },
+    [debounceUnFollowUser, debounceFollowUser],
+  )
+
+  return {
+    isFollowing,
+    followingCount,
+    setFollowingCount,
+    followerCount,
+    handleClickFollow,
+    handleClickListInFollow,
+  }
 }
 
 export default useFollowUser

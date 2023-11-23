@@ -1,5 +1,6 @@
 'use client'
 
+import { Fragment } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components'
 import CommentList from '@/components/CommentList/CommentList'
@@ -30,6 +31,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
     })
   const {
     comment,
+    commentListRef,
     handleEdit,
     handleDelete,
     handleOpen,
@@ -37,7 +39,12 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
     handleDeleteConfirm,
     handleReplyCancel,
     onSubmit,
-  } = useSpaceComment({ setValue, setFocus, modalOpen })
+  } = useSpaceComment({
+    spaceId: params.spaceId,
+    setValue,
+    setFocus,
+    modalOpen,
+  })
   const { currentTab, tabList } = useTab({ type: 'space', space })
 
   return (
@@ -69,6 +76,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         </Tab>
       )}
       <section className="px-4 pb-32 pt-1">
+        <div ref={commentListRef} />
         <CommentList
           spaceId={params.spaceId}
           fetchFn={fetchGetComments}

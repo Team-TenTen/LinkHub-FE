@@ -2,12 +2,15 @@
 
 import { Avatar, CategoryListItem } from '@/components'
 import Button from '@/components/common/Button/Button'
+import FollowList from '@/components/common/FollowList/FollowList'
 import LoginModal from '@/components/common/Modal/LoginModal'
-import User from '@/components/common/User/User'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
-import { mock_userData2 } from '@/data'
 import { useFollowUser, useModal } from '@/hooks'
 import useGetProfile from '@/hooks/useGetProfile'
+import {
+  fetchGetFollowers,
+  fetchGetFollowing,
+} from '@/services/user/follow/route'
 import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
 import { useRouter } from 'next/navigation'
 
@@ -16,10 +19,16 @@ const UserPage = () => {
   const router = useRouter()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
-  const userData = mock_userData2 // TODO: 팔로워/팔로우 목록 API 나오면 제거
-  const { isFollowing, followerCount, handleFollowClick } = useFollowUser({
+  const {
+    isFollowing,
+    followingCount,
+    setFollowingCount,
+    followerCount,
+    handleClickFollow,
+  } = useFollowUser({
     memberId: user?.memberId || 0,
     isInitFollowing: !!user?.isFollowing,
+    followingInitCount: user?.followingCount || 0,
     followerInitCount: user?.followerCount || 0,
     handleOpenCurrentModal,
   })
@@ -49,7 +58,7 @@ const UserPage = () => {
                 onClick={() => {
                   handleOpenCurrentModal('following')
                 }}>
-                {PROFILE_MSG.FOLLOWING} {user?.followingCount}
+                {PROFILE_MSG.FOLLOWING} {followingCount}
               </div>
               {PROFILE_MSG.LIST_DIVIDER}
               <div
@@ -68,9 +77,9 @@ const UserPage = () => {
             if (user?.memberId === myId) {
               router.push('/user/setting')
             } else if (isFollowing) {
-              handleFollowClick(!!isFollowing)
+              handleClickFollow(isFollowing)
             } else {
-              handleFollowClick(!!isFollowing)
+              handleClickFollow(isFollowing)
             }
           }}
           className={cls(
@@ -120,36 +129,26 @@ const UserPage = () => {
           onClose={modalClose}
           type={'follow'}>
           <div className="flex flex-col gap-2">
-            {currentModal === 'following' &&
-              userData.following.map((user) => (
-                <User
-                  id={user.userId}
-                  name={user.userName}
-                  profile={user.profile}
-                  oneLiner={user.description}
-                  isFollow={user.isFollow}
-                  isAuth={123 === user.userId}
-                  onClick={(id, isFollow) =>
-                    console.log(isFollow ? `unfollow ${id}` : `follow ${id}`)
-                  }
-                  key={user.userId}
-                />
-              ))}
-            {currentModal === 'follower' &&
-              userData.follower.map((user) => (
-                <User
-                  id={user.userId}
-                  name={user.userName}
-                  profile={user.profile}
-                  oneLiner={user.description}
-                  isFollow={user.isFollow}
-                  isAuth={123 === user.userId}
-                  onClick={(id, isFollow) =>
-                    console.log(isFollow ? `unfollow ${id}` : `follow ${id}`)
-                  }
-                  key={user.userId}
-                />
-              ))}
+            {currentModal === 'following' && (
+              <FollowList
+                memberId={user?.memberId}
+                fetchFn={fetchGetFollowing}
+                myId={myId}
+                type="following"
+                followingCount={followingCount}
+                setFollowingCount={setFollowingCount}
+              />
+            )}
+            {currentModal === 'follower' && (
+              <FollowList
+                memberId={user?.memberId}
+                fetchFn={fetchGetFollowers}
+                myId={myId}
+                type="follower"
+                followingCount={followingCount}
+                setFollowingCount={setFollowingCount}
+              />
+            )}
           </div>
         </Modal>
       )}

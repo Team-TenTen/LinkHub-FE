@@ -112,7 +112,7 @@ export interface UserDetailInfo {
 export interface SearchSpaceReqBody {
   pageNumber: number
   pageSize: number
-  sort: string
+  sort?: string
   keyWord?: string
   filter: string
 }
@@ -169,6 +169,18 @@ export interface CreateSpaceReqBody {
   isReadMarkEnabled: boolean
 }
 
+export interface SearchMySpaceResBody {
+  spaceId: number
+  spaceName: string
+  description: string
+  category: string
+  viewCount: number
+  scrapCount: number
+  favoriteCount: number
+  spaceImagePath: string
+  ownerNickName: string
+}
+
 export interface CommentReqBody {
   spaceId: number
   commentId?: number
@@ -186,4 +198,8 @@ export interface CommentResBody {
   nickname: string
   profileImagePath: string
   isModifiable: boolean
+}
+
+export interface CreateCommentReqBody {
+  content: string
 }
