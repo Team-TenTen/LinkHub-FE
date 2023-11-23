@@ -6,6 +6,7 @@ export const mock_LinkData = [
     title: '자바스크립트 클로저를 활용하는 방법 말줄임표 확인하는 제목입니다',
     url: 'https://naver.com',
     tagName: '개발',
+    tagColor: 'pink',
     readUsers: [
       { id: 'user1', profile: '/duck.jpg' },
       { id: 'user2', profile: '/duck.jpg' },
@@ -21,6 +22,7 @@ export const mock_LinkData = [
     title: '링크 제목',
     url: 'https://github.com',
     tagName: '오둥이',
+    tagColor: 'pink',
     readUsers: [
       { id: 'user6', profile: '/duck.jpg' },
       { id: 'user7', profile: '/duck.jpg' },
@@ -36,6 +38,7 @@ export const mock_LinkData = [
     title: '링크 제목',
     url: 'https://programmers.co.kr',
     tagName: '데브코스',
+    tagColor: 'pink',
     readUsers: [
       { id: 'user11', profile: '/duck.jpg' },
       { id: 'user12', profile: '/duck.jpg' },
@@ -51,6 +54,7 @@ export const mock_LinkData = [
     title: '링크 제목',
     url: 'https://nextjs.org/docs/app/api-reference/components/link',
     tagName: '개발',
+    tagColor: 'pink',
     readUsers: [
       { id: 'user16', profile: '/duck.jpg' },
       { id: 'user17', profile: '/duck.jpg' },
@@ -66,6 +70,7 @@ export const mock_LinkData = [
     title: '링크 제목',
     url: 'https://tailwindcss.com/docs/installation',
     tagName: '개발',
+    tagColor: 'pink',
     readUsers: [
       { id: 'user21', profile: '/duck.jpg' },
       { id: 'user22', profile: '/duck.jpg' },
@@ -81,7 +86,8 @@ export const mock_LinkData = [
     title:
       '자바스크립트 클로저를 활용하는 방법 말줄임표 확인하는 제목입니다 자바스크립트 클로저를 활용하는 방법 말줄임표 확인하는 제목입니다',
     url: 'https://velog.io/',
-    tagName: '',
+    tagName: '개발',
+    tagColor: 'pink',
     readUsers: [],
     isLiked: true,
     likeCount: 3,
