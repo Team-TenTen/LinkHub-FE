@@ -74,13 +74,9 @@ export interface FetchLikeLinkProps {
 
 const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   const path = `/api/links/${linkId}/like`
-  const params = {
-    linkId: linkId.toString(),
-  }
-  const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await apiClient.post(`${path}?${queryString}`, {})
+    const response = await apiClient.post(path, {})
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
@@ -89,13 +85,9 @@ const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
 
 const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   const path = `/api/links/${linkId}/like`
-  const params = {
-    linkId: linkId.toString(),
-  }
-  const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await apiClient.delete(`${path}?${queryString}`)
+    const response = await apiClient.delete(path)
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
