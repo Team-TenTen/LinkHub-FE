@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { GetLinksReqBody } from '@/types'
-import { cls, getRandomColor } from '@/utils'
+import { cls } from '@/utils'
 import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
@@ -20,6 +20,7 @@ export interface linkViewHistories {
   memberName: string
   memberProfileImage: string
 }
+
 export interface Link {
   linkId: number
   title: string

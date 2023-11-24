@@ -2,7 +2,6 @@
 
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import { User } from '@/types'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,

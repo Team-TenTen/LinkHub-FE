@@ -1,4 +1,3 @@
-import { DROPDOWN_OPTIONS } from '@/components/common/Dropdown/constants'
 import { Tag } from '@/components/common/Space/hooks/useGetTags'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import useQueryString from './useQueryString'
