@@ -88,6 +88,7 @@ const LinkList = ({
       <div
         className={cls(
           type === 'list' ? 'flex flex-col' : 'grid grid-cols-2 gap-2',
+          !hasNextPage && 'mb-0.5 pb-10',
         )}>
         <button
           className={cls(
@@ -99,42 +100,38 @@ const LinkList = ({
           onClick={modalOpen}>
           <div className="text-gray9">{ADD_LINK_TEXT}</div>
         </button>
-        <ul className={cls(!hasNextPage && 'mb-10 pb-0.5')}>
-          {links?.pages.map((group, groupIdx) => (
-            <Fragment key={groupIdx}>
-              {group.responses.map((link: Link) => (
-                <li key={link.linkId}>
-                  <LinkItem
-                    spaceId={spaceId}
-                    linkId={link.linkId}
-                    title={link.title}
-                    url={link.url}
-                    tagName={link.tagName}
-                    tagColor={link.tagColor}
-                    readUsers={link.linkViewHistories}
-                    isInitLiked={link.isLiked}
-                    likeInitCount={link.likeCount}
-                    read={read}
-                    summary={summary}
-                    edit={edit}
-                    type={type}
-                    key={link.linkId}
-                  />
-                </li>
-              ))}
-            </Fragment>
-          ))}
-          {hasNextPage && (
-            <div className="flex justify-center py-2">
-              <Button
-                className="button button-round button-white"
-                onClick={() => fetchNextPage()}>
-                {MORE_TEXT}
-              </Button>
-            </div>
+        <>
+          {links?.pages.map((group) =>
+            group.responses.map((link: Link) => (
+              <LinkItem
+                spaceId={spaceId}
+                linkId={link.linkId}
+                title={link.title}
+                url={link.url}
+                tagName={link.tagName}
+                tagColor={link.tagColor}
+                readUsers={link.linkViewHistories}
+                isInitLiked={link.isLiked}
+                likeInitCount={link.likeCount}
+                read={read}
+                summary={summary}
+                edit={edit}
+                type={type}
+                key={link.linkId}
+              />
+            )),
           )}
-        </ul>
+        </>
       </div>
+      {hasNextPage && (
+        <div className="flex justify-center py-2">
+          <Button
+            className="button button-round button-white"
+            onClick={() => fetchNextPage()}>
+            {MORE_TEXT}
+          </Button>
+        </div>
+      )}
       {isOpen && (
         <Modal
           title="링크 추가"
