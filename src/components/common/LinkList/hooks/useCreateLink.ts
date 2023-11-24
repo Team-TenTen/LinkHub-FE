@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { UseFormSetValue } from 'react-hook-form'
 import { FetchCreateLinkProps, fetchCreateLink } from '@/services/link/link'
 import { FetchGetMetaProps, fetchGetMeta } from '@/services/meta/meta'
+import { QueryClient, useQueryClient } from '@tanstack/react-query'
 import { CreateLinkFormValue } from '../LinkList'
 
 export interface UseCreateLinkReturnType {
@@ -23,6 +24,7 @@ export interface UseCreateLinkReturnType {
 const useCreateLink = (
   setValue: UseFormSetValue<CreateLinkFormValue>,
 ): UseCreateLinkReturnType => {
+  const queryclient = useQueryClient()
   const [isUrlCheck, setIsUrlCheck] = useState(false)
   const [isUrlError, setIsUrlError] = useState(false)
 
@@ -51,6 +53,7 @@ const useCreateLink = (
       tagName,
       color,
     })
+    await queryclient.invalidateQueries({ queryKey: ['links'] })
   }
 
   return {
