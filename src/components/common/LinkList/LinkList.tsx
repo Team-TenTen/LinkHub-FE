@@ -96,7 +96,7 @@ const LinkList = ({
             'flex bg-slate-100 px-3 py-2.5 text-sm font-medium text-gray9 dark:bg-slate-800',
             type === 'list'
               ? 'border-t border-slate3'
-              : 'items-center justify-center rounded-md border',
+              : 'min-h-[101.5px] items-center justify-center rounded-md border',
           )}
           onClick={modalOpen}>
           <div className="text-gray9">{ADD_LINK_TEXT}</div>
