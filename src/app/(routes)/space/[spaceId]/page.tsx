@@ -113,16 +113,18 @@ const SpacePage = () => {
             </div>
           </div>
         </div>
-        <LinkList
-          spaceId={space?.spaceId}
-          read={space?.isReadMarkEnabled}
-          summary={space?.isLinkSummarizable}
-          edit={isEdit}
-          type={view}
-          fetchFn={fetchGetLinks}
-          sort={sort ?? 'created_at'}
-          tagId={0 ?? undefined}
-        />
+        {space?.spaceId && (
+          <LinkList
+            spaceId={space?.spaceId}
+            read={space?.isReadMarkEnabled}
+            summary={space?.isLinkSummarizable}
+            edit={isEdit}
+            type={view}
+            fetchFn={fetchGetLinks}
+            sort={sort ?? 'created_at'}
+            tagId={0 ?? undefined}
+          />
+        )}
         <SpaceMemberList members={space?.memberDetailInfos} />
       </div>
     </>
