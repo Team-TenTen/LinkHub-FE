@@ -1,6 +1,5 @@
 'use client'
 
-import { Fragment } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components'
 import CommentList from '@/components/CommentList/CommentList'
@@ -11,7 +10,6 @@ import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
-import { useModal } from '@/hooks'
 import useSpaceComment from '@/hooks/useSpaceComment'
 import { fetchGetComments } from '@/services/comment/comment'
 import { XMarkIcon } from '@heroicons/react/20/solid'
@@ -22,7 +20,6 @@ export interface CommentFormValues {
 
 const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
   const [space] = useGetSpace()
-  const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
   const { register, setValue, setFocus, handleSubmit } =
     useForm<CommentFormValues>({
       defaultValues: {
@@ -33,17 +30,13 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
     comment,
     commentListRef,
     handleEdit,
-    handleDelete,
-    handleOpen,
     handleReply,
-    handleDeleteConfirm,
     handleReplyCancel,
     onSubmit,
   } = useSpaceComment({
     spaceId: params.spaceId,
     setValue,
     setFocus,
-    modalOpen,
   })
   const { currentTab, tabList } = useTab({ type: 'space', space })
 
@@ -80,6 +73,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         <CommentList
           spaceId={params.spaceId}
           fetchFn={fetchGetComments}
+          onEdit={handleEdit}
         />
       </section>
       <form
@@ -107,18 +101,6 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
           />
         </div>
       </form>
-      {isOpen && (
-        <Modal
-          title="댓글 삭제"
-          isCancelButton={true}
-          isConfirmButton={true}
-          cancelText="취소"
-          confirmText="삭제"
-          onClose={modalClose}
-          onConfirm={handleDeleteConfirm}>
-          <div className="flex justify-center">삭제하시겠습니까?</div>
-        </Modal>
-      )}
     </>
   )
 }
