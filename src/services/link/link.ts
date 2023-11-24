@@ -84,7 +84,7 @@ const fetchReadSaveLink = async ({
   spaceId,
   linkId,
 }: FetchReadSaveLinkProps) => {
-  const path = '/api/link/readInfo'
+  const path = `/api/space/${spaceId}/links/readInfo`
   const params = {
     spaceId: spaceId.toString(),
     linkId: linkId.toString(),
