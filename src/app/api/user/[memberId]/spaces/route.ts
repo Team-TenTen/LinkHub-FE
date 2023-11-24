@@ -11,9 +11,7 @@ export async function GET(
   const path = `/members/${memberId}/spaces/search`
 
   try {
-    const data = await apiServer.get(`${path}?${searchParams}`, {
-      cache: 'no-cache',
-    })
+    const data = await apiServer.get(`${path}?${searchParams}`, {})
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
