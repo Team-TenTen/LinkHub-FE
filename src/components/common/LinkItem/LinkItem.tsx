@@ -148,7 +148,10 @@ const LinkItem = ({
           </div>
           {tagName && (
             <div>
-              <Chip label={tagName} />
+              <Chip
+                label={tagName}
+                color={tagColor}
+              />
             </div>
           )}
           <div className="flex items-center justify-between">
