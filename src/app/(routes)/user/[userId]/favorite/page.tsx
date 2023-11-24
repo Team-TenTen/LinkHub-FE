@@ -10,7 +10,7 @@ import { SearchFormValue } from '../space/page'
 const UserFavoritePage = () => {
   const pathname = usePathname()
   const userId = Number(pathname.split('/')[2])
-  const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
+  const { register, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
       keyword: '',
     },
@@ -21,7 +21,6 @@ const UserFavoritePage = () => {
     userId,
     category: category || '',
     type: 'favorite',
-    setValue,
   })
   const searchParams = useSearchParams()
   const keyword = searchParams.get('keyword')

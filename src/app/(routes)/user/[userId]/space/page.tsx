@@ -13,9 +13,11 @@ export interface SearchFormValue {
 const UserSpacePage = () => {
   const pathname = usePathname()
   const userId = Number(pathname.split('/')[2])
-  const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
+  const searchparams = useSearchParams()
+  const keyword = searchparams.get('keyword')
+  const { register, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
-      keyword: '',
+      keyword: keyword ?? '',
     },
   })
   const { category, categoryIndex, handleCategoryChange } =
@@ -24,10 +26,7 @@ const UserSpacePage = () => {
     userId,
     category: category || '',
     type: 'space',
-    setValue,
   })
-  const searchParams = useSearchParams()
-  const keyword = searchParams.get('keyword')
 
   return (
     <div className="px-4">

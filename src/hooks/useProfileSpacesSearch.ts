@@ -6,14 +6,12 @@ export interface UseSpaceSearchProps {
   userId: number
   category: string
   type: 'space' | 'favorite'
-  setValue: UseFormSetValue<SearchFormValue>
 }
 
 const useProfileSpacesSearch = ({
   userId,
   category,
   type,
-  setValue,
 }: UseSpaceSearchProps) => {
   const router = useRouter()
   const basePath =
@@ -25,7 +23,6 @@ const useProfileSpacesSearch = ({
     } else {
       router.push(`${basePath}keyword=${data.keyword}`)
     }
-    setValue('keyword', '')
   }
 
   return { onSubmit }
