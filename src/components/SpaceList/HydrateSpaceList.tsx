@@ -1,15 +1,9 @@
 import getQueryClient from '@/lib/queryClient'
 import { fetchGetSpaces } from '@/services/space/spaces'
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
-import { SpaceList } from '..'
+import SpaceListController from './SpaceListController'
 
-export default async function HydrateSpaceList({
-  sort,
-  category,
-}: {
-  sort: string
-  category: string
-}) {
+export default async function HydrateSpaceList() {
   const queryClient = getQueryClient()
   await queryClient.prefetchInfiniteQuery({
     queryKey: ['getSpacesInfiniteQuery'],
@@ -17,7 +11,7 @@ export default async function HydrateSpaceList({
       fetchGetSpaces({
         pageNumber: 0,
         pageSize: 10,
-        sort,
+        sort: 'recent',
         filter: '',
       }),
     initialPageParam: 0,
@@ -27,12 +21,7 @@ export default async function HydrateSpaceList({
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <SpaceList
-        queryKey="main"
-        sort={sort ?? ''}
-        category={category ?? ''}
-        fetchFn={fetchGetSpaces}
-      />
+      <SpaceListController />
     </HydrationBoundary>
   )
 }
