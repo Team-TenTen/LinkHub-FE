@@ -1,11 +1,11 @@
 'use client'
 
-import { Fragment } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { GetLinksReqBody } from '@/types'
 import { cls, getRandomColor } from '@/utils'
 import Button from '../Button/Button'
+import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
 import {
@@ -25,7 +25,7 @@ export interface Link {
   title: string
   url: string
   tagName: string
-  tagColor: string
+  tagColor: ChipColors
   canReadMark: boolean
   canLinkSummaraizable: boolean
   isLiked: false

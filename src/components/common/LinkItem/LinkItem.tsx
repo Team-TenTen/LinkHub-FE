@@ -15,7 +15,7 @@ import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
 import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
-import Chip from '../Chip/Chip'
+import Chip, { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import { linkViewHistories } from '../LinkList/LinkList'
 import LoginModal from '../Modal/LoginModal'
@@ -29,7 +29,7 @@ export interface LinkItemProps {
   title: string
   url: string
   tagName: string
-  tagColor: string
+  tagColor: ChipColors
   readUsers?: linkViewHistories[]
   isInitLiked?: boolean
   likeInitCount: number
@@ -77,7 +77,10 @@ const LinkItem = ({
           <div className="flex shrink-0 gap-1.5">
             {tagName && (
               <div>
-                <Chip label={tagName} />
+                <Chip
+                  label={tagName}
+                  color={tagColor}
+                />
               </div>
             )}
             {readUsers && readUsers.length > 0 && read && !edit ? (
