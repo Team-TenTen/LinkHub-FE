@@ -41,7 +41,7 @@ export interface LinkListProps {
   type?: 'list' | 'card'
   fetchFn: ({ pageNumber, pageSize }: GetLinksReqBody) => Promise<any>
   sort: string
-  tagId: number
+  tagId?: number
 }
 
 export interface CreateLinkFormValue {

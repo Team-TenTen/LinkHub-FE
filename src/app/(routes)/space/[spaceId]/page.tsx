@@ -1,19 +1,18 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
-import { Link } from '@/components/common/LinkList/LinkList'
-import { MORE_TEXT } from '@/components/common/LinkList/constants'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
+import useGetTags from '@/components/common/Space/hooks/useGetTags'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
 import { useSortParam } from '@/hooks'
+import useTagParam from '@/hooks/useTagParam'
 import { fetchGetLinks } from '@/services/link/link'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
@@ -29,6 +28,8 @@ const SpacePage = () => {
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
   const { sort, sortIndex, handleSortChange } = useSortParam('link')
+  const { tags } = useGetTags({ spaceId: space?.spaceId })
+  const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
 
   return (
     <>
@@ -63,12 +64,11 @@ const SpacePage = () => {
           <div className="flex items-center gap-1.5">
             <Dropdown
               type="tag"
-              tags={['JavaScript', 'TypeScript', 'Java', 'Python']}
+              tags={tags?.map((tag) => tag.name)}
               size="medium"
               placement="left"
-              onChange={(e) => {
-                console.log(e?.currentTarget.value)
-              }}
+              defaultIndex={tagIndex}
+              onChange={handleTagChange}
             />
             <Dropdown
               type="link"
@@ -92,7 +92,6 @@ const SpacePage = () => {
                 )}
               </Button>
             )}
-
             <div>
               <Button
                 className={cls(
@@ -122,7 +121,7 @@ const SpacePage = () => {
             type={view}
             fetchFn={fetchGetLinks}
             sort={sort ?? 'created_at'}
-            tagId={0 ?? undefined}
+            tagId={Number(tag) || undefined}
           />
         )}
         <SpaceMemberList members={space?.memberDetailInfos} />
