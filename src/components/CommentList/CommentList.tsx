@@ -10,9 +10,10 @@ import useCommentsQuery from './hooks/useCommentsQuery'
 export interface CommentListProps {
   spaceId: number
   fetchFn: ({ pageNumber, pageSize }: CommentReqBody) => Promise<any>
+  onEdit?: (commentId: number, comment: string) => void
 }
 
-const CommentList = ({ spaceId, fetchFn }: CommentListProps) => {
+const CommentList = ({ spaceId, fetchFn, onEdit }: CommentListProps) => {
   const {
     comments,
     openedComments,
@@ -49,8 +50,7 @@ const CommentList = ({ spaceId, fetchFn }: CommentListProps) => {
                     firstDepth={true}
                     replyCount={comment.childCount}
                     auth={comment.isModifiable}
-                    onEdit={() => {}}
-                    onDelete={() => {}}
+                    onEdit={onEdit}
                     onOpen={() => handleOpen(groupIdx, commentIdx)}
                     onReply={() => {}}
                   />
@@ -59,6 +59,7 @@ const CommentList = ({ spaceId, fetchFn }: CommentListProps) => {
                       spaceId={spaceId}
                       commentId={comment.commentId}
                       fetchFn={fetchGetReplies}
+                      onEdit={onEdit}
                     />
                   )}
                 </li>
