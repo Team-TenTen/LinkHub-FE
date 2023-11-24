@@ -22,9 +22,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { spaceId: number } },
+) {
   const { token } = useServerCookie()
-  const spaceId = req.nextUrl.pathname.replace('/api/favorites/', '')
+  const spaceId = params.spaceId
   const path = `/spaces/${spaceId}/favorites`
   const headers = {
     Authorization: `Bearer ${token}`,

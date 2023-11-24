@@ -47,7 +47,7 @@ const fetchDeleteSpace = async (spaceId: number) => {
 }
 
 const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
-  const path = `/api/favorites/${spaceId}`
+  const path = `/api/space/${spaceId}/favorites`
   const body = { spaceId }
 
   try {
@@ -59,7 +59,7 @@ const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
 }
 
 const fetchUnFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
-  const path = `/api/favorites/${spaceId}`
+  const path = `/api/space/${spaceId}/favorites`
 
   try {
     const response = await apiClient.delete(path)
