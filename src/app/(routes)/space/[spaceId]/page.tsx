@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
+import { Link } from '@/components/common/LinkList/LinkList'
 import { MORE_TEXT } from '@/components/common/LinkList/constants'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
@@ -12,6 +13,7 @@ import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
+import { useSortParam } from '@/hooks'
 import { fetchGetLinks } from '@/services/link/link'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
@@ -26,20 +28,7 @@ const SpacePage = () => {
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
-  const [links, setLinks] = useState()
-
-  const handleGetLinks = useCallback(async () => {
-    const data = await fetchGetLinks({
-      spaceId: space?.spaceId,
-      pageNumber: 1,
-      pageSize: 10,
-    })
-    setLinks(data.responses)
-  }, [space?.spaceId])
-
-  useEffect(() => {
-    handleGetLinks()
-  }, [handleGetLinks])
+  const { sort, sortIndex, handleSortChange } = useSortParam('link')
 
   return (
     <>
@@ -82,11 +71,12 @@ const SpacePage = () => {
               }}
             />
             <Dropdown
-              type="space"
+              type="link"
               size="medium"
               placement="left"
+              defaultIndex={sortIndex}
               onChange={(e) => {
-                console.log(e?.currentTarget.value)
+                handleSortChange(e)
               }}
             />
           </div>
@@ -130,12 +120,9 @@ const SpacePage = () => {
           edit={isEdit}
           type={view}
           fetchFn={fetchGetLinks}
+          sort={sort ?? 'created_at'}
+          tagId={0 ?? undefined}
         />
-        <div className="flex justify-center py-2">
-          <Button className="button button-round button-white">
-            {MORE_TEXT}
-          </Button>
-        </div>
         <SpaceMemberList members={space?.memberDetailInfos} />
       </div>
     </>
