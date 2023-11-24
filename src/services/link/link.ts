@@ -73,7 +73,7 @@ export interface FetchLikeLinkProps {
 }
 
 const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
-  const path = '/api/link/like'
+  const path = `/api/links/${linkId}/like`
   const params = {
     linkId: linkId.toString(),
   }
@@ -88,7 +88,7 @@ const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
 }
 
 const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
-  const path = '/api/link/like'
+  const path = `/api/links/${linkId}/like`
   const params = {
     linkId: linkId.toString(),
   }
