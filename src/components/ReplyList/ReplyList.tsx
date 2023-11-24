@@ -9,9 +9,14 @@ export interface ReplyListProps {
   spaceId: number
   commentId: number
   fetchFn: ({ pageNumber, pageSize }: CommentReqBody) => Promise<any>
+  onEdit?: (
+    commentId: number,
+    comment: string,
+    parentCommentId?: number,
+  ) => void
 }
 
-const ReplyList = ({ spaceId, commentId, fetchFn }: ReplyListProps) => {
+const ReplyList = ({ spaceId, commentId, fetchFn, onEdit }: ReplyListProps) => {
   const { replies, fetchNextPage, hasNextPage } = useRepliesQuery({
     spaceId,
     commentId,
@@ -32,10 +37,12 @@ const ReplyList = ({ spaceId, commentId, fetchFn }: ReplyListProps) => {
                     name: comment.nickname,
                     profile: comment.profileImagePath,
                   }}
+                  parentCommentId={comment.parentCommentId}
                   comment={comment.content}
                   firstDepth={false}
                   date={new Date(comment.createdAt)}
                   auth={comment.isModifiable}
+                  onEdit={onEdit}
                 />
               </li>
             ))}
