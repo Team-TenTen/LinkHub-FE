@@ -31,7 +31,9 @@ const useLinksQuery = ({
       }),
     initialPageParam: INITIAL_PAGE_NUMBER,
     getNextPageParam: (lastPage) =>
-      lastPage.metaData?.hasNext ? lastPage.metaData.pageNumber + 1 : undefined,
+      lastPage.pageMetaData?.hasNext
+        ? lastPage.pageMetaData.pageNumber + 1
+        : undefined,
   })
 
   return { links: data, fetchNextPage, hasNextPage }
