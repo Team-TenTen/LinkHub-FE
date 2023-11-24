@@ -6,7 +6,6 @@ import {
 } from 'react-hook-form'
 import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
 import { CommentProps } from '@/components/common/Comment/Comment'
-import { mock_commentData, mock_replyData } from '@/data'
 import { fetchCreateComment } from '@/services/comment/comment'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -18,11 +17,10 @@ export interface useSpaceCommentProps {
   spaceId: number
   setValue: UseFormSetValue<CommentFormValues>
   setFocus: UseFormSetFocus<CommentFormValues>
-  modalOpen: () => void
 }
 
 export interface Comment {
-  type: 'create' | 'edit' | 'reply' | 'delete'
+  type: 'create' | 'edit' | 'reply'
   commentId: number
   userName?: string
 }
@@ -36,10 +34,8 @@ const useSpaceComment = ({
   spaceId,
   setValue,
   setFocus,
-  modalOpen,
 }: useSpaceCommentProps) => {
   const queryClient = useQueryClient()
-  const [comments, setComments] = useState<SpaceComment[]>(mock_commentData)
   const [comment, setComment] = useState<Comment>(defaultComment)
   const commentListRef = useRef<HTMLDivElement>(null)
 
@@ -52,29 +48,6 @@ const useSpaceComment = ({
     [setFocus, setValue],
   )
 
-  const handleDelete = useCallback(
-    (commentId: number) => {
-      setComment({ type: 'delete', commentId })
-      modalOpen()
-    },
-    [modalOpen],
-  )
-
-  const handleOpen = useCallback(
-    (commentId: number) => {
-      const commentsWithReplies = comments.map((comment) =>
-        comment.commentId === commentId
-          ? {
-              ...comment,
-              replies: mock_replyData,
-            }
-          : comment,
-      )
-      setComments(commentsWithReplies)
-    },
-    [comments],
-  )
-
   const handleReply = useCallback(
     (commentId: number, userName: string) => {
       setComment({ type: 'reply', commentId, userName })
@@ -83,10 +56,6 @@ const useSpaceComment = ({
     },
     [setFocus, setValue],
   )
-
-  const handleDeleteConfirm = () => {
-    console.log(comment.type, comment.commentId)
-  }
 
   const handleReplyCancel = () => {
     setComment(defaultComment)
@@ -104,14 +73,10 @@ const useSpaceComment = ({
   }
 
   return {
-    comments,
     comment,
     commentListRef,
     handleEdit,
-    handleDelete,
-    handleOpen,
     handleReply,
-    handleDeleteConfirm,
     handleReplyCancel,
     onSubmit,
   }
