@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceList } from '@/components'
 import { useCategoryParam, useProfileFavoritesSearch } from '@/hooks'
-import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/route'
+import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/favorites'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { SearchFormValue } from '../space/page'
 
