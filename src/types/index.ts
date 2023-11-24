@@ -145,7 +145,7 @@ export interface GetLinksReqBody {
   pageNumber: number
   pageSize: number
   sort?: string
-  tagId: number | null
+  tagId?: number
 }
 
 // 링크 생성 req body
