@@ -36,7 +36,7 @@ const fetchCreateLink = async ({
   tagName,
   color,
 }: FetchCreateLinkProps) => {
-  const path = '/api/link'
+  const path = `/api/space/${spaceId}/links`
   const body = { spaceId, url, title, tagName, color }
 
   try {
