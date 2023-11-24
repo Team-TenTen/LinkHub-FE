@@ -10,8 +10,13 @@ export interface CommentProps {
   date: Date
   auth?: boolean
   firstDepth?: boolean
+  parentCommentId?: number
   replyCount?: number
-  onEdit?: (commentId: number, comment: string) => void
+  onEdit?: (
+    commentId: number,
+    comment: string,
+    parentCommentId?: number,
+  ) => void
   onDelete?: (commentId: number) => void
   onOpen?: (commentId: number) => void
   onReply?: (commentId: number, userName: string) => void
@@ -19,6 +24,7 @@ export interface CommentProps {
 
 const Comment = ({
   commentId,
+  parentCommentId,
   user,
   comment,
   date,
@@ -45,16 +51,18 @@ const Comment = ({
             className="text-sm font-semibold text-gray9">
             {user.name}
           </Link>
-          {auth && onEdit && onDelete && (
+          {auth && (
             <div className="flex gap-x-1.5">
               <Button
                 className="p-0.5"
-                onClick={() => onDelete(commentId)}>
+                onClick={() => onDelete && onDelete(commentId)}>
                 <TrashIcon className="h-5 w-5 text-slate6" />
               </Button>
               <Button
                 className="p-0.5"
-                onClick={() => onEdit(commentId, comment)}>
+                onClick={() =>
+                  onEdit && onEdit(commentId, comment, parentCommentId)
+                }>
                 <PencilSquareIcon className="h-5 w-5 text-slate6" />
               </Button>
             </div>
