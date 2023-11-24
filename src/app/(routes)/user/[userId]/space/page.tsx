@@ -43,6 +43,7 @@ const UserSpacePage = () => {
           inputButton={true}
           buttonText="검색"
           buttonColor="gray"
+          buttonType="submit"
         />
       </form>
       <div className="flex flex-col gap-2 py-4">
