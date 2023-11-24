@@ -51,7 +51,7 @@ export interface FetchFollowUserProps {
 }
 
 const fetchFollowUser = async ({ memberId }: FetchFollowUserProps) => {
-  const path = `/api/user/follow`
+  const path = `/api/user/${memberId}/follow`
   const params = {
     memberId: memberId.toString(),
   }
@@ -66,7 +66,7 @@ const fetchFollowUser = async ({ memberId }: FetchFollowUserProps) => {
 }
 
 const fetchUnFollowUser = async ({ memberId }: FetchFollowUserProps) => {
-  const path = `/api/user/follow`
+  const path = `/api/user/${memberId}/follow`
   const params = {
     memberId: memberId.toString(),
   }
