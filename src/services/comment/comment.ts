@@ -36,4 +36,20 @@ const fetchCreateComment = async (
   }
 }
 
-export { fetchGetComments, fetchCreateComment }
+const fetchUpdateComment = async (
+  spaceId: number,
+  commentId: number,
+  { content }: CreateCommentReqBody,
+) => {
+  const path = `/api/space/${spaceId}/comments/${commentId}`
+  const body = { content }
+
+  try {
+    const response = await apiClient.put(path, body)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export { fetchGetComments, fetchCreateComment, fetchUpdateComment }
