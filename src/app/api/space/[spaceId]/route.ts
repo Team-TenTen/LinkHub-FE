@@ -2,9 +2,12 @@ import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { spaceId: number } },
+) {
   const { token } = useServerCookie()
-  const spaceId = req.nextUrl.pathname.replace('/api/space/', '')
+  const spaceId = params.spaceId
   const path = `/spaces/${spaceId}`
   const headers = {
     Authorization: `Bearer ${token}`,
