@@ -21,7 +21,7 @@ export default function Home() {
             title={link.title}
             url={link.url}
             tagName={link.tagName}
-            tagColor={link.tagColor}
+            tagColor="emerald"
             isInitLiked={link.isLiked}
             likeInitCount={link.likeCount}
             key={link.id}
