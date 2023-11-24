@@ -47,6 +47,27 @@ const fetchCreateLink = async ({
   }
 }
 
+export interface FetchDeleteLinbkProps {
+  spaceId: number
+  linkId: number
+}
+
+const fetchDeleteLink = async ({ spaceId, linkId }: FetchDeleteLinbkProps) => {
+  const path = `/api/space/${spaceId}/links`
+  const params = {
+    spaceId: spaceId.toString(),
+    linkId: linkId.toString(),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.delete(`${path}?${queryString}`)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 export interface FetchLikeLinkProps {
   linkId: number
 }
@@ -69,27 +90,6 @@ const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
 const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   const path = '/api/link/like'
   const params = {
-    linkId: linkId.toString(),
-  }
-  const queryString = new URLSearchParams(params).toString()
-
-  try {
-    const response = await apiClient.delete(`${path}?${queryString}`)
-    return response
-  } catch (e) {
-    if (e instanceof Error) throw new Error(e.message)
-  }
-}
-
-export interface FetchDeleteLinbkProps {
-  spaceId: number
-  linkId: number
-}
-
-const fetchDeleteLink = async ({ spaceId, linkId }: FetchDeleteLinbkProps) => {
-  const path = '/api/link/delete'
-  const params = {
-    spaceId: spaceId.toString(),
     linkId: linkId.toString(),
   }
   const queryString = new URLSearchParams(params).toString()
