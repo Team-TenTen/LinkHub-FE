@@ -9,7 +9,7 @@ export interface UseSpaceSearchProps {
   setValue: UseFormSetValue<SearchFormValue>
 }
 
-const useProfileFavoritesSearch = ({
+const useProfileSpacesSearch = ({
   userId,
   category,
   type,
@@ -31,4 +31,4 @@ const useProfileFavoritesSearch = ({
   return { onSubmit }
 }
 
-export default useProfileFavoritesSearch
+export default useProfileSpacesSearch
