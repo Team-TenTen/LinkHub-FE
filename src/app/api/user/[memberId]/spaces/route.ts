@@ -1,10 +1,12 @@
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { memberId: number } },
+) {
   const { searchParams } = new URL(req.url)
-  const memberId = req.nextUrl.pathname.split('/')[3]
-
+  const memberId = params.memberId
   const path = `/members/${memberId}/spaces/search`
 
   try {
