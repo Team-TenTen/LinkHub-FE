@@ -48,10 +48,9 @@ const fetchDeleteSpace = async (spaceId: number) => {
 
 const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
   const path = `/api/space/${spaceId}/favorites`
-  const body = { spaceId }
 
   try {
-    const response = await apiClient.post(path, body)
+    const response = await apiClient.post(path, {})
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)

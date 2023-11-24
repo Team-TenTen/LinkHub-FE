@@ -2,9 +2,12 @@ import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { spaceId: number } },
+) {
   const { token } = useServerCookie()
-  const { spaceId } = await req.json()
+  const spaceId = params.spaceId
   const path = `/spaces/${spaceId}/favorites`
   const headers = {
     Authorization: `Bearer ${token}`,
