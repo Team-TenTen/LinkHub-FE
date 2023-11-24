@@ -1,13 +1,20 @@
 'use client'
 
+import { Fragment } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
+import { GetLinksReqBody } from '@/types'
 import { cls, getRandomColor } from '@/utils'
-import { usePathname } from 'next/navigation'
+import Button from '../Button/Button'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
-import { ADD_LINK_TEXT, URL_INPUT_VALIDATION_TEXT } from './constants'
+import {
+  ADD_LINK_TEXT,
+  MORE_TEXT,
+  URL_INPUT_VALIDATION_TEXT,
+} from './constants'
 import useCreateLink from './hooks/useCreateLink'
+import useLinksQuery from './hooks/useLinksQuery'
 
 export interface linkViewHistories {
   memberName: string
@@ -27,11 +34,14 @@ export interface Link {
 }
 
 export interface LinkListProps {
-  links: Link[]
+  spaceId?: number
   read?: boolean
   summary?: boolean
   edit?: boolean
   type?: 'list' | 'card'
+  fetchFn: ({ pageNumber, pageSize }: GetLinksReqBody) => Promise<any>
+  sort: string
+  tagId: number
 }
 
 export interface CreateLinkFormValue {
@@ -41,14 +51,15 @@ export interface CreateLinkFormValue {
 }
 
 const LinkList = ({
-  links,
+  spaceId,
   read = false,
   summary = false,
   edit = false,
   type = 'list',
+  fetchFn,
+  sort,
+  tagId,
 }: LinkListProps) => {
-  const path = usePathname()
-  const spaceId = Number(path.split('/')[2])
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const { register, getValues, setValue, handleSubmit, reset } =
     useForm<CreateLinkFormValue>({
@@ -65,6 +76,12 @@ const LinkList = ({
     handleGetMeta,
     handleCreateLink,
   } = useCreateLink(setValue)
+  const { links, fetchNextPage, hasNextPage } = useLinksQuery({
+    spaceId,
+    fetchFn,
+    sort,
+    tagId,
+  })
 
   return (
     <>
@@ -82,24 +99,41 @@ const LinkList = ({
           onClick={modalOpen}>
           <div className="text-gray9">{ADD_LINK_TEXT}</div>
         </button>
-        {links?.map((link) => (
-          <LinkItem
-            spaceId={spaceId}
-            linkId={link.linkId}
-            title={link.title}
-            url={link.url}
-            tagName={link.tagName}
-            tagColor={link.tagColor}
-            readUsers={link.linkViewHistories}
-            isInitLiked={link.isLiked}
-            likeInitCount={link.likeCount}
-            read={read}
-            summary={summary}
-            edit={edit}
-            type={type}
-            key={link.linkId}
-          />
-        ))}
+        <ul className={cls(!hasNextPage && 'mb-10 pb-0.5')}>
+          {links?.pages.map((group, groupIdx) => (
+            <Fragment key={groupIdx}>
+              {group.responses.map((link: Link) => (
+                <li key={link.linkId}>
+                  <LinkItem
+                    spaceId={spaceId}
+                    linkId={link.linkId}
+                    title={link.title}
+                    url={link.url}
+                    tagName={link.tagName}
+                    tagColor={link.tagColor}
+                    readUsers={link.linkViewHistories}
+                    isInitLiked={link.isLiked}
+                    likeInitCount={link.likeCount}
+                    read={read}
+                    summary={summary}
+                    edit={edit}
+                    type={type}
+                    key={link.linkId}
+                  />
+                </li>
+              ))}
+            </Fragment>
+          ))}
+          {hasNextPage && (
+            <div className="flex justify-center py-2">
+              <Button
+                className="button button-round button-white"
+                onClick={() => fetchNextPage()}>
+                {MORE_TEXT}
+              </Button>
+            </div>
+          )}
+        </ul>
       </div>
       {isOpen && (
         <Modal
