@@ -49,10 +49,13 @@ const fetchSearchSpaces = async ({
   }
 }
 
-const fetchSearchMySpaces = async (
-  memberId: number,
-  { pageNumber, pageSize, filter, keyWord }: SearchMySpaceReqBody,
-) => {
+const fetchSearchMySpaces = async ({
+  memberId,
+  pageNumber,
+  pageSize,
+  filter,
+  keyWord,
+}: SearchSpaceReqBody) => {
   const path = `/api/user/${memberId}/spaces`
   const params = {
     pageNumber: pageNumber.toString(),

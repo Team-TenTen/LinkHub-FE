@@ -37,6 +37,7 @@ const ReplyList = ({ spaceId, commentId, fetchFn, onEdit }: ReplyListProps) => {
                     name: comment.nickname,
                     profile: comment.profileImagePath,
                   }}
+                  spaceId={spaceId}
                   parentCommentId={comment.parentCommentId}
                   comment={comment.content}
                   firstDepth={false}

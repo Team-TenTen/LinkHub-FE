@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   fetchFollowUser,
   fetchUnFollowUser,
-} from '@/services/user/follow/route'
+} from '@/services/user/follow/follow'
 import { debounce } from 'lodash'
 import { useCurrentUser } from './useCurrentUser'
 

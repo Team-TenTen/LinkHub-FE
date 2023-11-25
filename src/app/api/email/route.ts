@@ -1,12 +1,12 @@
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(request: NextRequest) {
-  const body = await request.formData()
-  const path = `/members/join`
+export async function POST(req: NextRequest) {
+  const body = await req.json()
+  const path = `/members/emails`
 
   try {
-    const response = await apiServer.post(path, body, {}, {}, 'multipart')
+    const response = await apiServer.post(path, body)
     return response
   } catch (error: any) {
     return NextResponse.json(

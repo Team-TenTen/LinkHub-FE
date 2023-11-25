@@ -5,28 +5,27 @@ import { useRouter } from 'next/navigation'
 export interface UseSpaceSearchProps {
   userId: number
   category: string
-  setValue: UseFormSetValue<SearchFormValue>
+  type: 'space' | 'favorite'
 }
 
-const useProfileFavoritesSearch = ({
+const useProfileSpacesSearch = ({
   userId,
   category,
-  setValue,
+  type,
 }: UseSpaceSearchProps) => {
   const router = useRouter()
+  const basePath =
+    type === 'space' ? `/user/${userId}/space?` : `/user/${userId}/favorite?`
 
   const onSubmit: SubmitHandler<SearchFormValue> = (data) => {
     if (category) {
-      router.push(
-        `/user/${userId}/favorite?&category=${category}&keyword=${data.keyword}`,
-      )
+      router.push(`${basePath}category=${category}&keyword=${data.keyword}`)
     } else {
-      router.push(`/user/${userId}/favorite?keyword=${data.keyword}`)
+      router.push(`${basePath}keyword=${data.keyword}`)
     }
-    setValue('keyword', '')
   }
 
   return { onSubmit }
 }
 
-export default useProfileFavoritesSearch
+export default useProfileSpacesSearch

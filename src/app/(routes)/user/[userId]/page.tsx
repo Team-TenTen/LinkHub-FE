@@ -10,7 +10,7 @@ import useGetProfile from '@/hooks/useGetProfile'
 import {
   fetchGetFollowers,
   fetchGetFollowing,
-} from '@/services/user/follow/route'
+} from '@/services/user/follow/follow'
 import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
 import { useRouter } from 'next/navigation'
 

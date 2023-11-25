@@ -40,6 +40,7 @@ const CommentList = ({ spaceId, fetchFn, onEdit }: CommentListProps) => {
                 <li key={comment.commentId}>
                   <Comment
                     commentId={comment.commentId}
+                    spaceId={spaceId}
                     user={{
                       id: comment.memberId,
                       name: comment.nickname,
