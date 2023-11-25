@@ -31,7 +31,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
     commentListRef,
     handleEdit,
     handleReply,
-    handleReplyCancel,
+    handleCancel,
     onSubmit,
   } = useSpaceComment({
     spaceId: params.spaceId,
@@ -85,7 +85,24 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
               <b>@{comment.userName}</b>
               님에게 답글을 남기는 중
             </span>
-            <Button onClick={handleReplyCancel}>
+            <Button onClick={handleCancel}>
+              <XMarkIcon className="h-5 w-5" />
+            </Button>
+          </div>
+        )}
+        {comment.type === 'edit' && (
+          <div className="flex items-center justify-between border-t border-slate3 px-4 py-2 text-xs font-medium text-gray6">
+            <span>
+              {comment.parentCommentUser ? (
+                <>
+                  <b>@{comment.parentCommentUser}</b>
+                  님에게 남긴 답글 수정 중...
+                </>
+              ) : (
+                '댓글 수정 중...'
+              )}
+            </span>
+            <Button onClick={handleCancel}>
               <XMarkIcon className="h-5 w-5" />
             </Button>
           </div>

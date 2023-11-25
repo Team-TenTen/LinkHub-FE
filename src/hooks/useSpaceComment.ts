@@ -27,6 +27,7 @@ export interface Comment {
   commentId: number
   userName?: string
   parentCommentId?: number
+  parentCommentUser?: string
 }
 
 export const defaultComment: Comment = {
@@ -44,8 +45,18 @@ const useSpaceComment = ({
   const commentListRef = useRef<HTMLDivElement>(null)
 
   const handleEdit = useCallback(
-    (commentId: number, comment: string, parentCommentId?: number) => {
-      setComment({ type: 'edit', commentId, parentCommentId })
+    (
+      commentId: number,
+      comment: string,
+      parentCommentId?: number,
+      parentCommentUser?: string,
+    ) => {
+      setComment({
+        type: 'edit',
+        commentId,
+        parentCommentId,
+        parentCommentUser,
+      })
       setValue('comment', comment)
       setFocus('comment')
     },
@@ -61,7 +72,7 @@ const useSpaceComment = ({
     [setFocus, setValue],
   )
 
-  const handleReplyCancel = () => {
+  const handleCancel = () => {
     setComment(defaultComment)
     setValue('comment', '')
   }
@@ -91,7 +102,7 @@ const useSpaceComment = ({
     commentListRef,
     handleEdit,
     handleReply,
-    handleReplyCancel,
+    handleCancel,
     onSubmit,
   }
 }
