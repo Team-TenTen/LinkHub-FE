@@ -33,11 +33,12 @@ const Modal = ({
 }: ModalProps) => {
   const rootNode = document.getElementById('root')
   const modalRef = useRef<HTMLDivElement | null>(null)
-  const { handleClickOverlay, handleClickConfirm } = useModalLogic({
-    onClose,
-    onConfirm,
-    modalRef,
-  })
+  const { handleClickOverlay, handleClickConfirm, handleKeyDown } =
+    useModalLogic({
+      onClose,
+      onConfirm,
+      modalRef,
+    })
 
   return (
     <>
@@ -57,6 +58,7 @@ const Modal = ({
                   onSubmit={() => {
                     handleClickConfirm()
                   }}
+                  onKeyDown={handleKeyDown}
                   className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
                     <div className="mb-3 text-base font-semibold text-gray9">

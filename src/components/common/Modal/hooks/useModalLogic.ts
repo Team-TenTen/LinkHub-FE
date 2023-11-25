@@ -9,6 +9,7 @@ export interface useModalLogicProps {
 export interface UseModalLogicReturnType {
   handleClickOverlay: (e: React.MouseEvent<HTMLDivElement>) => void
   handleClickConfirm: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  handleKeyDown: (e: React.KeyboardEvent<HTMLFormElement>) => void
 }
 
 const useModalLogic = ({
@@ -46,7 +47,14 @@ const useModalLogic = ({
     [onConfirm, onClose],
   )
 
-  return { handleClickOverlay, handleClickConfirm }
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLFormElement>) => {
+      if (e.key === 'Enter') e.preventDefault()
+    },
+    [],
+  )
+
+  return { handleClickOverlay, handleClickConfirm, handleKeyDown }
 }
 
 export default useModalLogic
