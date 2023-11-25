@@ -1,7 +1,11 @@
 import { apiClient } from '@/services/apiServices'
 
-const fetchGetUserProfile = async ({ userId }: { userId: number }) => {
-  const path = `/api/user/profile/${userId}`
+export interface FetchGetUserProfileProps {
+  memberId: number
+}
+
+const fetchGetUserProfile = async ({ memberId }: FetchGetUserProfileProps) => {
+  const path = `/api/user/${memberId}/profile`
 
   try {
     const response = await apiClient.get(path)

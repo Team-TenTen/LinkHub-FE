@@ -1,19 +1,43 @@
-import { CreateLinkReqBody } from '@/types'
+import { CreateLinkReqBody, GetLinksReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
+const fetchGetLinks = async ({
+  spaceId,
+  pageNumber,
+  pageSize,
+  sort,
+  tagId,
+}: GetLinksReqBody) => {
+  const path = `/api/space/${spaceId}/links`
+  const params = {
+    pageNumber: pageNumber.toString(),
+    pageSize: pageSize.toString(),
+    ...(sort && { sort: sort }),
+    ...(tagId && { tagId: tagId.toString() }),
+  }
+  const queryString = new URLSearchParams(params).toString()
+
+  try {
+    const response = await apiClient.get(`${path}?${queryString}`)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 export interface FetchCreateLinkProps extends CreateLinkReqBody {
-  spaceId: number
+  spaceId?: number
 }
 
 const fetchCreateLink = async ({
   spaceId,
   url,
   title,
-  tag,
+  tagName,
   color,
 }: FetchCreateLinkProps) => {
-  const path = '/api/link'
-  const body = { spaceId, url, title, tag, color }
+  const path = `/api/space/${spaceId}/links`
+  const body = { spaceId, url, title, tagName, color }
 
   try {
     const response = await apiClient.post(path, body)
@@ -23,13 +47,13 @@ const fetchCreateLink = async ({
   }
 }
 
-export interface FetchDeleteLinbkProps {
+export interface FetchDeleteLinkProps {
   spaceId: number
   linkId: number
 }
 
-const fetchDeleteLink = async ({ spaceId, linkId }: FetchDeleteLinbkProps) => {
-  const path = '/api/link/delete'
+const fetchDeleteLink = async ({ spaceId, linkId }: FetchDeleteLinkProps) => {
+  const path = `/api/space/${spaceId}/links`
   const params = {
     spaceId: spaceId.toString(),
     linkId: linkId.toString(),
@@ -49,36 +73,29 @@ export interface FetchLikeLinkProps {
 }
 
 const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
-  const path = '/api/link/like'
-  const params = {
-    linkId: linkId.toString(),
-  }
-  const queryString = new URLSearchParams(params).toString()
+  const path = `/api/links/${linkId}/like`
 
   try {
-    const response = await apiClient.post(`${path}?${queryString}`, {})
+    const response = await apiClient.post(path, {})
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
 }
+
 
 const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
-  const path = '/api/link/like'
-  const params = {
-    linkId: linkId.toString(),
-  }
-  const queryString = new URLSearchParams(params).toString()
+  const path = `/api/links/${linkId}/like`
 
   try {
-    const response = await apiClient.delete(`${path}?${queryString}`)
+    const response = await apiClient.delete(path)
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
 }
 
-export interface FetchReadSaveLinkProps extends FetchDeleteLinbkProps {}
+export interface FetchReadSaveLinkProps extends FetchDeleteLinkProps {}
 
 const fetchReadSaveLink = async ({
   spaceId,
@@ -100,6 +117,7 @@ const fetchReadSaveLink = async ({
 }
 
 export {
+  fetchGetLinks,
   fetchCreateLink,
   fetchDeleteLink,
   fetchLikeLink,

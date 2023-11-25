@@ -140,11 +140,20 @@ export interface SpaceReqBody {
   file?: File
 }
 
+// 링크 조회 req body
+export interface GetLinksReqBody {
+  spaceId?: number
+  pageNumber: number
+  pageSize: number
+  sort?: string
+  tagId?: number
+}
+
 // 링크 생성 req body
 export interface CreateLinkReqBody {
   url: string
   title: string
-  tag: string
+  tagName: string
   color: string
 }
 

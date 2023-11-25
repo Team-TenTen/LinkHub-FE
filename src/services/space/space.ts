@@ -2,7 +2,7 @@ import { CreateSpaceReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
 export interface FetchGetSpaceProps {
-  spaceId: number
+  spaceId?: number
 }
 
 const fetchGetSpace = async ({ spaceId }: FetchGetSpaceProps) => {
@@ -47,11 +47,10 @@ const fetchDeleteSpace = async (spaceId: number) => {
 }
 
 const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
-  const path = `/api/favorites/${spaceId}`
-  const body = { spaceId }
+  const path = `/api/space/${spaceId}/favorites`
 
   try {
-    const response = await apiClient.post(path, body)
+    const response = await apiClient.post(path, {})
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
@@ -59,10 +58,21 @@ const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
 }
 
 const fetchUnFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
-  const path = `/api/favorites/${spaceId}`
+  const path = `/api/space/${spaceId}/favorites`
 
   try {
     const response = await apiClient.delete(path)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+const fetchGetTags = async ({ spaceId }: FetchGetSpaceProps) => {
+  const path = `/api/space/${spaceId}/tags`
+
+  try {
+    const response = await apiClient.get(path)
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
@@ -76,4 +86,5 @@ export {
   fetchUnFavoriteSpace,
   fetchSettingSpace,
   fetchDeleteSpace,
+  fetchGetTags,
 }

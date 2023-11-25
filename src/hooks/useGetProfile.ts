@@ -12,7 +12,7 @@ const useGetProfile = () => {
   const myId = currentUser?.memberId
 
   const handleGetUserProfile = useCallback(async () => {
-    const userData = await fetchGetUserProfile({ userId })
+    const userData = await fetchGetUserProfile({ memberId: userId })
     setUser(userData)
   }, [userId])
 

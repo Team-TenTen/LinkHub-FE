@@ -8,34 +8,36 @@ export async function GET(
 ) {
   const { token } = useServerCookie()
   const spaceId = params.spaceId
-  const path = `/spaces/${spaceId}`
+  const { searchParams } = new URL(req.url)
+  const path = `/spaces/${spaceId}/links`
   const headers = {
     Authorization: `Bearer ${token}`,
   }
 
   try {
-    const data = await apiServer.get(path, {}, headers)
+    const data = await apiServer.get(`${path}?${searchParams}`, {}, headers)
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
-      { error: error.response.data.message },
+      { error: error.response.data.errorMessage },
       { status: error.response.status },
     )
   }
 }
 
-export async function PATCH(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const { token } = useServerCookie()
-  const body = await req.formData()
-  const spaceId = req.nextUrl.pathname.replace('/api/space/', '')
-  const path = `/spaces/${spaceId}`
+  const { spaceId, url, title, tagName, color } = await req.json()
+  const path = `/spaces/${spaceId}/links`
+  const body = { url, title, tagName, color }
   const headers = {
     Authorization: `Bearer ${token}`,
   }
 
   try {
-    const response = await apiServer.patch(path, body, {}, headers, 'multipart')
-    return NextResponse.json(response)
+    const response = await apiServer.post(path, body, {}, headers)
+    const data = await response.json()
+    return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
       { error: error.response.data.message },
@@ -46,15 +48,17 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { token } = useServerCookie()
-  const spaceId = req.nextUrl.pathname.replace('/api/space/', '')
-  const path = `/spaces/${spaceId}`
+  const { searchParams } = new URL(req.url)
+  const spaceId = searchParams.get('spaceId')
+  const linkId = searchParams.get('linkId')
+  const path = `/spaces/${spaceId}/links/${linkId}`
   const headers = {
     Authorization: `Bearer ${token}`,
   }
 
   try {
-    const response = await apiServer.delete(path, {}, headers)
-    return NextResponse.json(response)
+    const data = await apiServer.delete(path, {}, headers)
+    return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
       { error: error.response.data.message },

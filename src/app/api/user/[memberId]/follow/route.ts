@@ -2,17 +2,20 @@ import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { memberId: number } },
+) {
   const { token } = useServerCookie()
-  const { searchParams } = new URL(req.url)
-  const linkId = searchParams.get('linkId')
-  const path = `/links/${linkId}/like`
+  const memberId = params.memberId
+  const path = `/members/${memberId}/follow`
   const headers = {
     Authorization: `Bearer ${token}`,
   }
 
   try {
-    const data = await apiServer.post(path, {}, {}, headers)
+    const response = await apiServer.post(path, {}, {}, headers)
+    const data = await response.json()
     return NextResponse.json(data)
   } catch (error: any) {
     return NextResponse.json(
@@ -22,11 +25,13 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { memberId: number } },
+) {
   const { token } = useServerCookie()
-  const { searchParams } = new URL(req.url)
-  const linkId = searchParams.get('linkId')
-  const path = `/links/${linkId}/like`
+  const memberId = params.memberId
+  const path = `/members/${memberId}/follow`
   const headers = {
     Authorization: `Bearer ${token}`,
   }
