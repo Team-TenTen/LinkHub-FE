@@ -20,3 +20,18 @@ export async function GET(req: NextRequest) {
     )
   }
 }
+
+export async function PUT(req: NextRequest) {
+  const body = await req.formData()
+  const path = `/members/join`
+
+  try {
+    const response = await apiServer.put(path, body, {}, {}, 'multipart')
+    return NextResponse.json(response)
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.response.data.message },
+      { status: error.response.status },
+    )
+  }
+}

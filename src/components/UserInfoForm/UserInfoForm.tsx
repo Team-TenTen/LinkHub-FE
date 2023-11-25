@@ -43,7 +43,8 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     defaultValues: {
       nickname: userData?.nickname || '',
       aboutMe: userData?.aboutMe || '',
-      favoriteCategory: 'ENTER_ART',
+      newsEmail: userData?.newsEmail || '',
+      favoriteCategory: userData?.favoriteCategory || 'ENTER_ART',
       isSubscribed: userData?.isSubscribed || false,
     },
   })
@@ -162,7 +163,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
           type="default"
           horizontal={false}
           defaultIndex={Object.values(CATEGORIES['default']).indexOf(
-            getValues('favoriteCategory'),
+            getValues('favoriteCategory').toLowerCase(),
           )}
           onChange={(e) =>
             setValue(
