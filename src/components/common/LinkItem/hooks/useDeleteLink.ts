@@ -9,7 +9,7 @@ const useDeleteLink = () => {
     linkId,
   }: FetchDeleteLinkProps) => {
     await fetchDeleteLink({ spaceId, linkId })
-    await queryClient.invalidateQueries({ queryKey: ['links'] })
+    await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
   }
 
   return { handleDeleteLink }

@@ -53,7 +53,7 @@ const useCreateLink = (
       tagName,
       color,
     })
-    await queryclient.invalidateQueries({ queryKey: ['links'] })
+    await queryclient.invalidateQueries({ queryKey: ['links', spaceId] })
   }
 
   return {
