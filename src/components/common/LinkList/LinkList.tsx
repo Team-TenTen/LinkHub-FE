@@ -1,6 +1,7 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
+import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
 import { GetLinksReqBody } from '@/types'
 import { cls } from '@/utils'
@@ -8,6 +9,7 @@ import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
+import { Tag } from '../Space/hooks/useGetTags'
 import {
   ADD_LINK_TEXT,
   MORE_TEXT,
@@ -43,12 +45,14 @@ export interface LinkListProps {
   fetchFn: ({ pageNumber, pageSize }: GetLinksReqBody) => Promise<any>
   sort: string
   tagId?: number
+  tags: Tag[]
 }
 
 export interface CreateLinkFormValue {
   url: string
   title: string
   tagName: string
+  color: string
 }
 
 const LinkList = ({
@@ -60,6 +64,7 @@ const LinkList = ({
   fetchFn,
   sort,
   tagId,
+  tags,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const { register, getValues, setValue, handleSubmit, reset } =
@@ -68,6 +73,7 @@ const LinkList = ({
         url: '',
         title: '',
         tagName: '',
+        color: '',
       },
     })
   const {
@@ -143,13 +149,13 @@ const LinkList = ({
             reset()
             setIsUrlCheck(false)
           }}
-          onConfirm={handleSubmit(async ({ url, title, tagName }) => {
+          onConfirm={handleSubmit(async ({ url, title, tagName, color }) => {
             await handleCreateLink({
               spaceId,
               url,
               title,
               tagName,
-              color: 'emerald',
+              color,
             })
             reset()
             setIsUrlCheck(false)
@@ -168,9 +174,9 @@ const LinkList = ({
               label="제목"
               disabled={!isUrlCheck}
             />
-            <Input
-              label="태그"
-              {...register('tagName')}
+            <TagInput
+              tags={tags}
+              setValue={setValue}
             />
           </div>
         </Modal>
