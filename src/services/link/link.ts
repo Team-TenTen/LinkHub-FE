@@ -83,7 +83,6 @@ const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   }
 }
 
-
 const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   const path = `/api/links/${linkId}/like`
 
@@ -116,6 +115,17 @@ const fetchReadSaveLink = async ({
   }
 }
 
+const fetchGetPopularLinks = async () => {
+  const path = `/api/links`
+
+  try {
+    const response = await apiClient.get(path)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 export {
   fetchGetLinks,
   fetchCreateLink,
@@ -123,4 +133,5 @@ export {
   fetchLikeLink,
   fetchUnLikeLink,
   fetchReadSaveLink,
+  fetchGetPopularLinks,
 }
