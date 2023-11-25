@@ -37,7 +37,13 @@ const fetchCreateLink = async ({
   color,
 }: FetchCreateLinkProps) => {
   const path = `/api/space/${spaceId}/links`
-  const body = { spaceId, url, title, tagName, color }
+  const body = {
+    spaceId,
+    url,
+    title,
+    ...(tagName && { tagName: tagName }),
+    ...(color && { color: color }),
+  }
 
   try {
     const response = await apiClient.post(path, body)
@@ -82,7 +88,6 @@ const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
     if (e instanceof Error) throw new Error(e.message)
   }
 }
-
 
 const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   const path = `/api/links/${linkId}/like`
