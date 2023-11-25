@@ -32,6 +32,8 @@ const ReplyList = ({ spaceId, commentId, fetchFn }: ReplyListProps) => {
                     name: comment.nickname,
                     profile: comment.profileImagePath,
                   }}
+                  spaceId={spaceId}
+                  parentCommentId={comment.parentCommentId}
                   comment={comment.content}
                   firstDepth={false}
                   date={new Date(comment.createdAt)}

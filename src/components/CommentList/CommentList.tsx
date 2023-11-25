@@ -39,6 +39,7 @@ const CommentList = ({ spaceId, fetchFn }: CommentListProps) => {
                 <li key={comment.commentId}>
                   <Comment
                     commentId={comment.commentId}
+                    spaceId={spaceId}
                     user={{
                       id: comment.memberId,
                       name: comment.nickname,
@@ -50,7 +51,6 @@ const CommentList = ({ spaceId, fetchFn }: CommentListProps) => {
                     replyCount={comment.childCount}
                     auth={comment.isModifiable}
                     onEdit={() => {}}
-                    onDelete={() => {}}
                     onOpen={() => handleOpen(groupIdx, commentIdx)}
                     onReply={() => {}}
                   />

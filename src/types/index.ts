@@ -199,6 +199,7 @@ export interface CommentResBody {
   nickname: string
   profileImagePath: string
   isModifiable: boolean
+  parentCommentId?: number
 }
 
 export interface CreateCommentReqBody {
