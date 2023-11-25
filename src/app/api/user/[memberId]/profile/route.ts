@@ -24,12 +24,21 @@ export async function GET(
   }
 }
 
-export async function PUT(req: NextRequest) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { memberId: number } },
+) {
+  const { token } = useServerCookie()
   const body = await req.formData()
-  const path = `/members/join`
+  const userId = params.memberId
+  console.log(userId)
+  const path = `/members/${userId}/profile`
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  }
 
   try {
-    const response = await apiServer.put(path, body, {}, {}, 'multipart')
+    const response = await apiServer.put(path, body, {}, headers, 'multipart')
     return NextResponse.json(response)
   } catch (error: any) {
     return NextResponse.json(

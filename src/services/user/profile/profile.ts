@@ -21,7 +21,7 @@ const fetchPostUserProfile = async (
   data: RegisterReqBody,
   file?: File,
 ) => {
-  const path = `/api/user/profile/${userId}`
+  const path = `/api/user/${userId}/profile`
   const reqData = { ...data }
   const formData = new FormData()
   formData.append('request', JSON.stringify(reqData))
@@ -35,4 +35,4 @@ const fetchPostUserProfile = async (
   }
 }
 
-export { fetchGetUserProfile }
+export { fetchGetUserProfile, fetchPostUserProfile }
