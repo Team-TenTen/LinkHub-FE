@@ -37,6 +37,10 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const [isVerification, setVerification] = useState(false)
 
   useEffect(() => {
+    console.log(isVerification)
+  }, [isVerification])
+
+  useEffect(() => {
     setThumnail(userData?.profileImagePath)
   }, [userData?.profileImagePath])
 
@@ -213,13 +217,15 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
         </label>
       </div>
       <div className="py-6">
-        {isVerification && (
-          <Button
-            type="submit"
-            className="button button-lg button-gray px-4 py-2.5">
-            {formType === 'Setting' ? '수정하기' : '가입하기'}
-          </Button>
-        )}
+        <Button
+          type="submit"
+          isDisabled={!isVerification}
+          className={cls(
+            'button button-lg px-4 py-2.5',
+            isVerification ? 'button-emerald' : 'button-gray',
+          )}>
+          {formType === 'Setting' ? '수정하기' : '가입하기'}
+        </Button>
       </div>
       {formType === 'Setting' && (
         <div className="flex flex-col items-center justify-center py-6">
