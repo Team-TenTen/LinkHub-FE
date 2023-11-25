@@ -111,22 +111,31 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const handleRegisterLinkHub = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
-    await registerLinkHub(data, imageFile)
-    alert('회원가입 되었습니다!')
-    router.replace('/login')
+    try {
+      await registerLinkHub(data, imageFile)
+      alert('회원가입 되었습니다!')
+      router.replace('/login')
+    } catch (e) {
+      alert('회원가입에 실패했습니다.')
+    }
   }
 
   const handleSettingUser = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
-    userData?.memberId &&
-      (await fetchPostUserProfile(userData?.memberId, data, imageFile))
-    alert('수정되었습니다!')
-    router.back()
+    try {
+      userData?.memberId &&
+        (await fetchPostUserProfile(userData?.memberId, data, imageFile))
+      alert('수정되었습니다!')
+      router.back()
+    } catch (e) {
+      alert('정보 수정에 실패했습니다.')
+    }
   }
 
   const handleWithdrawButton = () => {
     // Todo: 회원탈퇴 로직
+    alert('미구현된 기능입니다.')
   }
 
   return (
