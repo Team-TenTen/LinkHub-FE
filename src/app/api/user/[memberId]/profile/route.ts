@@ -2,10 +2,13 @@ import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { memberId: number } },
+) {
   const { token } = useServerCookie()
-  const userId = req.nextUrl.pathname.replace('/api/user/profile/', '')
-  const path = `/members/${userId}/profile`
+  const memberId = params.memberId
+  const path = `/members/${memberId}/profile`
   const headers = {
     Authorization: `Bearer ${token}`,
   }

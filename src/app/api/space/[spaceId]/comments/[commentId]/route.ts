@@ -2,12 +2,13 @@ import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { spaceId: number; commentId: number } },
+) {
   const { token } = useServerCookie()
-  const { searchParams } = new URL(req.url)
-  const spaceId = searchParams.get('spaceId')
-  const linkId = searchParams.get('linkId')
-  const path = `/spaces/${spaceId}/links/${linkId}`
+  const { spaceId, commentId } = params
+  const path = `/spaces/${spaceId}/comments/${commentId}`
   const headers = {
     Authorization: `Bearer ${token}`,
   }

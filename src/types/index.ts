@@ -110,6 +110,7 @@ export interface UserDetailInfo {
 
 // 검색 req body
 export interface SearchSpaceReqBody {
+  memberId?: number
   pageNumber: number
   pageSize: number
   sort?: string
@@ -139,11 +140,20 @@ export interface SpaceReqBody {
   file?: File
 }
 
+// 링크 조회 req body
+export interface GetLinksReqBody {
+  spaceId?: number
+  pageNumber: number
+  pageSize: number
+  sort?: string
+  tagId?: number
+}
+
 // 링크 생성 req body
 export interface CreateLinkReqBody {
   url: string
   title: string
-  tag: string
+  tagName: string
   color: string
 }
 
@@ -198,6 +208,7 @@ export interface CommentResBody {
   nickname: string
   profileImagePath: string
   isModifiable: boolean
+  parentCommentId?: number
 }
 
 export interface CreateCommentReqBody {

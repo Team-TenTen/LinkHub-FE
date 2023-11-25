@@ -2,28 +2,28 @@
 
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceList } from '@/components'
-import { useCategoryParam, useProfileFavoritesSearch } from '@/hooks'
-import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/route'
+import { useCategoryParam, useProfileSpacesSearch } from '@/hooks'
+import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/favorites'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { SearchFormValue } from '../space/page'
 
 const UserFavoritePage = () => {
   const pathname = usePathname()
   const userId = Number(pathname.split('/')[2])
-  const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
+  const searchParams = useSearchParams()
+  const keyword = searchParams.get('keyword')
+  const { register, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
-      keyword: '',
+      keyword: keyword ?? '',
     },
   })
   const { category, categoryIndex, handleCategoryChange } =
     useCategoryParam('all')
-  const { onSubmit } = useProfileFavoritesSearch({
+  const { onSubmit } = useProfileSpacesSearch({
     userId,
     category: category || '',
-    setValue,
+    type: 'favorite',
   })
-  const searchParams = useSearchParams()
-  const keyword = searchParams.get('keyword')
 
   return (
     <div className="px-4">
@@ -39,6 +39,7 @@ const UserFavoritePage = () => {
           inputButton={true}
           buttonText="검색"
           buttonColor="gray"
+          buttonType="submit"
         />
       </form>
       <div className="flex flex-col gap-2 py-4">

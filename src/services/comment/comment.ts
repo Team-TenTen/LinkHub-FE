@@ -36,4 +36,15 @@ const fetchCreateComment = async (
   }
 }
 
-export { fetchGetComments, fetchCreateComment }
+const fetchDeleteComment = async (spaceId: number, commentId: number) => {
+  const path = `/api/space/${spaceId}/comments/${commentId}`
+
+  try {
+    const response = await apiClient.delete(path)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export { fetchGetComments, fetchCreateComment, fetchDeleteComment }
