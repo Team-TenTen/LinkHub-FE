@@ -15,12 +15,14 @@ export interface CommentProps {
   date: Date
   auth?: boolean
   firstDepth?: boolean
-  parentCommentId?: number
   replyCount?: number
+  parentCommentId?: number
+  parentCommentUser?: string
   onEdit?: (
     commentId: number,
     comment: string,
     parentCommentId?: number,
+    parentCommentUser?: string,
   ) => void
   onOpen?: (commentId: number) => void
   onReply?: (commentId: number, userName: string) => void
@@ -30,6 +32,7 @@ const Comment = ({
   commentId,
   spaceId,
   parentCommentId,
+  parentCommentUser,
   user,
   comment,
   date,
@@ -73,7 +76,13 @@ const Comment = ({
                 <Button
                   className="p-0.5"
                   onClick={() =>
-                    onEdit && onEdit(commentId, comment, parentCommentId)
+                    onEdit &&
+                    onEdit(
+                      commentId,
+                      comment,
+                      parentCommentId,
+                      parentCommentUser,
+                    )
                   }>
                   <PencilSquareIcon className="h-5 w-5 text-slate6" />
                 </Button>

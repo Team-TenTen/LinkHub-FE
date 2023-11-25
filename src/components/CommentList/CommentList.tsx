@@ -59,6 +59,7 @@ const CommentList = ({ spaceId, fetchFn, onEdit }: CommentListProps) => {
                     <ReplyList
                       spaceId={spaceId}
                       commentId={comment.commentId}
+                      parentCommentUser={comment.nickname}
                       fetchFn={fetchGetReplies}
                       onEdit={onEdit}
                     />
