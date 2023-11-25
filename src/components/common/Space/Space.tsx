@@ -101,8 +101,25 @@ const Space = ({
             alt="space-image"
             fill
           />
-          <div className="flex justify-end">
-            <Chip label={category} />
+          <div className="flex justify-end gap-2">
+            <Button
+              className="button button-round button-white"
+              onClick={handleClickScrapButton}>
+              <InboxArrowDownIcon className="h-4 w-4" />
+              {SPACE_CONSTANT.SCRAP} {scrap}
+            </Button>
+            <Button
+              className="button button-round button-white"
+              onClick={() => {
+                isLoggedIn ? handleClickFavorite(isFavorites) : modalOpen()
+              }}>
+              {isFavorites ? (
+                <StarIconSolid className="h-4 w-4 text-yellow-300" />
+              ) : (
+                <StarIconOutline className="h-4 w-4" />
+              )}
+              {SPACE_CONSTANT.FAVORITE} {favoritesCount}
+            </Button>
           </div>
           <div className="flex flex-col gap-1.5 rounded-md bg-white bg-opacity-60 px-3 py-1.5 dark:bg-gray-900 dark:bg-opacity-60">
             <div>
@@ -113,28 +130,11 @@ const Space = ({
                 {spaceName}
               </div>
             </div>
-            <div className="flex grow items-center gap-2">
-              <Button
-                className="button button-round button-white"
-                onClick={handleClickScrapButton}>
-                <InboxArrowDownIcon className="h-4 w-4" />
-                {SPACE_CONSTANT.SCRAP} {scrap}
-              </Button>
-              <Button
-                className="button button-round button-white"
-                onClick={() => {
-                  isLoggedIn ? handleClickFavorite(isFavorites) : modalOpen()
-                }}>
-                {isFavorites ? (
-                  <StarIconSolid className="h-4 w-4 text-yellow-300" />
-                ) : (
-                  <StarIconOutline className="h-4 w-4" />
-                )}
-                {SPACE_CONSTANT.FAVORITE} {favoritesCount}
-              </Button>
-            </div>
             <div className="line-clamp-1 text-xs font-normal text-gray6">
               {description}
+            </div>
+            <div className="flex grow items-center">
+              <Chip label={category} />
             </div>
           </div>
         </div>
