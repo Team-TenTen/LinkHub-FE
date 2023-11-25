@@ -1,3 +1,4 @@
+import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
@@ -5,16 +6,7 @@ export async function POST(req: NextRequest) {
   const path = `/members/emails`
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ADDRESS}${path}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      },
-    )
+    const response = await apiServer.post(path, body)
     return response
   } catch (error: any) {
     return NextResponse.json(

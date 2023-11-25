@@ -6,17 +6,7 @@ import { apiClient } from '../apiServices'
 
 const fetchPostEmail = async (data: EmailReqBody) => {
   const path = '/api/email'
-
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_INTERNAL_ADDRESS}${path}`,
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  )
+  const response = await apiClient.post(path, data)
   return response
 }
 
@@ -24,19 +14,8 @@ const fetchPostEmailVerify = async (
   data: EmailVerifyReqBody & EmailReqBody,
 ) => {
   const path = '/api/email-verify'
-
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_INTERNAL_ADDRESS}${path}`,
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  )
-  const verification = await response.json()
-  return verification
+  const response = await apiClient.post(path, data)
+  return response
 }
 
 export { fetchPostEmail, fetchPostEmailVerify }

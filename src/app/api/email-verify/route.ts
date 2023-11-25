@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await apiServer.post(path, body)
-    return NextResponse.json(response)
+    return response
   } catch (error: any) {
     return NextResponse.json(
       { error: error.response.data.message },
