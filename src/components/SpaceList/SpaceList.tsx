@@ -9,11 +9,13 @@ import { NONE_SEARCH_RESULT } from './constants'
 import useSpacesQuery from './hooks/useSpacesQuery'
 
 export interface SpaceListProps {
+  memberId?: number
   queryKey: string
   sort?: string
   category: string
   keyword?: string
   fetchFn: ({
+    memberId,
     pageNumber,
     pageSize,
     sort,
@@ -24,6 +26,7 @@ export interface SpaceListProps {
 
 const SpaceList = ({
   queryKey,
+  memberId,
   sort,
   category,
   keyword,
@@ -31,6 +34,7 @@ const SpaceList = ({
 }: SpaceListProps) => {
   const { spaces, fetchNextPage, hasNextPage } = useSpacesQuery({
     queryKey,
+    memberId,
     sort,
     category,
     keyword,

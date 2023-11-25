@@ -7,7 +7,6 @@ export async function GET(
 ) {
   const { searchParams } = new URL(req.url)
   const memberId = params.memberId
-
   const path = `/members/${memberId}/spaces/search`
 
   try {

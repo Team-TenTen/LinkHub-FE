@@ -2,6 +2,8 @@
 
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { fetchReadSaveLink } from '@/services/link/link'
+import { User } from '@/types'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
@@ -21,6 +23,7 @@ import LoginModal from '../Modal/LoginModal'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
+import useReadSaveLink from './hooks/useReadSaveLink'
 
 export interface LinkItemProps {
   linkId: number
@@ -62,12 +65,14 @@ const LinkItem = ({
     likeCountValue: likeInitCount,
   })
   const { handleDeleteLink } = useDeleteLink()
+  const { handleSaveReadInfo } = useReadSaveLink()
 
   return (
     <>
       {type === 'list' ? (
         <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
           <Link
+            onClick={() => handleSaveReadInfo({ spaceId, linkId })}
             className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
             href={url}
             target="_blank">

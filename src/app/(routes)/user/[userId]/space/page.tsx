@@ -2,8 +2,8 @@
 
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceList } from '@/components'
-import { useCategoryParam, useProfileFavoritesSearch } from '@/hooks'
-import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/favorites'
+import { useCategoryParam, useProfileSpacesSearch } from '@/hooks'
+import { fetchSearchMySpaces } from '@/services/space/spaces'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 export interface SearchFormValue {
@@ -13,20 +13,20 @@ export interface SearchFormValue {
 const UserSpacePage = () => {
   const pathname = usePathname()
   const userId = Number(pathname.split('/')[2])
-  const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
+  const searchparams = useSearchParams()
+  const keyword = searchparams.get('keyword')
+  const { register, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
-      keyword: '',
+      keyword: keyword ?? '',
     },
   })
   const { category, categoryIndex, handleCategoryChange } =
     useCategoryParam('all')
-  const { onSubmit } = useProfileFavoritesSearch({
+  const { onSubmit } = useProfileSpacesSearch({
     userId,
     category: category || '',
-    setValue,
+    type: 'space',
   })
-  const searchParams = useSearchParams()
-  const keyword = searchParams.get('keyword')
 
   return (
     <div className="px-4">
@@ -42,14 +42,16 @@ const UserSpacePage = () => {
           inputButton={true}
           buttonText="검색"
           buttonColor="gray"
+          buttonType="submit"
         />
       </form>
       <div className="flex flex-col gap-2 py-4">
         <SpaceList
+          memberId={userId}
           queryKey="profile"
           category={category ?? ''}
           keyword={keyword ?? ''}
-          fetchFn={fetchGetMyFavoriteSpaces}
+          fetchFn={fetchSearchMySpaces}
         />
       </div>
     </div>

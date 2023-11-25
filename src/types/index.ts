@@ -110,6 +110,7 @@ export interface UserDetailInfo {
 
 // 검색 req body
 export interface SearchSpaceReqBody {
+  memberId?: number
   pageNumber: number
   pageSize: number
   sort?: string
