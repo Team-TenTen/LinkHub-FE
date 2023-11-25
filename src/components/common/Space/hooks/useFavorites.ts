@@ -36,7 +36,7 @@ const useFavorites = ({
     [spaceId],
   )
 
-  const handleFavoriteClick = useCallback(
+  const handleClickFavorite = useCallback(
     (isFavorites: boolean) => {
       favoritesToggle()
       if (isFavorites) {
@@ -50,7 +50,7 @@ const useFavorites = ({
     [favoritesToggle, debounceUnFetchSpace, debouncefetchSpace],
   )
 
-  return { isFavorites, favoritesCount, handleFavoriteClick }
+  return { isFavorites, favoritesCount, handleClickFavorite }
 }
 
 export default useFavorites

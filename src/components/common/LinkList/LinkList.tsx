@@ -2,53 +2,72 @@
 
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
-import { cls, getRandomColor } from '@/utils'
-import { usePathname } from 'next/navigation'
+import { GetLinksReqBody } from '@/types'
+import { cls } from '@/utils'
+import Button from '../Button/Button'
+import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
-import { ADD_LINK_TEXT, URL_INPUT_VALIDATION_TEXT } from './constants'
+import {
+  ADD_LINK_TEXT,
+  MORE_TEXT,
+  URL_INPUT_VALIDATION_TEXT,
+} from './constants'
 import useCreateLink from './hooks/useCreateLink'
+import useLinksQuery from './hooks/useLinksQuery'
+
+export interface linkViewHistories {
+  memberName: string
+  memberProfileImage: string
+}
 
 export interface Link {
-  id: number
+  linkId: number
   title: string
   url: string
-  tag: string
-  readUsers: { id: string; profile: string }[]
-  isLiked: boolean
+  tagName: string
+  tagColor: ChipColors
+  canReadMark: boolean
+  canLinkSummaraizable: boolean
+  isLiked: false
   likeCount: number
+  linkViewHistories: linkViewHistories[]
 }
 
 export interface LinkListProps {
-  links: Link[]
+  spaceId?: number
   read?: boolean
   summary?: boolean
   edit?: boolean
   type?: 'list' | 'card'
+  fetchFn: ({ pageNumber, pageSize }: GetLinksReqBody) => Promise<any>
+  sort: string
+  tagId?: number
 }
 
 export interface CreateLinkFormValue {
   url: string
   title: string
-  tag: string
+  tagName: string
 }
 
 const LinkList = ({
-  links,
+  spaceId,
   read = false,
   summary = false,
   edit = false,
   type = 'list',
+  fetchFn,
+  sort,
+  tagId,
 }: LinkListProps) => {
-  const path = usePathname()
-  const spaceId = Number(path.split('/')[2])
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const { register, getValues, setValue, handleSubmit, reset } =
     useForm<CreateLinkFormValue>({
       defaultValues: {
         url: '',
         title: '',
-        tag: '',
+        tagName: '',
       },
     })
   const {
@@ -58,41 +77,62 @@ const LinkList = ({
     handleGetMeta,
     handleCreateLink,
   } = useCreateLink(setValue)
+  const { links, fetchNextPage, hasNextPage } = useLinksQuery({
+    spaceId,
+    fetchFn,
+    sort,
+    tagId,
+  })
 
   return (
     <>
       <div
         className={cls(
           type === 'list' ? 'flex flex-col' : 'grid grid-cols-2 gap-2',
+          !hasNextPage && 'mb-0.5 pb-10',
         )}>
         <button
           className={cls(
             'flex bg-slate-100 px-3 py-2.5 text-sm font-medium text-gray9 dark:bg-slate-800',
             type === 'list'
               ? 'border-t border-slate3'
-              : 'items-center justify-center rounded-md border',
+              : 'min-h-[101.5px] items-center justify-center rounded-md border',
           )}
           onClick={modalOpen}>
           <div className="text-gray9">{ADD_LINK_TEXT}</div>
         </button>
-        {links.map((link) => (
-          <LinkItem
-            spaceId={spaceId}
-            linkId={link.id}
-            title={link.title}
-            url={link.url}
-            tag={link.tag}
-            readUsers={link.readUsers}
-            isInitLiked={link.isLiked}
-            likeInitCount={link.likeCount}
-            read={read}
-            summary={summary}
-            edit={edit}
-            type={type}
-            key={link.id}
-          />
-        ))}
+        <>
+          {links?.pages.map((group) =>
+            group.responses.map((link: Link) => (
+              <LinkItem
+                spaceId={spaceId}
+                linkId={link.linkId}
+                title={link.title}
+                url={link.url}
+                tagName={link.tagName}
+                tagColor={link.tagColor}
+                readUsers={link.linkViewHistories}
+                isInitLiked={link.isLiked}
+                likeInitCount={link.likeCount}
+                read={read}
+                summary={summary}
+                edit={edit}
+                type={type}
+                key={link.linkId}
+              />
+            )),
+          )}
+        </>
       </div>
+      {hasNextPage && (
+        <div className="flex justify-center py-2">
+          <Button
+            className="button button-round button-white"
+            onClick={() => fetchNextPage()}>
+            {MORE_TEXT}
+          </Button>
+        </div>
+      )}
       {isOpen && (
         <Modal
           title="링크 추가"
@@ -103,12 +143,12 @@ const LinkList = ({
             reset()
             setIsUrlCheck(false)
           }}
-          onConfirm={handleSubmit(async ({ url, title, tag }) => {
+          onConfirm={handleSubmit(async ({ url, title, tagName }) => {
             await handleCreateLink({
               spaceId,
               url,
               title,
-              tag,
+              tagName,
               color: 'emerald',
             })
             reset()
@@ -130,7 +170,7 @@ const LinkList = ({
             />
             <Input
               label="태그"
-              {...register('tag')}
+              {...register('tagName')}
             />
           </div>
         </Modal>

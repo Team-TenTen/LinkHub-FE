@@ -1,25 +1,26 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import {
   SubmitHandler,
   UseFormSetFocus,
   UseFormSetValue,
 } from 'react-hook-form'
 import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
-import { CommentProps } from '@/components/Comment/Comment'
-import { mock_commentData, mock_replyData, mock_spaceData } from '@/data'
+import { CommentProps } from '@/components/common/Comment/Comment'
+import { fetchCreateComment } from '@/services/comment/comment'
+import { useQueryClient } from '@tanstack/react-query'
 
 export interface SpaceComment extends CommentProps {
   replies?: CommentProps[]
 }
 
 export interface useSpaceCommentProps {
+  spaceId: number
   setValue: UseFormSetValue<CommentFormValues>
   setFocus: UseFormSetFocus<CommentFormValues>
-  modalOpen: () => void
 }
 
 export interface Comment {
-  type: 'create' | 'edit' | 'reply' | 'delete'
+  type: 'create' | 'edit' | 'reply'
   commentId: number
   userName?: string
 }
@@ -30,12 +31,13 @@ export const defaultComment: Comment = {
 }
 
 const useSpaceComment = ({
+  spaceId,
   setValue,
   setFocus,
-  modalOpen,
 }: useSpaceCommentProps) => {
-  const [comments, setComments] = useState<SpaceComment[]>(mock_commentData)
+  const queryClient = useQueryClient()
   const [comment, setComment] = useState<Comment>(defaultComment)
+  const commentListRef = useRef<HTMLDivElement>(null)
 
   const handleEdit = useCallback(
     (commentId: number, comment: string) => {
@@ -44,29 +46,6 @@ const useSpaceComment = ({
       setFocus('comment')
     },
     [setFocus, setValue],
-  )
-
-  const handleDelete = useCallback(
-    (commentId: number) => {
-      setComment({ type: 'delete', commentId })
-      modalOpen()
-    },
-    [modalOpen],
-  )
-
-  const handleOpen = useCallback(
-    (commentId: number) => {
-      const commentsWithReplies = comments.map((comment) =>
-        comment.commentId === commentId
-          ? {
-              ...comment,
-              replies: mock_replyData,
-            }
-          : comment,
-      )
-      setComments(commentsWithReplies)
-    },
-    [comments],
   )
 
   const handleReply = useCallback(
@@ -78,30 +57,26 @@ const useSpaceComment = ({
     [setFocus, setValue],
   )
 
-  const handleDeleteConfirm = () => {
-    console.log(comment.type, comment.commentId)
-  }
-
   const handleReplyCancel = () => {
     setComment(defaultComment)
     setValue('comment', '')
   }
 
-  const onSubmit: SubmitHandler<CommentFormValues> = (data) => {
-    console.log(comment.type, comment.commentId, data)
+  const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
+    if (comment.type === 'create') {
+      await fetchCreateComment(spaceId, { content: data.comment })
+      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      commentListRef.current?.scrollIntoView(false)
+    }
     setComment(defaultComment)
     setValue('comment', '')
   }
 
   return {
-    space: mock_spaceData,
-    comments,
     comment,
+    commentListRef,
     handleEdit,
-    handleDelete,
-    handleOpen,
     handleReply,
-    handleDeleteConfirm,
     handleReplyCancel,
     onSubmit,
   }

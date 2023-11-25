@@ -19,4 +19,10 @@ const validateToken = async () => {
   return response
 }
 
-export { registerUser, validateToken }
+const kakaoLogout = async () => {
+  const path = '/api/logout'
+  const response = await apiClient.post(path, {}, {})
+  return response
+}
+
+export { registerUser, validateToken, kakaoLogout }

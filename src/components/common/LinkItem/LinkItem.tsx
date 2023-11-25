@@ -2,6 +2,7 @@
 
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { fetchReadSaveLink } from '@/services/link/link'
 import { User } from '@/types'
 import { cls } from '@/utils'
 import {
@@ -15,20 +16,23 @@ import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
 import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
-import Chip from '../Chip/Chip'
+import Chip, { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
+import { linkViewHistories } from '../LinkList/LinkList'
 import LoginModal from '../Modal/LoginModal'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
+import useReadSaveLink from './hooks/useReadSaveLink'
 
 export interface LinkItemProps {
   linkId: number
   spaceId?: number
   title: string
   url: string
-  tag: string
-  readUsers?: Pick<User, 'id' | 'profile'>[]
+  tagName: string
+  tagColor: ChipColors
+  readUsers?: linkViewHistories[]
   isInitLiked?: boolean
   likeInitCount: number
   read?: boolean
@@ -42,7 +46,8 @@ const LinkItem = ({
   spaceId,
   title,
   url,
-  tag,
+  tagName,
+  tagColor,
   readUsers,
   isInitLiked,
   likeInitCount,
@@ -54,34 +59,39 @@ const LinkItem = ({
   const { isLoggedIn } = useCurrentUser()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
-  const { isLiked, likeCount, handleLikeClick } = useLikeLink({
+  const { isLiked, likeCount, handleClickLike } = useLikeLink({
     linkId,
     isLikedValue: isInitLiked,
     likeCountValue: likeInitCount,
   })
   const { handleDeleteLink } = useDeleteLink()
+  const { handleSaveReadInfo } = useReadSaveLink()
 
   return (
     <>
       {type === 'list' ? (
         <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
           <Link
+            onClick={() => handleSaveReadInfo({ spaceId, linkId })}
             className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
             href={url}
             target="_blank">
             {title}
           </Link>
           <div className="flex shrink-0 gap-1.5">
-            {tag && (
+            {tagName && (
               <div>
-                <Chip label={tag} />
+                <Chip
+                  label={tagName}
+                  color={tagColor}
+                />
               </div>
             )}
             {readUsers && readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
-                    key={readUser.id}
+                    key={readUser.memberName}
                     src="/duck.jpg"
                     width={20}
                     height={20}
@@ -113,7 +123,7 @@ const LinkItem = ({
                   className="button button-round button-white"
                   onClick={() =>
                     isLoggedIn
-                      ? handleLikeClick(isLiked)
+                      ? handleClickLike(isLiked)
                       : handleOpenCurrentModal('login')
                   }>
                   {isLiked ? (
@@ -137,13 +147,16 @@ const LinkItem = ({
           <div
             className={cls(
               'block overflow-hidden text-ellipsis  text-sm font-medium text-gray9',
-              tag ? 'whitespace-nowrap' : 'text-overflow-2 mb-[9.5px]',
+              tagName ? 'whitespace-nowrap' : 'text-overflow-2 mb-[9.5px]',
             )}>
             {title}
           </div>
-          {tag && (
+          {tagName && (
             <div>
-              <Chip label={tag} />
+              <Chip
+                label={tagName}
+                color={tagColor}
+              />
             </div>
           )}
           <div className="flex items-center justify-between">
@@ -151,7 +164,7 @@ const LinkItem = ({
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
                   <Avatar
-                    key={readUser.id}
+                    key={readUser.memberName}
                     src="/duck.jpg"
                     width={20}
                     height={20}
@@ -183,7 +196,7 @@ const LinkItem = ({
                   className="button button-round button-white"
                   onClick={() =>
                     isLoggedIn
-                      ? handleLikeClick(isLiked)
+                      ? handleClickLike(isLiked)
                       : handleOpenCurrentModal('login')
                   }>
                   {isLiked ? (

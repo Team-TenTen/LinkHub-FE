@@ -110,9 +110,10 @@ export interface UserDetailInfo {
 
 // 검색 req body
 export interface SearchSpaceReqBody {
+  memberId?: number
   pageNumber: number
   pageSize: number
-  sort: string
+  sort?: string
   keyWord?: string
   filter: string
 }
@@ -139,11 +140,20 @@ export interface SpaceReqBody {
   file?: File
 }
 
+// 링크 조회 req body
+export interface GetLinksReqBody {
+  spaceId?: number
+  pageNumber: number
+  pageSize: number
+  sort?: string
+  tagId?: number
+}
+
 // 링크 생성 req body
 export interface CreateLinkReqBody {
   url: string
   title: string
-  tag: string
+  tagName: string
   color: string
 }
 
@@ -167,4 +177,40 @@ export interface CreateSpaceReqBody {
   isComment: boolean
   isLinkSummarizable: boolean
   isReadMarkEnabled: boolean
+}
+
+export interface SearchMySpaceResBody {
+  spaceId: number
+  spaceName: string
+  description: string
+  category: string
+  viewCount: number
+  scrapCount: number
+  favoriteCount: number
+  spaceImagePath: string
+  ownerNickName: string
+}
+
+export interface CommentReqBody {
+  spaceId: number
+  commentId?: number
+  pageNumber: number
+  pageSize: number
+}
+
+export interface CommentResBody {
+  commentId: number
+  content: string
+  createdAt: string
+  updatedAt: string
+  childCount: number
+  memberId: number
+  nickname: string
+  profileImagePath: string
+  isModifiable: boolean
+  parentCommentId?: number
+}
+
+export interface CreateCommentReqBody {
+  content: string
 }
