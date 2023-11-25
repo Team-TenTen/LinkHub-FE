@@ -214,3 +214,9 @@ export interface CommentResBody {
 export interface CreateCommentReqBody {
   content: string
 }
+
+export interface SearchUserReqBody {
+  pageNumber: number
+  pageSize: number
+  keyword: string
+}
