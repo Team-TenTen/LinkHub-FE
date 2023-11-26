@@ -1,4 +1,4 @@
-import { CommentReqBody } from '@/types'
+import { CommentReqBody, CreateCommentReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
 const fetchGetReplies = async ({
@@ -22,4 +22,20 @@ const fetchGetReplies = async ({
   }
 }
 
-export { fetchGetReplies }
+const fetchCreateReply = async (
+  spaceId: number,
+  commentId: number,
+  { content }: CreateCommentReqBody,
+) => {
+  const path = `/api/space/${spaceId}/comments/${commentId}/replies`
+  const body = { content }
+
+  try {
+    const response = await apiClient.post(path, body)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export { fetchGetReplies, fetchCreateReply }
