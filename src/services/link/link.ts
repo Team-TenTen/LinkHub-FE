@@ -83,7 +83,6 @@ const fetchLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   }
 }
 
-
 const fetchUnLikeLink = async ({ linkId }: FetchLikeLinkProps) => {
   const path = `/api/links/${linkId}/like`
 
