@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { cls } from '@/utils'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArchiveBoxIcon, StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
@@ -127,8 +128,10 @@ const Sidebar = ({ onClose }: SidebarProps) => {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-y-2">
-          <ThemeButton />
+        <div className="flex flex-col">
+          <div className="pb-2">
+            <ThemeButton />
+          </div>
           {currentUser && (
             <button
               className="border-t border-slate3 px-2 py-3 text-left text-sm text-gray9"
