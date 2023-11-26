@@ -1,9 +1,8 @@
 'use client'
 
+import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import { fetchReadSaveLink } from '@/services/link/link'
-import { User } from '@/types'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
@@ -18,12 +17,15 @@ import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
 import Chip, { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
-import { linkViewHistories } from '../LinkList/LinkList'
+import { CreateLinkFormValue, linkViewHistories } from '../LinkList/LinkList'
+import { URL_INPUT_VALIDATION_TEXT } from '../LinkList/constants'
+import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
 import useReadSaveLink from './hooks/useReadSaveLink'
+import useUpdateLink from './hooks/useUpdateLink'
 
 export interface LinkItemProps {
   linkId: number
@@ -42,8 +44,8 @@ export interface LinkItemProps {
 }
 
 const LinkItem = ({
-  linkId,
   spaceId,
+  linkId,
   title,
   url,
   tagName,
@@ -59,13 +61,24 @@ const LinkItem = ({
   const { isLoggedIn } = useCurrentUser()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
+  const { register, getValues, setValue, handleSubmit, reset } =
+    useForm<CreateLinkFormValue>({
+      defaultValues: {
+        url,
+        title,
+        tagName,
+      },
+    })
+  const { isUrlCheck, setIsUrlCheck, isUrlError, handleGetMeta } =
+    useGetMeta(setValue)
+  const { handleUpdateLink } = useUpdateLink({ spaceId, linkId })
+  const { handleDeleteLink } = useDeleteLink()
+  const { handleSaveReadInfo } = useReadSaveLink()
   const { isLiked, likeCount, handleClickLike } = useLikeLink({
     linkId,
     isLikedValue: isInitLiked,
     likeCountValue: likeInitCount,
   })
-  const { handleDeleteLink } = useDeleteLink()
-  const { handleSaveReadInfo } = useReadSaveLink()
 
   return (
     <>
@@ -222,16 +235,44 @@ const LinkItem = ({
           isCancelButton={currentModal === 'update' ? false : true}
           isConfirmButton={true}
           confirmText={currentModal === 'update' ? '수정' : '삭제'}
-          onClose={modalClose}
-          onConfirm={() => spaceId && handleDeleteLink({ spaceId, linkId })}>
+          onClose={() => {
+            modalClose()
+            reset()
+            setIsUrlCheck(false)
+          }}
+          onConfirm={() => {
+            currentModal === 'update'
+              ? handleSubmit(async ({ url, title, tagName }) => {
+                  await handleUpdateLink({
+                    url,
+                    title,
+                    tagName,
+                    color: 'emerald',
+                  })
+                  reset()
+                  setIsUrlCheck(false)
+                })()
+              : spaceId && handleDeleteLink({ spaceId, linkId })
+          }}
+          type="form">
           {currentModal === 'update' && (
             <div className="flex flex-col gap-2">
               <Input
+                {...register('url')}
                 label="URl"
                 inputButton={true}
+                onButtonClick={() => handleGetMeta({ url: getValues('url') })}
+                validation={isUrlError ? URL_INPUT_VALIDATION_TEXT : ''}
               />
-              <Input label="이름" />
-              <Input label="태그" />
+              <Input
+                label="제목"
+                {...register('title')}
+                disabled={!isUrlCheck}
+              />
+              <Input
+                label="태그"
+                {...register('tagName')}
+              />
             </div>
           )}
           {currentModal === 'delete' && (
