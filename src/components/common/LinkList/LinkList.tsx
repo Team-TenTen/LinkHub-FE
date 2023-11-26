@@ -14,6 +14,7 @@ import {
   URL_INPUT_VALIDATION_TEXT,
 } from './constants'
 import useCreateLink from './hooks/useCreateLink'
+import useGetMeta from './hooks/useGetMeta'
 import useLinksQuery from './hooks/useLinksQuery'
 
 export interface linkViewHistories {
@@ -72,13 +73,9 @@ const LinkList = ({
         tagName: '',
       },
     })
-  const {
-    isUrlCheck,
-    setIsUrlCheck,
-    isUrlError,
-    handleGetMeta,
-    handleCreateLink,
-  } = useCreateLink(setValue)
+  const { isUrlCheck, setIsUrlCheck, isUrlError, handleGetMeta } =
+    useGetMeta(setValue)
+  const { handleCreateLink } = useCreateLink()
   const { links, fetchNextPage, hasNextPage } = useLinksQuery({
     spaceId,
     fetchFn,

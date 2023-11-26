@@ -1,17 +1,11 @@
 'use client'
 
-import { Dispatch, SetStateAction, useState } from 'react'
 import { UseFormSetValue } from 'react-hook-form'
 import { FetchCreateLinkProps, fetchCreateLink } from '@/services/link/link'
-import { FetchGetMetaProps, fetchGetMeta } from '@/services/meta/meta'
-import { QueryClient, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { CreateLinkFormValue } from '../LinkList'
 
 export interface UseCreateLinkReturnType {
-  isUrlCheck: boolean
-  setIsUrlCheck: Dispatch<SetStateAction<boolean>>
-  isUrlError: boolean
-  handleGetMeta: ({ url }: FetchGetMetaProps) => Promise<void>
   handleCreateLink: ({
     spaceId,
     url,
@@ -21,23 +15,8 @@ export interface UseCreateLinkReturnType {
   }: FetchCreateLinkProps) => Promise<void>
 }
 
-const useCreateLink = (
-  setValue: UseFormSetValue<CreateLinkFormValue>,
-): UseCreateLinkReturnType => {
+const useCreateLink = (): UseCreateLinkReturnType => {
   const queryclient = useQueryClient()
-  const [isUrlCheck, setIsUrlCheck] = useState(false)
-  const [isUrlError, setIsUrlError] = useState(false)
-
-  const handleGetMeta = async ({ url }: FetchGetMetaProps) => {
-    const { data, error } = await fetchGetMeta({
-      url,
-    })
-    setValue('title', data)
-    setIsUrlError(error)
-    if (error === false) {
-      setIsUrlCheck(true)
-    }
-  }
 
   const handleCreateLink = async ({
     spaceId,
@@ -57,10 +36,6 @@ const useCreateLink = (
   }
 
   return {
-    isUrlCheck,
-    setIsUrlCheck,
-    isUrlError,
-    handleGetMeta,
     handleCreateLink,
   }
 }
