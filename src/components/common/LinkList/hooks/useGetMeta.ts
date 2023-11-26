@@ -11,7 +11,7 @@ export interface UseGetMetaProps {
 const useGetMeta = ({ setValue, modalClose }: UseGetMetaProps) => {
   const [isUrlCheck, setIsUrlCheck] = useState(false)
   const [urlErrorText, setUrlErrorText] = useState('')
-  const [isShowTitleError, setIsShowTitleError] = useState(false)
+  const [isShowFormError, setIsShowFormError] = useState(false)
 
   const handleUrlValidation = ({
     data,
@@ -27,7 +27,7 @@ const useGetMeta = ({ setValue, modalClose }: UseGetMetaProps) => {
     if (error) {
       setUrlErrorText('올바르지 않은 URL입니다.')
     } else {
-      setIsShowTitleError(false)
+      setIsShowFormError(false)
       setIsUrlCheck(true)
       setUrlErrorText('')
     }
@@ -61,10 +61,11 @@ const useGetMeta = ({ setValue, modalClose }: UseGetMetaProps) => {
 
   return {
     isUrlCheck,
+    setIsUrlCheck,
     urlErrorText,
     setUrlErrorText,
-    isShowTitleError,
-    setIsShowTitleError,
+    isShowFormError,
+    setIsShowFormError,
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,

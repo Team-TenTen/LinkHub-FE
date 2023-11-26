@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
@@ -18,7 +19,6 @@ import Button from '../Button/Button'
 import Chip, { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import { CreateLinkFormValue, linkViewHistories } from '../LinkList/LinkList'
-import { URL_INPUT_VALIDATION_TEXT } from '../LinkList/constants'
 import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
 import { DELETE_TEXT } from './\bconstants'
@@ -61,16 +61,31 @@ const LinkItem = ({
   const { isLoggedIn } = useCurrentUser()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
-  const { register, getValues, setValue, handleSubmit, reset } =
-    useForm<CreateLinkFormValue>({
-      defaultValues: {
-        url,
-        title,
-        tagName,
-      },
-    })
-  const { isUrlCheck, setIsUrlCheck, isUrlError, handleGetMeta } =
-    useGetMeta(setValue)
+  const {
+    register,
+    getValues,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateLinkFormValue>({
+    defaultValues: {
+      url,
+      title,
+      tagName,
+    },
+  })
+
+  const {
+    isUrlCheck,
+    setIsUrlCheck,
+    urlErrorText,
+    setUrlErrorText,
+    isShowFormError,
+    setIsShowFormError,
+    handleModalClose,
+    handleChangeUrl,
+    handleGetMeta,
+  } = useGetMeta({ setValue, modalClose })
   const { handleUpdateLink } = useUpdateLink({ spaceId, linkId })
   const { handleDeleteLink } = useDeleteLink()
   const { handleSaveReadInfo } = useReadSaveLink()
@@ -125,6 +140,7 @@ const LinkItem = ({
                 </Button>
                 <Button
                   onClick={() => {
+                    setIsUrlCheck(true)
                     handleOpenCurrentModal('update')
                   }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
@@ -235,43 +251,91 @@ const LinkItem = ({
           isCancelButton={currentModal === 'update' ? false : true}
           isConfirmButton={true}
           confirmText={currentModal === 'update' ? '수정' : '삭제'}
-          onClose={() => {
-            modalClose()
-            reset()
-            setIsUrlCheck(false)
-          }}
-          onConfirm={() => {
+          onClose={
             currentModal === 'update'
-              ? handleSubmit(async ({ url, title, tagName }) => {
-                  await handleUpdateLink({
-                    url,
-                    title,
-                    tagName,
-                    color: 'emerald',
-                  })
-                  reset()
-                  setIsUrlCheck(false)
+              ? () => {
+                  handleModalClose()
+                  setValue('title', title)
+                  setValue('url', url)
+                  setValue('tagName', tagName)
+                  setIsShowFormError(false)
+                }
+              : modalClose
+          }
+          onConfirm={() =>
+            currentModal === 'update'
+              ? (() => {
+                  setIsShowFormError(true)
+                  if (!isUrlCheck) {
+                    setUrlErrorText('URL 입력 후 추가 버튼을 눌러주세요.')
+                    return
+                  }
+                  handleSubmit(async ({ url, title, tagName }) => {
+                    if (!errors.title) {
+                      await handleUpdateLink({
+                        url,
+                        title,
+                        tagName,
+                        color: 'emerald',
+                      })
+                      modalClose()
+                    }
+                  })()
                 })()
               : spaceId && handleDeleteLink({ spaceId, linkId })
-          }}
+          }
           type="form">
           {currentModal === 'update' && (
             <div className="flex flex-col gap-2">
               <Input
-                {...register('url')}
+                {...register('url', {
+                  required: {
+                    value: true,
+                    message: 'URL 입력 후 추가 버튼을 눌러주세요.',
+                  },
+                  onChange: handleChangeUrl,
+                })}
                 label="URl"
                 inputButton={true}
                 onButtonClick={() => handleGetMeta({ url: getValues('url') })}
-                validation={isUrlError ? URL_INPUT_VALIDATION_TEXT : ''}
+                validation={
+                  isUrlCheck && isShowFormError
+                    ? errors.url?.message
+                    : urlErrorText
+                }
               />
               <Input
+                {...register('title', {
+                  minLength: {
+                    value: 2,
+                    message: '제목은 2글자 이상 50글자 이하로 작성해야 합니다.',
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: '제목은 2글자 이상 50글자 이하로 작성해야 합니다.',
+                  },
+                  required: {
+                    value: true,
+                    message: '제목을 입력해 주세요.',
+                  },
+                })}
                 label="제목"
-                {...register('title')}
+                placeholder="제목을 입력해 주세요. (2 ~ 50글자)"
                 disabled={!isUrlCheck}
+                validation={
+                  isUrlCheck && isShowFormError ? errors.title?.message : ''
+                }
               />
               <Input
+                {...register('tagName', {
+                  maxLength: {
+                    value: 10,
+                    message: '태그는 10글자 이하로 작성해야 합니다.',
+                  },
+                })}
                 label="태그"
-                {...register('tagName')}
+                placeholder="태그를 입력해 주세요. (0 ~ 10글자)"
+                validation={isShowFormError ? errors.tagName?.message : ''}
               />
             </div>
           )}
