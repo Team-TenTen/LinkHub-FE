@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { mock_userData } from '@/data'
+import { useRef } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArchiveBoxIcon, StarIcon } from '@heroicons/react/24/solid'
@@ -25,7 +24,6 @@ const Sidebar = ({ onClose }: SidebarProps) => {
     keyWord: '',
   })
 
-  const user = mock_userData
   const sidebarRef = useRef<HTMLDivElement>(null)
   const { spaceType, handleSpaceType, handleOverlayClick, logout } = useSidebar(
     {
@@ -131,7 +129,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
         </div>
         <div className="flex flex-col gap-y-2">
           <ThemeButton />
-          {user && (
+          {currentUser && (
             <button
               className="border-t border-slate3 px-2 py-3 text-left text-sm text-gray9"
               onClick={logout}>
