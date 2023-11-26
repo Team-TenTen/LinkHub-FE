@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
@@ -40,6 +39,7 @@ export interface LinkItemProps {
   read?: boolean
   summary?: boolean
   edit?: boolean
+  isMember?: boolean
   type?: 'list' | 'card'
 }
 
@@ -56,6 +56,7 @@ const LinkItem = ({
   read = false,
   summary = false,
   edit = false,
+  isMember,
   type = 'list',
 }: LinkItemProps) => {
   const { isLoggedIn } = useCurrentUser()
@@ -74,7 +75,6 @@ const LinkItem = ({
       tagName,
     },
   })
-
   const {
     isUrlCheck,
     setIsUrlCheck,
@@ -100,7 +100,7 @@ const LinkItem = ({
       {type === 'list' ? (
         <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
           <Link
-            onClick={() => handleSaveReadInfo({ spaceId, linkId })}
+            onClick={() => isMember && handleSaveReadInfo({ spaceId, linkId })}
             className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
             href={url}
             target="_blank">

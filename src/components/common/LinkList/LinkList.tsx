@@ -41,6 +41,7 @@ export interface LinkListProps {
   sort: string
   tagId?: number
   isCanEdit: boolean
+  isMember: boolean
 }
 
 export interface CreateLinkFormValue {
@@ -59,6 +60,7 @@ const LinkList = ({
   sort,
   tagId,
   isCanEdit,
+  isMember,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const { handleCreateLink } = useCreateLink({ spaceId })
@@ -131,6 +133,7 @@ const LinkList = ({
                 read={read}
                 summary={summary}
                 edit={edit}
+                isMember={isMember}
                 type={type}
                 key={link.linkId}
               />
