@@ -276,7 +276,7 @@ const LinkItem = ({
                         url,
                         title,
                         tagName,
-                        color: 'emerald',
+                        color: tagColor,
                       })
                       modalClose()
                     }
