@@ -8,11 +8,7 @@ import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
-import {
-  ADD_LINK_TEXT,
-  MORE_TEXT,
-  URL_INPUT_VALIDATION_TEXT,
-} from './constants'
+import { ADD_LINK_TEXT, MORE_TEXT } from './constants'
 import useCreateLink from './hooks/useCreateLink'
 import useGetMeta from './hooks/useGetMeta'
 import useLinksQuery from './hooks/useLinksQuery'
@@ -65,17 +61,31 @@ const LinkList = ({
   isCanEdit,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const { register, getValues, setValue, handleSubmit, reset } =
-    useForm<CreateLinkFormValue>({
-      defaultValues: {
-        url: '',
-        title: '',
-        tagName: '',
-      },
-    })
-  const { isUrlCheck, setIsUrlCheck, isUrlError, handleGetMeta } =
-    useGetMeta(setValue)
-  const { handleCreateLink } = useCreateLink()
+  const { handleCreateLink } = useCreateLink({ spaceId })
+  const {
+    register,
+    getValues,
+    setValue,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CreateLinkFormValue>({
+    defaultValues: {
+      url: '',
+      title: '',
+      tagName: '',
+    },
+  })
+  const {
+    isUrlCheck,
+    urlErrorText,
+    setUrlErrorText,
+    isShowTitleError,
+    setIsShowTitleError,
+    handleModalClose,
+    handleChangeUrl,
+    handleGetMeta,
+  } = useGetMeta({ setValue, modalClose })
   const { links, fetchNextPage, hasNextPage } = useLinksQuery({
     spaceId,
     fetchFn,
@@ -98,7 +108,10 @@ const LinkList = ({
                 ? 'border-t border-slate3'
                 : 'min-h-[101.5px] items-center justify-center rounded-md border',
             )}
-            onClick={modalOpen}>
+            onClick={() => {
+              reset()
+              modalOpen()
+            }}>
             <div className="text-gray9">{ADD_LINK_TEXT}</div>
           </button>
         )}
@@ -139,39 +152,70 @@ const LinkList = ({
           title="링크 추가"
           isConfirmButton={true}
           confirmText="추가"
-          onClose={() => {
-            modalClose()
-            reset()
-            setIsUrlCheck(false)
+          onClose={handleModalClose}
+          onConfirm={() => {
+            setIsShowTitleError(true)
+            if (!isUrlCheck) {
+              setUrlErrorText('URL 입력 후 추가 버튼을 눌러주세요.')
+              return
+            }
+            handleSubmit(async ({ url, title, tagName }) => {
+              if (!errors.title) {
+                await handleCreateLink({
+                  url,
+                  title,
+                  tagName,
+                  color: 'emerald',
+                })
+                modalClose()
+              }
+            })()
           }}
-          onConfirm={handleSubmit(async ({ url, title, tagName }) => {
-            await handleCreateLink({
-              spaceId,
-              url,
-              title,
-              tagName,
-              color: 'emerald',
-            })
-            reset()
-            setIsUrlCheck(false)
-          })}
           type="form">
           <div className="flex flex-col gap-2">
             <Input
-              {...register('url')}
+              {...register('url', {
+                required: {
+                  value: true,
+                  message: 'URL 입력 후 추가 버튼을 눌러주세요.',
+                },
+                onChange: handleChangeUrl,
+              })}
               label="URl"
               inputButton={true}
               onButtonClick={() => handleGetMeta({ url: getValues('url') })}
-              validation={isUrlError ? URL_INPUT_VALIDATION_TEXT : ''}
+              validation={isUrlCheck ? errors.url?.message : urlErrorText}
             />
             <Input
-              {...register('title')}
+              {...register('title', {
+                minLength: {
+                  value: 2,
+                  message: '제목은 2글자 이상 50글자 이하로 작성해야 합니다.',
+                },
+                maxLength: {
+                  value: 50,
+                  message: '제목은 2글자 이상 50글자 이하로 작성해야 합니다.',
+                },
+                required: {
+                  value: true,
+                  message: '제목을 입력해 주세요.',
+                },
+              })}
               label="제목"
+              placeholder="제목을 입력해 주세요. (2 ~ 50글자)"
               disabled={!isUrlCheck}
+              validation={isShowTitleError ? errors.title?.message : ''}
             />
             <Input
+              {...register('tagName', {
+                maxLength: {
+                  value: 10,
+                  message: '태그는 10글자 이하로 작성해야 합니다.',
+                },
+              })}
               label="태그"
-              {...register('tagName')}
+              placeholder="태그를 입력해 주세요. (0 ~ 10글자)"
+              validation={errors.tagName?.message || ''}
             />
           </div>
         </Modal>
