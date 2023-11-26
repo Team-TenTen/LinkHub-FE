@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { GetLinksReqBody } from '@/types'
-import { cls } from '@/utils'
+import { cls, getRandomColor } from '@/utils'
 import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
@@ -168,7 +168,7 @@ const LinkList = ({
                   url,
                   title,
                   tagName,
-                  color: 'emerald',
+                  color: getRandomColor(),
                 })
                 modalClose()
               }
