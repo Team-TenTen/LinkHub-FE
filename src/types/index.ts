@@ -161,7 +161,7 @@ export interface SpaceResBody {
   spaceId: number
   spaceName: string
   description: string
-  userName: string
+  ownerNickName: string
   category: string
   viewCount: number
   scrapCount: number
