@@ -48,7 +48,7 @@ const fetchCreateLink = async ({
 }
 
 export interface FetchUpdateLinkProps extends CreateLinkReqBody {
-  spaceId: number
+  spaceId?: number
   linkId: number
 }
 
