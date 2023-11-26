@@ -4,37 +4,30 @@ import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { fetchGetReplies } from '@/services/comment/reply'
 import { CommentReqBody, CommentResBody } from '@/types'
 import ReplyList from '../ReplyList/ReplyList'
-import useCommentList from './hooks/useCommentList'
 import useCommentsQuery from './hooks/useCommentsQuery'
 
 export interface CommentListProps {
   spaceId: number
+  openedComments?: number[]
   fetchFn: ({ pageNumber, pageSize }: CommentReqBody) => Promise<any>
+  onOpen?: (commentId: number) => void
   onEdit?: (commentId: number, comment: string) => void
   onReply?: (commentId: number, userName: string) => void
 }
 
 const CommentList = ({
   spaceId,
+  openedComments,
   fetchFn,
+  onOpen,
   onEdit,
   onReply,
 }: CommentListProps) => {
-  const {
-    comments,
-    openedComments,
-    setOpenedComments,
-    fetchNextPage,
-    hasNextPage,
-  } = useCommentsQuery({
+  const { comments, fetchNextPage, hasNextPage } = useCommentsQuery({
     spaceId,
     fetchFn,
   })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
-  const { handleOpen } = useCommentList({
-    openedComments,
-    setOpenedComments,
-  })
 
   return (
     <>
@@ -57,11 +50,11 @@ const CommentList = ({
                     firstDepth={true}
                     replyCount={comment.childCount}
                     auth={comment.isModifiable}
+                    onOpen={onOpen}
                     onEdit={onEdit}
-                    onOpen={() => handleOpen(groupIdx, commentIdx)}
                     onReply={onReply}
                   />
-                  {openedComments[groupIdx]?.[commentIdx] && (
+                  {openedComments?.includes(comment.commentId) && (
                     <ReplyList
                       spaceId={spaceId}
                       commentId={comment.commentId}

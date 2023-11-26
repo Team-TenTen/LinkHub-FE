@@ -28,7 +28,9 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
     })
   const {
     comment,
+    openedComments,
     commentListRef,
+    handleOpen,
     handleEdit,
     handleReply,
     handleCancel,
@@ -72,7 +74,9 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         <div ref={commentListRef} />
         <CommentList
           spaceId={params.spaceId}
+          openedComments={openedComments}
           fetchFn={fetchGetComments}
+          onOpen={handleOpen}
           onEdit={handleEdit}
           onReply={handleReply}
         />

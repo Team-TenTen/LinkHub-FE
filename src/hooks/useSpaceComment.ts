@@ -43,7 +43,22 @@ const useSpaceComment = ({
 }: useSpaceCommentProps) => {
   const queryClient = useQueryClient()
   const [comment, setComment] = useState<Comment>(defaultComment)
+  const [openedComments, setOpenedComments] = useState<number[]>([])
   const commentListRef = useRef<HTMLDivElement>(null)
+
+  const handleOpen = useCallback(
+    (commentId: number) => {
+      if (openedComments.includes(commentId)) {
+        const filteredIds = openedComments.filter(
+          (comment) => comment !== commentId,
+        )
+        setOpenedComments(filteredIds)
+      } else {
+        setOpenedComments((prev) => [...prev, commentId])
+      }
+    },
+    [openedComments],
+  )
 
   const handleEdit = useCallback(
     (
@@ -101,6 +116,7 @@ const useSpaceComment = ({
       await queryClient.invalidateQueries({
         queryKey: ['replies', spaceId, comment.commentId],
       })
+      setOpenedComments((prev) => [...prev, comment.commentId])
     }
     setComment(defaultComment)
     setValue('comment', '')
@@ -108,7 +124,9 @@ const useSpaceComment = ({
 
   return {
     comment,
+    openedComments,
     commentListRef,
+    handleOpen,
     handleEdit,
     handleReply,
     handleCancel,
