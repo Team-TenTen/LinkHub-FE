@@ -80,8 +80,8 @@ const LinkList = ({
     isUrlCheck,
     urlErrorText,
     setUrlErrorText,
-    isShowTitleError,
-    setIsShowTitleError,
+    isShowFormError,
+    setIsShowFormError,
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
@@ -154,7 +154,7 @@ const LinkList = ({
           confirmText="추가"
           onClose={handleModalClose}
           onConfirm={() => {
-            setIsShowTitleError(true)
+            setIsShowFormError(true)
             if (!isUrlCheck) {
               setUrlErrorText('URL 입력 후 추가 버튼을 눌러주세요.')
               return
@@ -204,7 +204,7 @@ const LinkList = ({
               label="제목"
               placeholder="제목을 입력해 주세요. (2 ~ 50글자)"
               disabled={!isUrlCheck}
-              validation={isShowTitleError ? errors.title?.message : ''}
+              validation={isShowFormError ? errors.title?.message : ''}
             />
             <Input
               {...register('tagName', {
