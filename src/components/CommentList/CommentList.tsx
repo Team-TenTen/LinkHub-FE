@@ -11,9 +11,15 @@ export interface CommentListProps {
   spaceId: number
   fetchFn: ({ pageNumber, pageSize }: CommentReqBody) => Promise<any>
   onEdit?: (commentId: number, comment: string) => void
+  onReply?: (commentId: number, userName: string) => void
 }
 
-const CommentList = ({ spaceId, fetchFn, onEdit }: CommentListProps) => {
+const CommentList = ({
+  spaceId,
+  fetchFn,
+  onEdit,
+  onReply,
+}: CommentListProps) => {
   const {
     comments,
     openedComments,
@@ -53,7 +59,7 @@ const CommentList = ({ spaceId, fetchFn, onEdit }: CommentListProps) => {
                     auth={comment.isModifiable}
                     onEdit={onEdit}
                     onOpen={() => handleOpen(groupIdx, commentIdx)}
-                    onReply={() => {}}
+                    onReply={onReply}
                   />
                   {openedComments[groupIdx]?.[commentIdx] && (
                     <ReplyList

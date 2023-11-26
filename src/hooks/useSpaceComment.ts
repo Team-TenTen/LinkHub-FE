@@ -10,6 +10,7 @@ import {
   fetchCreateComment,
   fetchUpdateComment,
 } from '@/services/comment/comment'
+import { fetchCreateReply } from '@/services/comment/reply'
 import { useQueryClient } from '@tanstack/react-query'
 
 export interface SpaceComment extends CommentProps {
@@ -64,8 +65,8 @@ const useSpaceComment = ({
   )
 
   const handleReply = useCallback(
-    (commentId: number, userName: string, parentCommentId?: number) => {
-      setComment({ type: 'reply', commentId, userName, parentCommentId })
+    (commentId: number, userName: string) => {
+      setComment({ type: 'reply', commentId, userName })
       setValue('comment', '')
       setFocus('comment')
     },
@@ -92,6 +93,14 @@ const useSpaceComment = ({
           queryKey: ['replies', spaceId, comment.parentCommentId],
         })
       }
+    } else if (comment.type === 'reply') {
+      await fetchCreateReply(spaceId, comment.commentId, {
+        content: data.comment,
+      })
+      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      await queryClient.invalidateQueries({
+        queryKey: ['replies', spaceId, comment.commentId],
+      })
     }
     setComment(defaultComment)
     setValue('comment', '')

@@ -74,6 +74,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
           spaceId={params.spaceId}
           fetchFn={fetchGetComments}
           onEdit={handleEdit}
+          onReply={handleReply}
         />
       </section>
       <form
