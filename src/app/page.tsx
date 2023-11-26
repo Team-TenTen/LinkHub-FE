@@ -11,7 +11,7 @@ export default function Home() {
   const links = useGetPopularLinks()
   const { sort, sortIndex, handleSortChange } = useSortParam('space')
   const { category, categoryIndex, handleCategoryChange } =
-    useCategoryParam('all_follow')
+    useCategoryParam('all')
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function Home() {
             />
           </div>
           <CategoryList
-            type="all_follow"
+            type="all"
             defaultIndex={categoryIndex}
             onChange={handleCategoryChange}
           />
