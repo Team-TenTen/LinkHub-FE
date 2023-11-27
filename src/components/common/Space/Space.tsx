@@ -7,11 +7,13 @@ import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import LoginModal from '../Modal/LoginModal'
 import { SPACE_CONSTANT } from './constants'
 import useFavorites from './hooks/useFavorites'
+import useScrap from './hooks/useScrap'
 
 interface SpaceProps {
   userName: string
@@ -24,7 +26,6 @@ interface SpaceProps {
   scrap: number
   favorite: number
   hasFavorite?: boolean
-  onClickScrap?: (_e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Space = ({
@@ -38,18 +39,19 @@ const Space = ({
   scrap,
   favorite,
   hasFavorite,
-  onClickScrap,
 }: SpaceProps) => {
+  const router = useRouter()
   const { isLoggedIn } = useCurrentUser()
   const { isFavorites, favoritesCount, handleClickFavorite } = useFavorites({
     spaceId,
     hasFavorite,
     favorite,
   })
+
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
 
-  const handleClickScrapButton = () => {
-    onClickScrap?.()
+  const handleClickScrapButton = async () => {
+    router.push(`/space/${spaceId}/scrap`)
   }
 
   return (
