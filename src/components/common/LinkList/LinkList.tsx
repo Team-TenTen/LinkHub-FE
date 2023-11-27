@@ -9,7 +9,13 @@ import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
 import { RefetchTagsType } from '../Space/hooks/useGetTags'
-import { ADD_LINK_TEXT, MORE_TEXT } from './constants'
+import {
+  ADD_LINK_TEXT,
+  LINK_FORM,
+  LINK_FORM_PLACEHOLDER,
+  LINK_FORM_VALIDATION,
+  MORE_TEXT,
+} from './constants'
 import useCreateLink from './hooks/useCreateLink'
 import useGetMeta from './hooks/useGetMeta'
 import useLinksQuery from './hooks/useLinksQuery'
@@ -163,7 +169,7 @@ const LinkList = ({
           onConfirm={() => {
             setIsShowFormError(true)
             if (!isUrlCheck) {
-              setUrlErrorText('URL 입력 후 추가 버튼을 눌러주세요.')
+              setUrlErrorText(LINK_FORM_VALIDATION.URL_NOT_BUTTTON)
               return
             }
             handleSubmit(async ({ url, title, tagName }) => {
@@ -184,11 +190,12 @@ const LinkList = ({
               {...register('url', {
                 required: {
                   value: true,
-                  message: 'URL 입력 후 추가 버튼을 눌러주세요.',
+                  message: LINK_FORM_VALIDATION.URL_NOT_BUTTTON,
                 },
                 onChange: handleChangeUrl,
               })}
-              label="URl"
+              label={LINK_FORM.URL}
+              placeholder={LINK_FORM_PLACEHOLDER.URL}
               inputButton={true}
               onButtonClick={() => handleGetMeta({ url: getValues('url') })}
               validation={isUrlCheck ? errors.url?.message : urlErrorText}
@@ -197,19 +204,19 @@ const LinkList = ({
               {...register('title', {
                 minLength: {
                   value: 2,
-                  message: '제목은 2글자 이상 50글자 이하로 작성해야 합니다.',
+                  message: LINK_FORM_VALIDATION.TITLE_LENGTH,
                 },
                 maxLength: {
                   value: 50,
-                  message: '제목은 2글자 이상 50글자 이하로 작성해야 합니다.',
+                  message: LINK_FORM_VALIDATION.TITLE_LENGTH,
                 },
                 required: {
                   value: true,
-                  message: '제목을 입력해 주세요.',
+                  message: LINK_FORM_VALIDATION.NONE_TITLE,
                 },
               })}
-              label="제목"
-              placeholder="제목을 입력해 주세요. (2 ~ 50글자)"
+              label={LINK_FORM.TITLE}
+              placeholder={LINK_FORM_PLACEHOLDER.TITLE}
               disabled={!isUrlCheck}
               validation={isShowFormError ? errors.title?.message : ''}
             />
@@ -217,11 +224,11 @@ const LinkList = ({
               {...register('tagName', {
                 maxLength: {
                   value: 10,
-                  message: '태그는 10글자 이하로 작성해야 합니다.',
+                  message: LINK_FORM_VALIDATION.TAG_LENGTH,
                 },
               })}
-              label="태그"
-              placeholder="태그를 입력해 주세요. (0 ~ 10글자)"
+              label={LINK_FORM.TAG}
+              placeholder={LINK_FORM_PLACEHOLDER.TAG}
               validation={errors.tagName?.message || ''}
             />
           </div>
