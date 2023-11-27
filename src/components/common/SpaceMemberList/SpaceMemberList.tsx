@@ -4,6 +4,7 @@ import { Input } from '@/components'
 import { useModal } from '@/hooks'
 import { UserDetailInfo } from '@/types'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
+import { useRouter } from 'next/navigation'
 import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
 import Dropdown from '../Dropdown/Dropdown'
@@ -16,6 +17,7 @@ export interface SpaceMemberListProps {
 }
 
 const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
+  const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 
   const handleConfirm = () => {
@@ -75,7 +77,11 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
               />
             )}
 
-            <div className="text-sm font-semibold">{member.nickname}</div>
+            <div
+              onClick={() => router.push(`/user/${member.memberId}`)}
+              className="cursor-pointer text-sm font-semibold">
+              {member.nickname}
+            </div>
           </div>
           {member.SpaceMemberRole === 'OWNER' ? (
             <DropdownItem
