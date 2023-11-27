@@ -10,11 +10,7 @@ export interface ReplyListProps {
   parentCommentId: number
   parentCommentUser?: string
   fetchFn: ({ pageNumber, pageSize }: CommentReqBody) => Promise<any>
-  onEdit?: (
-    commentId: number,
-    comment: string,
-    parentCommentId?: number,
-  ) => void
+  onEdit?: (commentId: number, content: string) => void
 }
 
 const ReplyList = ({
@@ -31,43 +27,39 @@ const ReplyList = ({
   })
 
   return (
-    <>
-      <ul className="ml-8 rounded-md bg-slate-50 px-3 dark:bg-slate-800">
-        {replies?.pages.map((group, i) => (
-          <Fragment key={i}>
-            {group.responses.map((comment: CommentResBody) => (
-              <li key={comment.commentId}>
-                <Comment
-                  commentId={comment.commentId}
-                  user={{
-                    id: comment.memberId,
-                    name: comment.nickname,
-                    profile: comment.profileImagePath,
-                  }}
-                  spaceId={spaceId}
-                  parentCommentId={parentCommentId}
-                  parentCommentUser={parentCommentUser}
-                  comment={comment.content}
-                  firstDepth={false}
-                  date={new Date(comment.createdAt)}
-                  auth={comment.isModifiable}
-                  onEdit={onEdit}
-                />
-              </li>
-            ))}
-          </Fragment>
-        ))}
-        {hasNextPage && (
-          <div className="flex justify-center pb-3">
-            <Button
-              className="button button-round button-white"
-              onClick={() => fetchNextPage()}>
-              {MORE_TEXT}
-            </Button>
-          </div>
-        )}
-      </ul>
-    </>
+    <ul className="ml-8 rounded-md bg-slate-50 px-3 dark:bg-slate-800">
+      {replies?.pages.map((group, i) => (
+        <Fragment key={i}>
+          {group.responses.map((comment: CommentResBody) => (
+            <li key={comment.commentId}>
+              <Comment
+                spaceId={spaceId}
+                commentId={comment.commentId}
+                memberId={comment.memberId}
+                nickname={comment.nickname}
+                profileImagePath={comment.profileImagePath}
+                content={comment.content}
+                date={new Date(comment.createdAt)}
+                isModifiable={comment.isModifiable}
+                isRoot={false}
+                parentCommentId={parentCommentId}
+                parentCommentUser={parentCommentUser}
+                onEdit={onEdit}
+              />
+            </li>
+          ))}
+        </Fragment>
+      ))}
+      {hasNextPage && (
+        <div className="flex justify-center pb-3">
+          <Button
+            className="button button-round button-white"
+            onClick={() => fetchNextPage()}>
+            {MORE_TEXT}
+          </Button>
+        </div>
+      )}
+    </ul>
   )
 }
 

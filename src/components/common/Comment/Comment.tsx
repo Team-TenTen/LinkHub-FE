@@ -8,37 +8,41 @@ import Button from '../Button/Button'
 import useComment from './hooks/useComment'
 
 export interface CommentProps {
-  commentId: number
   spaceId: number
-  user: { id: number; name: string; profile: string }
-  comment: string
+  commentId: number
+  memberId: number
+  nickname: string
+  profileImagePath: string
+  content: string
   date: Date
-  auth?: boolean
-  firstDepth?: boolean
   replyCount?: number
+  isModifiable?: boolean
+  isRoot?: boolean
   parentCommentId?: number
   parentCommentUser?: string
   onEdit?: (
     commentId: number,
-    comment: string,
+    content: string,
     parentCommentId?: number,
     parentCommentUser?: string,
   ) => void
   onOpen?: (commentId: number) => void
-  onReply?: (commentId: number, userName: string) => void
+  onReply?: (commentId: number, nickname: string) => void
 }
 
 const Comment = ({
-  commentId,
   spaceId,
+  commentId,
+  memberId,
+  nickname,
+  profileImagePath,
+  content,
+  date,
+  replyCount = 0,
+  isModifiable = false,
+  isRoot = true,
   parentCommentId,
   parentCommentUser,
-  user,
-  comment,
-  date,
-  auth = false,
-  firstDepth = true,
-  replyCount = 0,
   onEdit,
   onOpen,
   onReply,
@@ -54,19 +58,19 @@ const Comment = ({
     <>
       <article className="flex gap-x-2 py-3">
         <Avatar
-          src={user.profile}
+          src={profileImagePath}
           width={30}
           height={30}
-          alt={user.name}
+          alt={nickname}
         />
         <div className="flex w-full flex-col gap-y-1">
           <div className="flex items-center justify-between">
             <Link
-              href={`/user/${user.id}`}
+              href={`/user/${memberId}`}
               className="text-sm font-semibold text-gray9">
-              {user.name}
+              {nickname}
             </Link>
-            {auth && (
+            {isModifiable && (
               <div className="flex gap-x-1.5">
                 <Button
                   className="p-0.5"
@@ -79,7 +83,7 @@ const Comment = ({
                     onEdit &&
                     onEdit(
                       commentId,
-                      comment,
+                      content,
                       parentCommentId,
                       parentCommentUser,
                     )
@@ -89,11 +93,11 @@ const Comment = ({
               </div>
             )}
           </div>
-          <p className="py-1 text-sm text-gray9">{comment}</p>
+          <p className="py-1 text-sm text-gray9">{content}</p>
           <div className="pt-1 text-xs text-gray6">
             {date.getFullYear().toString()}.{(date.getMonth() + 1).toString()}.
             {date.getDate().toString()}
-            {firstDepth && (
+            {isRoot && (
               <>
                 {' • '}
                 <Button
@@ -104,7 +108,7 @@ const Comment = ({
                 {' • '}
                 <Button
                   className="font-medium"
-                  onClick={() => onReply && onReply(commentId, user.name)}>
+                  onClick={() => onReply && onReply(commentId, nickname)}>
                   답글 달기
                 </Button>
               </>
@@ -120,7 +124,7 @@ const Comment = ({
           cancelText="취소"
           confirmText="삭제"
           onClose={modalClose}
-          onConfirm={() => handleDeleteConfirm(!firstDepth)}>
+          onConfirm={() => handleDeleteConfirm(!isRoot)}>
           <div className="flex justify-center">삭제하시겠습니까?</div>
         </Modal>
       )}

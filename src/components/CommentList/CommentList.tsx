@@ -11,8 +11,8 @@ export interface CommentListProps {
   openedComments?: number[]
   fetchFn: ({ pageNumber, pageSize }: CommentReqBody) => Promise<any>
   onOpen?: (commentId: number) => void
-  onEdit?: (commentId: number, comment: string) => void
-  onReply?: (commentId: number, userName: string) => void
+  onEdit?: (commentId: number, content: string) => void
+  onReply?: (commentId: number, nickname: string) => void
 }
 
 const CommentList = ({
@@ -30,47 +30,41 @@ const CommentList = ({
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
   return (
-    <>
-      <ul className="flex flex-col gap-y-2 pt-2">
-        {comments?.pages.map((group, groupIdx) => (
-          <Fragment key={groupIdx}>
-            {group.responses.map(
-              (comment: CommentResBody, commentIdx: number) => (
-                <li key={comment.commentId}>
-                  <Comment
-                    commentId={comment.commentId}
-                    spaceId={spaceId}
-                    user={{
-                      id: comment.memberId,
-                      name: comment.nickname,
-                      profile: comment.profileImagePath,
-                    }}
-                    comment={comment.content}
-                    date={new Date(comment.createdAt)}
-                    firstDepth={true}
-                    replyCount={comment.childCount}
-                    auth={comment.isModifiable}
-                    onOpen={onOpen}
-                    onEdit={onEdit}
-                    onReply={onReply}
-                  />
-                  {openedComments?.includes(comment.commentId) && (
-                    <ReplyList
-                      spaceId={spaceId}
-                      parentCommentId={comment.commentId}
-                      parentCommentUser={comment.nickname}
-                      fetchFn={fetchGetReplies}
-                      onEdit={onEdit}
-                    />
-                  )}
-                </li>
-              ),
-            )}
-          </Fragment>
-        ))}
-        <div ref={target}></div>
-      </ul>
-    </>
+    <ul className="flex flex-col gap-y-2 pt-2">
+      {comments?.pages.map((group, groupIdx) => (
+        <Fragment key={groupIdx}>
+          {group.responses.map((comment: CommentResBody) => (
+            <li key={comment.commentId}>
+              <Comment
+                spaceId={spaceId}
+                commentId={comment.commentId}
+                memberId={comment.memberId}
+                nickname={comment.nickname}
+                profileImagePath={comment.profileImagePath}
+                content={comment.content}
+                date={new Date(comment.createdAt)}
+                replyCount={comment.childCount}
+                isModifiable={comment.isModifiable}
+                isRoot={true}
+                onEdit={onEdit}
+                onOpen={onOpen}
+                onReply={onReply}
+              />
+              {openedComments?.includes(comment.commentId) && (
+                <ReplyList
+                  spaceId={spaceId}
+                  parentCommentId={comment.commentId}
+                  parentCommentUser={comment.nickname}
+                  fetchFn={fetchGetReplies}
+                  onEdit={onEdit}
+                />
+              )}
+            </li>
+          ))}
+        </Fragment>
+      ))}
+      <div ref={target}></div>
+    </ul>
   )
 }
 

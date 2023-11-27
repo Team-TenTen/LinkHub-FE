@@ -67,6 +67,7 @@ const useSpaceComment = ({
       parentCommentId?: number,
       parentCommentUser?: string,
     ) => {
+      console.log(parentCommentId, parentCommentUser)
       setComment({
         type: 'edit',
         commentId,
