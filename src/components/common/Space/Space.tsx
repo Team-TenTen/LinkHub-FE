@@ -13,7 +13,6 @@ import Chip from '../Chip/Chip'
 import LoginModal from '../Modal/LoginModal'
 import { SPACE_CONSTANT } from './constants'
 import useFavorites from './hooks/useFavorites'
-import useScrap from './hooks/useScrap'
 
 interface SpaceProps {
   userName: string
