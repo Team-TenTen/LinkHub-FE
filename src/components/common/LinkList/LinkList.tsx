@@ -8,6 +8,7 @@ import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
+import { RefetchTagsType } from '../Space/hooks/useGetTags'
 import { ADD_LINK_TEXT, MORE_TEXT } from './constants'
 import useCreateLink from './hooks/useCreateLink'
 import useGetMeta from './hooks/useGetMeta'
@@ -42,6 +43,7 @@ export interface LinkListProps {
   tagId?: number
   isCanEdit: boolean
   isMember: boolean
+  refetchTags?: RefetchTagsType
 }
 
 export interface CreateLinkFormValue {
@@ -61,9 +63,10 @@ const LinkList = ({
   tagId,
   isCanEdit,
   isMember,
+  refetchTags,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const { handleCreateLink } = useCreateLink({ spaceId })
+  const { handleCreateLink } = useCreateLink({ spaceId, refetchTags })
   const {
     register,
     getValues,
@@ -135,6 +138,7 @@ const LinkList = ({
                 edit={edit}
                 isMember={isMember}
                 type={type}
+                refetchTags={refetchTags}
                 key={link.linkId}
               />
             )),

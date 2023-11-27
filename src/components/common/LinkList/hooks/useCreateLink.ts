@@ -1,10 +1,13 @@
 'use client'
 
 import { FetchCreateLinkProps, fetchCreateLink } from '@/services/link/link'
+import { fetchGetTags } from '@/services/space/space'
 import { useQueryClient } from '@tanstack/react-query'
+import { RefetchTagsType } from '../../Space/hooks/useGetTags'
 
 export interface UseCreateLinkProps {
   spaceId?: number
+  refetchTags?: RefetchTagsType
 }
 export interface UseCreateLinkReturnType {
   handleCreateLink: ({
@@ -17,6 +20,7 @@ export interface UseCreateLinkReturnType {
 
 const useCreateLink = ({
   spaceId,
+  refetchTags,
 }: UseCreateLinkProps): UseCreateLinkReturnType => {
   const queryclient = useQueryClient()
 
@@ -33,7 +37,12 @@ const useCreateLink = ({
       tagName,
       color,
     })
+
+    await fetchGetTags({
+      spaceId,
+    })
     await queryclient.invalidateQueries({ queryKey: ['links', spaceId] })
+    refetchTags?.()
   }
 
   return {

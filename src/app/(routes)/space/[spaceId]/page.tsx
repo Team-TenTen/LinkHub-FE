@@ -30,7 +30,7 @@ const SpacePage = () => {
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
   const { sort, sortIndex, handleSortChange } = useSortParam('link')
-  const { tags } = useGetTags({ spaceId: space?.spaceId })
+  const { tags, refetchTags } = useGetTags({ spaceId: space?.spaceId })
   const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
 
   return (
@@ -130,6 +130,7 @@ const SpacePage = () => {
                 (member) => member.memberId === currentUser?.memberId,
               )
             }
+            refetchTags={refetchTags}
           />
         )}
         <SpaceMemberList members={space?.memberDetailInfos} />

@@ -1,5 +1,6 @@
 import { fetchUpdateLink } from '@/services/link/link'
 import { useQueryClient } from '@tanstack/react-query'
+import { RefetchTagsType } from '../../Space/hooks/useGetTags'
 
 interface HandleUpdateLinkProps {
   url: string
@@ -11,9 +12,14 @@ interface HandleUpdateLinkProps {
 interface UseUpdateLinkProps {
   spaceId?: number
   linkId: number
+  refetchTags?: RefetchTagsType
 }
 
-const useUpdateLink = ({ spaceId, linkId }: UseUpdateLinkProps) => {
+const useUpdateLink = ({
+  spaceId,
+  linkId,
+  refetchTags,
+}: UseUpdateLinkProps) => {
   const queryClient = useQueryClient()
   const handleUpdateLink = async ({
     url,
@@ -30,6 +36,7 @@ const useUpdateLink = ({ spaceId, linkId }: UseUpdateLinkProps) => {
       color,
     })
     await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
+    refetchTags?.()
   }
 
   return { handleUpdateLink }

@@ -20,6 +20,7 @@ import Input from '../Input/Input'
 import { CreateLinkFormValue, linkViewHistories } from '../LinkList/LinkList'
 import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
+import { RefetchTagsType } from '../Space/hooks/useGetTags'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
@@ -41,6 +42,7 @@ export interface LinkItemProps {
   edit?: boolean
   isMember?: boolean
   type?: 'list' | 'card'
+  refetchTags?: RefetchTagsType
 }
 
 const LinkItem = ({
@@ -58,6 +60,7 @@ const LinkItem = ({
   edit = false,
   isMember,
   type = 'list',
+  refetchTags,
 }: LinkItemProps) => {
   const { isLoggedIn } = useCurrentUser()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
@@ -86,8 +89,8 @@ const LinkItem = ({
     handleChangeUrl,
     handleGetMeta,
   } = useGetMeta({ setValue, modalClose })
-  const { handleUpdateLink } = useUpdateLink({ spaceId, linkId })
-  const { handleDeleteLink } = useDeleteLink()
+  const { handleUpdateLink } = useUpdateLink({ spaceId, linkId, refetchTags })
+  const { handleDeleteLink } = useDeleteLink({ refetchTags })
   const { handleSaveReadInfo } = useReadSaveLink()
   const { isLiked, likeCount, handleClickLike } = useLikeLink({
     linkId,
