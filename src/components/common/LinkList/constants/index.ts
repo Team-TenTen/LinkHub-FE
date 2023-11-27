@@ -5,6 +5,7 @@ export const LINK_FORM = {
   URL: 'URL',
   TITLE: '제목',
   TAG: '태그',
+  URL_INPUT_BUTTON: '확인',
 }
 
 export const LINK_FORM_PLACEHOLDER = {

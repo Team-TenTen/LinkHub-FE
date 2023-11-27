@@ -197,7 +197,7 @@ const LinkList = ({
               label={LINK_FORM.URL}
               placeholder={LINK_FORM_PLACEHOLDER.URL}
               inputButton={true}
-              buttonText="확인"
+              buttonText={LINK_FORM.URL_INPUT_BUTTON}
               onButtonClick={() => handleGetMeta({ url: getValues('url') })}
               validation={isUrlCheck ? errors.url?.message : urlErrorText}
             />
