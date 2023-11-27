@@ -1,5 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
 import { fetchGetTags } from '@/services/space/space'
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useQuery,
+} from '@tanstack/react-query'
 import { ChipColors } from '../../Chip/Chip'
 
 export interface Tag {
@@ -12,21 +16,23 @@ export interface UseGetTagsProps {
   spaceId?: number
 }
 
-const useGetTags = ({ spaceId }: UseGetTagsProps) => {
-  const [tags, setTags] = useState<Tag[]>()
+export type RefetchTagsType = (
+  options?: RefetchOptions | undefined,
+) => Promise<QueryObserverResult<any, Error>>
 
-  const handleGetTags = useCallback(async () => {
-    if (spaceId) {
-      const data = await fetchGetTags({ spaceId })
-      setTags(data.tags)
-    }
-  }, [spaceId])
+export interface UseGetTagsReturnType {
+  tags: Tag[]
+  refetchTags?: RefetchTagsType
+}
 
-  useEffect(() => {
-    handleGetTags()
-  }, [handleGetTags])
+const useGetTags = ({ spaceId }: UseGetTagsProps): UseGetTagsReturnType => {
+  const { data, refetch: refetchTags } = useQuery({
+    queryKey: ['tagList', spaceId],
+    queryFn: () => fetchGetTags({ spaceId }),
+    enabled: !!spaceId,
+  })
 
-  return { tags }
+  return { tags: data?.tags, refetchTags }
 }
 
 export default useGetTags
