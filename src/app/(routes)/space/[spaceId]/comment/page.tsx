@@ -15,7 +15,7 @@ import { fetchGetComments } from '@/services/comment/comment'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 
 export interface CommentFormValues {
-  comment: string
+  content: string
 }
 
 const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
@@ -23,7 +23,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
   const { register, setValue, setFocus, handleSubmit } =
     useForm<CommentFormValues>({
       defaultValues: {
-        comment: '',
+        content: '',
       },
     })
   const {
@@ -87,7 +87,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         {comment.type === 'reply' && (
           <div className="flex items-center justify-between border-t border-slate3 px-4 py-2 text-xs font-medium text-gray6">
             <span>
-              <b>@{comment.userName}</b>
+              <b>@{comment.nickname}</b>
               님에게 답글 남기는 중
             </span>
             <Button onClick={handleCancel}>
@@ -114,7 +114,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         )}
         <div className="border-t border-slate3 px-4 py-3">
           <Input
-            {...register('comment', { required: true })}
+            {...register('content', { required: true })}
             inputButton={true}
             buttonText="작성"
             buttonType="submit"

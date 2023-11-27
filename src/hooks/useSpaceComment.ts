@@ -26,7 +26,7 @@ export interface useSpaceCommentProps {
 export interface Comment {
   type: 'create' | 'edit' | 'reply'
   commentId: number
-  userName?: string
+  nickname?: string
   parentCommentId?: number
   parentCommentUser?: string
 }
@@ -63,45 +63,44 @@ const useSpaceComment = ({
   const handleEdit = useCallback(
     (
       commentId: number,
-      comment: string,
+      content: string,
       parentCommentId?: number,
       parentCommentUser?: string,
     ) => {
-      console.log(parentCommentId, parentCommentUser)
       setComment({
         type: 'edit',
         commentId,
         parentCommentId,
         parentCommentUser,
       })
-      setValue('comment', comment)
-      setFocus('comment')
+      setValue('content', content)
+      setFocus('content')
     },
     [setFocus, setValue],
   )
 
   const handleReply = useCallback(
-    (commentId: number, userName: string) => {
-      setComment({ type: 'reply', commentId, userName })
-      setValue('comment', '')
-      setFocus('comment')
+    (commentId: number, nickname: string) => {
+      setComment({ type: 'reply', commentId, nickname })
+      setValue('content', '')
+      setFocus('content')
     },
     [setFocus, setValue],
   )
 
   const handleCancel = () => {
     setComment(defaultComment)
-    setValue('comment', '')
+    setValue('content', '')
   }
 
   const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
     if (comment.type === 'create') {
-      await fetchCreateComment(spaceId, { content: data.comment })
+      await fetchCreateComment(spaceId, { content: data.content })
       await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
       commentListRef.current?.scrollIntoView(false)
     } else if (comment.type === 'edit') {
       await fetchUpdateComment(spaceId, comment.commentId, {
-        content: data.comment,
+        content: data.content,
       })
       await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
       if (comment.parentCommentId) {
@@ -111,7 +110,7 @@ const useSpaceComment = ({
       }
     } else if (comment.type === 'reply') {
       await fetchCreateReply(spaceId, comment.commentId, {
-        content: data.comment,
+        content: data.content,
       })
       await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
       await queryClient.invalidateQueries({
@@ -120,7 +119,7 @@ const useSpaceComment = ({
       setOpenedComments((prev) => [...prev, comment.commentId])
     }
     setComment(defaultComment)
-    setValue('comment', '')
+    setValue('content', '')
   }
 
   return {
