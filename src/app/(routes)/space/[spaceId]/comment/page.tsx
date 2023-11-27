@@ -114,7 +114,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         )}
         <div className="border-t border-slate3 px-4 py-3">
           <Input
-            {...register('content', { required: true })}
+            {...register('content', { required: true, maxLength: 1000 })}
             inputButton={true}
             buttonText="작성"
             buttonType="submit"
