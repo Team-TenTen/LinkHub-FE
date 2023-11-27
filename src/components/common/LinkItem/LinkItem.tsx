@@ -306,6 +306,7 @@ const LinkItem = ({
                 label={LINK_FORM.URL}
                 placeholder={LINK_FORM_PLACEHOLDER.URL}
                 inputButton={true}
+                buttonText="확인"
                 onButtonClick={() => handleGetMeta({ url: getValues('url') })}
                 validation={
                   isUrlCheck && isShowFormError
