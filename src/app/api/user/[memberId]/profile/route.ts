@@ -31,7 +31,6 @@ export async function PUT(
   const { token } = useServerCookie()
   const body = await req.formData()
   const userId = params.memberId
-  console.log(userId)
   const path = `/members/${userId}/profile`
   const headers = {
     Authorization: `Bearer ${token}`,
