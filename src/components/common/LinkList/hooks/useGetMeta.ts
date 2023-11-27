@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { UseFormSetValue } from 'react-hook-form'
 import { FetchGetMetaProps, fetchGetMeta } from '@/services/meta/meta'
 import { CreateLinkFormValue } from '../LinkList'
+import { LINK_FORM_VALIDATION } from '../constants'
 
 export interface UseGetMetaProps {
   setValue: UseFormSetValue<CreateLinkFormValue>
@@ -25,7 +26,7 @@ const useGetMeta = ({ setValue, modalClose }: UseGetMetaProps) => {
     }
 
     if (error) {
-      setUrlErrorText('올바르지 않은 URL입니다.')
+      setUrlErrorText(LINK_FORM_VALIDATION.INCORRECT_URL)
     } else {
       setIsShowFormError(false)
       setIsUrlCheck(true)
