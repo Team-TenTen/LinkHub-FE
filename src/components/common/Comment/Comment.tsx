@@ -1,6 +1,7 @@
 'use client'
 
 import { useModal } from '@/hooks'
+import { getElapsedTime } from '@/utils'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { Avatar } from '../..'
@@ -14,7 +15,7 @@ export interface CommentProps {
   nickname: string
   profileImagePath: string
   content: string
-  date: Date
+  createdAt: string
   replyCount?: number
   isModifiable?: boolean
   isRoot?: boolean
@@ -37,7 +38,7 @@ const Comment = ({
   nickname,
   profileImagePath,
   content,
-  date,
+  createdAt,
   replyCount = 0,
   isModifiable = false,
   isRoot = true,
@@ -95,8 +96,7 @@ const Comment = ({
           </div>
           <p className="py-1 text-sm text-gray9">{content}</p>
           <div className="pt-1 text-xs text-gray6">
-            {date.getFullYear().toString()}.{(date.getMonth() + 1).toString()}.
-            {date.getDate().toString()}
+            {getElapsedTime(createdAt)}
             {isRoot && (
               <>
                 {' • '}
