@@ -12,13 +12,13 @@ export interface Tag {
   tagId: number
 }
 
-export interface UseGetTagsProps {
-  spaceId?: number
-}
-
 export type RefetchTagsType = (
   options?: RefetchOptions | undefined,
 ) => Promise<QueryObserverResult<any, Error>>
+
+export interface UseGetTagsProps {
+  spaceId?: number
+}
 
 export interface UseGetTagsReturnType {
   tags: Tag[]
