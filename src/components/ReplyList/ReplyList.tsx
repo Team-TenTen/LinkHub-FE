@@ -7,7 +7,7 @@ import useRepliesQuery from './hooks/useRepliesQuery'
 
 export interface ReplyListProps {
   spaceId: number
-  commentId: number
+  parentCommentId: number
   parentCommentUser?: string
   fetchFn: ({ pageNumber, pageSize }: CommentReqBody) => Promise<any>
   onEdit?: (
@@ -19,14 +19,14 @@ export interface ReplyListProps {
 
 const ReplyList = ({
   spaceId,
-  commentId,
+  parentCommentId,
   parentCommentUser,
   fetchFn,
   onEdit,
 }: ReplyListProps) => {
   const { replies, fetchNextPage, hasNextPage } = useRepliesQuery({
     spaceId,
-    commentId,
+    parentCommentId,
     fetchFn,
   })
 
@@ -45,7 +45,7 @@ const ReplyList = ({
                     profile: comment.profileImagePath,
                   }}
                   spaceId={spaceId}
-                  parentCommentId={comment.parentCommentId}
+                  parentCommentId={parentCommentId}
                   parentCommentUser={parentCommentUser}
                   comment={comment.content}
                   firstDepth={false}

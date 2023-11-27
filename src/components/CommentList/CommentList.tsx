@@ -57,7 +57,7 @@ const CommentList = ({
                   {openedComments?.includes(comment.commentId) && (
                     <ReplyList
                       spaceId={spaceId}
-                      commentId={comment.commentId}
+                      parentCommentId={comment.commentId}
                       parentCommentUser={comment.nickname}
                       fetchFn={fetchGetReplies}
                       onEdit={onEdit}
