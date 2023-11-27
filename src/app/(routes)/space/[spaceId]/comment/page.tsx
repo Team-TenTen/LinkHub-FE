@@ -85,10 +85,10 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         className="fixed bottom-0 z-10 w-full max-w-[500px] bg-bgColor"
         onSubmit={handleSubmit(onSubmit)}>
         {comment.type === 'reply' && (
-          <div className="flex items-center justify-between border-t border-slate3 px-4 py-3 text-xs font-medium text-gray6">
+          <div className="flex items-center justify-between border-t border-slate3 px-4 py-2 text-xs font-medium text-gray6">
             <span>
               <b>@{comment.userName}</b>
-              님에게 답글을 남기는 중
+              님에게 답글 남기는 중
             </span>
             <Button onClick={handleCancel}>
               <XMarkIcon className="h-5 w-5" />
@@ -101,10 +101,10 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
               {comment.parentCommentUser ? (
                 <>
                   <b>@{comment.parentCommentUser}</b>
-                  님에게 남긴 답글 수정 중...
+                  님에게 남긴 답글 수정 중
                 </>
               ) : (
-                '댓글 수정 중...'
+                '댓글 수정 중'
               )}
             </span>
             <Button onClick={handleCancel}>
