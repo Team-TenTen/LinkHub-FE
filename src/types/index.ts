@@ -230,3 +230,7 @@ export interface SearchUserReqBody {
   pageSize: number
   keyword: string
 }
+
+export interface SpaceInviteResBody {
+  notificationId: number
+}
