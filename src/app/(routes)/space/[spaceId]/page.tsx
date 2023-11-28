@@ -12,6 +12,7 @@ import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
 import { useSortParam } from '@/hooks'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import useTagParam from '@/hooks/useTagParam'
 import { fetchGetLinks } from '@/services/link/link'
 import { cls } from '@/utils'
@@ -23,12 +24,13 @@ import {
 } from '@heroicons/react/24/solid'
 
 const SpacePage = () => {
+  const { currentUser } = useCurrentUser()
   const [space] = useGetSpace()
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
   const { sort, sortIndex, handleSortChange } = useSortParam('link')
-  const { tags } = useGetTags({ spaceId: space?.spaceId })
+  const { tags, refetchTags } = useGetTags({ spaceId: space?.spaceId })
   const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
 
   return (
@@ -122,6 +124,13 @@ const SpacePage = () => {
             fetchFn={fetchGetLinks}
             sort={sort ?? 'created_at'}
             tagId={Number(tag) || undefined}
+            isCanEdit={space.isCanEdit}
+            isMember={
+              !!space?.memberDetailInfos.find(
+                (member) => member.memberId === currentUser?.memberId,
+              )
+            }
+            refetchTags={refetchTags}
           />
         )}
         <SpaceMemberList members={space?.memberDetailInfos} />

@@ -43,7 +43,7 @@ const Input = forwardRef(
             ref={ref}
             type={type}
             className={cls(
-              'rounded-md border bg-bgColor px-3 py-2.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none disabled:border-gray3 disabled:placeholder-gray3',
+              'rounded-md border bg-bgColor px-3 py-2.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none disabled:border-gray3 disabled:text-gray3 disabled:placeholder-gray3',
               inputButton && buttonColor === 'green'
                 ? 'border-emerald6 pr-20'
                 : 'border-slate5',

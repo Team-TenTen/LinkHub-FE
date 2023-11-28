@@ -1,9 +1,8 @@
 'use client'
 
+import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import { fetchReadSaveLink } from '@/services/link/link'
-import { User } from '@/types'
 import { cls } from '@/utils'
 import {
   DocumentTextIcon,
@@ -18,12 +17,20 @@ import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
 import Chip, { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
-import { linkViewHistories } from '../LinkList/LinkList'
+import { CreateLinkFormValue, linkViewHistories } from '../LinkList/LinkList'
+import {
+  LINK_FORM,
+  LINK_FORM_PLACEHOLDER,
+  LINK_FORM_VALIDATION,
+} from '../LinkList/constants'
+import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
+import { RefetchTagsType } from '../Space/hooks/useGetTags'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
 import useReadSaveLink from './hooks/useReadSaveLink'
+import useUpdateLink from './hooks/useUpdateLink'
 
 export interface LinkItemProps {
   linkId: number
@@ -38,12 +45,14 @@ export interface LinkItemProps {
   read?: boolean
   summary?: boolean
   edit?: boolean
+  isMember?: boolean
   type?: 'list' | 'card'
+  refetchTags?: RefetchTagsType
 }
 
 const LinkItem = ({
-  linkId,
   spaceId,
+  linkId,
   title,
   url,
   tagName,
@@ -54,25 +63,52 @@ const LinkItem = ({
   read = false,
   summary = false,
   edit = false,
+  isMember,
   type = 'list',
+  refetchTags,
 }: LinkItemProps) => {
   const { isLoggedIn } = useCurrentUser()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
+  const {
+    register,
+    getValues,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateLinkFormValue>({
+    defaultValues: {
+      url,
+      title,
+      tagName,
+    },
+  })
+  const {
+    isUrlCheck,
+    setIsUrlCheck,
+    urlErrorText,
+    setUrlErrorText,
+    isShowFormError,
+    setIsShowFormError,
+    handleModalClose,
+    handleChangeUrl,
+    handleGetMeta,
+  } = useGetMeta({ setValue, modalClose })
+  const { handleUpdateLink } = useUpdateLink({ spaceId, linkId, refetchTags })
+  const { handleDeleteLink } = useDeleteLink({ refetchTags })
+  const { handleSaveReadInfo } = useReadSaveLink()
   const { isLiked, likeCount, handleClickLike } = useLikeLink({
     linkId,
     isLikedValue: isInitLiked,
     likeCountValue: likeInitCount,
   })
-  const { handleDeleteLink } = useDeleteLink()
-  const { handleSaveReadInfo } = useReadSaveLink()
 
   return (
     <>
       {type === 'list' ? (
         <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
           <Link
-            onClick={() => handleSaveReadInfo({ spaceId, linkId })}
+            onClick={() => isMember && handleSaveReadInfo({ spaceId, linkId })}
             className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
             href={url}
             target="_blank">
@@ -92,7 +128,7 @@ const LinkItem = ({
                 {readUsers?.map((readUser) => (
                   <Avatar
                     key={readUser.memberName}
-                    src="/duck.jpg"
+                    src={readUser.memberProfileImage || '/duck.jpg'}
                     width={20}
                     height={20}
                     alt="아바타"
@@ -112,6 +148,7 @@ const LinkItem = ({
                 </Button>
                 <Button
                   onClick={() => {
+                    setIsUrlCheck(true)
                     handleOpenCurrentModal('update')
                   }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
@@ -222,16 +259,94 @@ const LinkItem = ({
           isCancelButton={currentModal === 'update' ? false : true}
           isConfirmButton={true}
           confirmText={currentModal === 'update' ? '수정' : '삭제'}
-          onClose={modalClose}
-          onConfirm={() => spaceId && handleDeleteLink({ spaceId, linkId })}>
+          onClose={
+            currentModal === 'update'
+              ? () => {
+                  handleModalClose()
+                  setValue('title', title)
+                  setValue('url', url)
+                  setValue('tagName', tagName)
+                  setIsShowFormError(false)
+                }
+              : modalClose
+          }
+          onConfirm={() =>
+            currentModal === 'update'
+              ? (() => {
+                  setIsShowFormError(true)
+                  if (!isUrlCheck) {
+                    setUrlErrorText(LINK_FORM_VALIDATION.URL_NOT_BUTTTON)
+                    return
+                  }
+                  handleSubmit(async ({ url, title, tagName }) => {
+                    if (!errors.title) {
+                      await handleUpdateLink({
+                        url,
+                        title,
+                        tagName,
+                        color: tagColor,
+                      })
+                      modalClose()
+                    }
+                  })()
+                })()
+              : spaceId && handleDeleteLink({ spaceId, linkId })
+          }
+          type="form">
           {currentModal === 'update' && (
             <div className="flex flex-col gap-2">
               <Input
-                label="URl"
+                {...register('url', {
+                  required: {
+                    value: true,
+                    message: LINK_FORM_VALIDATION.URL_NOT_BUTTTON,
+                  },
+                  onChange: handleChangeUrl,
+                })}
+                label={LINK_FORM.URL}
+                placeholder={LINK_FORM_PLACEHOLDER.URL}
                 inputButton={true}
+                buttonText={LINK_FORM.URL_INPUT_BUTTON}
+                onButtonClick={() => handleGetMeta({ url: getValues('url') })}
+                validation={
+                  isUrlCheck && isShowFormError
+                    ? errors.url?.message
+                    : urlErrorText
+                }
               />
-              <Input label="이름" />
-              <Input label="태그" />
+              <Input
+                {...register('title', {
+                  minLength: {
+                    value: 2,
+                    message: LINK_FORM_VALIDATION.TITLE_LENGTH,
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: LINK_FORM_VALIDATION.TITLE_LENGTH,
+                  },
+                  required: {
+                    value: true,
+                    message: LINK_FORM_VALIDATION.NONE_TITLE,
+                  },
+                })}
+                label={LINK_FORM.TITLE}
+                placeholder={LINK_FORM_PLACEHOLDER.TITLE}
+                disabled={!isUrlCheck}
+                validation={
+                  isUrlCheck && isShowFormError ? errors.title?.message : ''
+                }
+              />
+              <Input
+                {...register('tagName', {
+                  maxLength: {
+                    value: 10,
+                    message: LINK_FORM_VALIDATION.TAG_LENGTH,
+                  },
+                })}
+                label={LINK_FORM.TAG}
+                placeholder={LINK_FORM_PLACEHOLDER.TAG}
+                validation={isShowFormError ? errors.tagName?.message : ''}
+              />
             </div>
           )}
           {currentModal === 'delete' && (
