@@ -37,7 +37,13 @@ const fetchCreateLink = async ({
   color,
 }: FetchCreateLinkProps) => {
   const path = `/api/space/${spaceId}/links`
-  const body = { spaceId, url, title, tagName, color }
+  const body = {
+    spaceId,
+    url,
+    title,
+    ...(tagName && { tagName }),
+    ...(color && { color }),
+  }
 
   try {
     const response = await apiClient.post(path, body)

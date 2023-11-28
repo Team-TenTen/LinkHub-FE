@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
   const { token } = useServerCookie()
   const { spaceId, url, title, tagName, color } = await req.json()
   const path = `/spaces/${spaceId}/links`
-  const body = { url, title, ...(tagName && { tagName: tagName }), color }
+  const body = { url, title, tagName, color }
   const headers = {
     Authorization: `Bearer ${token}`,
   }
