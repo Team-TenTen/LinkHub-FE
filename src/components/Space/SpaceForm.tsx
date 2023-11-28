@@ -3,12 +3,11 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
-import { CATEGORIES_RENDER } from '@/constants'
-import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
 import {
   feachCreateSpace,
   fetchDeleteSpace,
+  fetchScrapSpace,
   fetchSettingSpace,
 } from '@/services/space/space'
 import { CreateSpaceReqBody, SpaceDetailResBody } from '@/types'
@@ -20,7 +19,7 @@ import { SPACE_FORM_CONSTNAT } from './constant'
 
 interface SpaceFormProps {
   space?: SpaceDetailResBody
-  spaceType: 'Create' | 'Setting'
+  spaceType: 'Create' | 'Setting' | 'Scrap'
 }
 
 const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
@@ -77,15 +76,17 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
 
   return (
     <form
-      encType="multipart/form-data"
       className="flex flex-col gap-3"
       onSubmit={handleSubmit(async (data) => {
         if (spaceType === 'Create') {
           await feachCreateSpace(data, imageFile)
           router.replace('/')
-        } else {
+        } else if (spaceType === 'Setting') {
           await fetchSettingSpace(spaceId, data, imageFile)
           router.back()
+        } else {
+          const response = await fetchScrapSpace(spaceId, data, imageFile)
+          router.push(`/space/${response.spaceId}`)
         }
       })}>
       <div>

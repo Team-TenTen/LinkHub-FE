@@ -161,12 +161,12 @@ export interface SpaceResBody {
   spaceId: number
   spaceName: string
   description: string
-  ownerNickName: string
   category: string
   viewCount: number
   scrapCount: number
   favoriteCount: number
   spaceImagePath: string
+  ownerNickName: string
 }
 
 export interface CreateSpaceReqBody {

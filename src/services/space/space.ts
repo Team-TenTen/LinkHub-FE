@@ -22,8 +22,12 @@ const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
   const formData = new FormData()
   formData.append('request', JSON.stringify(reqData))
   file && formData.append('file', file)
-  const response = await apiClient.post(path, formData, {}, {}, 'multipart')
-  return response
+  try {
+    const response = await apiClient.post(path, formData, {}, {}, 'multipart')
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
 }
 
 const fetchSettingSpace = async (
@@ -36,8 +40,12 @@ const fetchSettingSpace = async (
   const formData = new FormData()
   formData.append('request', JSON.stringify(reqData))
   file && formData.append('file', file)
-  const response = await apiClient.patch(path, formData, {}, {}, 'multipart')
-  return response
+  try {
+    const response = await apiClient.patch(path, formData, {}, {}, 'multipart')
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
 }
 
 const fetchDeleteSpace = async (spaceId: number) => {
@@ -79,6 +87,24 @@ const fetchGetTags = async ({ spaceId }: FetchGetSpaceProps) => {
   }
 }
 
+const fetchScrapSpace = async (
+  spaceId: number,
+  data: CreateSpaceReqBody,
+  file?: File,
+) => {
+  const path = `/api/space/${spaceId}/scrap/new`
+  const reqData = { ...data }
+  const formData = new FormData()
+  formData.append('request', JSON.stringify(reqData))
+  file && formData.append('file', file)
+  try {
+    const response = await apiClient.post(path, formData, {}, {}, 'multipart')
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 export {
   fetchGetSpace,
   feachCreateSpace,
@@ -87,4 +113,5 @@ export {
   fetchSettingSpace,
   fetchDeleteSpace,
   fetchGetTags,
+  fetchScrapSpace,
 }

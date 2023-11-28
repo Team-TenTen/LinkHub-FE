@@ -2,10 +2,14 @@ import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { spaceId: number } },
+) {
   const { token } = useServerCookie()
   const body = await req.formData()
-  const path = `/spaces`
+  const spaceId = params.spaceId
+  const path = `/spaces/${spaceId}/scraps/new`
   const headers = {
     Authorization: `Bearer ${token}`,
   }
