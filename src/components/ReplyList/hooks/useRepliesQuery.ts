@@ -2,13 +2,17 @@ import { INITIAL_PAGE_NUMBER, PAGE_SIZE } from '@/constants'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { ReplyListProps } from '../ReplyList'
 
-const useRepliesQuery = ({ spaceId, commentId, fetchFn }: ReplyListProps) => {
+const useRepliesQuery = ({
+  spaceId,
+  parentCommentId,
+  fetchFn,
+}: ReplyListProps) => {
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ['replies', spaceId, commentId],
+    queryKey: ['replies', spaceId, parentCommentId],
     queryFn: ({ pageParam }) =>
       fetchFn({
         spaceId,
-        commentId,
+        commentId: parentCommentId,
         pageNumber: pageParam,
         pageSize: PAGE_SIZE,
       }),
