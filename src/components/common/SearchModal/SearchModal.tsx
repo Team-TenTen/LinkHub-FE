@@ -3,8 +3,9 @@
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { Dropdown } from '@/components'
+import { RocketLaunchIcon } from '@heroicons/react/24/solid'
 import Input from '../Input/Input'
-import { SEARCH_MODAL_TITLE } from './constants'
+import { SEACH_MODAL_INFO, SEARCH_MODAL_TITLE } from './constants'
 import useSearchModal from './hooks/useSearchModal'
 
 export interface SearchModalProps {
@@ -65,16 +66,10 @@ const SearchModal = ({ onClose }: SearchModalProps) => {
           </div>
         </form>
         <h2 className="py-4 font-bold text-gray9">{SEARCH_MODAL_TITLE}</h2>
-        <ul>
-          {trends.map((trend) => (
-            <li
-              className="border-b border-gray3 px-3 py-2.5 text-sm font-medium text-gray9 last:border-none"
-              onClick={handleKeywordClick}
-              key={trend.keyword}>
-              {trend.keyword}
-            </li>
-          ))}
-        </ul>
+        <p className="flex flex-col items-center px-3 py-5 text-center text-sm font-medium text-gray9">
+          <RocketLaunchIcon className="mb-2 h-5 w-5" />
+          {SEACH_MODAL_INFO}
+        </p>
       </div>
     </div>
   )

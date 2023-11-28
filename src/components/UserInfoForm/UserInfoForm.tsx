@@ -4,6 +4,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
 import { fetchPostEmail, fetchPostEmailVerify } from '@/services/email'
+import { fetchPostUserProfile } from '@/services/user/profile/profile'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
@@ -37,10 +38,6 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const [isVerification, setVerification] = useState(false)
 
   useEffect(() => {
-    console.log(isVerification)
-  }, [isVerification])
-
-  useEffect(() => {
     setThumnail(userData?.profileImagePath)
   }, [userData?.profileImagePath])
 
@@ -57,6 +54,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     defaultValues: {
       nickname: userData?.nickname || '',
       aboutMe: userData?.aboutMe || '',
+      newsEmail: userData?.newsEmail || '',
       favoriteCategory: userData?.favoriteCategory || 'ENTER_ART',
       isSubscribed: userData?.isSubscribed || false,
     },
@@ -78,7 +76,14 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
   const handleEmailAuth = async (email: string) => {
     try {
-      await fetchPostEmail({ email })
+      const response = await fetchPostEmail({ email })
+
+      if (response.errorCode === 'M001') {
+        alert('이미 인증된 이메일 입니다.')
+        setVerification(true)
+        return
+      }
+
       setIsEmailAuthOpen(true)
     } catch (e) {
       alert('이메일을 다시 확인해 주세요')
@@ -103,17 +108,43 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     setValue('isSubscribed', !getValues('isSubscribed'))
   }
 
+  const handleRegisterLinkHub = async (
+    data: RegisterReqBody & EmailVerifyReqBody,
+  ) => {
+    try {
+      await registerLinkHub(data, imageFile)
+      alert('회원가입 되었습니다!')
+      router.replace('/login')
+    } catch (e) {
+      alert('회원가입에 실패했습니다.')
+    }
+  }
+
+  const handleSettingUser = async (
+    data: RegisterReqBody & EmailVerifyReqBody,
+  ) => {
+    try {
+      userData?.memberId &&
+        (await fetchPostUserProfile(userData?.memberId, data, imageFile))
+      alert('수정되었습니다!')
+      router.back()
+    } catch (e) {
+      alert('정보 수정에 실패했습니다.')
+    }
+  }
+
   const handleWithdrawButton = () => {
     // Todo: 회원탈퇴 로직
+    alert('미구현된 기능입니다.')
   }
 
   return (
     <form
       className="flex flex-col gap-3 px-4 pt-8"
       onSubmit={handleSubmit(async (data) => {
-        await registerLinkHub(data, imageFile)
-        alert('회원가입 되었습니다!')
-        router.replace('/login')
+        formType === 'Register'
+          ? handleRegisterLinkHub(data)
+          : handleSettingUser(data)
       })}>
       <div className="flex justify-center">
         <input

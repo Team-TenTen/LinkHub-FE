@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { fetchSearchMySpaces } from '@/services/space/spaces'
+import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/favorites'
 import { SearchMySpaceReqBody, SearchMySpaceResBody } from '@/types'
 
 const useMySpace = (
   userId: number,
+  spaceType: string,
   params: SearchMySpaceReqBody,
 ): SearchMySpaceResBody | undefined => {
   const [spaces, setSpaces] = useState<SearchMySpaceResBody>()
@@ -22,7 +24,10 @@ const useMySpace = (
     const getMySpaces = async () => {
       try {
         if (userId) {
-          const { responses } = await fetchSearchMySpaces(memoizedParams)
+          const { responses } =
+            spaceType === '내 스페이스'
+              ? await fetchSearchMySpaces(memoizedParams)
+              : await fetchGetMyFavoriteSpaces(memoizedParams)
           setSpaces(responses)
         }
       } catch (error) {
@@ -31,7 +36,7 @@ const useMySpace = (
     }
 
     getMySpaces()
-  }, [memoizedParams, userId])
+  }, [memoizedParams, spaceType, userId])
 
   return spaces
 }

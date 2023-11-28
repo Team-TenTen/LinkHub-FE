@@ -1,13 +1,19 @@
+'use client'
+
 import UserInfoForm from '@/components/UserInfoForm/UserInfoForm'
-import { mock_userData } from '@/data'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 const UserSettingPage = () => {
+  const { currentUser } = useCurrentUser()
+
   return (
     <div>
-      <UserInfoForm
-        //userData={userData}
-        formType="Setting"
-      />
+      {currentUser && (
+        <UserInfoForm
+          userData={currentUser}
+          formType="Setting"
+        />
+      )}
     </div>
   )
 }

@@ -50,6 +50,9 @@ const config: Config = {
       fontFamily: {
         sans: ['"Pretendard"', ...fontFamily.sans],
       },
+      animation: {
+        darkModeSpin: 'spin 1s ease 0s',
+      },
     },
   },
   plugins: [require('tailwind-scrollbar-hide')],
