@@ -1,21 +1,20 @@
 'use client'
 
 import { CategoryList, Dropdown, SpaceList } from '@/components'
-import User from '@/components/common/User/User'
-import { mock_usersData } from '@/data'
+import UserList from '@/components/UserList/UserList'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import { fetchSearchSpaces } from '@/services/space/spaces'
+import { fetchSearchUsers } from '@/services/user/search/search'
 import { cls } from '@/utils'
 import { useSearchParams } from 'next/navigation'
 
 const SearchPage = () => {
-  const { sort, sortIndex, handleSortChange } = useSortParam('space')
-  const { category, categoryIndex, handleCategoryChange } =
-    useCategoryParam('all')
   const searchParams = useSearchParams()
   const keyword = searchParams.get('keyword')
   const target = searchParams.get('target')
-  const users = mock_usersData
+  const { sort, sortIndex, handleSortChange } = useSortParam('space')
+  const { category, categoryIndex, handleCategoryChange } =
+    useCategoryParam('all')
 
   return (
     <>
@@ -59,15 +58,12 @@ const SearchPage = () => {
             fetchFn={fetchSearchSpaces}
           />
         )}
-        {target === 'user' &&
-          users.map((user) => (
-            <User
-              memberId={user.id}
-              nickname={user.name}
-              profileImagePath={user.profile}
-              key={user.id}
-            />
-          ))}
+        {target === 'user' && (
+          <UserList
+            keyword={keyword ?? ''}
+            fetchFn={fetchSearchUsers}
+          />
+        )}
       </section>
     </>
   )

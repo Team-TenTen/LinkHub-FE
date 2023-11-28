@@ -224,3 +224,9 @@ export interface PopularLinkResBody {
   likeCount: number
   isLiked: boolean
 }
+
+export interface SearchUserReqBody {
+  pageNumber: number
+  pageSize: number
+  keyword: string
+}

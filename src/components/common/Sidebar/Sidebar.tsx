@@ -18,12 +18,6 @@ export interface SidebarProps {
 
 const Sidebar = ({ onClose }: SidebarProps) => {
   const { currentUser } = useCurrentUser()
-  const spaces = useMySpace(currentUser?.memberId!, {
-    pageNumber: 0,
-    pageSize: 5,
-    filter: '',
-    keyWord: '',
-  })
 
   const sidebarRef = useRef<HTMLDivElement>(null)
   const { spaceType, handleSpaceType, handleOverlayClick, logout } = useSidebar(
@@ -32,6 +26,13 @@ const Sidebar = ({ onClose }: SidebarProps) => {
       onClose,
     },
   )
+
+  const spaces = useMySpace(currentUser?.memberId!, spaceType, {
+    pageNumber: 0,
+    pageSize: 5,
+    filter: '',
+    keyWord: '',
+  })
 
   return (
     <div
@@ -82,8 +83,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                   )}
                 </div>
                 <ul>
-                  {spaceType === '내 스페이스' ? (
-                    spaces &&
+                  {spaces &&
                     Object.values(spaces).map(({ spaceId, spaceName }) => (
                       <li
                         className="border-b border-slate3 last:border-none"
@@ -95,10 +95,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                           {spaceName}
                         </Link>
                       </li>
-                    ))
-                  ) : (
-                    <>{/* 즐겨찾기 스페이스 */}</>
-                  )}
+                    ))}
                 </ul>
                 <Link
                   href={`/user/${currentUser.memberId}/space`}
