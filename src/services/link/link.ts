@@ -37,10 +37,40 @@ const fetchCreateLink = async ({
   color,
 }: FetchCreateLinkProps) => {
   const path = `/api/space/${spaceId}/links`
-  const body = { spaceId, url, title, tagName, color }
+  const body = {
+    spaceId,
+    url,
+    title,
+    ...(tagName && { tagName }),
+    ...(color && { color }),
+  }
 
   try {
     const response = await apiClient.post(path, body)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export interface FetchUpdateLinkProps extends CreateLinkReqBody {
+  spaceId?: number
+  linkId: number
+}
+
+const fetchUpdateLink = async ({
+  spaceId,
+  linkId,
+  url,
+  title,
+  tagName,
+  color,
+}: FetchUpdateLinkProps) => {
+  const path = `/api/space/${spaceId}/links`
+  const body = { spaceId, linkId, url, title, tagName, color }
+
+  try {
+    const response = await apiClient.put(path, body)
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
@@ -115,11 +145,24 @@ const fetchReadSaveLink = async ({
   }
 }
 
+const fetchGetPopularLinks = async () => {
+  const path = `/api/links`
+
+  try {
+    const response = await apiClient.get(path)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 export {
   fetchGetLinks,
   fetchCreateLink,
+  fetchUpdateLink,
   fetchDeleteLink,
   fetchLikeLink,
   fetchUnLikeLink,
   fetchReadSaveLink,
+  fetchGetPopularLinks,
 }

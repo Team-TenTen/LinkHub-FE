@@ -3,17 +3,21 @@
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks'
 import { GetLinksReqBody } from '@/types'
-import { cls } from '@/utils'
+import { cls, getRandomColor } from '@/utils'
 import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
+import { RefetchTagsType } from '../Space/hooks/useGetTags'
 import {
   ADD_LINK_TEXT,
+  LINK_FORM,
+  LINK_FORM_PLACEHOLDER,
+  LINK_FORM_VALIDATION,
   MORE_TEXT,
-  URL_INPUT_VALIDATION_TEXT,
 } from './constants'
 import useCreateLink from './hooks/useCreateLink'
+import useGetMeta from './hooks/useGetMeta'
 import useLinksQuery from './hooks/useLinksQuery'
 
 export interface linkViewHistories {
@@ -43,6 +47,9 @@ export interface LinkListProps {
   fetchFn: ({ pageNumber, pageSize }: GetLinksReqBody) => Promise<any>
   sort: string
   tagId?: number
+  isCanEdit: boolean
+  isMember: boolean
+  refetchTags?: RefetchTagsType
 }
 
 export interface CreateLinkFormValue {
@@ -60,23 +67,36 @@ const LinkList = ({
   fetchFn,
   sort,
   tagId,
+  isCanEdit,
+  isMember,
+  refetchTags,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const { register, getValues, setValue, handleSubmit, reset } =
-    useForm<CreateLinkFormValue>({
-      defaultValues: {
-        url: '',
-        title: '',
-        tagName: '',
-      },
-    })
+  const { handleCreateLink } = useCreateLink({ spaceId, refetchTags })
+  const {
+    register,
+    getValues,
+    setValue,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CreateLinkFormValue>({
+    defaultValues: {
+      url: '',
+      title: '',
+      tagName: '',
+    },
+  })
   const {
     isUrlCheck,
-    setIsUrlCheck,
-    isUrlError,
+    urlErrorText,
+    setUrlErrorText,
+    isShowFormError,
+    setIsShowFormError,
+    handleModalClose,
+    handleChangeUrl,
     handleGetMeta,
-    handleCreateLink,
-  } = useCreateLink(setValue)
+  } = useGetMeta({ setValue, modalClose })
   const { links, fetchNextPage, hasNextPage } = useLinksQuery({
     spaceId,
     fetchFn,
@@ -91,16 +111,21 @@ const LinkList = ({
           type === 'list' ? 'flex flex-col' : 'grid grid-cols-2 gap-2',
           !hasNextPage && 'mb-0.5 pb-10',
         )}>
-        <button
-          className={cls(
-            'flex bg-slate-100 px-3 py-2.5 text-sm font-medium text-gray9 dark:bg-slate-800',
-            type === 'list'
-              ? 'border-t border-slate3'
-              : 'min-h-[101.5px] items-center justify-center rounded-md border',
-          )}
-          onClick={modalOpen}>
-          <div className="text-gray9">{ADD_LINK_TEXT}</div>
-        </button>
+        {isCanEdit && (
+          <button
+            className={cls(
+              'flex bg-slate-100 px-3 py-2.5 text-sm font-medium text-gray9 dark:bg-slate-800',
+              type === 'list'
+                ? 'border-t border-slate3'
+                : 'min-h-[101.5px] items-center justify-center rounded-md border',
+            )}
+            onClick={() => {
+              reset()
+              modalOpen()
+            }}>
+            <div className="text-gray9">{ADD_LINK_TEXT}</div>
+          </button>
+        )}
         <>
           {links?.pages.map((group) =>
             group.responses.map((link: Link) => (
@@ -117,7 +142,9 @@ const LinkList = ({
                 read={read}
                 summary={summary}
                 edit={edit}
+                isMember={isMember}
                 type={type}
+                refetchTags={refetchTags}
                 key={link.linkId}
               />
             )),
@@ -138,39 +165,72 @@ const LinkList = ({
           title="링크 추가"
           isConfirmButton={true}
           confirmText="추가"
-          onClose={() => {
-            modalClose()
-            reset()
-            setIsUrlCheck(false)
+          onClose={handleModalClose}
+          onConfirm={() => {
+            setIsShowFormError(true)
+            if (!isUrlCheck) {
+              setUrlErrorText(LINK_FORM_VALIDATION.URL_NOT_BUTTTON)
+              return
+            }
+            handleSubmit(async ({ url, title, tagName }) => {
+              if (!errors.title) {
+                await handleCreateLink({
+                  url,
+                  title,
+                  tagName,
+                  color: getRandomColor(),
+                })
+                modalClose()
+              }
+            })()
           }}
-          onConfirm={handleSubmit(async ({ url, title, tagName }) => {
-            await handleCreateLink({
-              spaceId,
-              url,
-              title,
-              tagName,
-              color: 'emerald',
-            })
-            reset()
-            setIsUrlCheck(false)
-          })}
           type="form">
           <div className="flex flex-col gap-2">
             <Input
-              {...register('url')}
-              label="URl"
+              {...register('url', {
+                required: {
+                  value: true,
+                  message: LINK_FORM_VALIDATION.URL_NOT_BUTTTON,
+                },
+                onChange: handleChangeUrl,
+              })}
+              label={LINK_FORM.URL}
+              placeholder={LINK_FORM_PLACEHOLDER.URL}
               inputButton={true}
+              buttonText={LINK_FORM.URL_INPUT_BUTTON}
               onButtonClick={() => handleGetMeta({ url: getValues('url') })}
-              validation={isUrlError ? URL_INPUT_VALIDATION_TEXT : ''}
+              validation={isUrlCheck ? errors.url?.message : urlErrorText}
             />
             <Input
-              {...register('title')}
-              label="제목"
+              {...register('title', {
+                minLength: {
+                  value: 2,
+                  message: LINK_FORM_VALIDATION.TITLE_LENGTH,
+                },
+                maxLength: {
+                  value: 50,
+                  message: LINK_FORM_VALIDATION.TITLE_LENGTH,
+                },
+                required: {
+                  value: true,
+                  message: LINK_FORM_VALIDATION.NONE_TITLE,
+                },
+              })}
+              label={LINK_FORM.TITLE}
+              placeholder={LINK_FORM_PLACEHOLDER.TITLE}
               disabled={!isUrlCheck}
+              validation={isShowFormError ? errors.title?.message : ''}
             />
             <Input
-              label="태그"
-              {...register('tagName')}
+              {...register('tagName', {
+                maxLength: {
+                  value: 10,
+                  message: LINK_FORM_VALIDATION.TAG_LENGTH,
+                },
+              })}
+              label={LINK_FORM.TAG}
+              placeholder={LINK_FORM_PLACEHOLDER.TAG}
+              validation={errors.tagName?.message || ''}
             />
           </div>
         </Modal>

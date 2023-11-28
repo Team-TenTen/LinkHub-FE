@@ -12,6 +12,7 @@ const useReadSaveLink = () => {
   const handleSaveReadInfo = ({ spaceId, linkId }: HandleSaveReadInfoProps) => {
     if (spaceId && linkId && isLoggedIn) {
       fetchReadSaveLink({ spaceId, linkId })
+      console.log('접속 저장됨')
     }
   }
 

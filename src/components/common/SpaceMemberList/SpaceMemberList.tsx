@@ -5,10 +5,12 @@ import { useModal } from '@/hooks'
 import { fetchPatchRole } from '@/services/space/space'
 import { UserDetailInfo } from '@/types'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
+import { useRouter } from 'next/navigation'
 import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
 import Dropdown from '../Dropdown/Dropdown'
 import DropdownItem from '../Dropdown/DropdownItem'
+import { DROPDOWN_OPTIONS } from '../Dropdown/constants'
 import { SPACE_MEMBER } from './constants'
 
 export interface SpaceMemberListProps {
@@ -27,6 +29,7 @@ const SpaceMemberList = ({
   members,
   edit = false,
 }: SpaceMemberListProps) => {
+  const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 
   const handleConfirm = () => {
@@ -95,7 +98,11 @@ const SpaceMemberList = ({
               />
             )}
 
-            <div className="text-sm font-semibold">{member.nickname}</div>
+            <div
+              onClick={() => router.push(`/user/${member.memberId}`)}
+              className="cursor-pointer text-sm font-semibold">
+              {member.nickname}
+            </div>
           </div>
           {member.SpaceMemberRole === 'OWNER' ? (
             <DropdownItem
@@ -109,6 +116,9 @@ const SpaceMemberList = ({
                 type="user_edit"
                 size="small"
                 placement="left"
+                defaultIndex={Object.values(
+                  DROPDOWN_OPTIONS['user_edit'],
+                ).indexOf(member.SpaceMemberRole)}
                 onChange={(e) => {
                   handleChangeRole({
                     targetMemberId: member.memberId,

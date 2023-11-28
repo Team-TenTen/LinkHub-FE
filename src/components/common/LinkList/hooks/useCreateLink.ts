@@ -1,19 +1,16 @@
 'use client'
 
-import { Dispatch, SetStateAction, useState } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
 import { FetchCreateLinkProps, fetchCreateLink } from '@/services/link/link'
-import { FetchGetMetaProps, fetchGetMeta } from '@/services/meta/meta'
-import { QueryClient, useQueryClient } from '@tanstack/react-query'
-import { CreateLinkFormValue } from '../LinkList'
+import { fetchGetTags } from '@/services/space/space'
+import { useQueryClient } from '@tanstack/react-query'
+import { RefetchTagsType } from '../../Space/hooks/useGetTags'
 
+export interface UseCreateLinkProps {
+  spaceId?: number
+  refetchTags?: RefetchTagsType
+}
 export interface UseCreateLinkReturnType {
-  isUrlCheck: boolean
-  setIsUrlCheck: Dispatch<SetStateAction<boolean>>
-  isUrlError: boolean
-  handleGetMeta: ({ url }: FetchGetMetaProps) => Promise<void>
   handleCreateLink: ({
-    spaceId,
     url,
     title,
     tagName,
@@ -21,26 +18,13 @@ export interface UseCreateLinkReturnType {
   }: FetchCreateLinkProps) => Promise<void>
 }
 
-const useCreateLink = (
-  setValue: UseFormSetValue<CreateLinkFormValue>,
-): UseCreateLinkReturnType => {
+const useCreateLink = ({
+  spaceId,
+  refetchTags,
+}: UseCreateLinkProps): UseCreateLinkReturnType => {
   const queryclient = useQueryClient()
-  const [isUrlCheck, setIsUrlCheck] = useState(false)
-  const [isUrlError, setIsUrlError] = useState(false)
-
-  const handleGetMeta = async ({ url }: FetchGetMetaProps) => {
-    const { data, error } = await fetchGetMeta({
-      url,
-    })
-    setValue('title', data)
-    setIsUrlError(error)
-    if (error === false) {
-      setIsUrlCheck(true)
-    }
-  }
 
   const handleCreateLink = async ({
-    spaceId,
     url,
     title,
     tagName,
@@ -53,14 +37,15 @@ const useCreateLink = (
       tagName,
       color,
     })
+
+    await fetchGetTags({
+      spaceId,
+    })
     await queryclient.invalidateQueries({ queryKey: ['links', spaceId] })
+    refetchTags?.()
   }
 
   return {
-    isUrlCheck,
-    setIsUrlCheck,
-    isUrlError,
-    handleGetMeta,
     handleCreateLink,
   }
 }
