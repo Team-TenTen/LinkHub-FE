@@ -2,6 +2,7 @@
 
 import { Input } from '@/components'
 import { useModal } from '@/hooks'
+import { fetchPatchRole } from '@/services/space/space'
 import { UserDetailInfo } from '@/types'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
 import Avatar from '../Avatar/Avatar'
@@ -11,16 +12,30 @@ import DropdownItem from '../Dropdown/DropdownItem'
 import { SPACE_MEMBER } from './constants'
 
 export interface SpaceMemberListProps {
+  spaceId?: number
   members?: UserDetailInfo[]
   edit?: boolean
 }
 
-const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
+export interface ChangeRoleProps {
+  targetMemberId: number
+  role: string
+}
+
+const SpaceMemberList = ({
+  spaceId,
+  members,
+  edit = false,
+}: SpaceMemberListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 
   const handleConfirm = () => {
     // 멤버 추가 로직
     console.log('멤버가 추가 되었습니다.')
+  }
+
+  const handleChangeRole = async (data: ChangeRoleProps) => {
+    spaceId && (await fetchPatchRole(spaceId, data))
   }
 
   return (
@@ -90,7 +105,10 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
                 size="small"
                 placement="left"
                 onChange={(e) => {
-                  console.log(e?.currentTarget.value) // TODO: 멤버 리스트 권한 기능 구현할 때 여기에 함수 작성
+                  handleChangeRole({
+                    targetMemberId: member.memberId,
+                    role: e?.currentTarget.value,
+                  })
                 }}
               />
             )

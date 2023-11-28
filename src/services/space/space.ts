@@ -1,3 +1,4 @@
+import { ChangeRoleProps } from '@/components/common/SpaceMemberList/SpaceMemberList'
 import { CreateSpaceReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
@@ -79,6 +80,15 @@ const fetchGetTags = async ({ spaceId }: FetchGetSpaceProps) => {
   }
 }
 
+const fetchPatchRole = async (spaceId: number, data: ChangeRoleProps) => {
+  const path = `/api/space/${spaceId}/member/role`
+
+  try {
+    const response = await apiClient.patch(path, data)
+    return response
+  } catch (e) {}
+}
+
 export {
   fetchGetSpace,
   feachCreateSpace,
@@ -87,4 +97,5 @@ export {
   fetchSettingSpace,
   fetchDeleteSpace,
   fetchGetTags,
+  fetchPatchRole,
 }

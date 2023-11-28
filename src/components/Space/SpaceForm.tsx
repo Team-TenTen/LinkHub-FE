@@ -3,8 +3,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
-import { CATEGORIES_RENDER } from '@/constants'
-import { mock_memberData } from '@/data'
 import { useModal } from '@/hooks'
 import {
   feachCreateSpace,
@@ -203,6 +201,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           <div>
             <div className="mb-10 border-b border-slate3">
               <SpaceMemberList
+                spaceId={space?.spaceId}
                 members={space?.memberDetailInfos}
                 edit
               />
