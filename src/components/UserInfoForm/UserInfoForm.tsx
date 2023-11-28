@@ -3,6 +3,8 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
+import { fetchPostEmail, fetchPostEmailVerify } from '@/services/email'
+import { fetchPostUserProfile } from '@/services/user/profile/profile'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
@@ -11,6 +13,14 @@ import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
 import useToggle from '../common/Toggle/hooks/useToggle'
 import { RegisterReqBody, useRegister } from './hooks/useRegister'
+
+export interface EmailReqBody {
+  email: string
+}
+
+export interface EmailVerifyReqBody {
+  code: string
+}
 
 interface UserInfoFormProps {
   userData?: UserProfileResBody
@@ -25,6 +35,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const { registerLinkHub } = useRegister()
   const [imageFile, setImageFile] = useState<File>()
   const router = useRouter()
+  const [isVerification, setVerification] = useState(false)
 
   useEffect(() => {
     setThumnail(userData?.profileImagePath)
@@ -39,11 +50,12 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterReqBody>({
+  } = useForm<RegisterReqBody & EmailVerifyReqBody>({
     defaultValues: {
       nickname: userData?.nickname || '',
       aboutMe: userData?.aboutMe || '',
-      favoriteCategory: 'ENTER_ART',
+      newsEmail: userData?.newsEmail || '',
+      favoriteCategory: userData?.favoriteCategory || 'ENTER_ART',
       isSubscribed: userData?.isSubscribed || false,
     },
   })
@@ -62,14 +74,33 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     }
   }
 
-  const handleEmailAuth = () => {
-    // Todo: 이메일 로직
+  const handleEmailAuth = async (email: string) => {
+    try {
+      const response = await fetchPostEmail({ email })
 
-    setIsEmailAuthOpen(true)
+      if (response.errorCode === 'M001') {
+        alert('이미 인증된 이메일 입니다.')
+        setVerification(true)
+        return
+      }
+
+      setIsEmailAuthOpen(true)
+    } catch (e) {
+      alert('이메일을 다시 확인해 주세요')
+    }
   }
 
-  const handleCheckAuthNum = () => {
-    // Todo: 인증번호 확인 로직
+  const handleCheckAuthNum = async (code: string) => {
+    try {
+      const verification = await fetchPostEmailVerify({
+        email: getValues('newsEmail'),
+        code,
+      })
+      setVerification(verification.isVerificate)
+      alert('인증되었습니다!')
+    } catch (e) {
+      alert('인증번호를 다시 확인해 주세요')
+    }
   }
 
   const handleClickCheckButton = () => {
@@ -77,16 +108,43 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     setValue('isSubscribed', !getValues('isSubscribed'))
   }
 
+  const handleRegisterLinkHub = async (
+    data: RegisterReqBody & EmailVerifyReqBody,
+  ) => {
+    try {
+      await registerLinkHub(data, imageFile)
+      alert('회원가입 되었습니다!')
+      router.replace('/login')
+    } catch (e) {
+      alert('회원가입에 실패했습니다.')
+    }
+  }
+
+  const handleSettingUser = async (
+    data: RegisterReqBody & EmailVerifyReqBody,
+  ) => {
+    try {
+      userData?.memberId &&
+        (await fetchPostUserProfile(userData?.memberId, data, imageFile))
+      alert('수정되었습니다!')
+      router.back()
+    } catch (e) {
+      alert('정보 수정에 실패했습니다.')
+    }
+  }
+
   const handleWithdrawButton = () => {
     // Todo: 회원탈퇴 로직
+    alert('미구현된 기능입니다.')
   }
 
   return (
     <form
       className="flex flex-col gap-3 px-4 pt-8"
       onSubmit={handleSubmit(async (data) => {
-        await registerLinkHub(data, imageFile)
-        router.replace('/login')
+        formType === 'Register'
+          ? handleRegisterLinkHub(data)
+          : handleSettingUser(data)
       })}>
       <div className="flex justify-center">
         <input
@@ -139,18 +197,19 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
           inputButton
           buttonText="인증번호 전송"
           buttonColor="gray"
-          onButtonClick={handleEmailAuth}
+          onButtonClick={() => handleEmailAuth(getValues('newsEmail'))}
         />
       </div>
       {isEmailAuthOpen && (
         <div>
           <Input
+            {...register('code')}
             label="이메일 인증"
             placeholder="인증번호를 입력해 주세요"
             inputButton
             buttonText="인증번호 확인"
             buttonColor="gray"
-            onButtonClick={handleCheckAuthNum}
+            onButtonClick={() => handleCheckAuthNum(getValues('code'))}
           />
         </div>
       )}
@@ -162,7 +221,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
           type="default"
           horizontal={false}
           defaultIndex={Object.values(CATEGORIES['default']).indexOf(
-            getValues('favoriteCategory'),
+            getValues('favoriteCategory').toLowerCase(),
           )}
           onChange={(e) =>
             setValue(
@@ -191,7 +250,11 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
       <div className="py-6">
         <Button
           type="submit"
-          className="button button-lg button-gray px-4 py-2.5">
+          isDisabled={!isVerification}
+          className={cls(
+            'button button-lg px-4 py-2.5',
+            isVerification ? 'button-emerald' : 'button-gray',
+          )}>
           {formType === 'Setting' ? '수정하기' : '가입하기'}
         </Button>
       </div>

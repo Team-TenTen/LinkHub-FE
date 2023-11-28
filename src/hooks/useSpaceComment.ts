@@ -1,27 +1,34 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import {
   SubmitHandler,
   UseFormSetFocus,
   UseFormSetValue,
 } from 'react-hook-form'
 import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
-import { CommentProps } from '@/components/Comment/Comment'
-import { mock_commentData, mock_replyData, mock_spaceData } from '@/data'
+import { CommentProps } from '@/components/common/Comment/Comment'
+import {
+  fetchCreateComment,
+  fetchUpdateComment,
+} from '@/services/comment/comment'
+import { fetchCreateReply } from '@/services/comment/reply'
+import { useQueryClient } from '@tanstack/react-query'
 
 export interface SpaceComment extends CommentProps {
   replies?: CommentProps[]
 }
 
 export interface useSpaceCommentProps {
+  spaceId: number
   setValue: UseFormSetValue<CommentFormValues>
   setFocus: UseFormSetFocus<CommentFormValues>
-  modalOpen: () => void
 }
 
 export interface Comment {
-  type: 'create' | 'edit' | 'reply' | 'delete'
+  type: 'create' | 'edit' | 'reply'
   commentId: number
-  userName?: string
+  nickname?: string
+  parentCommentId?: number
+  parentCommentUser?: string
 }
 
 export const defaultComment: Comment = {
@@ -30,79 +37,99 @@ export const defaultComment: Comment = {
 }
 
 const useSpaceComment = ({
+  spaceId,
   setValue,
   setFocus,
-  modalOpen,
 }: useSpaceCommentProps) => {
-  const [comments, setComments] = useState<SpaceComment[]>(mock_commentData)
+  const queryClient = useQueryClient()
   const [comment, setComment] = useState<Comment>(defaultComment)
-
-  const handleEdit = useCallback(
-    (commentId: number, comment: string) => {
-      setComment({ type: 'edit', commentId })
-      setValue('comment', comment)
-      setFocus('comment')
-    },
-    [setFocus, setValue],
-  )
-
-  const handleDelete = useCallback(
-    (commentId: number) => {
-      setComment({ type: 'delete', commentId })
-      modalOpen()
-    },
-    [modalOpen],
-  )
+  const [openedComments, setOpenedComments] = useState<number[]>([])
+  const commentListRef = useRef<HTMLDivElement>(null)
 
   const handleOpen = useCallback(
     (commentId: number) => {
-      const commentsWithReplies = comments.map((comment) =>
-        comment.commentId === commentId
-          ? {
-              ...comment,
-              replies: mock_replyData,
-            }
-          : comment,
-      )
-      setComments(commentsWithReplies)
+      if (openedComments.includes(commentId)) {
+        const filteredIds = openedComments.filter(
+          (comment) => comment !== commentId,
+        )
+        setOpenedComments(filteredIds)
+      } else {
+        setOpenedComments((prev) => [...prev, commentId])
+      }
     },
-    [comments],
+    [openedComments],
   )
 
-  const handleReply = useCallback(
-    (commentId: number, userName: string) => {
-      setComment({ type: 'reply', commentId, userName })
-      setValue('comment', '')
-      setFocus('comment')
+  const handleEdit = useCallback(
+    (
+      commentId: number,
+      content: string,
+      parentCommentId?: number,
+      parentCommentUser?: string,
+    ) => {
+      setComment({
+        type: 'edit',
+        commentId,
+        parentCommentId,
+        parentCommentUser,
+      })
+      setValue('content', content)
+      setFocus('content')
     },
     [setFocus, setValue],
   )
 
-  const handleDeleteConfirm = () => {
-    console.log(comment.type, comment.commentId)
+  const handleReply = useCallback(
+    (commentId: number, nickname: string) => {
+      setComment({ type: 'reply', commentId, nickname })
+      setValue('content', '')
+      setFocus('content')
+    },
+    [setFocus, setValue],
+  )
+
+  const handleCancel = () => {
+    setComment(defaultComment)
+    setValue('content', '')
   }
 
-  const handleReplyCancel = () => {
+  const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
+    if (comment.type === 'create') {
+      await fetchCreateComment(spaceId, { content: data.content })
+      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      commentListRef.current?.scrollIntoView(false)
+    } else if (comment.type === 'edit') {
+      await fetchUpdateComment(spaceId, comment.commentId, {
+        content: data.content,
+      })
+      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      if (comment.parentCommentId) {
+        await queryClient.invalidateQueries({
+          queryKey: ['replies', spaceId, comment.parentCommentId],
+        })
+      }
+    } else if (comment.type === 'reply') {
+      await fetchCreateReply(spaceId, comment.commentId, {
+        content: data.content,
+      })
+      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      await queryClient.invalidateQueries({
+        queryKey: ['replies', spaceId, comment.commentId],
+      })
+      setOpenedComments((prev) => [...prev, comment.commentId])
+    }
     setComment(defaultComment)
-    setValue('comment', '')
-  }
-
-  const onSubmit: SubmitHandler<CommentFormValues> = (data) => {
-    console.log(comment.type, comment.commentId, data)
-    setComment(defaultComment)
-    setValue('comment', '')
+    setValue('content', '')
   }
 
   return {
-    space: mock_spaceData,
-    comments,
     comment,
-    handleEdit,
-    handleDelete,
+    openedComments,
+    commentListRef,
     handleOpen,
+    handleEdit,
     handleReply,
-    handleDeleteConfirm,
-    handleReplyCancel,
+    handleCancel,
     onSubmit,
   }
 }

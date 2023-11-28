@@ -1,13 +1,15 @@
 'use client'
 
 import { useRef } from 'react'
-import { mock_userData } from '@/data'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { cls } from '@/utils'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArchiveBoxIcon, StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
 import ThemeButton from '../ThemeButton/ThemeButton'
+import { useMySpace } from './hooks/useMySpace'
 import useSidebar from './hooks/useSidebar'
 
 export interface SidebarProps {
@@ -15,7 +17,8 @@ export interface SidebarProps {
 }
 
 const Sidebar = ({ onClose }: SidebarProps) => {
-  const user = mock_userData
+  const { currentUser } = useCurrentUser()
+
   const sidebarRef = useRef<HTMLDivElement>(null)
   const { spaceType, handleSpaceType, handleOverlayClick, logout } = useSidebar(
     {
@@ -24,6 +27,13 @@ const Sidebar = ({ onClose }: SidebarProps) => {
     },
   )
 
+  const spaces = useMySpace(currentUser?.memberId!, spaceType, {
+    pageNumber: 0,
+    pageSize: 5,
+    filter: '',
+    keyWord: '',
+  })
+
   return (
     <div
       ref={sidebarRef}
@@ -31,24 +41,24 @@ const Sidebar = ({ onClose }: SidebarProps) => {
       className="fixed left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center bg-black/40 shadow-xl">
       <div className="absolute right-0 flex h-full w-full max-w-[300px] flex-col justify-between rounded-l-xl bg-bgColor px-2 pb-1 pt-6">
         <div className="flex flex-col">
-          {user ? (
+          {currentUser ? (
             <>
               <div className="flex items-center px-2">
                 <Avatar
-                  src={user.profile}
+                  src={currentUser.profileImagePath}
                   width={40}
                   height={40}
-                  alt={user.name}
+                  alt={currentUser.nickname}
                 />
                 <p className="font-sm ml-3 w-full overflow-hidden text-ellipsis	whitespace-nowrap font-medium text-gray9">
-                  {user.name}
+                  {currentUser.nickname}
                 </p>
                 <Button onClick={onClose}>
                   <XMarkIcon className="h-6 w-6" />
                 </Button>
               </div>
               <Link
-                href={`/user/${user.id}`}
+                href={`/user/${currentUser.memberId}`}
                 className="my-2 px-2 py-2 text-base font-bold text-gray9"
                 onClick={onClose}>
                 프로필
@@ -73,23 +83,22 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                   )}
                 </div>
                 <ul>
-                  {user[
-                    spaceType === '내 스페이스' ? 'mySpaces' : 'favoriteSpaces'
-                  ].map(({ name, id }) => (
-                    <li
-                      className="border-b border-slate3 last:border-none"
-                      key={id}>
-                      <Link
-                        href={`/space/${id}`}
-                        className="block px-3 py-2.5 text-sm text-gray9"
-                        onClick={onClose}>
-                        {name}
-                      </Link>
-                    </li>
-                  ))}
+                  {spaces &&
+                    Object.values(spaces).map(({ spaceId, spaceName }) => (
+                      <li
+                        className="border-b border-slate3 last:border-none"
+                        key={spaceId}>
+                        <Link
+                          href={`/space/${spaceId}`}
+                          className="block px-3 py-2.5 text-sm text-gray9"
+                          onClick={onClose}>
+                          {spaceName}
+                        </Link>
+                      </li>
+                    ))}
                 </ul>
                 <Link
-                  href={`/user/${user.id}/space`}
+                  href={`/user/${currentUser.memberId}/space`}
                   className="font-gray6 my-2 block w-full rounded-3xl border border-slate6 px-3 py-2.5 text-center text-sm font-medium text-slate6"
                   onClick={onClose}>
                   스페이스 전체보기
@@ -116,9 +125,11 @@ const Sidebar = ({ onClose }: SidebarProps) => {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-y-2">
-          <ThemeButton />
-          {user && (
+        <div className="flex flex-col">
+          <div className="pb-2">
+            <ThemeButton />
+          </div>
+          {currentUser && (
             <button
               className="border-t border-slate3 px-2 py-3 text-left text-sm text-gray9"
               onClick={logout}>

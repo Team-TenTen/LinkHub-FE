@@ -2,7 +2,7 @@ import { CreateSpaceReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
 export interface FetchGetSpaceProps {
-  spaceId: number
+  spaceId?: number
 }
 
 const fetchGetSpace = async ({ spaceId }: FetchGetSpaceProps) => {
@@ -22,8 +22,12 @@ const feachCreateSpace = async (data: CreateSpaceReqBody, file?: File) => {
   const formData = new FormData()
   formData.append('request', JSON.stringify(reqData))
   file && formData.append('file', file)
-  const response = await apiClient.post(path, formData, {}, {}, 'multipart')
-  return response
+  try {
+    const response = await apiClient.post(path, formData, {}, {}, 'multipart')
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
 }
 
 const fetchSettingSpace = async (
@@ -36,8 +40,12 @@ const fetchSettingSpace = async (
   const formData = new FormData()
   formData.append('request', JSON.stringify(reqData))
   file && formData.append('file', file)
-  const response = await apiClient.patch(path, formData, {}, {}, 'multipart')
-  return response
+  try {
+    const response = await apiClient.patch(path, formData, {}, {}, 'multipart')
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
 }
 
 const fetchDeleteSpace = async (spaceId: number) => {
@@ -47,11 +55,10 @@ const fetchDeleteSpace = async (spaceId: number) => {
 }
 
 const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
-  const path = `/api/favorites/${spaceId}`
-  const body = { spaceId }
+  const path = `/api/space/${spaceId}/favorites`
 
   try {
-    const response = await apiClient.post(path, body)
+    const response = await apiClient.post(path, {})
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
@@ -59,10 +66,39 @@ const fetchFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
 }
 
 const fetchUnFavoriteSpace = async ({ spaceId }: FetchGetSpaceProps) => {
-  const path = `/api/favorites/${spaceId}`
+  const path = `/api/space/${spaceId}/favorites`
 
   try {
     const response = await apiClient.delete(path)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+const fetchGetTags = async ({ spaceId }: FetchGetSpaceProps) => {
+  const path = `/api/space/${spaceId}/tags`
+
+  try {
+    const response = await apiClient.get(path)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+const fetchScrapSpace = async (
+  spaceId: number,
+  data: CreateSpaceReqBody,
+  file?: File,
+) => {
+  const path = `/api/space/${spaceId}/scrap/new`
+  const reqData = { ...data }
+  const formData = new FormData()
+  formData.append('request', JSON.stringify(reqData))
+  file && formData.append('file', file)
+  try {
+    const response = await apiClient.post(path, formData, {}, {}, 'multipart')
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
@@ -76,4 +112,6 @@ export {
   fetchUnFavoriteSpace,
   fetchSettingSpace,
   fetchDeleteSpace,
+  fetchGetTags,
+  fetchScrapSpace,
 }

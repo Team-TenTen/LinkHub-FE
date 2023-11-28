@@ -10,18 +10,22 @@ class FetchAPI {
       'Content-Type': 'application/json;charset=UTF-8',
     }
   }
+
   public static getInstance(): FetchAPI {
     if (!FetchAPI.instance) {
       FetchAPI.instance = new FetchAPI()
     }
     return FetchAPI.instance
   }
+
   public setBaseURL(url: string): void {
     this.baseURL = url
   }
+
   public setDefaultHeader(key: string, value: string): void {
     this.headers[key] = value
   }
+
   public async get(
     endpoint: string,
     nextInit: RequestInit = {},
@@ -35,6 +39,7 @@ class FetchAPI {
     const data = response.json()
     return data
   }
+
   public async post(
     endpoint: string,
     body: any,
@@ -54,6 +59,7 @@ class FetchAPI {
     const data = response.json()
     return data
   }
+
   public async put(
     endpoint: string,
     body: any,
@@ -73,6 +79,7 @@ class FetchAPI {
     const data = response.json()
     return data
   }
+
   public async delete(
     endpoint: string,
     nextInit: RequestInit = {},
@@ -85,6 +92,7 @@ class FetchAPI {
     })
     return response
   }
+
   public async patch(
     endpoint: string,
     body: any,
@@ -101,7 +109,9 @@ class FetchAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    return response
+    const data = response.json()
+    return data
   }
 }
+
 export default FetchAPI

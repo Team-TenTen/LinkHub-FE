@@ -33,7 +33,7 @@ const useLikeLink = ({
     [linkId],
   )
 
-  const handleLikeClick = useCallback(
+  const handleClickLike = useCallback(
     (isLike: boolean) => {
       likeToggle()
       if (isLike) {
@@ -47,7 +47,7 @@ const useLikeLink = ({
     [likeToggle, debounceUnLikeLink, debounceLikeLink],
   )
 
-  return { isLiked, likeCount, handleLikeClick }
+  return { isLiked, likeCount, handleClickLike }
 }
 
 export default useLikeLink

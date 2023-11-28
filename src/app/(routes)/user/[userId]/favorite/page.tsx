@@ -1,54 +1,54 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import { CategoryList, Input } from '@/components'
-import Space from '@/components/common/Space/Space'
-import { mock_userData2 } from '@/data'
-import useSpaceSearch from '@/hooks/useSpaceSearch'
+import { CategoryList, Input, SpaceList } from '@/components'
+import { useCategoryParam, useProfileSpacesSearch } from '@/hooks'
+import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/favorites'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { SearchFormValue } from '../space/page'
 
 const UserFavoritePage = () => {
-  const spaceData = mock_userData2.favoriteSpaces
-  const { register, setValue, handleSubmit } = useForm<SearchFormValue>({
+  const pathname = usePathname()
+  const userId = Number(pathname.split('/')[2])
+  const searchParams = useSearchParams()
+  const keyword = searchParams.get('keyword')
+  const { register, handleSubmit } = useForm<SearchFormValue>({
     defaultValues: {
-      keyword: '',
+      keyword: keyword ?? '',
     },
   })
-  const { handleCategoryChange, onSubmit } = useSpaceSearch({ setValue })
+  const { category, categoryIndex, handleCategoryChange } =
+    useCategoryParam('all')
+  const { onSubmit } = useProfileSpacesSearch({
+    userId,
+    category: category || '',
+    type: 'favorite',
+  })
 
   return (
     <div className="px-4">
       <CategoryList
         type="all"
+        defaultIndex={categoryIndex}
         horizontal={true}
         onChange={handleCategoryChange}
       />
-      <form
-        onSubmit={handleSubmit(({ keyword }) => {
-          onSubmit({ keyword })
-        })}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register('keyword')}
           inputButton={true}
           buttonText="검색"
           buttonColor="gray"
+          buttonType="submit"
         />
       </form>
       <div className="flex flex-col gap-2 py-4">
-        {spaceData.map((space) => (
-          <Space
-            key={space.spaceId}
-            type="Card"
-            userName={space.userName}
-            spaceId={space.spaceId}
-            spaceName={space.spaceName}
-            spaceImage={space.spaceImage}
-            description={space.description}
-            category={space.category}
-            scrap={space.scrap}
-            favorite={space.favorite}
-          />
-        ))}
+        <SpaceList
+          queryKey="profile"
+          category={category ?? ''}
+          keyword={keyword ?? ''}
+          fetchFn={fetchGetMyFavoriteSpaces}
+        />
       </div>
     </div>
   )

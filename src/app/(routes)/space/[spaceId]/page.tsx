@@ -2,16 +2,19 @@
 
 import { Dropdown, LinkList, SpaceMemberList } from '@/components'
 import Button from '@/components/common/Button/Button'
-import { MORE_TEXT } from '@/components/common/LinkList/constants'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
+import useGetTags from '@/components/common/Space/hooks/useGetTags'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useToggle from '@/components/common/Toggle/hooks/useToggle'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
-import { mock_LinkData } from '@/data'
+import { useSortParam } from '@/hooks'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
+import useTagParam from '@/hooks/useTagParam'
+import { fetchGetLinks } from '@/services/link/link'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -21,10 +24,14 @@ import {
 } from '@heroicons/react/24/solid'
 
 const SpacePage = () => {
+  const { currentUser } = useCurrentUser()
   const [space] = useGetSpace()
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
+  const { sort, sortIndex, handleSortChange } = useSortParam('link')
+  const { tags, refetchTags } = useGetTags({ spaceId: space?.spaceId })
+  const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
 
   return (
     <>
@@ -59,19 +66,19 @@ const SpacePage = () => {
           <div className="flex items-center gap-1.5">
             <Dropdown
               type="tag"
-              tags={['JavaScript', 'TypeScript', 'Java', 'Python']}
+              tags={tags?.map((tag) => tag.name)}
               size="medium"
               placement="left"
-              onChange={(e) => {
-                console.log(e?.currentTarget.value)
-              }}
+              defaultIndex={tagIndex}
+              onChange={handleTagChange}
             />
             <Dropdown
-              type="space"
+              type="link"
               size="medium"
               placement="left"
+              defaultIndex={sortIndex}
               onChange={(e) => {
-                console.log(e?.currentTarget.value)
+                handleSortChange(e)
               }}
             />
           </div>
@@ -87,7 +94,6 @@ const SpacePage = () => {
                 )}
               </Button>
             )}
-
             <div>
               <Button
                 className={cls(
@@ -108,18 +114,25 @@ const SpacePage = () => {
             </div>
           </div>
         </div>
-        <LinkList
-          links={mock_LinkData}
-          read={true}
-          summary={true}
-          edit={isEdit}
-          type={view}
-        />
-        <div className="flex justify-center py-2">
-          <Button className="button button-round button-white">
-            {MORE_TEXT}
-          </Button>
-        </div>
+        {space?.spaceId && (
+          <LinkList
+            spaceId={space?.spaceId}
+            read={space?.isReadMarkEnabled}
+            summary={space?.isLinkSummarizable}
+            edit={isEdit}
+            type={view}
+            fetchFn={fetchGetLinks}
+            sort={sort ?? 'created_at'}
+            tagId={Number(tag) || undefined}
+            isCanEdit={space.isCanEdit}
+            isMember={
+              !!space?.memberDetailInfos.find(
+                (member) => member.memberId === currentUser?.memberId,
+              )
+            }
+            refetchTags={refetchTags}
+          />
+        )}
         <SpaceMemberList members={space?.memberDetailInfos} />
       </div>
     </>

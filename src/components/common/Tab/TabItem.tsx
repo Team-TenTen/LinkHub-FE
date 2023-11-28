@@ -15,7 +15,7 @@ const TabItem = ({ active, text, dest }: TabItemProps) => {
       <div
         className={cls(
           active ? 'border-emerald5' : 'border-slate3',
-          `flex w-[100%] cursor-pointer items-center justify-center border-b py-4 text-sm font-bold text-gray9 transition ease-in-out`,
+          `flex w-[100%] cursor-pointer items-center justify-center border-b py-4 text-sm font-bold text-gray9`,
         )}>
         {text}
       </div>
