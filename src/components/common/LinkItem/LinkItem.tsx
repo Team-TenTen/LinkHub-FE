@@ -203,7 +203,7 @@ const LinkItem = ({
                 {readUsers?.map((readUser) => (
                   <Avatar
                     key={readUser.memberName}
-                    src="/duck.jpg"
+                    src={readUser.memberProfileImage || '/duck.jpg'}
                     width={20}
                     height={20}
                     alt="아바타"
