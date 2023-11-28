@@ -20,5 +20,4 @@ export const LINK_FORM_VALIDATION = {
   NONE_TITLE: '제목을 입력해 주세요.',
   TITLE_LENGTH: '제목은 2글자 이상 50글자 이하로 작성해야 합니다.',
   TAG_LENGTH: '태그는 10글자 이하로 작성해야 합니다.',
-  NONE_TAG: '태그를 입력해 주세요. (0 ~ 10글자)',
 }
