@@ -36,6 +36,22 @@ const fetchCreateComment = async (
   }
 }
 
+const fetchUpdateComment = async (
+  spaceId: number,
+  commentId: number,
+  { content }: CreateCommentReqBody,
+) => {
+  const path = `/api/space/${spaceId}/comments/${commentId}`
+  const body = { content }
+
+  try {
+    const response = await apiClient.put(path, body)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 const fetchDeleteComment = async (spaceId: number, commentId: number) => {
   const path = `/api/space/${spaceId}/comments/${commentId}`
 
@@ -47,4 +63,9 @@ const fetchDeleteComment = async (spaceId: number, commentId: number) => {
   }
 }
 
-export { fetchGetComments, fetchCreateComment, fetchDeleteComment }
+export {
+  fetchGetComments,
+  fetchCreateComment,
+  fetchUpdateComment,
+  fetchDeleteComment,
+}

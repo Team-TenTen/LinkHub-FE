@@ -161,12 +161,12 @@ export interface SpaceResBody {
   spaceId: number
   spaceName: string
   description: string
-  userName: string
   category: string
   viewCount: number
   scrapCount: number
   favoriteCount: number
   spaceImagePath: string
+  ownerNickName: string
 }
 
 export interface CreateSpaceReqBody {
@@ -213,4 +213,20 @@ export interface CommentResBody {
 
 export interface CreateCommentReqBody {
   content: string
+}
+
+export interface PopularLinkResBody {
+  linkId: number
+  title: string
+  url: string
+  tagName: string
+  tagColor: string
+  likeCount: number
+  isLiked: boolean
+}
+
+export interface SearchUserReqBody {
+  pageNumber: number
+  pageSize: number
+  keyword: string
 }

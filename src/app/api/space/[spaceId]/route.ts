@@ -35,7 +35,7 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const response = await apiServer.patch(path, body, {}, headers, 'multipart')
-    return NextResponse.json(response)
+    return response
   } catch (error: any) {
     return NextResponse.json(
       { error: error.response.data.message },

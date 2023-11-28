@@ -3,6 +3,7 @@ interface ButtonProps {
   type?: 'button' | 'reset' | 'submit' | undefined
   className?: string
   style?: React.CSSProperties
+  isDisabled?: boolean
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -11,6 +12,7 @@ const Button = ({
   type = 'button',
   className,
   style,
+  isDisabled,
   onClick,
   ...rest
 }: ButtonProps) => {
@@ -20,6 +22,7 @@ const Button = ({
       className={className}
       style={{ ...style }}
       type={type}
+      disabled={isDisabled}
       {...rest}>
       {children}
     </button>

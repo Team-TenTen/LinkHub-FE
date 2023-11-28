@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { mock_userData } from '@/data'
+import { useRef } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { cls } from '@/utils'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ArchiveBoxIcon, StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
@@ -18,14 +18,7 @@ export interface SidebarProps {
 
 const Sidebar = ({ onClose }: SidebarProps) => {
   const { currentUser } = useCurrentUser()
-  const spaces = useMySpace(currentUser?.memberId!, {
-    pageNumber: 0,
-    pageSize: 5,
-    filter: '',
-    keyWord: '',
-  })
 
-  const user = mock_userData
   const sidebarRef = useRef<HTMLDivElement>(null)
   const { spaceType, handleSpaceType, handleOverlayClick, logout } = useSidebar(
     {
@@ -33,6 +26,13 @@ const Sidebar = ({ onClose }: SidebarProps) => {
       onClose,
     },
   )
+
+  const spaces = useMySpace(currentUser?.memberId!, spaceType, {
+    pageNumber: 0,
+    pageSize: 5,
+    filter: '',
+    keyWord: '',
+  })
 
   return (
     <div
@@ -83,8 +83,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                   )}
                 </div>
                 <ul>
-                  {spaceType === '내 스페이스' ? (
-                    spaces &&
+                  {spaces &&
                     Object.values(spaces).map(({ spaceId, spaceName }) => (
                       <li
                         className="border-b border-slate3 last:border-none"
@@ -96,10 +95,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                           {spaceName}
                         </Link>
                       </li>
-                    ))
-                  ) : (
-                    <>{/* 즐겨찾기 스페이스 */}</>
-                  )}
+                    ))}
                 </ul>
                 <Link
                   href={`/user/${currentUser.memberId}/space`}
@@ -129,9 +125,11 @@ const Sidebar = ({ onClose }: SidebarProps) => {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-y-2">
-          <ThemeButton />
-          {user && (
+        <div className="flex flex-col">
+          <div className="pb-2">
+            <ThemeButton />
+          </div>
+          {currentUser && (
             <button
               className="border-t border-slate3 px-2 py-3 text-left text-sm text-gray9"
               onClick={logout}>

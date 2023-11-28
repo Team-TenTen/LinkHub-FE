@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { FormEvent, useCallback, useEffect } from 'react'
 
 export interface useModalLogicProps {
   onClose: (e?: React.MouseEvent<HTMLButtonElement>) => void
@@ -9,6 +9,7 @@ export interface useModalLogicProps {
 export interface UseModalLogicReturnType {
   handleClickOverlay: (e: React.MouseEvent<HTMLDivElement>) => void
   handleClickConfirm: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  handleSubmitConfirm: (e: FormEvent<HTMLFormElement>) => void
   handleKeyDown: (e: React.KeyboardEvent<HTMLFormElement>) => void
 }
 
@@ -47,6 +48,14 @@ const useModalLogic = ({
     [onConfirm, onClose],
   )
 
+  const handleSubmitConfirm = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      onConfirm?.()
+    },
+    [onConfirm],
+  )
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLFormElement>) => {
       if (e.key === 'Enter') e.preventDefault()
@@ -54,7 +63,12 @@ const useModalLogic = ({
     [],
   )
 
-  return { handleClickOverlay, handleClickConfirm, handleKeyDown }
+  return {
+    handleClickOverlay,
+    handleClickConfirm,
+    handleSubmitConfirm,
+    handleKeyDown,
+  }
 }
 
 export default useModalLogic
