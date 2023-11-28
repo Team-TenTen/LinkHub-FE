@@ -85,6 +85,7 @@ const fetchPatchRole = async (spaceId: number, data: ChangeRoleProps) => {
 
   try {
     const response = await apiClient.patch(path, data)
+    console.log(response)
     return response
   } catch (e) {}
 }

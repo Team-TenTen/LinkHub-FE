@@ -35,7 +35,12 @@ const SpaceMemberList = ({
   }
 
   const handleChangeRole = async (data: ChangeRoleProps) => {
-    spaceId && (await fetchPatchRole(spaceId, data))
+    try {
+      spaceId && (await fetchPatchRole(spaceId, data))
+      alert('권한을 수정했습니다.')
+    } catch (e) {
+      alert('권한 수정에 실패했습니다.')
+    }
   }
 
   return (
