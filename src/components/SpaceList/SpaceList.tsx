@@ -50,7 +50,7 @@ const SpaceList = ({
             {group.responses?.map((space: SpaceResBody) => (
               <li key={space.spaceId}>
                 <Space
-                  userName={space.userName}
+                  userName={space.ownerNickName}
                   spaceId={space.spaceId}
                   type="Card"
                   spaceName={space.spaceName}

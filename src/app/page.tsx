@@ -1,32 +1,35 @@
 'use client'
 
 import { CategoryList, Dropdown, LinkItem, SpaceList } from '@/components'
-import { mock_LinkData } from '@/data'
+import { ChipColors } from '@/components/common/Chip/Chip'
 import { useCategoryParam, useSortParam } from '@/hooks'
+import useGetPopularLinks from '@/hooks/useGetPopularLinks'
 import { fetchGetSpaces } from '@/services/space/spaces'
+import { PopularLinkResBody } from '@/types'
 
 export default function Home() {
-  const links = mock_LinkData.slice(0, 5)
+  const links = useGetPopularLinks()
   const { sort, sortIndex, handleSortChange } = useSortParam('space')
   const { category, categoryIndex, handleCategoryChange } =
-    useCategoryParam('all_follow')
+    useCategoryParam('all')
 
   return (
     <>
       <section className="px-4 pb-10">
         <h2 className="py-4 font-bold text-gray9">인기있는 링크</h2>
-        {links.map((link) => (
-          <LinkItem
-            linkId={link.id}
-            title={link.title}
-            url={link.url}
-            tagName={link.tagName}
-            tagColor="emerald"
-            isInitLiked={link.isLiked}
-            likeInitCount={link.likeCount}
-            key={link.id}
-          />
-        ))}
+        {links &&
+          links.map((link: PopularLinkResBody) => (
+            <LinkItem
+              linkId={link.linkId}
+              title={link.title}
+              url={link.url}
+              tagName={link.tagName}
+              tagColor={link.tagColor as ChipColors}
+              isInitLiked={link.isLiked}
+              likeInitCount={link.likeCount}
+              key={link.linkId}
+            />
+          ))}
       </section>
       <section>
         <div className="sticky top-[53px] z-40 bg-bgColor">
@@ -40,7 +43,7 @@ export default function Home() {
             />
           </div>
           <CategoryList
-            type="all_follow"
+            type="all"
             defaultIndex={categoryIndex}
             onChange={handleCategoryChange}
           />
