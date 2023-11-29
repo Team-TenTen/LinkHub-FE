@@ -56,7 +56,7 @@ const Header = () => {
         </div>
         <div className="flex items-center justify-center gap-x-1">
           <Button className="flex h-8 w-8 items-center justify-center">
-            <Link href="/notification">
+            <Link href="/notification/invite">
               <BellIcon className="h-6 w-6 text-slate9" />
             </Link>
           </Button>
