@@ -234,3 +234,18 @@ export interface SearchUserReqBody {
 export interface SpaceInviteResBody {
   notificationId: number
 }
+
+export interface InvitationsReqBody {
+  pageNumber: number
+  pageSize: number
+}
+
+export interface InvitationsNotification {
+  notificationId: number
+  notificationType: 'FOLLOW' | 'COMMENT' | 'INVITATION'
+  invitingMemberId: number
+  invitingMemberName: string
+  spaceId: number
+  spaceName: string
+  isAccepted: boolean
+}
