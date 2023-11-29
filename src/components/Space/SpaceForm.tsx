@@ -68,6 +68,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const handleConfirm = async () => {
     try {
       await fetchDeleteSpace(spaceId)
+      alert('삭제하였습니다.')
       router.replace('/')
     } catch (e) {
       alert('스페이스 삭제에 실패하였습니다.')
@@ -79,8 +80,8 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       className="flex flex-col gap-3"
       onSubmit={handleSubmit(async (data) => {
         if (spaceType === 'Create') {
-          await feachCreateSpace(data, imageFile)
-          router.replace('/')
+          const { spaceId } = await feachCreateSpace(data, imageFile)
+          router.replace(`/space/${spaceId}`)
         } else if (spaceType === 'Setting') {
           await fetchSettingSpace(spaceId, data, imageFile)
           router.back()
@@ -117,6 +118,14 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           <Input
             {...register('spaceName', {
               required: '스페이스명을 입력해 주세요',
+              minLength: {
+                value: 2,
+                message: '스페이스명은 최소 2글자 이상이어야 합니다.',
+              },
+              maxLength: {
+                value: 20,
+                message: '스페이스명은 20글자 이하여야 합니다.',
+              },
             })}
             label="스페이스 이름"
             placeholder="스페이스 이름을 입력하세요"
@@ -126,10 +135,16 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
         </div>
         <div>
           <Input
-            {...register('description')}
+            {...register('description', {
+              maxLength: {
+                value: 40,
+                message: '스페이스 설명은 40글자 이하여야 합니다.',
+              },
+            })}
             label="스페이스 설명"
             placeholder="스페이스 설명을 입력하세요"
             type="text"
+            validation={errors.description?.message}
           />
         </div>
         <div className="flex flex-col gap-2">
