@@ -59,7 +59,7 @@ const Notification = ({
                 className="cursor-pointer font-bold">
                 {spaceName}
               </span>
-              {NOTIFICATION_MSG.SPACE}
+              {NOTIFICATION_MSG.TO}
               {notificationType === 'COMMENT' ? (
                 <>
                   <span
