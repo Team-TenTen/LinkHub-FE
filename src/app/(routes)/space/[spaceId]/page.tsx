@@ -23,7 +23,7 @@ import {
   Squares2X2Icon,
 } from '@heroicons/react/24/solid'
 
-const SpacePage = () => {
+const SpacePage = ({ params }: { params: { spaceId: number } }) => {
   const { currentUser } = useCurrentUser()
   const [space] = useGetSpace()
   const [isEdit, editToggle] = useToggle(false)
@@ -133,7 +133,10 @@ const SpacePage = () => {
             refetchTags={refetchTags}
           />
         )}
-        <SpaceMemberList members={space?.memberDetailInfos} />
+        <SpaceMemberList
+          spaceId={params.spaceId}
+          members={space?.memberDetailInfos}
+        />
       </div>
     </>
   )

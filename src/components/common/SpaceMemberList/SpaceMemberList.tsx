@@ -12,11 +12,16 @@ import DropdownItem from '../Dropdown/DropdownItem'
 import { SPACE_MEMBER } from './constants'
 
 export interface SpaceMemberListProps {
+  spaceId: number
   members?: UserDetailInfo[]
   edit?: boolean
 }
 
-const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
+const SpaceMemberList = ({
+  spaceId,
+  members,
+  edit = false,
+}: SpaceMemberListProps) => {
   const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 

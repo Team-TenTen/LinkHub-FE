@@ -34,6 +34,7 @@ const SpaceSettingPage = ({ params }: { params: { spaceId: number } }) => {
           <div>
             <div className="mb-10 border-b border-slate3">
               <SpaceMemberList
+                spaceId={spaceId}
                 members={space?.memberDetailInfos}
                 edit={true}
               />
