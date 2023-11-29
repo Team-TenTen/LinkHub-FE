@@ -2,11 +2,9 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { CategoryList, Input, SpaceMemberList, Toggle } from '@/components'
-import { useModal } from '@/hooks'
+import { CategoryList, Input, Toggle } from '@/components'
 import {
   feachCreateSpace,
-  fetchDeleteSpace,
   fetchScrapSpace,
   fetchSettingSpace,
 } from '@/services/space/space'
@@ -25,7 +23,6 @@ interface SpaceFormProps {
 const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
   const [thumnail, setThumnail] = useState(space?.spaceImagePath)
-  const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
   const [imageFile, setImageFile] = useState<File>()
   const path = usePathname()
   const spaceId = Number(path.split('/')[2])
@@ -62,15 +59,6 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
       setImageFile(e?.target.files[0])
-    }
-  }
-
-  const handleConfirm = async () => {
-    try {
-      await fetchDeleteSpace(spaceId)
-      router.replace('/')
-    } catch (e) {
-      alert('스페이스 삭제에 실패하였습니다.')
     }
   }
 
@@ -200,38 +188,6 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
               : SPACE_FORM_CONSTNAT.CREATE_SPACE}
           </Button>
         </div>
-        {spaceType === 'Setting' && (
-          <div>
-            <div className="mb-10 border-b border-slate3">
-              <SpaceMemberList
-                members={space?.memberDetailInfos}
-                edit
-              />
-            </div>
-            <div className="flex items-center justify-between pb-6">
-              <div className="pb-4 pt-4 text-base font-bold text-gray9">
-                스페이스 삭제
-              </div>
-              <Button
-                className="button button-md button-gray"
-                onClick={modalOpen}>
-                스페이스 삭제
-              </Button>
-              {isOpen && (
-                <Modal
-                  title="스페이스 삭제"
-                  isCancelButton={true}
-                  isConfirmButton={true}
-                  cancelText="취소"
-                  confirmText="삭제"
-                  onClose={modalClose}
-                  onConfirm={handleConfirm}>
-                  <div className="flex justify-center">삭제하시겠습니까?</div>
-                </Modal>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </form>
   )
