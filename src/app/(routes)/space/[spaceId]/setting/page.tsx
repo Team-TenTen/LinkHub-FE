@@ -31,7 +31,7 @@ const SpaceSettingPage = ({ params }: { params: { spaceId: number } }) => {
             spaceType="Setting"
             space={space}
           />
-          <div>
+          <div className="px-4">
             <div className="mb-10 border-b border-slate3">
               <SpaceMemberList
                 spaceId={spaceId}
