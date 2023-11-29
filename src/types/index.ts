@@ -230,3 +230,9 @@ export interface SearchUserReqBody {
   pageSize: number
   keyword: string
 }
+
+export interface InviteSpaceReqBody {
+  email: string
+  spaceId: number
+  role: string
+}
