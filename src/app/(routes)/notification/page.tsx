@@ -10,14 +10,14 @@ const NotificationPage = () => {
     <div className="flex flex-col gap-2">
       {notifications.map((notification) => (
         <Notification
-          key={notification.id}
           notificationId={notification.id}
-          type={notification.type}
+          notificationType={notification.notificationType}
           userId={notification.userId}
           userName={notification.userName}
           spaceId={notification.spaceId}
           spaceName={notification.spaceName}
           isRead={notification.isRead}
+          key={notification.id}
           onClose={() => console.log('알람 닫기')}
         />
       ))}

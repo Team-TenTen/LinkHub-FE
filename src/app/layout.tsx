@@ -1,5 +1,6 @@
 import { Providers } from '@/components'
 import Header from '@/components/common/Header/Header'
+import ToastContainer from '@/components/common/Toast/ToastContainer'
 import { AuthProvider } from '@/lib/contexts/AuthProvider'
 import TanstackQueryContext from '@/lib/contexts/TanstackQueryContext'
 import type { Metadata } from 'next'
@@ -28,6 +29,7 @@ export default function RootLayout({
                 <main className="pt-[53px]">{children}</main>
               </div>
             </Providers>
+            <ToastContainer />
           </body>
         </AuthProvider>
       </TanstackQueryContext>

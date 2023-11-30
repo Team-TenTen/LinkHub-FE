@@ -1,6 +1,7 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
+import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { cls } from '@/utils'
@@ -25,7 +26,8 @@ import {
 } from '../LinkList/constants'
 import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
-import { RefetchTagsType } from '../Space/hooks/useGetTags'
+import NoneServiceModal from '../Modal/NoneServiceModal'
+import { RefetchTagsType, Tag } from '../Space/hooks/useGetTags'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
@@ -47,6 +49,7 @@ export interface LinkItemProps {
   edit?: boolean
   isMember?: boolean
   type?: 'list' | 'card'
+  tags?: Tag[]
   refetchTags?: RefetchTagsType
 }
 
@@ -65,6 +68,7 @@ const LinkItem = ({
   edit = false,
   isMember,
   type = 'list',
+  tags,
   refetchTags,
 }: LinkItemProps) => {
   const { isLoggedIn } = useCurrentUser()
@@ -75,12 +79,14 @@ const LinkItem = ({
     getValues,
     setValue,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm<CreateLinkFormValue>({
     defaultValues: {
       url,
       title,
       tagName,
+      color: tagColor,
     },
   })
   const {
@@ -171,7 +177,7 @@ const LinkItem = ({
                   {likeCount}
                 </Button>
                 {summary && (
-                  <Button>
+                  <Button onClick={() => handleOpenCurrentModal('noneService')}>
                     <DocumentTextIcon className="h-6 w-6 p-0.5 text-slate6" />
                   </Button>
                 )}
@@ -202,7 +208,7 @@ const LinkItem = ({
                 {readUsers?.map((readUser) => (
                   <Avatar
                     key={readUser.memberName}
-                    src="/duck.jpg"
+                    src={readUser.memberProfileImage || '/duck.jpg'}
                     width={20}
                     height={20}
                     alt="아바타"
@@ -244,7 +250,7 @@ const LinkItem = ({
                   {likeCount}
                 </Button>
                 {summary && (
-                  <Button>
+                  <Button onClick={() => handleOpenCurrentModal('noneService')}>
                     <DocumentTextIcon className="h-6 w-6 p-0.5 text-slate6" />
                   </Button>
                 )}
@@ -266,6 +272,7 @@ const LinkItem = ({
                   setValue('title', title)
                   setValue('url', url)
                   setValue('tagName', tagName)
+                  setValue('color', tagColor)
                   setIsShowFormError(false)
                 }
               : modalClose
@@ -278,13 +285,13 @@ const LinkItem = ({
                     setUrlErrorText(LINK_FORM_VALIDATION.URL_NOT_BUTTTON)
                     return
                   }
-                  handleSubmit(async ({ url, title, tagName }) => {
+                  handleSubmit(async ({ url, title, tagName, color }) => {
                     if (!errors.title) {
                       await handleUpdateLink({
                         url,
                         title,
                         tagName,
-                        color: tagColor,
+                        color,
                       })
                       modalClose()
                     }
@@ -336,16 +343,13 @@ const LinkItem = ({
                   isUrlCheck && isShowFormError ? errors.title?.message : ''
                 }
               />
-              <Input
-                {...register('tagName', {
-                  maxLength: {
-                    value: 10,
-                    message: LINK_FORM_VALIDATION.TAG_LENGTH,
-                  },
-                })}
-                label={LINK_FORM.TAG}
-                placeholder={LINK_FORM_PLACEHOLDER.TAG}
-                validation={isShowFormError ? errors.tagName?.message : ''}
+              <TagInput
+                tags={tags ?? []}
+                register={register}
+                setValue={setValue}
+                getValues={getValues}
+                clearErrors={clearErrors}
+                validation={errors.tagName?.message}
               />
             </div>
           )}
@@ -358,6 +362,13 @@ const LinkItem = ({
       )}
       {currentModal === 'login' && (
         <LoginModal
+          Modal={Modal}
+          isOpen={isOpen}
+          modalClose={modalClose}
+        />
+      )}
+      {currentModal === 'noneService' && (
+        <NoneServiceModal
           Modal={Modal}
           isOpen={isOpen}
           modalClose={modalClose}

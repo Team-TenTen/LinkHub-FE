@@ -4,6 +4,7 @@ import { SpaceMemberList } from '@/components'
 import SpaceForm from '@/components/Space/SpaceForm'
 import Button from '@/components/common/Button/Button'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
+import { notify } from '@/components/common/Toast/Toast'
 import { useModal } from '@/hooks'
 import { fetchDeleteSpace } from '@/services/space/space'
 import { useRouter } from 'next/navigation'
@@ -17,9 +18,10 @@ const SpaceSettingPage = ({ params }: { params: { spaceId: number } }) => {
   const handleConfirm = async () => {
     try {
       await fetchDeleteSpace(spaceId)
+      notify('info', '스페이스가 삭제되었습니다.')
       router.replace('/')
     } catch (e) {
-      alert('스페이스 삭제에 실패하였습니다.')
+      notify('error', '스페이스 삭제에 실패하였습니다.')
     }
   }
 

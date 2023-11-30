@@ -83,7 +83,7 @@ const SpacePage = ({ params }: { params: { spaceId: number } }) => {
             />
           </div>
           <div className="flex gap-2">
-            {space?.isOwner && (
+            {space?.isCanEdit && (
               <Button
                 className="button button-white p-1.5"
                 onClick={editToggle}>
@@ -124,6 +124,7 @@ const SpacePage = ({ params }: { params: { spaceId: number } }) => {
             fetchFn={fetchGetLinks}
             sort={sort ?? 'created_at'}
             tagId={Number(tag) || undefined}
+            tags={tags ?? []}
             isCanEdit={space.isCanEdit}
             isMember={
               !!space?.memberDetailInfos.find(

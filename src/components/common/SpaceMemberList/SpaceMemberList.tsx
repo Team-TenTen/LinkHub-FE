@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Input } from '@/components'
 import { useModal } from '@/hooks'
 import { fetchInviteSpace } from '@/services/space/invitation'
+import { fetchPatchRole } from '@/services/space/space'
 import { UserDetailInfo } from '@/types'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
@@ -11,6 +12,7 @@ import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
 import Dropdown from '../Dropdown/Dropdown'
 import DropdownItem from '../Dropdown/DropdownItem'
+import { DROPDOWN_OPTIONS } from '../Dropdown/constants'
 import { SPACE_MEMBER } from './constants'
 
 export interface SpaceMemberListProps {
@@ -21,6 +23,10 @@ export interface SpaceMemberListProps {
 
 export interface SpaceMemberFormValue {
   email: string
+  role: string
+}
+export interface ChangeRoleProps {
+  targetMemberId: number
   role: string
 }
 
@@ -43,6 +49,15 @@ const SpaceMemberList = ({
     },
   })
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
+
+  const handleChangeRole = async (data: ChangeRoleProps) => {
+    try {
+      spaceId && (await fetchPatchRole(spaceId, data))
+      alert('권한을 수정했습니다.')
+    } catch (e) {
+      alert('권한 수정에 실패했습니다.')
+    }
+  }
 
   return (
     <div className="flex flex-col">
@@ -129,8 +144,14 @@ const SpaceMemberList = ({
                 type="user_edit"
                 size="small"
                 placement="left"
+                defaultIndex={Object.values(
+                  DROPDOWN_OPTIONS['user_edit'],
+                ).indexOf(member.SpaceMemberRole)}
                 onChange={(e) => {
-                  console.log(e?.currentTarget.value) // TODO: 멤버 리스트 권한 기능 구현할 때 여기에 함수 작성
+                  handleChangeRole({
+                    targetMemberId: member.memberId,
+                    role: e?.currentTarget.value,
+                  })
                 }}
               />
             )
