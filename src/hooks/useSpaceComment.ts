@@ -1,11 +1,13 @@
 import { useCallback, useRef, useState } from 'react'
 import {
+  SubmitErrorHandler,
   SubmitHandler,
   UseFormSetFocus,
   UseFormSetValue,
 } from 'react-hook-form'
 import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
 import { CommentProps } from '@/components/common/Comment/Comment'
+import { notify } from '@/components/common/Toast/Toast'
 import {
   fetchCreateComment,
   fetchUpdateComment,
@@ -122,6 +124,12 @@ const useSpaceComment = ({
     setValue('content', '')
   }
 
+  const onSubmitError: SubmitErrorHandler<CommentFormValues> = ({
+    content,
+  }) => {
+    content?.message && notify('error', content?.message)
+  }
+
   return {
     comment,
     openedComments,
@@ -131,6 +139,7 @@ const useSpaceComment = ({
     handleReply,
     handleCancel,
     onSubmit,
+    onSubmitError,
   }
 }
 
