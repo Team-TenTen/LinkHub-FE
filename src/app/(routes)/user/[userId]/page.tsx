@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, CategoryListItem } from '@/components'
+import { Avatar, CategoryListItem, Spinner } from '@/components'
 import Button from '@/components/common/Button/Button'
 import FollowList from '@/components/common/FollowList/FollowList'
 import LoginModal from '@/components/common/Modal/LoginModal'
@@ -15,7 +15,7 @@ import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
 import { useRouter } from 'next/navigation'
 
 const UserPage = () => {
-  const { user, myId } = useGetProfile()
+  const { user, myId, isProfileLoading } = useGetProfile()
   const router = useRouter()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
@@ -33,7 +33,9 @@ const UserPage = () => {
     handleOpenCurrentModal,
   })
 
-  return (
+  return isProfileLoading ? (
+    <Spinner />
+  ) : (
     <>
       <div className="flex flex-col gap-4 px-4 py-6">
         <div className="flex gap-3">

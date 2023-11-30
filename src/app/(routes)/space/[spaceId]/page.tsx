@@ -1,6 +1,6 @@
 'use client'
 
-import { Dropdown, LinkList, SpaceMemberList } from '@/components'
+import { Dropdown, LinkList, SpaceMemberList, Spinner } from '@/components'
 import Button from '@/components/common/Button/Button'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
@@ -25,15 +25,19 @@ import {
 
 const SpacePage = ({ params }: { params: { spaceId: number } }) => {
   const { currentUser } = useCurrentUser()
-  const [space] = useGetSpace()
+  const { space, isSpaceLoading } = useGetSpace()
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
   const { sort, sortIndex, handleSortChange } = useSortParam('link')
-  const { tags, refetchTags } = useGetTags({ spaceId: space?.spaceId })
+  const { tags, refetchTags, isTagsLoading } = useGetTags({
+    spaceId: space?.spaceId,
+  })
   const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
 
-  return (
+  return isSpaceLoading || isTagsLoading ? (
+    <Spinner />
+  ) : (
     <>
       {space && (
         <Space

@@ -85,7 +85,12 @@ const Header = () => {
           </Button>
         </div>
       </div>
-      {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+      {isSidebarOpen && (
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+        />
+      )}
       {isSearchModalOpen && (
         <SearchModal
           onClose={() =>

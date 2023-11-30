@@ -1,6 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
+import { Spinner } from '@/components'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { fetchAccetpSpaceInvitation } from '@/services/space/spaces'
 import { InvitationsNotification, InvitationsReqBody } from '@/types'
@@ -15,12 +16,15 @@ export interface NotificationListProps {
 
 const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
   const router = useRouter()
-  const { notificationList, fetchNextPage, hasNextPage } = useNotificationQuery(
-    {
-      fetchFn,
-      type,
-    },
-  )
+  const {
+    notificationList,
+    fetchNextPage,
+    hasNextPage,
+    isNotificationLoading,
+  } = useNotificationQuery({
+    fetchFn,
+    type,
+  })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
   const handleAcceptInvite = async (notificationId: number) => {
@@ -33,7 +37,9 @@ const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
     }
   }
 
-  return (
+  return isNotificationLoading ? (
+    <Spinner />
+  ) : (
     <ul className="flex flex-col gap-y-2">
       {notificationList?.pages.map((group, i) => (
         <Fragment key={i}>

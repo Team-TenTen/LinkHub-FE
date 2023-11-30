@@ -17,7 +17,7 @@ const useSpacesQuery = ({
         : 'created_at'
       : undefined
   const categoryValue = category === 'all' ? '' : category.toUpperCase()
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: [
       'spaces',
       queryKey,
@@ -42,7 +42,12 @@ const useSpacesQuery = ({
       lastPage.metaData?.hasNext ? lastPage.metaData.pageNumber + 1 : undefined,
   })
 
-  return { spaces: data, fetchNextPage, hasNextPage }
+  return {
+    spaces: data,
+    fetchNextPage,
+    hasNextPage,
+    isSpacesLoading: isLoading,
+  }
 }
 
 export default useSpacesQuery

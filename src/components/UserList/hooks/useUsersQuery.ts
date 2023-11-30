@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { UserListProps } from '../UserList'
 
 const useUsersQuery = ({ keyword, fetchFn }: UserListProps) => {
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['users', keyword],
     queryFn: ({ pageParam }) =>
       fetchFn({
@@ -16,7 +16,12 @@ const useUsersQuery = ({ keyword, fetchFn }: UserListProps) => {
       lastPage.metaData?.hasNext ? lastPage.metaData.pageNumber + 1 : undefined,
   })
 
-  return { users: data, fetchNextPage, hasNextPage }
+  return {
+    users: data,
+    fetchNextPage,
+    hasNextPage,
+    isUserListLoading: isLoading,
+  }
 }
 
 export default useUsersQuery

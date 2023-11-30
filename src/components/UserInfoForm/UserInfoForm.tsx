@@ -11,6 +11,7 @@ import { CheckIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
+import { notify } from '../common/Toast/Toast'
 import useToggle from '../common/Toggle/hooks/useToggle'
 import { RegisterReqBody, useRegister } from './hooks/useRegister'
 
@@ -77,31 +78,20 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
   const handleEmailAuth = async (email: string) => {
     try {
-      const response = await fetchPostEmail({ email })
-
-      if (response.errorCode === 'M001') {
-        alert('이미 인증된 이메일 입니다.')
-        setVerification(true)
-        return
-      }
-
-      setIsEmailAuthOpen(true)
+      await fetchPostEmail({ email })
+      notify('success', '인증번호를 발송했습니다.')
     } catch (e) {
-      alert('이메일을 다시 확인해 주세요')
+      setVerification(true)
     }
   }
 
   const handleCheckAuthNum = async (code: string) => {
-    try {
-      const verification = await fetchPostEmailVerify({
-        email: getValues('newsEmail'),
-        code,
-      })
-      setVerification(verification.isVerificate)
-      alert('인증되었습니다!')
-    } catch (e) {
-      alert('인증번호를 다시 확인해 주세요')
-    }
+    const verification = await fetchPostEmailVerify({
+      email: getValues('newsEmail'),
+      code,
+    })
+    setVerification(verification.isVerificate)
+    notify('success', '인증되었습니다.')
   }
 
   const handleClickCheckButton = () => {
@@ -112,31 +102,23 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const handleRegisterLinkHub = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
-    try {
-      await registerLinkHub(data, imageFile)
-      alert('회원가입 되었습니다!')
-      router.replace('/login')
-    } catch (e) {
-      alert('회원가입에 실패했습니다.')
-    }
+    await registerLinkHub(data, imageFile)
+    notify('success', '회원가입 되었습니다.')
+    router.replace('/login')
   }
 
   const handleSettingUser = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
-    try {
-      userData?.memberId &&
-        (await fetchPostUserProfile(userData?.memberId, data, imageFile))
-      alert('수정되었습니다!')
-      router.back()
-    } catch (e) {
-      alert('정보 수정에 실패했습니다.')
-    }
+    userData?.memberId &&
+      (await fetchPostUserProfile(userData?.memberId, data, imageFile))
+    notify('success', '수정되었습니다.')
+    router.back()
   }
 
   const handleWithdrawButton = () => {
     // Todo: 회원탈퇴 로직
-    alert('미구현된 기능입니다.')
+    notify('info', '미구현된 기능입니다.')
   }
 
   return (
