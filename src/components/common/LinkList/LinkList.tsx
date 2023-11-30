@@ -11,6 +11,7 @@ import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
 import { Tag } from '../Space/hooks/useGetTags'
 import { RefetchTagsType } from '../Space/hooks/useGetTags'
+import Spinner from '../Spinner/Spinner'
 import {
   ADD_LINK_TEXT,
   LINK_FORM,
@@ -77,7 +78,10 @@ const LinkList = ({
   refetchTags,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const { handleCreateLink } = useCreateLink({ spaceId, refetchTags })
+  const { handleCreateLink } = useCreateLink({
+    spaceId,
+    refetchTags,
+  })
   const {
     register,
     getValues,
@@ -104,14 +108,16 @@ const LinkList = ({
     handleChangeUrl,
     handleGetMeta,
   } = useGetMeta({ setValue, modalClose })
-  const { links, fetchNextPage, hasNextPage } = useLinksQuery({
+  const { links, fetchNextPage, hasNextPage, isLinksLoading } = useLinksQuery({
     spaceId,
     fetchFn,
     sort,
     tagId,
   })
 
-  return (
+  return isLinksLoading ? (
+    <Spinner />
+  ) : (
     <>
       <div
         className={cls(
