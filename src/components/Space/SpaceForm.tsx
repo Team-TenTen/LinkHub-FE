@@ -82,18 +82,28 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       onSubmit={handleSubmit(async (data) => {
         if (spaceType === 'Create') {
           try {
-            await feachCreateSpace(data, imageFile)
+            const { spaceId } = await feachCreateSpace(data, imageFile)
             notify('info', '스페이스가 생성되었습니다.')
-            router.replace('/')
+            router.replace(`/space/${spaceId}`)
           } catch (e) {
             notify('error', '스페이스 생성에 실패했습니다.')
           }
         } else if (spaceType === 'Setting') {
-          await fetchSettingSpace(spaceId, data, imageFile)
-          router.back()
+          try {
+            await fetchSettingSpace(spaceId, data, imageFile)
+            notify('info', '스페이스를 수정했습니다.')
+            router.back()
+          } catch (e) {
+            notify('error', '스페이스 수정에 실패했습니다.')
+          }
         } else {
-          const response = await fetchScrapSpace(spaceId, data, imageFile)
-          router.push(`/space/${response.spaceId}`)
+          try {
+            const response = await fetchScrapSpace(spaceId, data, imageFile)
+            notify('info', '스페이스가 생성되었습니다.')
+            router.push(`/space/${response.spaceId}`)
+          } catch (e) {
+            notify('error', '스페이스 생성에 실패했습니다.')
+          }
         }
       })}>
       <div>
@@ -124,6 +134,14 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           <Input
             {...register('spaceName', {
               required: '스페이스명을 입력해 주세요',
+              minLength: {
+                value: 2,
+                message: '스페이스명은 최소 2글자 이상이어야 합니다.',
+              },
+              maxLength: {
+                value: 20,
+                message: '스페이스명은 20글자 이하여야 합니다.',
+              },
             })}
             label="스페이스 이름"
             placeholder="스페이스 이름을 입력하세요"
@@ -133,10 +151,16 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
         </div>
         <div>
           <Input
-            {...register('description')}
+            {...register('description', {
+              maxLength: {
+                value: 40,
+                message: '스페이스 설명은 40글자 이하여야 합니다.',
+              },
+            })}
             label="스페이스 설명"
             placeholder="스페이스 설명을 입력하세요"
             type="text"
+            validation={errors.description?.message}
           />
         </div>
         <div className="flex flex-col gap-2">
