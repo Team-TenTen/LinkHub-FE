@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchUserReqBody } from '@/types'
+import Spinner from '../common/Spinner/Spinner'
 import User from '../common/User/User'
 import useUsersQuery from './hooks/useUsersQuery'
 
@@ -20,13 +21,16 @@ export interface UserItem {
 
 const UserList = ({ keyword, fetchFn }: UserListProps) => {
   const { currentUser } = useCurrentUser()
-  const { users, fetchNextPage, hasNextPage } = useUsersQuery({
-    keyword,
-    fetchFn,
-  })
+  const { users, fetchNextPage, hasNextPage, isUserListLoading } =
+    useUsersQuery({
+      keyword,
+      fetchFn,
+    })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
-  return (
+  return isUserListLoading ? (
+    <Spinner />
+  ) : (
     <ul className="flex flex-col gap-y-2">
       {users?.pages.map((group, i) => (
         <Fragment key={i}>
