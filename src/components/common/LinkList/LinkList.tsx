@@ -1,6 +1,7 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
+import { Spinner } from '@/components'
 import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
 import { GetLinksReqBody } from '@/types'
@@ -77,7 +78,10 @@ const LinkList = ({
   refetchTags,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const { handleCreateLink } = useCreateLink({ spaceId, refetchTags })
+  const { handleCreateLink } = useCreateLink({
+    spaceId,
+    refetchTags,
+  })
   const {
     register,
     getValues,
@@ -104,14 +108,16 @@ const LinkList = ({
     handleChangeUrl,
     handleGetMeta,
   } = useGetMeta({ setValue, modalClose })
-  const { links, fetchNextPage, hasNextPage } = useLinksQuery({
+  const { links, fetchNextPage, hasNextPage, isLinksLoading } = useLinksQuery({
     spaceId,
     fetchFn,
     sort,
     tagId,
   })
 
-  return (
+  return isLinksLoading ? (
+    <Spinner />
+  ) : (
     <>
       <div
         className={cls(

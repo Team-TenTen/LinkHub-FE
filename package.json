@@ -24,6 +24,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.47.0",
     "react-toastify": "^9.1.3",
+    "react-spinners": "^0.13.8",
     "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 
 const useNotificationQuery = ({ fetchFn, type }: FollowListProps) => {
   const queryKey = type
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: [queryKey],
     queryFn: ({ pageParam }) =>
       fetchFn({
@@ -16,7 +16,12 @@ const useNotificationQuery = ({ fetchFn, type }: FollowListProps) => {
       lastPage.metaData?.hasNext ? lastPage.metaData.pageNumber + 1 : undefined,
   })
 
-  return { notificationList: data, fetchNextPage, hasNextPage }
+  return {
+    notificationList: data,
+    fetchNextPage,
+    hasNextPage,
+    isNotificationLoading: isLoading,
+  }
 }
 
 export default useNotificationQuery

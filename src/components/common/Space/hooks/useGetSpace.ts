@@ -11,24 +11,28 @@ import { fetchGetSpace } from '@/services/space/space'
 import { SpaceDetailResBody } from '@/types'
 import { usePathname } from 'next/navigation'
 
-const useGetSpace = (): [
-  SpaceDetailResBody | undefined,
-  Dispatch<SetStateAction<SpaceDetailResBody | undefined>>,
-] => {
+const useGetSpace = (): {
+  space: SpaceDetailResBody | undefined
+  setSpace: Dispatch<SetStateAction<SpaceDetailResBody | undefined>>
+  isSpaceLoading: boolean
+} => {
   const [space, setSpace] = useState<SpaceDetailResBody>()
+  const [isLoading, setIsLoading] = useState(false)
   const path = usePathname()
   const spaceId = Number(path.split('/')[2])
 
   const handleGetSpace = useCallback(async () => {
+    setIsLoading(true)
     const data = await fetchGetSpace({ spaceId })
     setSpace(data)
-  }, [spaceId])
+    setIsLoading(false)
+  }, [spaceId, setIsLoading])
 
   useEffect(() => {
     handleGetSpace()
   }, [handleGetSpace])
 
-  return [space, setSpace]
+  return { space, setSpace, isSpaceLoading: isLoading }
 }
 
 export default useGetSpace

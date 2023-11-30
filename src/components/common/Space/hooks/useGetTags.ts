@@ -23,16 +23,21 @@ export interface UseGetTagsProps {
 export interface UseGetTagsReturnType {
   tags: Tag[]
   refetchTags?: RefetchTagsType
+  isTagsLoading: boolean
 }
 
 const useGetTags = ({ spaceId }: UseGetTagsProps): UseGetTagsReturnType => {
-  const { data, refetch: refetchTags } = useQuery({
+  const {
+    data,
+    refetch: refetchTags,
+    isLoading,
+  } = useQuery({
     queryKey: ['tagList', spaceId],
     queryFn: () => fetchGetTags({ spaceId }),
     enabled: !!spaceId,
   })
 
-  return { tags: data?.tags, refetchTags }
+  return { tags: data?.tags, refetchTags, isTagsLoading: isLoading }
 }
 
 export default useGetTags

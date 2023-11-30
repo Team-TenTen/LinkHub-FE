@@ -15,7 +15,7 @@ const useLinksQuery = ({
   fetchFn,
 }: UseLinksQueryProps) => {
   const sortValue = sort === 'like' ? 'popular' : 'created_at'
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: [
       'links',
       spaceId,
@@ -36,7 +36,7 @@ const useLinksQuery = ({
         : undefined,
   })
 
-  return { links: data, fetchNextPage, hasNextPage }
+  return { links: data, fetchNextPage, hasNextPage, isLinksLoading: isLoading }
 }
 
 export default useLinksQuery

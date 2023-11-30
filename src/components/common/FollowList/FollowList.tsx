@@ -1,4 +1,5 @@
 import { Dispatch, Fragment, SetStateAction } from 'react'
+import { Spinner } from '@/components'
 import useFollowQuery from '@/components/common/FollowList/hooks/useFollowQuery'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { FetchGetFollowProps } from '@/services/user/follow/follow'
@@ -29,14 +30,17 @@ const FollowList = ({
   followingCount,
   setFollowingCount,
 }: FollowListProps) => {
-  const { followList, fetchNextPage, hasNextPage } = useFollowQuery({
-    memberId,
-    fetchFn,
-    type,
-  })
+  const { followList, fetchNextPage, hasNextPage, isFollowLoading } =
+    useFollowQuery({
+      memberId,
+      fetchFn,
+      type,
+    })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
-  return (
+  return isFollowLoading ? (
+    <Spinner />
+  ) : (
     <ul className="flex flex-col gap-y-2">
       {followList?.pages.map((group, i) => (
         <Fragment key={i}>
