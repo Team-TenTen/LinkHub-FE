@@ -40,3 +40,10 @@ export const LOGIN = {
   LOGIN_SERVICE: '로그인이 필요한 서비스입니다.',
   LOGIN_ASK: '로그인하시겠습니까?',
 }
+
+export const NOT_FOUND = {
+  NOT_FOUND: '404 NOT FOUND',
+  TEXT_1: '죄송합니다. 페이지를 찾을 수 없습니다.',
+  TEXT_2: '존재하지 않는 주소를 입력하셨거나,',
+  TEXT_3: '요청하신 페이지의 주소가 변경, 삭제되어 찾을 수 없습니다.',
+}

@@ -23,7 +23,7 @@ import {
   Squares2X2Icon,
 } from '@heroicons/react/24/solid'
 
-const SpacePage = () => {
+const SpacePage = ({ params }: { params: { spaceId: number } }) => {
   const { currentUser } = useCurrentUser()
   const [space] = useGetSpace()
   const [isEdit, editToggle] = useToggle(false)
@@ -83,7 +83,7 @@ const SpacePage = () => {
             />
           </div>
           <div className="flex gap-2">
-            {space?.isOwner && (
+            {space?.isCanEdit && (
               <Button
                 className="button button-white p-1.5"
                 onClick={editToggle}>
@@ -124,6 +124,7 @@ const SpacePage = () => {
             fetchFn={fetchGetLinks}
             sort={sort ?? 'created_at'}
             tagId={Number(tag) || undefined}
+            tags={tags ?? []}
             isCanEdit={space.isCanEdit}
             isMember={
               !!space?.memberDetailInfos.find(
@@ -133,7 +134,10 @@ const SpacePage = () => {
             refetchTags={refetchTags}
           />
         )}
-        <SpaceMemberList members={space?.memberDetailInfos} />
+        <SpaceMemberList
+          spaceId={params.spaceId}
+          members={space?.memberDetailInfos}
+        />
       </div>
     </>
   )

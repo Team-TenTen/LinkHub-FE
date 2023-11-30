@@ -43,6 +43,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?&_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]/
+  const nickNameRegex = /^[a-zA-Zㄱ-힣0-9]*$/
 
   const {
     register,
@@ -168,23 +169,46 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
         <Input
           {...register('nickname', {
             required: '닉네임을 입력해 주세요',
+            minLength: {
+              value: 2,
+              message: '닉네임은 최소 2글자 이상이어야 합니다.',
+            },
+            maxLength: {
+              value: 10,
+              message: '닉네임은 10글자 이하여야 합니다.',
+            },
+            pattern: nickNameRegex,
           })}
           label="닉네임"
           placeholder="nickname"
-          validation={errors.nickname?.message}
+          validation={
+            errors.nickname?.type === 'pattern'
+              ? '닉네임에는 공백이나 특수문자를 사용할 수 없습니다.'
+              : errors.nickname?.message
+          }
         />
       </div>
       <div>
         <Input
-          {...register('aboutMe')}
+          {...register('aboutMe', {
+            maxLength: {
+              value: 50,
+              message: '한줄 소개는 50글자 이하여야 합니다.',
+            },
+          })}
           label="한줄 소개"
           placeholder="aboutMe"
+          validation={errors.aboutMe?.message}
         />
       </div>
       <div>
         <Input
           {...register('newsEmail', {
             required: '이메일을 입력해 주세요',
+            maxLength: {
+              value: 300,
+              message: '이메일의 길이가 너무 깁니다.',
+            },
             pattern: emailRegex,
           })}
           validation={

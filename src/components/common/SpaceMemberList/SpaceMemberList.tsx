@@ -1,7 +1,10 @@
 'use client'
 
+import { useForm } from 'react-hook-form'
 import { Input } from '@/components'
 import { useModal } from '@/hooks'
+import { fetchInviteSpace } from '@/services/space/invitation'
+import { fetchPatchRole } from '@/services/space/space'
 import { UserDetailInfo } from '@/types'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
@@ -9,20 +12,51 @@ import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
 import Dropdown from '../Dropdown/Dropdown'
 import DropdownItem from '../Dropdown/DropdownItem'
+import { DROPDOWN_OPTIONS } from '../Dropdown/constants'
 import { SPACE_MEMBER } from './constants'
 
 export interface SpaceMemberListProps {
+  spaceId: number
   members?: UserDetailInfo[]
   edit?: boolean
 }
 
-const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
+export interface SpaceMemberFormValue {
+  email: string
+  role: string
+}
+export interface ChangeRoleProps {
+  targetMemberId: number
+  role: string
+}
+
+const SpaceMemberList = ({
+  spaceId,
+  members,
+  edit = false,
+}: SpaceMemberListProps) => {
   const router = useRouter()
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<SpaceMemberFormValue>({
+    defaultValues: {
+      email: '',
+      role: 'CAN_EDIT',
+    },
+  })
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 
-  const handleConfirm = () => {
-    // 멤버 추가 로직
-    console.log('멤버가 추가 되었습니다.')
+  const handleChangeRole = async (data: ChangeRoleProps) => {
+    try {
+      spaceId && (await fetchPatchRole(spaceId, data))
+      alert('권한을 수정했습니다.')
+    } catch (e) {
+      alert('권한 수정에 실패했습니다.')
+    }
   }
 
   return (
@@ -40,23 +74,39 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
         )}
         {isOpen && (
           <Modal
-            title="스페이스 멤버 추가"
+            type="form"
+            title="스페이스 멤버 초대"
             isConfirmButton={true}
-            confirmText="추가"
-            onClose={modalClose}
-            onConfirm={handleConfirm}>
-            <div className="flex items-end justify-between gap-3 pb-6">
+            confirmText="초대"
+            onClose={() => {
+              modalClose()
+              reset()
+            }}
+            onConfirm={handleSubmit(async ({ email, role }) => {
+              await fetchInviteSpace({ spaceId, email, role })
+              modalClose()
+              reset()
+            })}>
+            <div className="flex justify-between gap-3 pb-6">
               <div className="w-full">
                 <Input
+                  {...register('email', {
+                    required: '필수 응답 항목입니다.',
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
+                      message: '이메일 형식이 아닙니다.',
+                    },
+                  })}
                   label="이메일"
-                  placeholder="추가할 멤버"
+                  placeholder="초대할 유저 이메일"
+                  validation={errors.email?.message}
                 />
               </div>
-              <div className="shrink-0">
+              <div className="shrink-0 pt-9">
                 <Dropdown
                   size="large"
                   type="user_invite"
-                  onChange={(e) => console.log(e?.currentTarget.value)}
+                  onChange={(e) => setValue('role', e.currentTarget.value)}
                 />
               </div>
             </div>
@@ -76,7 +126,6 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
                 alt="프로필"
               />
             )}
-
             <div
               onClick={() => router.push(`/user/${member.memberId}`)}
               className="cursor-pointer text-sm font-semibold">
@@ -95,8 +144,14 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
                 type="user_edit"
                 size="small"
                 placement="left"
+                defaultIndex={Object.values(
+                  DROPDOWN_OPTIONS['user_edit'],
+                ).indexOf(member.SpaceMemberRole)}
                 onChange={(e) => {
-                  console.log(e?.currentTarget.value) // TODO: 멤버 리스트 권한 기능 구현할 때 여기에 함수 작성
+                  handleChangeRole({
+                    targetMemberId: member.memberId,
+                    role: e?.currentTarget.value,
+                  })
                 }}
               />
             )

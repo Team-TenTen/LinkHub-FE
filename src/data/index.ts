@@ -387,7 +387,7 @@ export const mock_spaceData = {
 
 export const mock_notificationData: {
   id: number
-  type: 'comment' | 'follow' | 'space'
+  notificationType: 'COMMENT' | 'FOLLOW' | 'INVITATION'
   userId: number
   userName: string
   spaceId?: number
@@ -397,14 +397,14 @@ export const mock_notificationData: {
 }[] = [
   {
     id: 1,
-    type: 'follow',
+    notificationType: 'FOLLOW',
     userId: 1,
     userName: '프롱이',
     isRead: false,
   },
   {
     id: 2,
-    type: 'comment',
+    notificationType: 'COMMENT',
     userId: 1,
     userName: '프롱이',
     spaceId: 123,
@@ -414,7 +414,7 @@ export const mock_notificationData: {
   },
   {
     id: 3,
-    type: 'comment',
+    notificationType: 'COMMENT',
     userId: 1,
     userName: '백둥이',
     spaceId: 456,
@@ -424,14 +424,14 @@ export const mock_notificationData: {
   },
   {
     id: 4,
-    type: 'follow',
+    notificationType: 'FOLLOW',
     userId: 1,
     userName: '백둥이',
     isRead: true,
   },
   {
     id: 5,
-    type: 'comment',
+    notificationType: 'COMMENT',
     userId: 1,
     userName: '풀택이',
     spaceId: 789,
