@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { Dispatch, SetStateAction, useRef, useState } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { cls } from '@/utils'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -13,19 +13,26 @@ import { useMySpace } from './hooks/useMySpace'
 import useSidebar from './hooks/useSidebar'
 
 export interface SidebarProps {
+  isSidebarOpen: boolean
   onClose: () => void
 }
 
-const Sidebar = ({ onClose }: SidebarProps) => {
+const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
+  const [isOpen, setIsOpen] = useState(isSidebarOpen)
   const { currentUser } = useCurrentUser()
 
   const sidebarRef = useRef<HTMLDivElement>(null)
-  const { spaceType, handleSpaceType, handleOverlayClick, logout } = useSidebar(
-    {
-      sidebarRef,
-      onClose,
-    },
-  )
+  const {
+    spaceType,
+    handleSpaceType,
+    handleCloseClick,
+    handleOverlayClick,
+    logout,
+  } = useSidebar({
+    sidebarRef,
+    onClose,
+    setIsOpen,
+  })
 
   const spaces = useMySpace(currentUser?.memberId!, spaceType, {
     pageNumber: 0,
@@ -38,8 +45,15 @@ const Sidebar = ({ onClose }: SidebarProps) => {
     <div
       ref={sidebarRef}
       onClick={handleOverlayClick}
-      className="fixed left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center bg-black/40 shadow-xl">
-      <div className="absolute right-0 flex h-full w-full max-w-[300px] flex-col justify-between rounded-l-xl bg-bgColor px-2 pb-1 pt-6">
+      className={cls(
+        'fixed left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center overflow-hidden shadow-xl',
+        isOpen ? 'animate-openOverlay' : 'animate-closeOverlay',
+      )}>
+      <div
+        className={cls(
+          'absolute flex h-full w-full max-w-[300px] flex-col justify-between overflow-scroll rounded-l-xl bg-bgColor px-2 pb-1 pt-6',
+          isOpen ? 'animate-openSidebar' : 'animate-closeSidebar',
+        )}>
         <div className="flex flex-col">
           {currentUser ? (
             <>
@@ -53,7 +67,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
                 <p className="font-sm ml-3 w-full overflow-hidden text-ellipsis	whitespace-nowrap font-medium text-gray9">
                   {currentUser.nickname}
                 </p>
-                <Button onClick={onClose}>
+                <Button onClick={handleCloseClick}>
                   <XMarkIcon className="h-6 w-6" />
                 </Button>
               </div>
@@ -113,7 +127,7 @@ const Sidebar = ({ onClose }: SidebarProps) => {
             </>
           ) : (
             <div className="flex flex-col items-end border-b border-slate3 px-2 pb-2">
-              <Button onClick={onClose}>
+              <Button onClick={handleCloseClick}>
                 <XMarkIcon className="h-6 w-6" />
               </Button>
               <Link
