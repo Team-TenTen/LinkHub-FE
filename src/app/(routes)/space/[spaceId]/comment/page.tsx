@@ -1,7 +1,7 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import { Input } from '@/components'
+import { Input, Spinner } from '@/components'
 import CommentList from '@/components/CommentList/CommentList'
 import Button from '@/components/common/Button/Button'
 import Space from '@/components/common/Space/Space'
@@ -19,7 +19,7 @@ export interface CommentFormValues {
 }
 
 const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
-  const [space] = useGetSpace()
+  const { space, isSpaceLoading } = useGetSpace()
   const { register, setValue, setFocus, handleSubmit } =
     useForm<CommentFormValues>({
       defaultValues: {
@@ -42,7 +42,9 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
   })
   const { currentTab, tabList } = useTab({ type: 'space', space })
 
-  return (
+  return isSpaceLoading ? (
+    <Spinner />
+  ) : (
     <>
       {space && (
         <Space
