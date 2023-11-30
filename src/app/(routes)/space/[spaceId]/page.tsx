@@ -83,7 +83,7 @@ const SpacePage = () => {
             />
           </div>
           <div className="flex gap-2">
-            {space?.isOwner && (
+            {space?.isCanEdit && (
               <Button
                 className="button button-white p-1.5"
                 onClick={editToggle}>

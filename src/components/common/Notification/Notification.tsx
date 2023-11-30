@@ -8,26 +8,26 @@ import useNotification from './hooks/useNotification'
 
 export interface NotificationProps {
   notificationId: number
-  type: 'follow' | 'comment' | 'space'
+  notificationType: 'FOLLOW' | 'COMMENT' | 'INVITATION'
   userId: number
   userName: string
   spaceId?: number
   spaceName?: string
   isRead?: boolean
-  isAccept?: boolean
+  isAccepted?: boolean
   onAccept?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   onClose?: (e?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Notification = ({
   notificationId,
-  type,
+  notificationType,
   userId,
   userName,
   spaceId,
   spaceName,
   isRead = false,
-  isAccept = false,
+  isAccepted = false,
   onAccept,
   onClose,
 }: NotificationProps) => {
@@ -38,7 +38,7 @@ const Notification = ({
     <div
       className={cls(
         'flex flex-col gap-6 rounded-md border border-slate3 p-3',
-        isRead ? 'bg-bgColor' : 'bg-emerald05',
+        isRead || isAccepted ? 'bg-bgColor' : 'bg-emerald05',
       )}>
       <div className="flex w-full items-start justify-between text-sm font-medium text-gray9">
         <div>
@@ -48,7 +48,7 @@ const Notification = ({
             {userName}
           </span>
           {NOTIFICATION_MSG.USER}
-          {type === 'follow' ? (
+          {notificationType === 'FOLLOW' ? (
             NOTIFICATION_MSG.FOLLOW
           ) : (
             <>
@@ -59,8 +59,8 @@ const Notification = ({
                 className="cursor-pointer font-bold">
                 {spaceName}
               </span>
-              {NOTIFICATION_MSG.SPACE}
-              {type === 'comment' ? (
+              {NOTIFICATION_MSG.TO}
+              {notificationType === 'COMMENT' ? (
                 <>
                   <span
                     onClick={() =>
@@ -85,9 +85,9 @@ const Notification = ({
           <XMarkIcon className="h-5 w-5 p-0.5 text-slate6" />
         </Button>
       </div>
-      {type === 'space' && (
+      {notificationType === 'INVITATION' && (
         <div className="flex justify-end">
-          {isAccept ? (
+          {isAccepted ? (
             <div className="text-sm font-semibold text-slate6">
               {NOTIFICATION_MSG.APPROVE}
             </div>

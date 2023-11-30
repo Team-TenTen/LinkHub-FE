@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/20/solid'
 
@@ -23,7 +24,7 @@ const DropdownItem = ({
   return (
     <button
       type="button"
-      value={value ?? label}
+      value={value || label}
       className={cls(
         'inline-flex items-center px-2.5 py-1 text-sm',
         active ? 'font-medium' : 'font-normal',

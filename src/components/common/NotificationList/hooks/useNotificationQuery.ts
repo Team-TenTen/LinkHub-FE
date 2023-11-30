@@ -1,13 +1,13 @@
+import { FollowListProps } from '@/components/common/FollowList/FollowList'
 import { INITIAL_PAGE_NUMBER, PAGE_SIZE } from '@/constants'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { CommentListProps } from '../CommentList'
 
-const useCommentsQuery = ({ spaceId, fetchFn }: CommentListProps) => {
+const useNotificationQuery = ({ fetchFn, type }: FollowListProps) => {
+  const queryKey = type
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ['comments', spaceId],
+    queryKey: [queryKey],
     queryFn: ({ pageParam }) =>
       fetchFn({
-        spaceId,
         pageNumber: pageParam,
         pageSize: PAGE_SIZE,
       }),
@@ -16,11 +16,7 @@ const useCommentsQuery = ({ spaceId, fetchFn }: CommentListProps) => {
       lastPage.metaData?.hasNext ? lastPage.metaData.pageNumber + 1 : undefined,
   })
 
-  return {
-    comments: data,
-    fetchNextPage,
-    hasNextPage,
-  }
+  return { notificationList: data, fetchNextPage, hasNextPage }
 }
 
-export default useCommentsQuery
+export default useNotificationQuery

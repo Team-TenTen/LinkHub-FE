@@ -10,6 +10,7 @@ import {
   fetchCreateComment,
   fetchUpdateComment,
 } from '@/services/comment/comment'
+import { fetchCreateReply } from '@/services/comment/reply'
 import { useQueryClient } from '@tanstack/react-query'
 
 export interface SpaceComment extends CommentProps {
@@ -25,7 +26,7 @@ export interface useSpaceCommentProps {
 export interface Comment {
   type: 'create' | 'edit' | 'reply'
   commentId: number
-  userName?: string
+  nickname?: string
   parentCommentId?: number
   parentCommentUser?: string
 }
@@ -42,12 +43,27 @@ const useSpaceComment = ({
 }: useSpaceCommentProps) => {
   const queryClient = useQueryClient()
   const [comment, setComment] = useState<Comment>(defaultComment)
+  const [openedComments, setOpenedComments] = useState<number[]>([])
   const commentListRef = useRef<HTMLDivElement>(null)
+
+  const handleOpen = useCallback(
+    (commentId: number) => {
+      if (openedComments.includes(commentId)) {
+        const filteredIds = openedComments.filter(
+          (comment) => comment !== commentId,
+        )
+        setOpenedComments(filteredIds)
+      } else {
+        setOpenedComments((prev) => [...prev, commentId])
+      }
+    },
+    [openedComments],
+  )
 
   const handleEdit = useCallback(
     (
       commentId: number,
-      comment: string,
+      content: string,
       parentCommentId?: number,
       parentCommentUser?: string,
     ) => {
@@ -57,34 +73,34 @@ const useSpaceComment = ({
         parentCommentId,
         parentCommentUser,
       })
-      setValue('comment', comment)
-      setFocus('comment')
+      setValue('content', content)
+      setFocus('content')
     },
     [setFocus, setValue],
   )
 
   const handleReply = useCallback(
-    (commentId: number, userName: string, parentCommentId?: number) => {
-      setComment({ type: 'reply', commentId, userName, parentCommentId })
-      setValue('comment', '')
-      setFocus('comment')
+    (commentId: number, nickname: string) => {
+      setComment({ type: 'reply', commentId, nickname })
+      setValue('content', '')
+      setFocus('content')
     },
     [setFocus, setValue],
   )
 
   const handleCancel = () => {
     setComment(defaultComment)
-    setValue('comment', '')
+    setValue('content', '')
   }
 
   const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
     if (comment.type === 'create') {
-      await fetchCreateComment(spaceId, { content: data.comment })
+      await fetchCreateComment(spaceId, { content: data.content })
       await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
       commentListRef.current?.scrollIntoView(false)
     } else if (comment.type === 'edit') {
       await fetchUpdateComment(spaceId, comment.commentId, {
-        content: data.comment,
+        content: data.content,
       })
       await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
       if (comment.parentCommentId) {
@@ -92,14 +108,25 @@ const useSpaceComment = ({
           queryKey: ['replies', spaceId, comment.parentCommentId],
         })
       }
+    } else if (comment.type === 'reply') {
+      await fetchCreateReply(spaceId, comment.commentId, {
+        content: data.content,
+      })
+      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      await queryClient.invalidateQueries({
+        queryKey: ['replies', spaceId, comment.commentId],
+      })
+      setOpenedComments((prev) => [...prev, comment.commentId])
     }
     setComment(defaultComment)
-    setValue('comment', '')
+    setValue('content', '')
   }
 
   return {
     comment,
+    openedComments,
     commentListRef,
+    handleOpen,
     handleEdit,
     handleReply,
     handleCancel,

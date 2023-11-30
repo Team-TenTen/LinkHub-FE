@@ -26,6 +26,7 @@ import {
 } from '../LinkList/constants'
 import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
+import NoneServiceModal from '../Modal/NoneServiceModal'
 import { RefetchTagsType, Tag } from '../Space/hooks/useGetTags'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
@@ -176,7 +177,7 @@ const LinkItem = ({
                   {likeCount}
                 </Button>
                 {summary && (
-                  <Button>
+                  <Button onClick={() => handleOpenCurrentModal('noneService')}>
                     <DocumentTextIcon className="h-6 w-6 p-0.5 text-slate6" />
                   </Button>
                 )}
@@ -207,7 +208,7 @@ const LinkItem = ({
                 {readUsers?.map((readUser) => (
                   <Avatar
                     key={readUser.memberName}
-                    src="/duck.jpg"
+                    src={readUser.memberProfileImage || '/duck.jpg'}
                     width={20}
                     height={20}
                     alt="아바타"
@@ -249,7 +250,7 @@ const LinkItem = ({
                   {likeCount}
                 </Button>
                 {summary && (
-                  <Button>
+                  <Button onClick={() => handleOpenCurrentModal('noneService')}>
                     <DocumentTextIcon className="h-6 w-6 p-0.5 text-slate6" />
                   </Button>
                 )}
@@ -361,6 +362,13 @@ const LinkItem = ({
       )}
       {currentModal === 'login' && (
         <LoginModal
+          Modal={Modal}
+          isOpen={isOpen}
+          modalClose={modalClose}
+        />
+      )}
+      {currentModal === 'noneService' && (
+        <NoneServiceModal
           Modal={Modal}
           isOpen={isOpen}
           modalClose={modalClose}

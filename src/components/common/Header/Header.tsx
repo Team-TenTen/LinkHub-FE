@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
@@ -41,6 +41,14 @@ const Header = () => {
     [searchParams],
   )
 
+  useEffect(() => {
+    if (isSidebarOpen || isSearchModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isSidebarOpen, isSearchModalOpen])
+
   return (
     <>
       <div className="fixed z-50 flex w-full max-w-[500px] items-center justify-between border-b border-slate-100 bg-bgColor px-4 py-2.5 dark:border-slate-800">
@@ -56,7 +64,7 @@ const Header = () => {
         </div>
         <div className="flex items-center justify-center gap-x-1">
           <Button className="flex h-8 w-8 items-center justify-center">
-            <Link href="/notification">
+            <Link href="/notification/invite">
               <BellIcon className="h-6 w-6 text-slate9" />
             </Link>
           </Button>
