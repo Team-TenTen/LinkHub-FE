@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { kakaoLogout } from '@/services/auth'
 import Cookies from 'js-cookie'
 
@@ -6,10 +6,11 @@ type SpaceType = '내 스페이스' | '즐겨찾기'
 
 export interface useSidebarProps {
   sidebarRef: React.RefObject<HTMLDivElement | null>
+  setIsOpen: Dispatch<SetStateAction<boolean>>
   onClose: () => void
 }
 
-const useSidebar = ({ sidebarRef, onClose }: useSidebarProps) => {
+const useSidebar = ({ sidebarRef, setIsOpen, onClose }: useSidebarProps) => {
   const [spaceType, setSpaceType] = useState<SpaceType>('내 스페이스')
 
   const logout = async () => {
@@ -28,15 +29,26 @@ const useSidebar = ({ sidebarRef, onClose }: useSidebarProps) => {
     setSpaceType(spaceType === '내 스페이스' ? '즐겨찾기' : '내 스페이스')
   }
 
+  const handleCloseClick = () => {
+    setIsOpen(false)
+    setTimeout(() => {
+      onClose()
+    }, 400)
+  }
+
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === sidebarRef.current) {
-      onClose()
+      setIsOpen(false)
+      setTimeout(() => {
+        onClose()
+      }, 400)
     }
   }
 
   return {
     spaceType,
     handleSpaceType,
+    handleCloseClick,
     handleOverlayClick,
     logout,
   }
