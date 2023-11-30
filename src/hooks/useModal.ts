@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Modal } from '@/components'
 
 export interface UseModalReturnType {
@@ -24,6 +24,14 @@ const useModal = (initialState = false): UseModalReturnType => {
     },
     [modalOpen],
   )
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isOpen])
 
   return {
     Modal,

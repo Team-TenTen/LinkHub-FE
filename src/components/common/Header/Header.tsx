@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
@@ -40,6 +40,14 @@ const Header = () => {
     },
     [searchParams],
   )
+
+  useEffect(() => {
+    if (isSidebarOpen || isSearchModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isSidebarOpen, isSearchModalOpen])
 
   return (
     <>
