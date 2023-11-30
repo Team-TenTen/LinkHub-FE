@@ -187,13 +187,13 @@ const LinkItem = ({
         </div>
       ) : (
         <div className="flex min-h-[101.5px] flex-col justify-between gap-1 rounded-md border px-3 py-2.5">
-          <div
-            className={cls(
-              'block overflow-hidden text-ellipsis  text-sm font-medium text-gray9',
-              tagName ? 'whitespace-nowrap' : 'text-overflow-2 mb-[9.5px]',
-            )}>
+          <Link
+            onClick={() => isMember && handleSaveReadInfo({ spaceId, linkId })}
+            className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
+            href={url}
+            target="_blank">
             {title}
-          </div>
+          </Link>
           {tagName && (
             <div>
               <Chip
