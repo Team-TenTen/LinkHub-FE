@@ -4,17 +4,20 @@ import { PopularLinkResBody } from '@/types'
 
 const useGetPopularLinks = () => {
   const [links, setLinks] = useState<PopularLinkResBody[]>()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       const data = await fetchGetPopularLinks()
       const linkData = data.responses
       setLinks(linkData)
+      setIsLoading(false)
     }
     fetchData()
-  }, [])
+  }, [setIsLoading])
 
-  return links
+  return { links, isPopularLinksLoading: isLoading }
 }
 
 export default useGetPopularLinks
