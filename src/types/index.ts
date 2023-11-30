@@ -153,8 +153,8 @@ export interface GetLinksReqBody {
 export interface CreateLinkReqBody {
   url: string
   title: string
-  tagName: string
-  color: string
+  tagName?: string
+  color?: string
 }
 
 export interface SpaceResBody {

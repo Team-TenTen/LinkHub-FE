@@ -124,6 +124,7 @@ const SpacePage = () => {
             fetchFn={fetchGetLinks}
             sort={sort ?? 'created_at'}
             tagId={Number(tag) || undefined}
+            tags={tags ?? []}
             isCanEdit={space.isCanEdit}
             isMember={
               !!space?.memberDetailInfos.find(

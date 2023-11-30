@@ -1,13 +1,15 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
+import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
 import { GetLinksReqBody } from '@/types'
-import { cls, getRandomColor } from '@/utils'
+import { cls } from '@/utils'
 import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
+import { Tag } from '../Space/hooks/useGetTags'
 import { RefetchTagsType } from '../Space/hooks/useGetTags'
 import {
   ADD_LINK_TEXT,
@@ -47,6 +49,7 @@ export interface LinkListProps {
   fetchFn: ({ pageNumber, pageSize }: GetLinksReqBody) => Promise<any>
   sort: string
   tagId?: number
+  tags: Tag[]
   isCanEdit: boolean
   isMember: boolean
   refetchTags?: RefetchTagsType
@@ -56,6 +59,7 @@ export interface CreateLinkFormValue {
   url: string
   title: string
   tagName: string
+  color: string
 }
 
 const LinkList = ({
@@ -67,6 +71,7 @@ const LinkList = ({
   fetchFn,
   sort,
   tagId,
+  tags,
   isCanEdit,
   isMember,
   refetchTags,
@@ -79,12 +84,14 @@ const LinkList = ({
     setValue,
     handleSubmit,
     reset,
+    clearErrors,
     formState: { errors },
   } = useForm<CreateLinkFormValue>({
     defaultValues: {
       url: '',
       title: '',
       tagName: '',
+      color: '',
     },
   })
   const {
@@ -144,6 +151,7 @@ const LinkList = ({
                 edit={edit}
                 isMember={isMember}
                 type={type}
+                tags={tags}
                 refetchTags={refetchTags}
                 key={link.linkId}
               />
@@ -172,13 +180,13 @@ const LinkList = ({
               setUrlErrorText(LINK_FORM_VALIDATION.URL_NOT_BUTTTON)
               return
             }
-            handleSubmit(async ({ url, title, tagName }) => {
+            handleSubmit(async ({ url, title, tagName, color }) => {
               if (!errors.title) {
                 await handleCreateLink({
                   url,
                   title,
                   tagName,
-                  color: getRandomColor(),
+                  color,
                 })
                 modalClose()
               }
@@ -221,16 +229,12 @@ const LinkList = ({
               disabled={!isUrlCheck}
               validation={isShowFormError ? errors.title?.message : ''}
             />
-            <Input
-              {...register('tagName', {
-                maxLength: {
-                  value: 10,
-                  message: LINK_FORM_VALIDATION.TAG_LENGTH,
-                },
-              })}
-              label={LINK_FORM.TAG}
-              placeholder={LINK_FORM_PLACEHOLDER.TAG}
-              validation={errors.tagName?.message || ''}
+            <TagInput
+              tags={tags}
+              register={register}
+              setValue={setValue}
+              clearErrors={clearErrors}
+              validation={errors.tagName?.message}
             />
           </div>
         </Modal>
