@@ -231,6 +231,12 @@ export interface SearchUserReqBody {
   keyword: string
 }
 
+export interface InviteSpaceReqBody {
+  email: string
+  spaceId: number
+  role: string
+}
+
 export interface SpaceInviteResBody {
   notificationId: number
 }
