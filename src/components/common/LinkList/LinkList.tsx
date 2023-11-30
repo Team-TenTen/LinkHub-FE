@@ -1,6 +1,7 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
+import { Spinner } from '@/components'
 import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
 import { GetLinksReqBody } from '@/types'
@@ -11,7 +12,6 @@ import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
 import { Tag } from '../Space/hooks/useGetTags'
 import { RefetchTagsType } from '../Space/hooks/useGetTags'
-import Spinner from '../Spinner/Spinner'
 import {
   ADD_LINK_TEXT,
   LINK_FORM,

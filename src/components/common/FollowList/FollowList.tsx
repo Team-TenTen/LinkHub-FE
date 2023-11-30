@@ -1,8 +1,8 @@
 import { Dispatch, Fragment, SetStateAction } from 'react'
+import { Spinner } from '@/components'
 import useFollowQuery from '@/components/common/FollowList/hooks/useFollowQuery'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { FetchGetFollowProps } from '@/services/user/follow/follow'
-import Spinner from '../Spinner/Spinner'
 import User from '../User/User'
 
 export interface FollowListProps {

@@ -1,10 +1,9 @@
 'use client'
 
-import { Avatar, CategoryListItem } from '@/components'
+import { Avatar, CategoryListItem, Spinner } from '@/components'
 import Button from '@/components/common/Button/Button'
 import FollowList from '@/components/common/FollowList/FollowList'
 import LoginModal from '@/components/common/Modal/LoginModal'
-import Spinner from '@/components/common/Spinner/Spinner'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
 import { useFollowUser, useModal } from '@/hooks'
 import useGetProfile from '@/hooks/useGetProfile'

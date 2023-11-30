@@ -1,12 +1,11 @@
 'use client'
 
-import { Dropdown, LinkList, SpaceMemberList } from '@/components'
+import { Dropdown, LinkList, SpaceMemberList, Spinner } from '@/components'
 import Button from '@/components/common/Button/Button'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import useGetTags from '@/components/common/Space/hooks/useGetTags'
-import Spinner from '@/components/common/Spinner/Spinner'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'

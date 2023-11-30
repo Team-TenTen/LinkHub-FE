@@ -1,8 +1,13 @@
 'use client'
 
-import { CategoryList, Dropdown, LinkItem, SpaceList } from '@/components'
+import {
+  CategoryList,
+  Dropdown,
+  LinkItem,
+  SpaceList,
+  Spinner,
+} from '@/components'
 import { ChipColors } from '@/components/common/Chip/Chip'
-import Spinner from '@/components/common/Spinner/Spinner'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import useGetPopularLinks from '@/hooks/useGetPopularLinks'
 import { fetchGetSpaces } from '@/services/space/spaces'

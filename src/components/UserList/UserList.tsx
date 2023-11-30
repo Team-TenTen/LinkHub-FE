@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchUserReqBody } from '@/types'
-import Spinner from '../common/Spinner/Spinner'
+import { Spinner } from '..'
 import User from '../common/User/User'
 import useUsersQuery from './hooks/useUsersQuery'
 
