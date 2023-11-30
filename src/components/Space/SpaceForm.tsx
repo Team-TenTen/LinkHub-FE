@@ -72,7 +72,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       notify('info', '스페이스가 삭제되었습니다.')
       router.replace('/')
     } catch (e) {
-      notify('error', '스페이스 삭제에 실패하였습니다.')
+      router.push('/')
     }
   }
 
@@ -81,29 +81,21 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       className="flex flex-col gap-3"
       onSubmit={handleSubmit(async (data) => {
         if (spaceType === 'Create') {
-          try {
-            const { spaceId } = await feachCreateSpace(data, imageFile)
-            notify('info', '스페이스가 생성되었습니다.')
-            router.replace(`/space/${spaceId}`)
-          } catch (e) {
-            notify('error', '스페이스 생성에 실패했습니다.')
-          }
+          const { spaceId } = await feachCreateSpace(data, imageFile)
+          notify('info', '스페이스가 생성되었습니다.')
+          router.replace(`/space/${spaceId}`)
         } else if (spaceType === 'Setting') {
           try {
             await fetchSettingSpace(spaceId, data, imageFile)
             notify('info', '스페이스를 수정했습니다.')
             router.back()
           } catch (e) {
-            notify('error', '스페이스 수정에 실패했습니다.')
+            router.replace('/')
           }
         } else {
-          try {
-            const response = await fetchScrapSpace(spaceId, data, imageFile)
-            notify('info', '스페이스가 생성되었습니다.')
-            router.push(`/space/${response.spaceId}`)
-          } catch (e) {
-            notify('error', '스페이스 생성에 실패했습니다.')
-          }
+          const response = await fetchScrapSpace(spaceId, data, imageFile)
+          notify('info', '스페이스가 생성되었습니다.')
+          router.push(`/space/${response.spaceId}`)
         }
       })}>
       <div>

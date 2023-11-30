@@ -1,3 +1,5 @@
+import { notify } from '@/components/common/Toast/Toast'
+
 class FetchAPI {
   private baseURL: string
   private headers: { [key: string]: string }
@@ -9,6 +11,39 @@ class FetchAPI {
     this.headers = {
       'Content-Type': 'application/json;charset=UTF-8',
     }
+  }
+
+  private async responseHandler(response: Response) {
+    if (!response.ok) {
+      const data = await response.json()
+      switch (response.status) {
+        case 401:
+          notify(
+            'error',
+            `${data.errorMessage}` || '인증되지 않은 사용자입니다.',
+          )
+          break
+        case 404:
+          notify(
+            'error',
+            `${data.errorMessage}` || '해당하는 요청을 찾을 수 없습니다.',
+          )
+          break
+        case 500:
+          notify(
+            'error',
+            `${data.errorMessage}` || '서버에 오류가 발생했습니다.',
+          )
+          break
+        default:
+          notify(
+            'error',
+            `${data.errorMessage}` || '알 수 없는 오류가 발생했습니다.',
+          )
+          break
+      }
+    }
+    return response.json()
   }
 
   public static getInstance(): FetchAPI {
@@ -36,8 +71,7 @@ class FetchAPI {
       headers: { ...this.headers, ...customHeaders },
       ...nextInit,
     })
-    const data = response.json()
-    return data
+    return this.responseHandler(response)
   }
 
   public async post(
@@ -56,8 +90,7 @@ class FetchAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    const data = response.json()
-    return data
+    return this.responseHandler(response)
   }
 
   public async put(
@@ -76,8 +109,7 @@ class FetchAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    const data = response.json()
-    return data
+    return this.responseHandler(response)
   }
 
   public async delete(
@@ -90,7 +122,7 @@ class FetchAPI {
       headers: { ...this.headers, ...customHeaders },
       ...nextInit,
     })
-    return response
+    return this.responseHandler(response)
   }
 
   public async patch(
@@ -109,8 +141,7 @@ class FetchAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    const data = response.json()
-    return data
+    return this.responseHandler(response)
   }
 }
 
