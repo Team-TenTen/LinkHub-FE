@@ -1,9 +1,8 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { cls } from '@/utils'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { useSearchParams } from 'next/navigation'
 import DropdownItem from './DropdownItem'
 import { DROPDOWN_OPTIONS, PLACEMENTS, VERTICAL_PADDING } from './constants'
 import useDropdown from './hooks/useDropdown'

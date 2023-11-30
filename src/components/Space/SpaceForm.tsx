@@ -204,6 +204,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           <div>
             <div className="mb-10 border-b border-slate3">
               <SpaceMemberList
+                spaceId={space?.spaceId}
                 members={space?.memberDetailInfos}
                 edit
               />
