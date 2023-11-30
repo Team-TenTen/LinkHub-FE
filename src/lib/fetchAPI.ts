@@ -13,7 +13,7 @@ class FetchAPI {
     }
   }
 
-  private async handleResponse(response: Response) {
+  private async handleResponse(response: Response, type?: string) {
     if (!response.ok) {
       const data = await response.json()
       switch (response.status) {
@@ -43,7 +43,7 @@ class FetchAPI {
           break
       }
     }
-    return response.json()
+    return type === 'delete' ? response : response.json()
   }
 
   public static getInstance(): FetchAPI {
@@ -122,7 +122,7 @@ class FetchAPI {
       headers: { ...this.headers, ...customHeaders },
       ...nextInit,
     })
-    return this.handleResponse(response)
+    return this.handleResponse(response, 'delete')
   }
 
   public async patch(

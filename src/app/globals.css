@@ -117,3 +117,9 @@
 .horizontal-scroll::-webkit-scrollbar {
   display: none;
 }
+
+.select-tag-list {
+  width: calc(100vw - 64px);
+  max-width: 436px;
+  max-height: 25%;
+}
