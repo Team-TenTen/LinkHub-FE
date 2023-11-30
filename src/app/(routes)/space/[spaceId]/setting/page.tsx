@@ -1,6 +1,7 @@
 'use client'
 
 import { SpaceMemberList } from '@/components'
+import { Spinner } from '@/components'
 import SpaceForm from '@/components/Space/SpaceForm'
 import Button from '@/components/common/Button/Button'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
@@ -12,7 +13,7 @@ import { useRouter } from 'next/navigation'
 const SpaceSettingPage = ({ params }: { params: { spaceId: number } }) => {
   const router = useRouter()
   const spaceId = params.spaceId
-  const [space] = useGetSpace()
+  const { space, isSpaceLoading } = useGetSpace()
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 
   const handleConfirm = async () => {
@@ -25,7 +26,9 @@ const SpaceSettingPage = ({ params }: { params: { spaceId: number } }) => {
     }
   }
 
-  return (
+  return isSpaceLoading ? (
+    <Spinner />
+  ) : (
     <div>
       {space && (
         <>
