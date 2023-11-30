@@ -1,4 +1,5 @@
 import {
+  UseFormClearErrors,
   UseFormGetValues,
   UseFormRegister,
   UseFormSetValue,
@@ -17,6 +18,7 @@ export interface TagInputProps {
   register: UseFormRegister<CreateLinkFormValue>
   setValue: UseFormSetValue<CreateLinkFormValue>
   getValues?: UseFormGetValues<CreateLinkFormValue>
+  clearErrors?: UseFormClearErrors<CreateLinkFormValue>
   validation?: string
 }
 
@@ -25,6 +27,7 @@ const TagInput = ({
   register,
   setValue,
   getValues,
+  clearErrors,
   validation,
 }: TagInputProps) => {
   const {
@@ -39,7 +42,7 @@ const TagInput = ({
     handleTagClick,
     handleRemoveClick,
     handleTagMouseDown,
-  } = useTagInput({ tags, register, setValue, getValues })
+  } = useTagInput({ tags, register, setValue, getValues, clearErrors })
 
   return (
     <div className="flex flex-col justify-center">

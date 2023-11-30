@@ -84,6 +84,7 @@ const LinkList = ({
     setValue,
     handleSubmit,
     reset,
+    clearErrors,
     formState: { errors },
   } = useForm<CreateLinkFormValue>({
     defaultValues: {
@@ -150,6 +151,7 @@ const LinkList = ({
                 edit={edit}
                 isMember={isMember}
                 type={type}
+                tags={tags}
                 refetchTags={refetchTags}
                 key={link.linkId}
               />
@@ -231,6 +233,7 @@ const LinkList = ({
               tags={tags}
               register={register}
               setValue={setValue}
+              clearErrors={clearErrors}
               validation={errors.tagName?.message}
             />
           </div>

@@ -6,7 +6,12 @@ import { getRandomColor } from '@/utils'
 import { debounce } from 'lodash'
 import { TagInputProps } from '../TagInput'
 
-const useTagInput = ({ tags, setValue, getValues }: TagInputProps) => {
+const useTagInput = ({
+  tags,
+  setValue,
+  getValues,
+  clearErrors,
+}: TagInputProps) => {
   const [filteredTags, setFilteredTags] = useState<Tag[]>(tags)
   const [selectedTag, setSelectedTag] = useState<Pick<Tag, 'name' | 'color'>>()
   const [isFocused, setIsFocused] = useState(false)
@@ -52,6 +57,7 @@ const useTagInput = ({ tags, setValue, getValues }: TagInputProps) => {
   const handleRemoveClick = () => {
     setValue('tagName', '')
     setValue('color', '')
+    clearErrors?.('tagName')
     setSelectedTag(undefined)
     setFilteredTags(tags)
   }
