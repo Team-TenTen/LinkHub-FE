@@ -6,6 +6,7 @@ import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import useGetTags from '@/components/common/Space/hooks/useGetTags'
+import Spinner from '@/components/common/Spinner/Spinner'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
@@ -25,15 +26,19 @@ import {
 
 const SpacePage = ({ params }: { params: { spaceId: number } }) => {
   const { currentUser } = useCurrentUser()
-  const [space] = useGetSpace()
+  const { space, isSpaceLoading } = useGetSpace()
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
   const { sort, sortIndex, handleSortChange } = useSortParam('link')
-  const { tags, refetchTags } = useGetTags({ spaceId: space?.spaceId })
+  const { tags, refetchTags, isTagsLoading } = useGetTags({
+    spaceId: space?.spaceId,
+  })
   const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
 
-  return (
+  return isSpaceLoading || isTagsLoading ? (
+    <Spinner />
+  ) : (
     <>
       {space && (
         <Space
