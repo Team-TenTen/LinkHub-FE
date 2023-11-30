@@ -35,6 +35,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
     handleReply,
     handleCancel,
     onSubmit,
+    onSubmitError,
   } = useSpaceComment({
     spaceId: params.spaceId,
     setValue,
@@ -85,7 +86,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
       </section>
       <form
         className="fixed bottom-0 z-10 w-full max-w-[500px] bg-bgColor"
-        onSubmit={handleSubmit(onSubmit)}>
+        onSubmit={handleSubmit(onSubmit, onSubmitError)}>
         {comment.type === 'reply' && (
           <div className="flex items-center justify-between border-t border-slate3 px-4 py-2 text-xs font-medium text-gray6">
             <span>
@@ -116,12 +117,18 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         )}
         <div className="border-t border-slate3 px-4 py-3">
           <Input
-            {...register('content', { required: true, maxLength: 1000 })}
+            {...register('content', {
+              required: true,
+              maxLength: {
+                value: 1000,
+                message: '댓글은 1000자 이하로 작성해야 합니다.',
+              },
+            })}
             inputButton={true}
             buttonText="작성"
             buttonType="submit"
             buttonColor="gray"
-            placeholder="댓글을 작성해 주세요"
+            placeholder="댓글을 작성해 주세요 (1000자 이하)"
           />
         </div>
       </form>

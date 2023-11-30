@@ -50,8 +50,30 @@ const config: Config = {
       fontFamily: {
         sans: ['"Pretendard"', ...fontFamily.sans],
       },
+      keyframes: {
+        'open-overlay': {
+          '0%': { background: 'rgb(0, 0, 0, 0)' },
+          '100%': { background: 'rgb(0, 0, 0, 0.4)' },
+        },
+        'close-overlay': {
+          '0%': { background: 'rgb(0, 0, 0, 0.4)' },
+          '100%': { background: 'rgb(0, 0, 0, 0)' },
+        },
+        'open-sidebar': {
+          '0%': { right: '-300px' },
+          '100%': { right: '0' },
+        },
+        'close-sidebar': {
+          '0%': { right: '0' },
+          '100%': { right: '-300px' },
+        },
+      },
       animation: {
         darkModeSpin: 'spin 1s ease 0s',
+        openOverlay: 'open-overlay 0.4s 0s forwards',
+        closeOverlay: 'close-overlay 0.4s 0s forwards',
+        openSidebar: 'open-sidebar 0.4s ease-in-out 0s forwards',
+        closeSidebar: 'close-sidebar 0.4s ease-in-out 0s forwards',
       },
     },
   },

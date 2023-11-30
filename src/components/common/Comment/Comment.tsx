@@ -58,12 +58,14 @@ const Comment = ({
   return (
     <>
       <article className="flex gap-x-2 py-3">
-        <Avatar
-          src={profileImagePath}
-          width={30}
-          height={30}
-          alt={nickname}
-        />
+        {profileImagePath && (
+          <Avatar
+            src={profileImagePath}
+            width={30}
+            height={30}
+            alt={nickname}
+          />
+        )}
         <div className="flex w-full flex-col gap-y-1">
           <div className="flex items-center justify-between">
             <Link
