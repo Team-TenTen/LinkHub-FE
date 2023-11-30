@@ -13,7 +13,7 @@ class FetchAPI {
     }
   }
 
-  private async responseHandler(response: Response) {
+  private async handleResponse(response: Response) {
     if (!response.ok) {
       const data = await response.json()
       switch (response.status) {
@@ -71,7 +71,7 @@ class FetchAPI {
       headers: { ...this.headers, ...customHeaders },
       ...nextInit,
     })
-    return this.responseHandler(response)
+    return this.handleResponse(response)
   }
 
   public async post(
@@ -90,7 +90,7 @@ class FetchAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    return this.responseHandler(response)
+    return this.handleResponse(response)
   }
 
   public async put(
@@ -109,7 +109,7 @@ class FetchAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    return this.responseHandler(response)
+    return this.handleResponse(response)
   }
 
   public async delete(
@@ -122,7 +122,7 @@ class FetchAPI {
       headers: { ...this.headers, ...customHeaders },
       ...nextInit,
     })
-    return this.responseHandler(response)
+    return this.handleResponse(response)
   }
 
   public async patch(
@@ -141,7 +141,7 @@ class FetchAPI {
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
-    return this.responseHandler(response)
+    return this.handleResponse(response)
   }
 }
 
