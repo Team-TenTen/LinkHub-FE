@@ -17,13 +17,9 @@ const SpaceSettingPage = ({ params }: { params: { spaceId: number } }) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 
   const handleConfirm = async () => {
-    try {
-      await fetchDeleteSpace(spaceId)
-      notify('info', '스페이스가 삭제되었습니다.')
-      router.replace('/')
-    } catch (e) {
-      notify('error', '스페이스 삭제에 실패하였습니다.')
-    }
+    await fetchDeleteSpace(spaceId)
+    notify('info', '스페이스가 삭제되었습니다.')
+    router.replace('/')
   }
 
   return isSpaceLoading ? (
