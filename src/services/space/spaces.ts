@@ -1,4 +1,4 @@
-import { SearchMySpaceReqBody, SearchSpaceReqBody } from '@/types'
+import { SearchSpaceReqBody, SpaceInviteResBody } from '@/types'
 import { apiClient } from '../apiServices'
 
 const fetchGetSpaces = async ({
@@ -73,4 +73,20 @@ const fetchSearchMySpaces = async ({
   }
 }
 
-export { fetchGetSpaces, fetchSearchSpaces, fetchSearchMySpaces }
+const fetchAccetpSpaceInvitation = async (data: SpaceInviteResBody) => {
+  const path = `/api/spaces/invitation`
+
+  try {
+    const response = await apiClient.post(path, data)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
+export {
+  fetchGetSpaces,
+  fetchSearchSpaces,
+  fetchSearchMySpaces,
+  fetchAccetpSpaceInvitation,
+}

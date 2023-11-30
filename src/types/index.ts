@@ -231,6 +231,10 @@ export interface SearchUserReqBody {
   keyword: string
 }
 
+export interface SpaceInviteResBody {
+  notificationId: number
+}
+
 export interface InvitationsReqBody {
   pageNumber: number
   pageSize: number
