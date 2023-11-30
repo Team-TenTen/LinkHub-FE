@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
+import { notify } from '../common/Toast/Toast'
 import { SPACE_FORM_CONSTNAT } from './constant'
 
 interface SpaceFormProps {
@@ -68,10 +69,10 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const handleConfirm = async () => {
     try {
       await fetchDeleteSpace(spaceId)
-      alert('삭제하였습니다.')
+      notify('info', '스페이스가 삭제되었습니다.')
       router.replace('/')
     } catch (e) {
-      alert('스페이스 삭제에 실패하였습니다.')
+      notify('error', '스페이스 삭제에 실패하였습니다.')
     }
   }
 
@@ -80,14 +81,29 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       className="flex flex-col gap-3"
       onSubmit={handleSubmit(async (data) => {
         if (spaceType === 'Create') {
-          const { spaceId } = await feachCreateSpace(data, imageFile)
-          router.replace(`/space/${spaceId}`)
+          try {
+            const { spaceId } = await feachCreateSpace(data, imageFile)
+            notify('info', '스페이스가 생성되었습니다.')
+            router.replace(`/space/${spaceId}`)
+          } catch (e) {
+            notify('error', '스페이스 생성에 실패했습니다.')
+          }
         } else if (spaceType === 'Setting') {
-          await fetchSettingSpace(spaceId, data, imageFile)
-          router.back()
+          try {
+            await fetchSettingSpace(spaceId, data, imageFile)
+            notify('info', '스페이스를 수정했습니다.')
+            router.back()
+          } catch (e) {
+            notify('error', '스페이스 수정에 실패했습니다.')
+          }
         } else {
-          const response = await fetchScrapSpace(spaceId, data, imageFile)
-          router.push(`/space/${response.spaceId}`)
+          try {
+            const response = await fetchScrapSpace(spaceId, data, imageFile)
+            notify('info', '스페이스가 생성되었습니다.')
+            router.push(`/space/${response.spaceId}`)
+          } catch (e) {
+            notify('error', '스페이스 생성에 실패했습니다.')
+          }
         }
       })}>
       <div>
@@ -219,6 +235,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           <div>
             <div className="mb-10 border-b border-slate3">
               <SpaceMemberList
+                spaceId={space?.spaceId}
                 members={space?.memberDetailInfos}
                 edit
               />

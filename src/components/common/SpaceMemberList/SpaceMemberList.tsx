@@ -2,6 +2,7 @@
 
 import { Input } from '@/components'
 import { useModal } from '@/hooks'
+import { fetchPatchRole } from '@/services/space/space'
 import { UserDetailInfo } from '@/types'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
@@ -9,20 +10,40 @@ import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
 import Dropdown from '../Dropdown/Dropdown'
 import DropdownItem from '../Dropdown/DropdownItem'
+import { DROPDOWN_OPTIONS } from '../Dropdown/constants'
 import { SPACE_MEMBER } from './constants'
 
 export interface SpaceMemberListProps {
+  spaceId?: number
   members?: UserDetailInfo[]
   edit?: boolean
 }
 
-const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
+export interface ChangeRoleProps {
+  targetMemberId: number
+  role: string
+}
+
+const SpaceMemberList = ({
+  spaceId,
+  members,
+  edit = false,
+}: SpaceMemberListProps) => {
   const router = useRouter()
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
 
   const handleConfirm = () => {
     // 멤버 추가 로직
     console.log('멤버가 추가 되었습니다.')
+  }
+
+  const handleChangeRole = async (data: ChangeRoleProps) => {
+    try {
+      spaceId && (await fetchPatchRole(spaceId, data))
+      alert('권한을 수정했습니다.')
+    } catch (e) {
+      alert('권한 수정에 실패했습니다.')
+    }
   }
 
   return (
@@ -95,8 +116,14 @@ const SpaceMemberList = ({ members, edit = false }: SpaceMemberListProps) => {
                 type="user_edit"
                 size="small"
                 placement="left"
+                defaultIndex={Object.values(
+                  DROPDOWN_OPTIONS['user_edit'],
+                ).indexOf(member.SpaceMemberRole)}
                 onChange={(e) => {
-                  console.log(e?.currentTarget.value) // TODO: 멤버 리스트 권한 기능 구현할 때 여기에 함수 작성
+                  handleChangeRole({
+                    targetMemberId: member.memberId,
+                    role: e?.currentTarget.value,
+                  })
                 }}
               />
             )
