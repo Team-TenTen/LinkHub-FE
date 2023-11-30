@@ -229,7 +229,9 @@ const LinkList = ({
             />
             <TagInput
               tags={tags}
+              register={register}
               setValue={setValue}
+              validation={errors.tagName?.message}
             />
           </div>
         </Modal>

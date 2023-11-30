@@ -1,4 +1,4 @@
-import { FocusEvent, MouseEvent, useCallback, useEffect } from 'react'
+import { MouseEvent, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { ChipColors } from '@/components/common/Chip/Chip'
 import { Tag } from '@/components/common/Space/hooks/useGetTags'
@@ -6,8 +6,7 @@ import { getRandomColor } from '@/utils'
 import { debounce } from 'lodash'
 import { TagInputProps } from '../TagInput'
 
-const useTagInput = ({ tags, setValue }: TagInputProps) => {
-  const [inputValue, setInputValue] = useState('')
+const useTagInput = ({ tags, setValue, getValues }: TagInputProps) => {
   const [filteredTags, setFilteredTags] = useState<Tag[]>(tags)
   const [selectedTag, setSelectedTag] = useState<Pick<Tag, 'name' | 'color'>>()
   const [isFocused, setIsFocused] = useState(false)
@@ -32,36 +31,16 @@ const useTagInput = ({ tags, setValue }: TagInputProps) => {
     [tags],
   )
 
-  const handleChange = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      setInputValue(e.currentTarget.value)
-      updateFilteredTags(e.currentTarget.value)
-    },
-    [updateFilteredTags],
-  )
-
-  const handleOnKeyPress = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      const inputValue = e.currentTarget.value.trim()
-      if (e.key === 'Enter') {
-        findExistingTag(inputValue)
-      }
-    },
-    [findExistingTag],
-  )
-
   const handleFocus = useCallback(() => {
     setIsFocused(true)
   }, [])
 
-  const handleBlur = useCallback(
-    (e: FocusEvent<HTMLInputElement>) => {
+  const handleKeyPress = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
       const inputValue = e.currentTarget.value.trim()
-
-      if (inputValue) {
+      if (e.key === 'Enter' && inputValue) {
         findExistingTag(inputValue)
       }
-      setIsFocused(false)
     },
     [findExistingTag],
   )
@@ -71,6 +50,8 @@ const useTagInput = ({ tags, setValue }: TagInputProps) => {
   }, [])
 
   const handleRemoveClick = () => {
+    setValue('tagName', '')
+    setValue('color', '')
     setSelectedTag(undefined)
     setFilteredTags(tags)
   }
@@ -80,26 +61,31 @@ const useTagInput = ({ tags, setValue }: TagInputProps) => {
   }, [])
 
   useEffect(() => {
+    const tagName = getValues?.('tagName')
+    const color = getValues?.('color') as ChipColors
+
+    if (tagName && color) {
+      setSelectedTag({ name: tagName, color })
+    }
+  }, [getValues])
+
+  useEffect(() => {
     if (selectedTag) {
       setValue('tagName', selectedTag.name)
       setValue('color', selectedTag.color)
-    } else {
-      setValue('tagName', '')
-      setValue('color', '')
     }
     setIsFocused(false)
-    setInputValue('')
   }, [selectedTag, setValue])
 
   return {
-    inputValue,
     filteredTags,
     selectedTag,
     isFocused,
-    handleChange,
-    handleOnKeyPress,
+    updateFilteredTags,
+    findExistingTag,
+    setIsFocused,
     handleFocus,
-    handleBlur,
+    handleKeyPress,
     handleTagClick,
     handleRemoveClick,
     handleTagMouseDown,
