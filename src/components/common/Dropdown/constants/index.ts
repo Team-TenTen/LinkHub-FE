@@ -5,7 +5,6 @@ export const DROPDOWN_OPTIONS = {
   user_edit: {
     '편집 허용': 'CAN_EDIT',
     '읽기 허용': 'CAN_VIEW',
-    제거: 'REMOVE',
   },
   user_invite: { '편집 허용': 'CAN_EDIT', '읽기 허용': 'CAN_VIEW' },
 }
