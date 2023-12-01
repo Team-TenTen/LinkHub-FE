@@ -3,10 +3,9 @@
 import { Fragment } from 'react'
 import { Spinner } from '@/components'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
-import { fetchAccetpSpaceInvitation } from '@/services/space/spaces'
 import { InvitationsNotification, InvitationsReqBody } from '@/types'
-import { useRouter } from 'next/navigation'
 import Notification from '../Notification/Notification'
+import useAcceptNotification from './hooks/useAcceptNotification'
 import useDeleteNotification from './hooks/useDeleteNotification'
 import useNotificationQuery from './hooks/useNotificationQuery'
 
@@ -16,7 +15,6 @@ export interface NotificationListProps {
 }
 
 const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
-  const router = useRouter()
   const {
     notificationList,
     fetchNextPage,
@@ -27,17 +25,7 @@ const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
     type,
   })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
-
-  const handleAcceptInvite = async (notificationId: number) => {
-    try {
-      const { spaceId } = await fetchAccetpSpaceInvitation({ notificationId })
-      alert('스페이스 초대가 수락되었습니다.')
-      router.push(`/space/${spaceId}`)
-    } catch (e) {
-      alert('스페이스 초대 수락에 실패하였습니다.')
-    }
-  }
-
+  const { handleAcceptInvite } = useAcceptNotification({ type })
   const { handleDeleteNotification } = useDeleteNotification({ type })
 
   return isNotificationLoading ? (
@@ -56,7 +44,11 @@ const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
                 spaceId={notification.spaceId}
                 spaceName={notification.spaceName}
                 isAccepted={notification.isAccepted}
-                onAccept={() => handleAcceptInvite(notification.notificationId)}
+                onAccept={() =>
+                  handleAcceptInvite({
+                    notificationId: notification.notificationId,
+                  })
+                }
                 onClose={() =>
                   handleDeleteNotification({
                     notificationId: notification.notificationId,
