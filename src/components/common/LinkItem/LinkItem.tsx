@@ -228,6 +228,7 @@ const LinkItem = ({
                 </Button>
                 <Button
                   onClick={() => {
+                    setIsUrlCheck(true)
                     handleOpenCurrentModal('update')
                   }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
