@@ -7,6 +7,7 @@ import { fetchAccetpSpaceInvitation } from '@/services/space/spaces'
 import { InvitationsNotification, InvitationsReqBody } from '@/types'
 import { useRouter } from 'next/navigation'
 import Notification from '../Notification/Notification'
+import useDeleteNotification from './hooks/useDeleteNotification'
 import useNotificationQuery from './hooks/useNotificationQuery'
 
 export interface NotificationListProps {
@@ -37,6 +38,8 @@ const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
     }
   }
 
+  const { handleDeleteNotification } = useDeleteNotification({ type })
+
   return isNotificationLoading ? (
     <Spinner />
   ) : (
@@ -54,7 +57,11 @@ const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
                 spaceName={notification.spaceName}
                 isAccepted={notification.isAccepted}
                 onAccept={() => handleAcceptInvite(notification.notificationId)}
-                onClose={() => console.log('알람 닫기')}
+                onClose={() =>
+                  handleDeleteNotification({
+                    notificationId: notification.notificationId,
+                  })
+                }
                 key={notification.notificationId}
               />
             </li>
