@@ -3,6 +3,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, Toggle } from '@/components'
+import { MIN_TAB_NUMBER } from '@/constants'
 import {
   feachCreateSpace,
   fetchScrapSpace,
@@ -13,6 +14,9 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
+import Tab from '../common/Tab/Tab'
+import TabItem from '../common/Tab/TabItem'
+import useTab from '../common/Tab/hooks/useTab'
 import { notify } from '../common/Toast/Toast'
 import { SPACE_FORM_CONSTNAT } from './constant'
 
@@ -25,6 +29,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
   const [thumnail, setThumnail] = useState(space?.spaceImagePath)
   const [imageFile, setImageFile] = useState<File>()
+  const { currentTab, tabList } = useTab({ type: 'space', space })
   const path = usePathname()
   const spaceId = Number(path.split('/')[2])
   const router = useRouter()
@@ -109,6 +114,18 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           )}
         </div>
       </div>
+      {tabList.length > MIN_TAB_NUMBER && (
+        <Tab>
+          {tabList.map((tabItem) => (
+            <TabItem
+              active={currentTab === tabItem.content}
+              text={tabItem.text}
+              dest={tabItem.dest}
+              key={tabItem.content}
+            />
+          ))}
+        </Tab>
+      )}
       <div className="flex flex-col gap-3 pl-4 pr-4">
         <div>
           <Input
