@@ -70,7 +70,7 @@ const SpaceList = ({
               </Fragment>
             ))
           : !isSpacesLoading && (
-              <div className="flex justify-center text-base text-gray9">
+              <div className="flex justify-center text-base font-semibold text-gray9">
                 {NONE_SEARCH_RESULT}
               </div>
             )}
