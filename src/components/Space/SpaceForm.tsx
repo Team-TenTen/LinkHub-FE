@@ -90,6 +90,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           type="file"
           ref={selectSpaceImage}
           onChange={handleFileChange}
+          accept=".jpg, .png, .svg"
           hidden
         />
         <div onClick={() => selectSpaceImage?.current?.click()}>
