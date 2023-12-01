@@ -14,8 +14,12 @@ const fetchPostEmailVerify = async (
   data: EmailVerifyReqBody & EmailReqBody,
 ) => {
   const path = '/api/email-verify'
-  const response = await apiClient.post(path, data)
-  return response
+  try {
+    const response = await apiClient.post(path, data)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
 }
 
 export { fetchPostEmail, fetchPostEmailVerify }

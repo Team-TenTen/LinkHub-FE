@@ -42,6 +42,10 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     setThumnail(userData?.profileImagePath)
   }, [userData?.profileImagePath])
 
+  useEffect(() => {
+    formType === 'Setting' && setVerification(true)
+  }, [formType])
+
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?&_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]/
   const nickNameRegex = /^[a-zA-Zㄱ-힣0-9]*$/
@@ -57,7 +61,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
       nickname: userData?.nickname || '',
       aboutMe: userData?.aboutMe || '',
       newsEmail: userData?.newsEmail || '',
-      favoriteCategory: userData?.favoriteCategory || 'ENTER_ART',
+      favoriteCategory: userData?.favoriteCategory || '',
       isSubscribed: userData?.isSubscribed || false,
     },
   })
@@ -76,22 +80,38 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     }
   }
 
+  const handleEmailInput = () => {
+    setVerification(false)
+    setIsEmailAuthOpen(false)
+  }
+
   const handleEmailAuth = async (email: string) => {
     try {
-      await fetchPostEmail({ email })
+      const response = await fetchPostEmail({ email })
+
+      if (response.errorCode) {
+        response.errorCode === 'M001' && setVerification(true)
+        return
+      }
+
       notify('success', '인증번호를 발송했습니다.')
+      setIsEmailAuthOpen(true)
     } catch (e) {
-      setVerification(true)
+      notify('error', '인증번호 발송에 실패했습니다.')
     }
   }
 
   const handleCheckAuthNum = async (code: string) => {
-    const verification = await fetchPostEmailVerify({
-      email: getValues('newsEmail'),
-      code,
-    })
-    setVerification(verification.isVerificate)
-    notify('success', '인증되었습니다.')
+    try {
+      const verification = await fetchPostEmailVerify({
+        email: getValues('newsEmail'),
+        code,
+      })
+      setVerification(verification.isVerificate)
+      notify('success', '인증되었습니다.')
+    } catch (e) {
+      notify('error', '인증에 실패했습니다.')
+    }
   }
 
   const handleClickCheckButton = () => {
@@ -135,6 +155,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
           ref={selectUserImage}
           onChange={handleFileChange}
           hidden
+          accept=".jpg, .png, .svg"
         />
         <div onClick={() => selectUserImage?.current?.click()}>
           <Avatar
@@ -150,19 +171,19 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
       <div>
         <Input
           {...register('nickname', {
-            required: '닉네임을 입력해 주세요',
+            required: '닉네임을 입력해 주세요.',
             minLength: {
               value: 2,
-              message: '닉네임은 최소 2글자 이상이어야 합니다.',
+              message: '닉네임은 2자 이상 10자 이하로 작성해야 합니다.',
             },
             maxLength: {
               value: 10,
-              message: '닉네임은 10글자 이하여야 합니다.',
+              message: '닉네임은 2자 이상 10자 이하로 작성해야 합니다.',
             },
             pattern: nickNameRegex,
           })}
           label="닉네임"
-          placeholder="nickname"
+          placeholder="닉네임을 입력해 주세요."
           validation={
             errors.nickname?.type === 'pattern'
               ? '닉네임에는 공백이나 특수문자를 사용할 수 없습니다.'
@@ -175,11 +196,11 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
           {...register('aboutMe', {
             maxLength: {
               value: 50,
-              message: '한줄 소개는 50글자 이하여야 합니다.',
+              message: '한줄 소개는 50자 이하로 작성해야 합니다.',
             },
           })}
           label="한줄 소개"
-          placeholder="aboutMe"
+          placeholder="한줄 소개를 입력해 주세요."
           validation={errors.aboutMe?.message}
         />
       </div>
@@ -189,21 +210,22 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
             required: '이메일을 입력해 주세요',
             maxLength: {
               value: 300,
-              message: '이메일의 길이가 너무 깁니다.',
+              message: '이메일은 300자 이하로 작성해야 합니다.',
             },
             pattern: emailRegex,
           })}
           validation={
             errors.newsEmail?.type === 'pattern'
-              ? '이메일 양식에 맞게 입력해 주세요'
+              ? '이메일 형식이 아닙니다.'
               : errors.newsEmail?.message
           }
           label="이메일"
-          placeholder="Email"
-          inputButton
+          placeholder="이메일을 입력해 주세요."
+          inputButton={!isVerification}
           buttonText="인증번호 전송"
           buttonColor="gray"
           onButtonClick={() => handleEmailAuth(getValues('newsEmail'))}
+          onChange={handleEmailInput}
         />
       </div>
       {isEmailAuthOpen && (
