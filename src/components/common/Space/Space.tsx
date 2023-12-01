@@ -115,7 +115,11 @@ const Space = ({
               onClick={() => {
                 isLoggedIn ? handleClickScrapButton() : modalOpen()
               }}>
-              <InboxArrowDownIcon className="h-4 w-4" />
+              {hasScrap ? (
+                <InboxArrowDownIcon className="h-4 w-4 text-yellow-300" />
+              ) : (
+                <InboxArrowDownIcon className="h-4 w-4" />
+              )}
               {SPACE_CONSTANT.SCRAP} {scrap}
             </Button>
             <Button
