@@ -2,7 +2,7 @@
 
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
-import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { Bars3Icon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import Button from '../Button/Button'
@@ -42,7 +42,7 @@ const Header = () => {
           <Button
             className="flex h-8 w-8 items-center justify-center"
             onClick={openSearchModal}>
-            <MagnifyingGlassCircleIcon className="h-6 w-6 text-slate9" />
+            <MagnifyingGlassIcon className="h-6 w-6 text-slate9" />
           </Button>
           <Button
             className="flex h-8 w-8 items-center justify-center"
