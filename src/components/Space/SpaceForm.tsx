@@ -14,6 +14,7 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
+import useGetSpace from '../common/Space/hooks/useGetSpace'
 import Tab from '../common/Tab/Tab'
 import TabItem from '../common/Tab/TabItem'
 import useTab from '../common/Tab/hooks/useTab'
@@ -33,6 +34,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const path = usePathname()
   const spaceId = Number(path.split('/')[2])
   const router = useRouter()
+  const getSpace = useGetSpace()
 
   const {
     register,
@@ -70,7 +72,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
 
   return (
     <form
-      className="flex flex-col gap-3"
+      className="flex flex-col"
       onSubmit={handleSubmit(async (data) => {
         if (spaceType === 'Create') {
           const { spaceId } = await feachCreateSpace(data, imageFile)
@@ -114,7 +116,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           )}
         </div>
       </div>
-      {tabList.length > MIN_TAB_NUMBER && (
+      {spaceType === 'Setting' && tabList.length > MIN_TAB_NUMBER && (
         <Tab>
           {tabList.map((tabItem) => (
             <TabItem
@@ -126,7 +128,17 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           ))}
         </Tab>
       )}
-      <div className="flex flex-col gap-3 pl-4 pr-4">
+      <div className="mt-3 flex flex-col gap-3 pl-4 pr-4">
+        {spaceType === 'Scrap' && (
+          <div className="flex items-center justify-start rounded-md border border-slate3 bg-emerald05 p-3">
+            <div className="text-sm font-medium text-gray9">
+              <span className="font-semibold">
+                @{getSpace.space?.spaceName}{' '}
+              </span>
+              에서 가져오는 중
+            </div>
+          </div>
+        )}
         <div>
           <Input
             {...register('spaceName', {
