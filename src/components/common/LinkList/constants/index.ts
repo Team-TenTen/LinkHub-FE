@@ -21,3 +21,5 @@ export const LINK_FORM_VALIDATION = {
   TITLE_LENGTH: '제목은 2자 이상 50자 이하로 작성해야 합니다.',
   TAG_LENGTH: '태그는 10자 이하로 작성해야 합니다.',
 }
+
+export const NONE_LINK_RESULT = '링크가 없습니다.'
