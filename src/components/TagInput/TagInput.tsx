@@ -75,7 +75,11 @@ const TagInput = ({
                 updateFilteredTags(e.target.value)
               },
               onBlur: (e) => {
-                if (e.target.value.trim()) findExistingTag(e.target.value)
+                const value = e.target.value.trim()
+                if (value) {
+                  findExistingTag(value)
+                }
+                setValue('tagName', value)
                 setIsFocused(false)
               },
             })}
