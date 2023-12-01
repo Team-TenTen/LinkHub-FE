@@ -7,6 +7,7 @@ import {
   SpaceList,
   Spinner,
 } from '@/components'
+import FloatingButton from '@/components/FloatingButton/FloatingButton'
 import { ChipColors } from '@/components/common/Chip/Chip'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import useGetPopularLinks from '@/hooks/useGetPopularLinks'
@@ -67,6 +68,7 @@ export default function Home() {
           </section>
         </>
       )}
+      <FloatingButton />
     </>
   )
 }
