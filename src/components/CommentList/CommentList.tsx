@@ -33,7 +33,7 @@ const CommentList = ({
     <ul className="flex flex-col gap-y-2 pt-2">
       {comments?.pages.map((group, groupIdx) => (
         <Fragment key={groupIdx}>
-          {group.responses.map((comment: CommentResBody) => (
+          {group.responses?.map((comment: CommentResBody) => (
             <li key={comment.commentId}>
               <Comment
                 spaceId={spaceId}

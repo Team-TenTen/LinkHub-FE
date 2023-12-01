@@ -73,9 +73,9 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           router.replace(`/space/${spaceId}`)
         } else if (spaceType === 'Setting') {
           try {
-            await fetchSettingSpace(spaceId, data, imageFile)
+            const response = await fetchSettingSpace(spaceId, data, imageFile)
             notify('info', '스페이스를 수정했습니다.')
-            router.back()
+            router.push(`/space/${response.spaceId}`)
           } catch (e) {
             router.replace('/')
           }
