@@ -44,7 +44,7 @@ const Notification = ({
         <div>
           <span
             onClick={() => handleClickUser({ notificationId, userId, isRead })}
-            className="cursor-pointer font-bold">
+            className="cursor-pointer font-bold text-emerald6">
             {userName}
           </span>
           {NOTIFICATION_MSG.USER}
@@ -56,7 +56,7 @@ const Notification = ({
                 onClick={() =>
                   handleClickSpace({ notificationId, spaceId, isRead })
                 }
-                className="cursor-pointer font-bold">
+                className="cursor-pointer font-bold text-emerald6">
                 {spaceName}
               </span>
               {NOTIFICATION_MSG.TO}
@@ -70,7 +70,7 @@ const Notification = ({
                         isRead,
                       })
                     }
-                    className="cursor-pointer font-bold">
+                    className="cursor-pointer font-bold text-emerald6">
                     {NOTIFICATION_MSG.COMMENT}
                   </span>
                   {NOTIFICATION_MSG.COMMENT_LEAVE}
