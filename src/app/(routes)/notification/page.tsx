@@ -1,14 +1,11 @@
 'use client'
 
-import { Notification } from '@/components'
-import { mock_notificationData } from '@/data'
+import { NONE_NOTIFICATION_RESULT } from '@/components/common/NotificationList/constants'
 
 const NotificationPage = () => {
-  const notifications = mock_notificationData
-
   return (
     <div className="flex flex-col gap-2">
-      {notifications.map((notification) => (
+      {/* {notifications.map((notification) => (
         <Notification
           notificationId={notification.id}
           notificationType={notification.notificationType}
@@ -20,7 +17,10 @@ const NotificationPage = () => {
           key={notification.id}
           onClose={() => console.log('알람 닫기')}
         />
-      ))}
+      ))} */}
+      <div className="flex justify-center text-base font-semibold text-gray9">
+        {NONE_NOTIFICATION_RESULT}
+      </div>
     </div>
   )
 }
