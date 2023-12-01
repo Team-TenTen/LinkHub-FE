@@ -82,6 +82,7 @@ export interface RegisterReqBody {
 
 // 스페이스 상세 res body
 export interface SpaceDetailResBody {
+  hasScrap: boolean | undefined
   spaceId: number
   spaceName: string
   description: string

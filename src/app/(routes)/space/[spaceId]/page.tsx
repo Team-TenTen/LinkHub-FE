@@ -51,6 +51,7 @@ const SpacePage = ({ params }: { params: { spaceId: number } }) => {
           scrap={space.scrapCount}
           favorite={space.favoriteCount}
           hasFavorite={space.hasFavorite}
+          hasScrap={space.hasScrap}
         />
       )}
       {tabList.length > MIN_TAB_NUMBER && (

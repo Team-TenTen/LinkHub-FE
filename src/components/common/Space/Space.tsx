@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import Button from '../Button/Button'
 import Chip from '../Chip/Chip'
 import LoginModal from '../Modal/LoginModal'
+import { notify } from '../Toast/Toast'
 import { SPACE_CONSTANT } from './constants'
 import useFavorites from './hooks/useFavorites'
 
@@ -25,6 +26,7 @@ interface SpaceProps {
   scrap: number
   favorite: number
   hasFavorite?: boolean
+  hasScrap?: boolean
 }
 
 const Space = ({
@@ -38,6 +40,7 @@ const Space = ({
   scrap,
   favorite,
   hasFavorite,
+  hasScrap,
 }: SpaceProps) => {
   const router = useRouter()
   const { isLoggedIn } = useCurrentUser()
@@ -50,7 +53,11 @@ const Space = ({
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
 
   const handleClickScrapButton = async () => {
-    router.push(`/space/${spaceId}/scrap`)
+    if (!hasScrap) {
+      router.push(`/space/${spaceId}/scrap`)
+    } else {
+      notify('error', '스페이스는 한 번만 가져갈 수 있습니다.')
+    }
   }
 
   return (
@@ -105,7 +112,9 @@ const Space = ({
           <div className="flex justify-end gap-2">
             <Button
               className="button button-round button-white"
-              onClick={handleClickScrapButton}>
+              onClick={() => {
+                isLoggedIn ? handleClickScrapButton() : modalOpen()
+              }}>
               <InboxArrowDownIcon className="h-4 w-4" />
               {SPACE_CONSTANT.SCRAP} {scrap}
             </Button>
