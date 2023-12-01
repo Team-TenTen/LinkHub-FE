@@ -26,14 +26,16 @@ const UserFavoritePage = () => {
   })
 
   return (
-    <div className="px-4">
+    <div>
       <CategoryList
         type="all"
         defaultIndex={categoryIndex}
         horizontal={true}
         onChange={handleCategoryChange}
       />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="px-4">
         <Input
           {...register('keyword')}
           inputButton={true}
