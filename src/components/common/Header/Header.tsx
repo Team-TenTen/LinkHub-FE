@@ -1,5 +1,6 @@
 'use client'
 
+import { cls } from '@/utils'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
@@ -13,6 +14,7 @@ import useHeader from './hooks/useHeader'
 const Header = () => {
   const {
     currentPage,
+    notificationCount,
     isSidebarOpen,
     isSearchModalOpen,
     openSearchModal,
@@ -34,11 +36,20 @@ const Header = () => {
           {currentPage || 'Home'}
         </div>
         <div className="flex items-center justify-center gap-x-1">
-          <Button className="flex h-8 w-8 items-center justify-center">
-            <Link href="/notification/invite">
-              <BellIcon className="h-6 w-6 text-slate9" />
-            </Link>
-          </Button>
+          <Link
+            href="/notification/invite"
+            className="relative flex h-8 w-8 items-center justify-center">
+            <BellIcon className="h-6 w-6 text-slate9" />
+            {notificationCount > 0 && (
+              <span
+                className={cls(
+                  'absolute top-0 rounded-full bg-emerald-500 px-1 text-xs text-white',
+                  notificationCount > 9 ? 'right-[-7px]' : 'right-0',
+                )}>
+                {notificationCount > 9 ? '9+' : notificationCount}
+              </span>
+            )}
+          </Link>
           <Button
             className="flex h-8 w-8 items-center justify-center"
             onClick={openSearchModal}>

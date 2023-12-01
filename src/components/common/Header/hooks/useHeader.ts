@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
+import { fetchGetUnCheckedNotifications } from '@/services/notification/invitations'
+import { useQuery } from '@tanstack/react-query'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 const useHeader = () => {
@@ -10,6 +12,10 @@ const useHeader = () => {
   const currentPage = pathname
     .split(/[^a-zA-Z]/)[1] // 라우터명
     .replace(/^[a-z]/, (char) => char.toUpperCase()) // 첫글자 대문자 치환
+  const { data } = useQuery({
+    queryKey: ['notificationCount'],
+    queryFn: () => fetchGetUnCheckedNotifications(),
+  })
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -53,6 +59,7 @@ const useHeader = () => {
 
   return {
     currentPage,
+    notificationCount: data?.unCheckedNotificationCount,
     isSidebarOpen,
     isSearchModalOpen,
     openSearchModal,
