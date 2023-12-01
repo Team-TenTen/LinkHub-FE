@@ -1,6 +1,17 @@
 import { InvitationsReqBody } from '@/types'
 import { apiClient } from '../apiServices'
 
+const fetchGetUnCheckedNotifications = async () => {
+  const path = '/api/notification/unchecked'
+
+  try {
+    const response = await apiClient.get(path)
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 const fetchGetInvitations = async ({
   pageNumber,
   pageSize,
@@ -20,4 +31,4 @@ const fetchGetInvitations = async ({
   }
 }
 
-export { fetchGetInvitations }
+export { fetchGetUnCheckedNotifications, fetchGetInvitations }
