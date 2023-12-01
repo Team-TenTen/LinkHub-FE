@@ -10,8 +10,8 @@ export const LINK_FORM = {
 
 export const LINK_FORM_PLACEHOLDER = {
   URL: 'URL을 입력해 주세요.',
-  TITLE: '제목을 입력해 주세요. (2 ~ 50글자)',
-  TAG: '태그를 입력해 주세요. (0 ~ 10글자)',
+  TITLE: '제목을 입력해 주세요.',
+  TAG: '태그를 입력해 주세요.',
 }
 
 export const LINK_FORM_VALIDATION = {
