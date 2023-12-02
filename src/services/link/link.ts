@@ -67,7 +67,14 @@ const fetchUpdateLink = async ({
   color,
 }: FetchUpdateLinkProps) => {
   const path = `/api/space/${spaceId}/links`
-  const body = { spaceId, linkId, url, title, tagName, color }
+  const body = {
+    spaceId,
+    linkId,
+    url,
+    title,
+    ...(tagName && { tagName }),
+    ...(color && { color }),
+  }
 
   try {
     const response = await apiClient.put(path, body)
