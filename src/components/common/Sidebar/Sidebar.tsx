@@ -10,7 +10,6 @@ import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
 import ThemeButton from '../ThemeButton/ThemeButton'
-import { notify } from '../Toast/Toast'
 import { useMySpace } from './hooks/useMySpace'
 import useSidebar from './hooks/useSidebar'
 
