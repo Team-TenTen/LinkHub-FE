@@ -208,8 +208,8 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           </div>
           <div className="flex items-center justify-between border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9 opacity-50">
-              링크 3줄 요약 여부
-              <span className="ml-2">(서비스 준비중입니다)</span>
+              {/* 링크 3줄 요약 여부 */}
+              <span>서비스 준비 중입니다.</span>
             </div>
             <Toggle
               {...register('isLinkSummarizable')}
