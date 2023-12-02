@@ -44,7 +44,7 @@ const useFollowUser = ({
         if (memberId) {
           await fetchUnFollowUser({ memberId })
         }
-      }, 500),
+      }, 300),
     [memberId],
   )
 
@@ -54,7 +54,7 @@ const useFollowUser = ({
         if (memberId) {
           await fetchFollowUser({ memberId })
         }
-      }, 500),
+      }, 300),
     [memberId],
   )
 
