@@ -15,9 +15,11 @@ const useRegister = () => {
   const registerLinkHub = async (data: RegisterReqBody, imageFile?: File) => {
     data.socialId = Cookies.get('Social-Id') || ''
     data.provider = Cookies.get('Provider') || ''
-    await registerUser(data, imageFile)
+    const { jwt } = await registerUser(data, imageFile)
     Cookies.remove('Social-Id')
     Cookies.remove('Provider')
+
+    return { jwt }
   }
 
   return { registerLinkHub }

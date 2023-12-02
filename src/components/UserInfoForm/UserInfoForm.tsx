@@ -8,6 +8,7 @@ import { fetchPostUserProfile } from '@/services/user/profile/profile'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
@@ -122,23 +123,34 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const handleRegisterLinkHub = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
-    await registerLinkHub(data, imageFile)
-    notify('success', '회원가입 되었습니다.')
-    router.replace('/login')
+    try {
+      const { jwt } = await registerLinkHub(data, imageFile)
+      if (jwt) {
+        notify('success', '회원가입 되었습니다.')
+        Cookies.set('Auth-token', jwt || '')
+        router.replace('/')
+      }
+    } catch (e) {
+      notify('error', '회원가입에 실패하였습니다.')
+    }
   }
 
   const handleSettingUser = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
-    userData?.memberId &&
-      (await fetchPostUserProfile(userData?.memberId, data, imageFile))
-    notify('success', '수정되었습니다.')
-    router.back()
+    try {
+      userData?.memberId &&
+        (await fetchPostUserProfile(userData?.memberId, data, imageFile))
+      notify('success', '수정되었습니다.')
+      router.back()
+    } catch (e) {
+      notify('error', '수정에 실패했습니다.')
+    }
   }
 
   const handleWithdrawButton = () => {
     // Todo: 회원탈퇴 로직
-    notify('info', '미구현된 기능입니다.')
+    notify('info', '서비스 준비 중입니다.')
   }
 
   return (
