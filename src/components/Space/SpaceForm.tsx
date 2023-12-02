@@ -173,7 +173,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <div className="text-sm font-semibold text-gray9">관심 카테고리</div>
+          <div className="text-sm font-semibold text-gray9">카테고리</div>
           <div>
             <CategoryList
               type="default"
