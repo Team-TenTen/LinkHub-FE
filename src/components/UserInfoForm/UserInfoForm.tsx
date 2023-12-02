@@ -254,7 +254,9 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
         </div>
       )}
       <div className="flex flex-col">
-        <div className="py-2 text-sm font-semibold text-gray9">카테고리</div>
+        <div className="py-2 text-sm font-semibold text-gray9">
+          관심 카테고리
+        </div>
         <CategoryList
           type="default"
           horizontal={false}
