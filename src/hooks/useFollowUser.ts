@@ -3,6 +3,7 @@ import {
   fetchFollowUser,
   fetchUnFollowUser,
 } from '@/services/user/follow/follow'
+import { useQueryClient } from '@tanstack/react-query'
 import { debounce } from 'lodash'
 import { useCurrentUser } from './useCurrentUser'
 
@@ -21,6 +22,7 @@ const useFollowUser = ({
   followingInitCount,
   handleOpenCurrentModal,
 }: UseFollowUserProps) => {
+  const queryClient = useQueryClient()
   const { isLoggedIn } = useCurrentUser()
   const [isFollowing, setIsFollowing] = useState(isInitFollowing)
   const [followingCount, setFollowingCount] = useState(followingInitCount)
@@ -43,9 +45,11 @@ const useFollowUser = ({
       debounce(async () => {
         if (memberId) {
           await fetchUnFollowUser({ memberId })
+          await queryClient.invalidateQueries({ queryKey: ['follow'] })
+          await queryClient.invalidateQueries({ queryKey: ['users'] })
         }
       }, 500),
-    [memberId],
+    [memberId, queryClient],
   )
 
   const debounceFollowUser = useMemo(
@@ -53,9 +57,11 @@ const useFollowUser = ({
       debounce(async () => {
         if (memberId) {
           await fetchFollowUser({ memberId })
+          await queryClient.invalidateQueries({ queryKey: ['follow'] })
+          await queryClient.invalidateQueries({ queryKey: ['users'] })
         }
       }, 500),
-    [memberId],
+    [memberId, queryClient],
   )
 
   const handleClickFollow = useCallback(
