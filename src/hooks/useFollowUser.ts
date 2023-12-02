@@ -48,7 +48,7 @@ const useFollowUser = ({
           await queryClient.invalidateQueries({ queryKey: ['follow'] })
           await queryClient.invalidateQueries({ queryKey: ['users'] })
         }
-      }, 500),
+      }, 300),
     [memberId, queryClient],
   )
 
@@ -60,7 +60,7 @@ const useFollowUser = ({
           await queryClient.invalidateQueries({ queryKey: ['follow'] })
           await queryClient.invalidateQueries({ queryKey: ['users'] })
         }
-      }, 500),
+      }, 300),
     [memberId, queryClient],
   )
 
