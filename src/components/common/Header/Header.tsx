@@ -10,6 +10,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Button from '../Button/Button'
 import SearchModal from '../SearchModal/SearchModal'
 import Sidebar from '../Sidebar/Sidebar'
+import { HEADER_TITLE } from './constants'
 
 const Header = () => {
   const pathname = usePathname()
@@ -17,10 +18,8 @@ const Header = () => {
   const searchParams = useSearchParams()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const isSearchModalOpen = searchParams.get('search')
-  const currentPage = pathname
-    .split(/[^a-zA-Z]/)[1] // 라우터명
-    .replace(/^[a-z]/, (char) => char.toUpperCase()) // 첫글자 대문자 치환
-
+  const currentPage = pathname.split(/\//)[1]
+  console.log(currentPage)
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams)
@@ -60,7 +59,9 @@ const Header = () => {
           </Button>
         </div>
         <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center font-bold text-gray9">
-          {currentPage || 'Home'}
+          {Object.values(HEADER_TITLE)[
+            Object.keys(HEADER_TITLE).indexOf(currentPage)
+          ] || '잘못된 접근'}
         </div>
         <div className="flex items-center justify-center gap-x-1">
           <Button className="flex h-8 w-8 items-center justify-center">
