@@ -81,6 +81,10 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
         } else if (spaceType === 'Setting') {
           try {
             const response = await fetchSettingSpace(spaceId, data, imageFile)
+            if (!response.spaceId) {
+              router.replace('/')
+              return
+            }
             notify('info', '스페이스를 수정했습니다.')
             router.push(`/space/${response.spaceId}`)
           } catch (e) {
