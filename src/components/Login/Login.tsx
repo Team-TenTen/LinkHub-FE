@@ -38,13 +38,10 @@ const Login = () => {
       </div>
       <Button
         type="button"
+        onClick={() => router.push('/kakaoLogin')}
         className="button button-md flex w-full items-center justify-center border-none bg-yellow-400 px-3 py-2.5">
         <ChatBubbleOvalLeftIcon className="h-6 w-6 text-gray-800" />
-        <div
-          onClick={() => router.push('/kakaoLogin')}
-          className="text-sm font-bold text-gray-800">
-          카카오로 시작하기
-        </div>
+        <div className="text-sm font-bold text-gray-800">카카오로 시작하기</div>
       </Button>
     </div>
   )
