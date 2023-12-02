@@ -29,7 +29,7 @@ const CommentList = ({
   })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
-  return (
+  return comments?.pages[0].responses.length > 0 ? (
     <ul className="flex flex-col gap-y-2 pt-2">
       {comments?.pages.map((group, groupIdx) => (
         <Fragment key={groupIdx}>
@@ -65,6 +65,10 @@ const CommentList = ({
       ))}
       <div ref={target}></div>
     </ul>
+  ) : (
+    <p className="py-5 text-center text-sm font-medium text-gray9">
+      댓글이 없습니다.
+    </p>
   )
 }
 

@@ -1,11 +1,13 @@
 'use client'
 
 import { useModal } from '@/hooks'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { getElapsedTime } from '@/utils'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { Avatar } from '../..'
 import Button from '../Button/Button'
+import LoginModal from '../Modal/LoginModal'
 import useComment from './hooks/useComment'
 
 export interface CommentProps {
@@ -48,11 +50,20 @@ const Comment = ({
   onOpen,
   onReply,
 }: CommentProps) => {
-  const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
+  const { isLoggedIn } = useCurrentUser()
+  const {
+    Modal,
+    isOpen,
+    modalOpen,
+    currentModal,
+    modalClose,
+    handleOpenCurrentModal,
+  } = useModal(false)
   const { handleDelete, handleDeleteConfirm } = useComment({
     spaceId,
     parentCommentId,
     modalOpen,
+    handleOpenCurrentModal,
   })
 
   return (
@@ -110,7 +121,11 @@ const Comment = ({
                 {' • '}
                 <Button
                   className="font-medium"
-                  onClick={() => onReply && onReply(commentId, nickname)}>
+                  onClick={() =>
+                    isLoggedIn
+                      ? onReply && onReply(commentId, nickname)
+                      : handleOpenCurrentModal('login')
+                  }>
                   답글 달기
                 </Button>
               </>
@@ -118,7 +133,7 @@ const Comment = ({
           </div>
         </div>
       </article>
-      {isOpen && (
+      {isOpen && currentModal === 'delete' && (
         <Modal
           title="댓글 삭제"
           isCancelButton={true}
@@ -129,6 +144,13 @@ const Comment = ({
           onConfirm={() => handleDeleteConfirm(!isRoot)}>
           <div className="flex justify-center">삭제하시겠습니까?</div>
         </Modal>
+      )}
+      {isOpen && currentModal === 'login' && (
+        <LoginModal
+          Modal={Modal}
+          isOpen={isOpen}
+          modalClose={modalClose}
+        />
       )}
     </>
   )

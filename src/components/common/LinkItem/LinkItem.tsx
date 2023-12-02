@@ -133,7 +133,7 @@ const LinkItem = ({
                 {readUsers?.map((readUser) => (
                   <Avatar
                     key={readUser.memberName}
-                    src={readUser.memberProfileImage || '/duck.jpg'}
+                    src={readUser.memberProfileImage || '/member-default.png'}
                     width={20}
                     height={20}
                     alt="아바타"
@@ -207,7 +207,7 @@ const LinkItem = ({
                 {readUsers?.map((readUser) => (
                   <Avatar
                     key={readUser.memberName}
-                    src={readUser.memberProfileImage || '/duck.jpg'}
+                    src={readUser.memberProfileImage || '/member-default.png'}
                     width={20}
                     height={20}
                     alt="아바타"
