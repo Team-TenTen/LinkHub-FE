@@ -18,6 +18,7 @@ import {
   LINK_FORM_PLACEHOLDER,
   LINK_FORM_VALIDATION,
   MORE_TEXT,
+  NONE_LINK_RESULT,
 } from './constants'
 import useCreateLink from './hooks/useCreateLink'
 import useGetMeta from './hooks/useGetMeta'
@@ -114,7 +115,7 @@ const LinkList = ({
     sort,
     tagId,
   })
-
+  console.log(links?.pages[0].responses.length)
   return isLinksLoading ? (
     <Spinner />
   ) : (
@@ -127,7 +128,7 @@ const LinkList = ({
         {isCanEdit && (
           <button
             className={cls(
-              'flex bg-slate-100 px-3 py-2.5 text-sm font-medium text-gray9 dark:bg-slate-800',
+              'flex border-slate3 bg-slate-100 px-3 py-2.5 text-sm font-medium text-gray9 dark:bg-slate-800',
               type === 'list'
                 ? 'border-t border-slate3'
                 : 'min-h-[101.5px] items-center justify-center rounded-md border',
@@ -140,28 +141,38 @@ const LinkList = ({
           </button>
         )}
         <>
-          {links?.pages.map((group) =>
-            group.responses.map((link: Link) => (
-              <LinkItem
-                spaceId={spaceId}
-                linkId={link.linkId}
-                title={link.title}
-                url={link.url}
-                tagName={link.tagName}
-                tagColor={link.tagColor}
-                readUsers={link.linkViewHistories}
-                isInitLiked={link.isLiked}
-                likeInitCount={link.likeCount}
-                read={read}
-                summary={summary}
-                edit={edit}
-                isMember={isMember}
-                type={type}
-                tags={tags}
-                refetchTags={refetchTags}
-                key={link.linkId}
-              />
-            )),
+          {links?.pages[0].responses.length ? (
+            links?.pages.map((group) =>
+              group.responses.map((link: Link) => (
+                <LinkItem
+                  spaceId={spaceId}
+                  linkId={link.linkId}
+                  title={link.title}
+                  url={link.url}
+                  tagName={link.tagName}
+                  tagColor={link.tagColor}
+                  readUsers={link.linkViewHistories}
+                  isInitLiked={link.isLiked}
+                  likeInitCount={link.likeCount}
+                  read={read}
+                  summary={summary}
+                  edit={edit}
+                  isMember={isMember}
+                  type={type}
+                  tags={tags}
+                  refetchTags={refetchTags}
+                  key={link.linkId}
+                />
+              )),
+            )
+          ) : type === 'list' ? (
+            <div className="mt-14 flex justify-center text-sm text-gray9">
+              {NONE_LINK_RESULT}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center rounded-md border border-slate3">
+              <div className="flex text-sm text-gray9">{NONE_LINK_RESULT}</div>
+            </div>
           )}
         </>
       </div>

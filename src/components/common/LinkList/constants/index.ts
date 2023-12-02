@@ -10,14 +10,16 @@ export const LINK_FORM = {
 
 export const LINK_FORM_PLACEHOLDER = {
   URL: 'URL을 입력해 주세요.',
-  TITLE: '제목을 입력해 주세요. (2 ~ 50글자)',
-  TAG: '태그를 입력해 주세요. (0 ~ 10글자)',
+  TITLE: '제목을 입력해 주세요.',
+  TAG: '태그를 입력해 주세요.',
 }
 
 export const LINK_FORM_VALIDATION = {
   INCORRECT_URL: '올바르지 않은 URL입니다.',
   URL_NOT_BUTTTON: 'URL 입력 후 확인 버튼을 눌러주세요.',
   NONE_TITLE: '제목을 입력해 주세요.',
-  TITLE_LENGTH: '제목은 2글자 이상 50글자 이하로 작성해야 합니다.',
-  TAG_LENGTH: '태그는 10글자 이하로 작성해야 합니다.',
+  TITLE_LENGTH: '제목은 2자 이상 50자 이하로 작성해야 합니다.',
+  TAG_LENGTH: '태그는 10자 이하로 작성해야 합니다.',
 }
+
+export const NONE_LINK_RESULT = '링크가 없습니다.'

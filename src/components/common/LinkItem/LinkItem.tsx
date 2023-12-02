@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import { cls } from '@/utils'
 import {
   DocumentTextIcon,
   HeartIcon as HeartIconOutline,
@@ -186,7 +185,7 @@ const LinkItem = ({
           </div>
         </div>
       ) : (
-        <div className="flex min-h-[101.5px] flex-col justify-between gap-1 rounded-md border px-3 py-2.5">
+        <div className="flex min-h-[101.5px] flex-col justify-between gap-1 rounded-md border border-slate3 px-3 py-2.5">
           <Link
             onClick={() => isMember && handleSaveReadInfo({ spaceId, linkId })}
             className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
@@ -228,6 +227,7 @@ const LinkItem = ({
                 </Button>
                 <Button
                   onClick={() => {
+                    setIsUrlCheck(true)
                     handleOpenCurrentModal('update')
                   }}>
                   <PencilSquareIcon className="h-6 w-6 p-0.5 text-slate6" />
