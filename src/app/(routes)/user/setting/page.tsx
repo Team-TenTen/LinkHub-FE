@@ -1,21 +1,7 @@
-'use client'
-
-import UserInfoForm from '@/components/UserInfoForm/UserInfoForm'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { SettingController } from '@/components'
 
 const UserSettingPage = () => {
-  const { currentUser } = useCurrentUser()
-
-  return (
-    <div>
-      {currentUser && (
-        <UserInfoForm
-          userData={currentUser}
-          formType="Setting"
-        />
-      )}
-    </div>
-  )
+  return <SettingController />
 }
 
 export default UserSettingPage
