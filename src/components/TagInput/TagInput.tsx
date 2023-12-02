@@ -9,7 +9,10 @@ import { XMarkIcon } from '@heroicons/react/20/solid'
 import Chip from '../common/Chip/Chip'
 import { COLORS } from '../common/Chip/constants'
 import { CreateLinkFormValue } from '../common/LinkList/LinkList'
-import { LINK_FORM_VALIDATION } from '../common/LinkList/constants'
+import {
+  LINK_FORM_PLACEHOLDER,
+  LINK_FORM_VALIDATION,
+} from '../common/LinkList/constants'
 import { Tag } from '../common/Space/hooks/useGetTags'
 import useTagInput from './hooks/useTagInput'
 
@@ -65,7 +68,7 @@ const TagInput = ({
           <input
             className="w-full py-0.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none"
             type={selectedTag && 'hidden'}
-            placeholder="태그를 입력해 주세요. (0 ~ 10글자)"
+            placeholder={LINK_FORM_PLACEHOLDER.TAG}
             {...register('tagName', {
               maxLength: {
                 value: 10,
@@ -75,7 +78,11 @@ const TagInput = ({
                 updateFilteredTags(e.target.value)
               },
               onBlur: (e) => {
-                if (e.target.value.trim()) findExistingTag(e.target.value)
+                const value = e.target.value.trim()
+                if (value) {
+                  findExistingTag(value)
+                }
+                setValue('tagName', value)
                 setIsFocused(false)
               },
             })}

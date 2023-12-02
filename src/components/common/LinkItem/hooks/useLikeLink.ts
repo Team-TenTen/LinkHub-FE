@@ -21,7 +21,7 @@ const useLikeLink = ({
     () =>
       debounce(async () => {
         await fetchUnLikeLink({ linkId })
-      }, 500),
+      }, 300),
     [linkId],
   )
 
@@ -29,7 +29,7 @@ const useLikeLink = ({
     () =>
       debounce(async () => {
         await fetchLikeLink({ linkId })
-      }, 500),
+      }, 300),
     [linkId],
   )
 

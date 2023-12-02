@@ -3,6 +3,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, Toggle } from '@/components'
+import { MIN_TAB_NUMBER } from '@/constants'
 import {
   feachCreateSpace,
   fetchScrapSpace,
@@ -13,6 +14,10 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
+import useGetSpace from '../common/Space/hooks/useGetSpace'
+import Tab from '../common/Tab/Tab'
+import TabItem from '../common/Tab/TabItem'
+import useTab from '../common/Tab/hooks/useTab'
 import { notify } from '../common/Toast/Toast'
 import { SPACE_FORM_CONSTNAT } from './constant'
 
@@ -25,9 +30,11 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const selectSpaceImage = useRef<HTMLInputElement | null>(null)
   const [thumnail, setThumnail] = useState(space?.spaceImagePath)
   const [imageFile, setImageFile] = useState<File>()
+  const { currentTab, tabList } = useTab({ type: 'space', space })
   const path = usePathname()
   const spaceId = Number(path.split('/')[2])
   const router = useRouter()
+  const getSpace = useGetSpace()
 
   const {
     register,
@@ -39,7 +46,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
     defaultValues: {
       spaceName: space?.spaceName || '',
       description: space?.description || '',
-      category: space?.category || 'ENTER_ART',
+      category: space?.category || '',
       isVisible: space?.isVisible || false,
       isComment: space?.isComment || false,
       isLinkSummarizable: space?.isLinkSummarizable || false,
@@ -65,7 +72,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
 
   return (
     <form
-      className="flex flex-col gap-3"
+      className="flex flex-col"
       onSubmit={handleSubmit(async (data) => {
         if (spaceType === 'Create') {
           const { spaceId } = await feachCreateSpace(data, imageFile)
@@ -73,9 +80,9 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           router.replace(`/space/${spaceId}`)
         } else if (spaceType === 'Setting') {
           try {
-            await fetchSettingSpace(spaceId, data, imageFile)
+            const response = await fetchSettingSpace(spaceId, data, imageFile)
             notify('info', '스페이스를 수정했습니다.')
-            router.back()
+            router.push(`/space/${response.spaceId}`)
           } catch (e) {
             router.replace('/')
           }
@@ -90,6 +97,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           type="file"
           ref={selectSpaceImage}
           onChange={handleFileChange}
+          accept=".jpg, .png, .svg"
           hidden
         />
         <div onClick={() => selectSpaceImage?.current?.click()}>
@@ -108,7 +116,29 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-3 pl-4 pr-4">
+      {spaceType === 'Setting' && tabList.length > MIN_TAB_NUMBER && (
+        <Tab>
+          {tabList.map((tabItem) => (
+            <TabItem
+              active={currentTab === tabItem.content}
+              text={tabItem.text}
+              dest={tabItem.dest}
+              key={tabItem.content}
+            />
+          ))}
+        </Tab>
+      )}
+      <div className="mt-3 flex flex-col gap-3 pl-4 pr-4">
+        {spaceType === 'Scrap' && (
+          <div className="flex items-center justify-start rounded-md border border-slate3 bg-emerald05 p-3">
+            <div className="text-sm font-medium text-gray9">
+              <span className="font-semibold">
+                @{getSpace.space?.spaceName}{' '}
+              </span>
+              에서 가져오는 중
+            </div>
+          </div>
+        )}
         <div>
           <Input
             {...register('spaceName', {
@@ -177,16 +207,16 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
             />
           </div>
           <div className="flex items-center justify-between border-t border-slate3 p-3">
-            <div className="text-sm font-medium text-gray9">
-              링크 3줄 요약 여부
+            <div className="text-sm font-medium text-gray9 opacity-50">
+              {/* 링크 3줄 요약 여부 */}
+              <span>서비스 준비 중입니다.</span>
             </div>
             <Toggle
               {...register('isLinkSummarizable')}
               on={space?.isLinkSummarizable}
               name="isLinkSummarizable"
-              onChange={() =>
-                setValue('isLinkSummarizable', !getValues('isLinkSummarizable'))
-              }
+              isDisabled={true}
+              onChange={() => {}}
             />
           </div>
           <div className="flex items-center justify-between border-b border-t border-slate3 p-3">

@@ -4,12 +4,15 @@ import { useForm } from 'react-hook-form'
 import { Input, Spinner } from '@/components'
 import CommentList from '@/components/CommentList/CommentList'
 import Button from '@/components/common/Button/Button'
+import LoginModal from '@/components/common/Modal/LoginModal'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
+import { useModal } from '@/hooks'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import useSpaceComment from '@/hooks/useSpaceComment'
 import { fetchGetComments } from '@/services/comment/comment'
 import { XMarkIcon } from '@heroicons/react/20/solid'
@@ -19,8 +22,9 @@ export interface CommentFormValues {
 }
 
 const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
+  const { isLoggedIn } = useCurrentUser()
   const { space, isSpaceLoading } = useGetSpace()
-  const { register, setValue, setFocus, handleSubmit } =
+  const { register, unregister, setValue, setFocus, handleSubmit } =
     useForm<CommentFormValues>({
       defaultValues: {
         content: '',
@@ -42,6 +46,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
     setFocus,
   })
   const { currentTab, tabList } = useTab({ type: 'space', space })
+  const { Modal, isOpen, modalOpen, modalClose } = useModal()
 
   return isSpaceLoading ? (
     <Spinner />
@@ -86,6 +91,12 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
       </section>
       <form
         className="fixed bottom-0 z-10 w-full max-w-[500px] bg-bgColor"
+        onFocus={(e) => {
+          if (!isLoggedIn) {
+            modalOpen()
+            e.target.blur()
+          }
+        }}
         onSubmit={handleSubmit(onSubmit, onSubmitError)}>
         {comment.type === 'reply' && (
           <div className="flex items-center justify-between border-t border-slate3 px-4 py-2 text-xs font-medium text-gray6">
@@ -128,10 +139,15 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
             buttonText="작성"
             buttonType="submit"
             buttonColor="gray"
-            placeholder="댓글을 작성해 주세요 (1000자 이하)"
+            placeholder="댓글을 입력해 주세요."
           />
         </div>
       </form>
+      <LoginModal
+        Modal={Modal}
+        isOpen={isOpen}
+        modalClose={modalClose}
+      />
     </>
   )
 }

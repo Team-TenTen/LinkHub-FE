@@ -6,11 +6,12 @@ export interface ToggleProps {
   name: string
   on?: boolean
   onChange: (e?: React.ChangeEvent<HTMLInputElement>) => void
+  isDisabled?: boolean
 }
 
 const Toggle = forwardRef(
   (
-    { name, on = false, onChange }: ToggleProps,
+    { name, on = false, onChange, isDisabled }: ToggleProps,
     ref?: ForwardedRef<HTMLInputElement>,
   ) => {
     const [checked, toggle] = useToggle(on)
@@ -28,6 +29,7 @@ const Toggle = forwardRef(
           className="appearance-none"
           name={name}
           onChange={handleChange}
+          disabled={isDisabled}
         />
         <div
           className={cls(

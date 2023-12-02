@@ -13,6 +13,7 @@ import Button from '../Button/Button'
 import Dropdown from '../Dropdown/Dropdown'
 import DropdownItem from '../Dropdown/DropdownItem'
 import { DROPDOWN_OPTIONS } from '../Dropdown/constants'
+import { notify } from '../Toast/Toast'
 import { SPACE_MEMBER } from './constants'
 
 export interface SpaceMemberListProps {
@@ -83,9 +84,21 @@ const SpaceMemberList = ({
               reset()
             }}
             onConfirm={handleSubmit(async ({ email, role }) => {
-              await fetchInviteSpace({ spaceId, email, role })
-              modalClose()
-              reset()
+              const res = await fetchInviteSpace({ spaceId, email, role })
+              if (res.errorCode === 'N001') {
+                notify('error', '이미 초대 요청을 보낸 유저입니다.')
+              } else if (res.errorCode === 'G004') {
+                notify('error', '스페이스 관리자는 초대할 수 없습니다.')
+              } else if (res.errorMessage) {
+                notify('error', '유저를 찾을 수 없습니다.')
+              } else {
+                notify(
+                  'success',
+                  '초대 요청을 보냈습니다. 초대를 수락하면 스페이스 멤버에 추가됩니다.',
+                )
+                modalClose()
+                reset()
+              }
             })}>
             <div className="flex justify-between gap-3 pb-6">
               <div className="w-full">

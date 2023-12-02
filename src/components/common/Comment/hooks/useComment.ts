@@ -6,12 +6,14 @@ export interface useCommentProps {
   spaceId: number
   parentCommentId?: number
   modalOpen: VoidFunction
+  handleOpenCurrentModal: (current: string) => void
 }
 
 const useComment = ({
   spaceId,
   parentCommentId,
   modalOpen,
+  handleOpenCurrentModal,
 }: useCommentProps) => {
   const queryClient = useQueryClient()
   const [deleteCommentId, setDeleteCommentId] = useState(0)
@@ -20,8 +22,9 @@ const useComment = ({
     (commentId: number) => {
       setDeleteCommentId(commentId)
       modalOpen()
+      handleOpenCurrentModal('delete')
     },
-    [modalOpen],
+    [handleOpenCurrentModal, modalOpen],
   )
 
   const handleDeleteConfirm = useCallback(

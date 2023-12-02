@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 import { kakaoLogout } from '@/services/auth'
 import Cookies from 'js-cookie'
+import { notify } from '../../Toast/Toast'
 
 type SpaceType = '내 스페이스' | '즐겨찾기'
 
@@ -17,11 +18,10 @@ const useSidebar = ({ sidebarRef, setIsOpen, onClose }: useSidebarProps) => {
     try {
       await kakaoLogout()
       Cookies.remove('Auth-token')
-      location.reload()
-      alert('로그아웃 되었습니다.')
+      notify('info', '로그아웃 되었습니다.')
       onClose()
     } catch (e) {
-      alert('다시 시도해 주세요.')
+      notify('error', '로그아웃에 실패하였습니다.')
     }
   }
 

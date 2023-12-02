@@ -7,11 +7,17 @@ import {
   SpaceList,
   Spinner,
 } from '@/components'
+import FloatingButton from '@/components/FloatingButton/FloatingButton'
 import { ChipColors } from '@/components/common/Chip/Chip'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import useGetPopularLinks from '@/hooks/useGetPopularLinks'
 import { fetchGetSpaces } from '@/services/space/spaces'
 import { PopularLinkResBody } from '@/types'
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/pagination'
+import { FreeMode } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 export default function Home() {
   const { links, isPopularLinksLoading } = useGetPopularLinks()
@@ -25,21 +31,34 @@ export default function Home() {
         <Spinner />
       ) : (
         <>
-          <section className="px-4 pb-10">
+          <section className="px-4 pb-8">
             <h2 className="py-4 font-bold text-gray9">인기있는 링크</h2>
-            {links &&
-              links.map((link: PopularLinkResBody) => (
-                <LinkItem
-                  linkId={link.linkId}
-                  title={link.title}
-                  url={link.url}
-                  tagName={link.tagName}
-                  tagColor={link.tagColor as ChipColors}
-                  isInitLiked={link.isLiked}
-                  likeInitCount={link.likeCount}
-                  key={link.linkId}
-                />
-              ))}
+            {links && (
+              <Swiper
+                slidesPerView={2.1}
+                spaceBetween={16}
+                freeMode={true}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[FreeMode]}
+                className="mySwiper">
+                {links.map((link: PopularLinkResBody) => (
+                  <SwiperSlide key={link.linkId}>
+                    <LinkItem
+                      linkId={link.linkId}
+                      title={link.title}
+                      url={link.url}
+                      tagName={link.tagName}
+                      tagColor={link.tagColor as ChipColors}
+                      isInitLiked={link.isLiked}
+                      likeInitCount={link.likeCount}
+                      type="card"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
           </section>
           <section>
             <div className="sticky top-[53px] z-40 bg-bgColor">
@@ -67,6 +86,7 @@ export default function Home() {
           </section>
         </>
       )}
+      <FloatingButton />
     </>
   )
 }

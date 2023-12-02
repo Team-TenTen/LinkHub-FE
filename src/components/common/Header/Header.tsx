@@ -1,53 +1,29 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { cls } from '@/utils'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
-import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { Bars3Icon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Button from '../Button/Button'
 import SearchModal from '../SearchModal/SearchModal'
 import Sidebar from '../Sidebar/Sidebar'
+import { HEADER_TITLE } from './constants'
+import useHeader from './hooks/useHeader'
 
 const Header = () => {
-  const pathname = usePathname()
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const isSearchModalOpen = searchParams.get('search')
-  const currentPage = pathname
-    .split(/[^a-zA-Z]/)[1] // 라우터명
-    .replace(/^[a-z]/, (char) => char.toUpperCase()) // 첫글자 대문자 치환
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams)
-      params.set(name, value)
-
-      return params.toString()
-    },
-    [searchParams],
-  )
-
-  const deleteQueryString = useCallback(
-    (name: string) => {
-      const params = new URLSearchParams(searchParams)
-      params.delete(name)
-
-      return params.toString()
-    },
-    [searchParams],
-  )
-
-  useEffect(() => {
-    if (isSidebarOpen || isSearchModalOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-  }, [isSidebarOpen, isSearchModalOpen])
+  const {
+    currentPage,
+    notificationCount,
+    isSidebarOpen,
+    isSearchModalOpen,
+    openSearchModal,
+    closeSearchModal,
+    setIsSidebarOpen,
+  } = useHeader()
+  const { isLoggedIn } = useCurrentUser()
 
   return (
     <>
@@ -60,23 +36,31 @@ const Header = () => {
           </Button>
         </div>
         <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center font-bold text-gray9">
-          {currentPage || 'Home'}
+          {Object.values(HEADER_TITLE)[
+            Object.keys(HEADER_TITLE).indexOf(currentPage)
+          ] || '잘못된 접근'}
         </div>
         <div className="flex items-center justify-center gap-x-1">
-          <Button className="flex h-8 w-8 items-center justify-center">
-            <Link href="/notification/invite">
+          {isLoggedIn && (
+            <Link
+              href="/notification/invite"
+              className="relative flex h-8 w-8 items-center justify-center">
               <BellIcon className="h-6 w-6 text-slate9" />
+              {notificationCount > 0 && (
+                <span
+                  className={cls(
+                    'absolute top-0 rounded-full bg-emerald-500 px-1 text-xs text-white',
+                    notificationCount > 9 ? 'right-[-7px]' : 'right-0',
+                  )}>
+                  {notificationCount > 9 ? '9+' : notificationCount}
+                </span>
+              )}
             </Link>
-          </Button>
+          )}
           <Button
             className="flex h-8 w-8 items-center justify-center"
-            onClick={() =>
-              router.replace(
-                pathname + '?' + createQueryString('search', 'true'),
-                { scroll: false },
-              )
-            }>
-            <MagnifyingGlassCircleIcon className="h-6 w-6 text-slate9" />
+            onClick={openSearchModal}>
+            <MagnifyingGlassIcon className="h-6 w-6 text-slate9" />
           </Button>
           <Button
             className="flex h-8 w-8 items-center justify-center"
@@ -91,15 +75,7 @@ const Header = () => {
           onClose={() => setIsSidebarOpen(false)}
         />
       )}
-      {isSearchModalOpen && (
-        <SearchModal
-          onClose={() =>
-            router.replace(pathname + '?' + deleteQueryString('search'), {
-              scroll: false,
-            })
-          }
-        />
-      )}
+      {isSearchModalOpen && <SearchModal onClose={closeSearchModal} />}
     </>
   )
 }

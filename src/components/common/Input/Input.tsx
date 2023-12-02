@@ -12,6 +12,7 @@ export interface InputProps {
   validation?: string
   disabled?: boolean
   onButtonClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const Input = forwardRef(
@@ -27,6 +28,7 @@ const Input = forwardRef(
       validation,
       disabled,
       onButtonClick,
+      onChange,
       ...rest
     }: InputProps,
     ref?: ForwardedRef<HTMLInputElement>,
@@ -44,13 +46,15 @@ const Input = forwardRef(
             type={type}
             className={cls(
               'rounded-md border bg-bgColor px-3 py-2.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none disabled:border-gray3 disabled:text-gray3 disabled:placeholder-gray3',
-              inputButton &&
-                (buttonColor === 'green'
+              inputButton
+                ? buttonColor === 'green'
                   ? 'border-emerald6 pr-20'
-                  : 'border-slate5 pr-20'),
+                  : 'border-slate5 pr-20'
+                : 'border-slate5',
             )}
             placeholder={placeholder}
             disabled={disabled}
+            onChange={onChange}
             {...rest}
           />
           {inputButton && (
