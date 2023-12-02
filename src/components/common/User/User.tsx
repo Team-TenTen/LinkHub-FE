@@ -48,7 +48,7 @@ const User = ({
       <div className="flex items-center gap-x-3 rounded-md border border-slate3 p-3">
         <div className="inline-flex shrink-0">
           <Avatar
-            src={profileImagePath}
+            src={profileImagePath || '/member-default.png'}
             width={40}
             height={40}
             alt="profile"
