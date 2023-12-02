@@ -9,9 +9,7 @@ const useHeader = () => {
   const searchParams = useSearchParams()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const isSearchModalOpen = searchParams.get('search')
-  const currentPage = pathname
-    .split(/[^a-zA-Z]/)[1] // 라우터명
-    .replace(/^[a-z]/, (char) => char.toUpperCase()) // 첫글자 대문자 치환
+  const currentPage = pathname.split(/\//)[1]
   const { data } = useQuery({
     queryKey: ['notificationCount'],
     queryFn: () => fetchGetUnCheckedNotifications(),

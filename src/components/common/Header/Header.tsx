@@ -1,5 +1,6 @@
 'use client'
 
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { cls } from '@/utils'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
@@ -9,6 +10,7 @@ import Link from 'next/link'
 import Button from '../Button/Button'
 import SearchModal from '../SearchModal/SearchModal'
 import Sidebar from '../Sidebar/Sidebar'
+import { HEADER_TITLE } from './constants'
 import useHeader from './hooks/useHeader'
 
 const Header = () => {
@@ -21,6 +23,7 @@ const Header = () => {
     closeSearchModal,
     setIsSidebarOpen,
   } = useHeader()
+  const { isLoggedIn } = useCurrentUser()
 
   return (
     <>
@@ -33,23 +36,27 @@ const Header = () => {
           </Button>
         </div>
         <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center font-bold text-gray9">
-          {currentPage || 'Home'}
+          {Object.values(HEADER_TITLE)[
+            Object.keys(HEADER_TITLE).indexOf(currentPage)
+          ] || '잘못된 접근'}
         </div>
         <div className="flex items-center justify-center gap-x-1">
-          <Link
-            href="/notification/invite"
-            className="relative flex h-8 w-8 items-center justify-center">
-            <BellIcon className="h-6 w-6 text-slate9" />
-            {notificationCount > 0 && (
-              <span
-                className={cls(
-                  'absolute top-0 rounded-full bg-emerald-500 px-1 text-xs text-white',
-                  notificationCount > 9 ? 'right-[-7px]' : 'right-0',
-                )}>
-                {notificationCount > 9 ? '9+' : notificationCount}
-              </span>
-            )}
-          </Link>
+          {isLoggedIn && (
+            <Link
+              href="/notification/invite"
+              className="relative flex h-8 w-8 items-center justify-center">
+              <BellIcon className="h-6 w-6 text-slate9" />
+              {notificationCount > 0 && (
+                <span
+                  className={cls(
+                    'absolute top-0 rounded-full bg-emerald-500 px-1 text-xs text-white',
+                    notificationCount > 9 ? 'right-[-7px]' : 'right-0',
+                  )}>
+                  {notificationCount > 9 ? '9+' : notificationCount}
+                </span>
+              )}
+            </Link>
+          )}
           <Button
             className="flex h-8 w-8 items-center justify-center"
             onClick={openSearchModal}>
