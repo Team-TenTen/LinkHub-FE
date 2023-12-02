@@ -23,7 +23,7 @@ const useGetSpace = (): {
 
   const handleGetSpace = useCallback(async () => {
     setIsLoading(true)
-    const data = await fetchGetSpace({ spaceId })
+    const data = spaceId && (await fetchGetSpace({ spaceId }))
     setSpace(data)
     setIsLoading(false)
   }, [spaceId, setIsLoading])
