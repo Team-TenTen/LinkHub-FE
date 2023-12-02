@@ -46,7 +46,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
     defaultValues: {
       spaceName: space?.spaceName || '',
       description: space?.description || '',
-      category: space?.category || 'ENTER_ART',
+      category: space?.category || '',
       isVisible: space?.isVisible || false,
       isComment: space?.isComment || false,
       isLinkSummarizable: space?.isLinkSummarizable || false,
