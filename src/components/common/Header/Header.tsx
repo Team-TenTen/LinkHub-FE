@@ -1,54 +1,29 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { cls } from '@/utils'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
-import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { Bars3Icon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Button from '../Button/Button'
 import SearchModal from '../SearchModal/SearchModal'
 import Sidebar from '../Sidebar/Sidebar'
 import { HEADER_TITLE } from './constants'
+import useHeader from './hooks/useHeader'
 
 const Header = () => {
-  const pathname = usePathname()
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const isSearchModalOpen = searchParams.get('search')
-  const currentPage = pathname.split(/\//)[1]
+  const {
+    currentPage,
+    notificationCount,
+    isSidebarOpen,
+    isSearchModalOpen,
+    openSearchModal,
+    closeSearchModal,
+    setIsSidebarOpen,
+  } = useHeader()
   const { isLoggedIn } = useCurrentUser()
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams)
-      params.set(name, value)
-
-      return params.toString()
-    },
-    [searchParams],
-  )
-
-  const deleteQueryString = useCallback(
-    (name: string) => {
-      const params = new URLSearchParams(searchParams)
-      params.delete(name)
-
-      return params.toString()
-    },
-    [searchParams],
-  )
-
-  useEffect(() => {
-    if (isSidebarOpen || isSearchModalOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-  }, [isSidebarOpen, isSearchModalOpen])
 
   return (
     <>
@@ -67,21 +42,25 @@ const Header = () => {
         </div>
         <div className="flex items-center justify-center gap-x-1">
           {isLoggedIn && (
-            <Button className="flex h-8 w-8 items-center justify-center">
-              <Link href="/notification/invite">
-                <BellIcon className="h-6 w-6 text-slate9" />
-              </Link>
-            </Button>
+            <Link
+              href="/notification/invite"
+              className="relative flex h-8 w-8 items-center justify-center">
+              <BellIcon className="h-6 w-6 text-slate9" />
+              {notificationCount > 0 && (
+                <span
+                  className={cls(
+                    'absolute top-0 rounded-full bg-emerald-500 px-1 text-xs text-white',
+                    notificationCount > 9 ? 'right-[-7px]' : 'right-0',
+                  )}>
+                  {notificationCount > 9 ? '9+' : notificationCount}
+                </span>
+              )}
+            </Link>
           )}
           <Button
             className="flex h-8 w-8 items-center justify-center"
-            onClick={() =>
-              router.replace(
-                pathname + '?' + createQueryString('search', 'true'),
-                { scroll: false },
-              )
-            }>
-            <MagnifyingGlassCircleIcon className="h-6 w-6 text-slate9" />
+            onClick={openSearchModal}>
+            <MagnifyingGlassIcon className="h-6 w-6 text-slate9" />
           </Button>
           <Button
             className="flex h-8 w-8 items-center justify-center"
@@ -96,15 +75,7 @@ const Header = () => {
           onClose={() => setIsSidebarOpen(false)}
         />
       )}
-      {isSearchModalOpen && (
-        <SearchModal
-          onClose={() =>
-            router.replace(pathname + '?' + deleteQueryString('search'), {
-              scroll: false,
-            })
-          }
-        />
-      )}
+      {isSearchModalOpen && <SearchModal onClose={closeSearchModal} />}
     </>
   )
 }
