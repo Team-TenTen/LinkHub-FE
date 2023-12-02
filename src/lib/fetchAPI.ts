@@ -18,10 +18,7 @@ class FetchAPI {
       const data = await response.json()
       switch (response.status) {
         case 401:
-          notify(
-            'error',
-            `${data.errorMessage}` || '인증되지 않은 사용자입니다.',
-          )
+          notify('error', '인증되지 않은 사용자입니다.')
           break
         case 404:
           notify(
