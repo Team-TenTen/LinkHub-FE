@@ -39,8 +39,10 @@ class FetchAPI {
           )
           break
       }
+      return data
+    } else {
+      return type === 'delete' ? response : response.json()
     }
-    return type === 'delete' ? response : response.json()
   }
 
   public static getInstance(): FetchAPI {

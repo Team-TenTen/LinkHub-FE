@@ -12,6 +12,7 @@ export interface InputProps {
   validation?: string
   disabled?: boolean
   onButtonClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const Input = forwardRef(
@@ -27,6 +28,7 @@ const Input = forwardRef(
       validation,
       disabled,
       onButtonClick,
+      onChange,
       ...rest
     }: InputProps,
     ref?: ForwardedRef<HTMLInputElement>,
@@ -52,6 +54,7 @@ const Input = forwardRef(
             )}
             placeholder={placeholder}
             disabled={disabled}
+            onChange={onChange}
             {...rest}
           />
           {inputButton && (
