@@ -24,7 +24,7 @@ const useFavorites = ({
     () =>
       debounce(async () => {
         await fetchUnFavoriteSpace({ spaceId })
-      }, 500),
+      }, 300),
     [spaceId],
   )
 
@@ -32,7 +32,7 @@ const useFavorites = ({
     () =>
       debounce(async () => {
         await fetchFavoriteSpace({ spaceId })
-      }, 500),
+      }, 300),
     [spaceId],
   )
 
