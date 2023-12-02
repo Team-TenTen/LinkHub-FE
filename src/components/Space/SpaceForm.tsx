@@ -49,7 +49,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       category: space?.category || '',
       isVisible: space?.isVisible || false,
       isComment: space?.isComment || false,
-      isLinkSummarizable: space?.isLinkSummarizable || false,
+      isLinkSummarizable: false,
       isReadMarkEnabled: space?.isReadMarkEnabled || false,
     },
   })
@@ -206,10 +206,9 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
               onChange={() => setValue('isComment', !getValues('isComment'))}
             />
           </div>
-          <div className="flex items-center justify-between border-t border-slate3 p-3">
+          {/* <div className="flex items-center justify-between border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9 opacity-50">
-              {/* 링크 3줄 요약 여부 */}
-              <span>서비스 준비 중입니다.</span>
+              링크 3줄 요약 여부
             </div>
             <Toggle
               {...register('isLinkSummarizable')}
@@ -218,7 +217,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
               isDisabled={true}
               onChange={() => {}}
             />
-          </div>
+          </div> */}
           <div className="flex items-center justify-between border-b border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">읽음 처리 여부</div>
             <Toggle
