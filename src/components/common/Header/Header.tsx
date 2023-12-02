@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { LinkIcon } from '@heroicons/react/20/solid'
 import { BellIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline'
@@ -19,7 +20,8 @@ const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const isSearchModalOpen = searchParams.get('search')
   const currentPage = pathname.split(/\//)[1]
-  console.log(currentPage)
+  const { isLoggedIn } = useCurrentUser()
+
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams)
@@ -64,11 +66,13 @@ const Header = () => {
           ] || '잘못된 접근'}
         </div>
         <div className="flex items-center justify-center gap-x-1">
-          <Button className="flex h-8 w-8 items-center justify-center">
-            <Link href="/notification/invite">
-              <BellIcon className="h-6 w-6 text-slate9" />
-            </Link>
-          </Button>
+          {isLoggedIn && (
+            <Button className="flex h-8 w-8 items-center justify-center">
+              <Link href="/notification/invite">
+                <BellIcon className="h-6 w-6 text-slate9" />
+              </Link>
+            </Button>
+          )}
           <Button
             className="flex h-8 w-8 items-center justify-center"
             onClick={() =>
