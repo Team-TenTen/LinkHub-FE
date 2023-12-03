@@ -1,6 +1,10 @@
 'use client'
 
-import { cls } from '@/utils'
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/pagination'
+import { FreeMode } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import CategoryListItem from './CategoryListItem'
 import { CATEGORIES } from './constants'
 import useCategoryList from './hooks/useCategoryList'
@@ -25,20 +29,30 @@ const CategoryList = ({
     onChange,
   })
 
-  return (
-    <ul
-      className={cls(
-        'flex w-full gap-1.5',
-        horizontal
-          ? 'horizontal-scroll snap-x scroll-px-4 overflow-x-auto scroll-smooth py-4'
-          : 'flex-wrap',
-      )}>
+  return horizontal ? (
+    <Swiper
+      direction="horizontal"
+      slidesPerView="auto"
+      spaceBetween={6}
+      freeMode={true}
+      modules={[FreeMode]}
+      className="category-swiper">
+      {categoryKeys.map((category, i) => (
+        <SwiperSlide key={i}>
+          <CategoryListItem
+            label={category}
+            value={categoryValues[i]}
+            active={index === i}
+            as="link"
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  ) : (
+    <ul className="flex w-full flex-wrap gap-1.5">
       {categoryKeys.map((category, i) => (
         <li
-          className={cls(
-            'shrink-0',
-            horizontal && 'snap-end first:pl-4 last:pr-4',
-          )}
+          className="shrink-0"
           key={category}>
           <CategoryListItem
             label={category}
