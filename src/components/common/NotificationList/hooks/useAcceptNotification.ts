@@ -24,6 +24,9 @@ const useAcceptNotification = ({ type }: UseAcceptNotificationProps) => {
       notify('success', NOTIFICATION_INVITE.SUCCESS)
       router.push(`/space/${spaceId}`)
       await queryclient.invalidateQueries({ queryKey: ['notification', type] })
+      await queryclient.invalidateQueries({
+        queryKey: ['notificationCount'],
+      })
     } catch (e) {
       console.error(e)
     }

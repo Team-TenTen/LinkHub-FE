@@ -112,12 +112,18 @@ const Comment = ({
             {getElapsedTime(createdAt)}
             {isRoot && (
               <>
-                {' • '}
-                <Button
-                  className="font-medium"
-                  onClick={() => replyCount > 0 && onOpen && onOpen(commentId)}>
-                  {replyCount}개의 답글
-                </Button>
+                {replyCount > 0 && (
+                  <>
+                    {' • '}
+                    <Button
+                      className="font-medium"
+                      onClick={() =>
+                        replyCount > 0 && onOpen && onOpen(commentId)
+                      }>
+                      {replyCount}개의 답글
+                    </Button>
+                  </>
+                )}
                 {' • '}
                 <Button
                   className="font-medium"

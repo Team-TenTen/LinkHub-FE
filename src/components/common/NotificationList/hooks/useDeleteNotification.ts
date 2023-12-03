@@ -16,6 +16,7 @@ const useDeleteNotification = ({ type }: UseDeleteNotificationProps) => {
   }: FetchDeleteNotificationProps) => {
     await fetchDeleteNotification({ notificationId })
     await queryclient.invalidateQueries({ queryKey: ['notification', type] })
+    await queryclient.invalidateQueries({ queryKey: ['notificationCount'] })
   }
 
   return { handleDeleteNotification }

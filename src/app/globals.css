@@ -123,3 +123,11 @@
   max-width: 436px;
   max-height: 25%;
 }
+
+.category-swiper {
+  padding: 16px !important;
+}
+
+.category-swiper .swiper-slide {
+  width: auto;
+}

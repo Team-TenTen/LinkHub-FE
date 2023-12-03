@@ -1,18 +1,25 @@
 import { useState } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
 import { FetchGetMetaProps, fetchGetMeta } from '@/services/meta/meta'
 import { CreateLinkFormValue } from '../LinkList'
 import { LINK_FORM_VALIDATION } from '../constants'
 
 export interface UseGetMetaProps {
+  getValues: UseFormGetValues<CreateLinkFormValue>
   setValue: UseFormSetValue<CreateLinkFormValue>
   modalClose: VoidFunction
 }
 
-const useGetMeta = ({ setValue, modalClose }: UseGetMetaProps) => {
+const useGetMeta = ({ getValues, setValue, modalClose }: UseGetMetaProps) => {
   const [isUrlCheck, setIsUrlCheck] = useState(false)
   const [urlErrorText, setUrlErrorText] = useState('')
   const [isShowFormError, setIsShowFormError] = useState(false)
+
+  const getIsValidUrl = () => {
+    const url = getValues('url')
+    var urlPattern = /^(https?:\/\/|file:\/\/)/
+    return urlPattern.test(url)
+  }
 
   const handleUrlValidation = ({
     data,
@@ -35,11 +42,14 @@ const useGetMeta = ({ setValue, modalClose }: UseGetMetaProps) => {
   }
 
   const handleGetMeta = async ({ url }: FetchGetMetaProps) => {
-    const { data, error } = await fetchGetMeta({
-      url,
-    })
-
-    handleUrlValidation({ data, error })
+    if (getIsValidUrl()) {
+      const { data, error } = await fetchGetMeta({
+        url,
+      })
+      handleUrlValidation({ data, error })
+    } else {
+      setUrlErrorText(LINK_FORM_VALIDATION.URL_INVALID_FORM)
+    }
   }
 
   const handleModalClose = () => {
@@ -67,6 +77,7 @@ const useGetMeta = ({ setValue, modalClose }: UseGetMetaProps) => {
     setUrlErrorText,
     isShowFormError,
     setIsShowFormError,
+    getIsValidUrl,
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,

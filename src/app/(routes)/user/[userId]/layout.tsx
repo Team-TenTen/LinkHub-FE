@@ -1,37 +1,25 @@
-'use client'
+import { UserController } from '@/components'
+import { fetchGetUserProfile } from '@/services/user/profile/profile'
+import { Metadata } from 'next'
 
-import React from 'react'
-import { Spinner } from '@/components'
-import Tab from '@/components/common/Tab/Tab'
-import TabItem from '@/components/common/Tab/TabItem'
-import useTab from '@/components/common/Tab/hooks/useTab'
-import useGetProfile from '@/hooks/useGetProfile'
+type Props = {
+  params: { userId: number }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const userId = params.userId
+  const user = await fetchGetUserProfile({ memberId: userId })
+
+  return {
+    title: user.nickname,
+    openGraph: {
+      title: `${user.nickname} • LinkHub`,
+    },
+  }
+}
 
 const UserLayout = ({ children }: { children: React.ReactNode }) => {
-  const { user, myId, isProfileLoading } = useGetProfile()
-  const { currentTab, tabList } = useTab({
-    type: 'user',
-    userId: user?.memberId,
-    myId,
-  })
-
-  return (
-    <>
-      {!isProfileLoading && (
-        <Tab>
-          {tabList.map((tabItem) => (
-            <TabItem
-              active={currentTab === tabItem.content}
-              text={tabItem.text}
-              dest={tabItem.dest}
-              key={tabItem.content}
-            />
-          ))}
-        </Tab>
-      )}
-      {children}
-    </>
-  )
+  return <UserController>{children}</UserController>
 }
 
 export default UserLayout

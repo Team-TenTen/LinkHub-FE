@@ -55,6 +55,7 @@ const Input = forwardRef(
             placeholder={placeholder}
             disabled={disabled}
             onChange={onChange}
+            size={15}
             {...rest}
           />
           {inputButton && (
