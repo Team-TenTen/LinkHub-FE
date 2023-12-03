@@ -18,7 +18,7 @@ const useSidebar = ({ sidebarRef, setIsOpen, onClose }: useSidebarProps) => {
     try {
       await kakaoLogout()
       Cookies.remove('Auth-token')
-      notify('info', '로그아웃 되었습니다.')
+      location.reload()
       onClose()
     } catch (e) {
       notify('error', '로그아웃에 실패하였습니다.')
