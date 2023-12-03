@@ -24,10 +24,8 @@ const useLikeLink = ({
   const debounceUnLikeLink = useMemo(
     () =>
       debounce(async () => {
-        if (spaceId) {
-          await fetchUnLikeLink({ linkId })
-          await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
-        }
+        await fetchUnLikeLink({ linkId })
+        await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
       }, 300),
     [spaceId, linkId, queryClient],
   )
@@ -35,10 +33,8 @@ const useLikeLink = ({
   const debounceLikeLink = useMemo(
     () =>
       debounce(async () => {
-        if (spaceId) {
-          await fetchLikeLink({ linkId })
-          await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
-        }
+        await fetchLikeLink({ linkId })
+        await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
       }, 300),
     [spaceId, linkId, queryClient],
   )
