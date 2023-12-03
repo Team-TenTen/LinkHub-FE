@@ -66,12 +66,14 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
             ) : (
               <>
                 <div className="flex items-center px-2">
-                  <Avatar
-                    src={currentUser.profileImagePath}
-                    width={40}
-                    height={40}
-                    alt={currentUser.nickname}
-                  />
+                  <div>
+                    <Avatar
+                      src={currentUser.profileImagePath}
+                      width={40}
+                      height={40}
+                      alt={currentUser.nickname}
+                    />
+                  </div>
                   <p className="font-sm ml-3 w-full overflow-hidden text-ellipsis	whitespace-nowrap font-medium text-gray9">
                     {currentUser.nickname}
                   </p>
