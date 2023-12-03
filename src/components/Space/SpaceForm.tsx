@@ -81,6 +81,10 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
         } else if (spaceType === 'Setting') {
           try {
             const response = await fetchSettingSpace(spaceId, data, imageFile)
+            if (!response.spaceId) {
+              router.replace('/')
+              return
+            }
             notify('info', '스페이스를 수정했습니다.')
             router.push(`/space/${response.spaceId}`)
           } catch (e) {
@@ -151,6 +155,10 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
                 value: 20,
                 message: '스페이스명은 20글자 이하여야 합니다.',
               },
+              pattern: {
+                value: /^\S+(\s*\S*\s*)*\S+$/,
+                message: '스페이스명은 공백으로 시작하거나 끝날 수 없습니다.',
+              },
             })}
             label="스페이스 이름"
             placeholder="스페이스 이름을 입력하세요"
@@ -173,7 +181,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <div className="text-sm font-semibold text-gray9">관심 카테고리</div>
+          <div className="text-sm font-semibold text-gray9">카테고리</div>
           <div>
             <CategoryList
               type="default"
