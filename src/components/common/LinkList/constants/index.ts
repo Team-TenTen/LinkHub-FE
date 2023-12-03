@@ -15,7 +15,8 @@ export const LINK_FORM_PLACEHOLDER = {
 }
 
 export const LINK_FORM_VALIDATION = {
-  INCORRECT_URL: '올바르지 않은 URL입니다.',
+  INCORRECT_URL: '존재하지 않는 URL입니다.',
+  URL_INVALID_FORM: '유효한 URL 형식이 아닙니다.',
   URL_NOT_BUTTTON: 'URL 입력 후 확인 버튼을 눌러주세요.',
   NONE_TITLE: '제목을 입력해 주세요.',
   TITLE_LENGTH: '제목은 2자 이상 50자 이하로 작성해야 합니다.',

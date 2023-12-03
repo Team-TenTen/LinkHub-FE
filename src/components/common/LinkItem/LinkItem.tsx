@@ -98,7 +98,7 @@ const LinkItem = ({
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
-  } = useGetMeta({ setValue, modalClose })
+  } = useGetMeta({ getValues, setValue, modalClose })
   const { handleUpdateLink } = useUpdateLink({ spaceId, linkId, refetchTags })
   const { handleDeleteLink } = useDeleteLink({ refetchTags })
   const { handleSaveReadInfo } = useReadSaveLink()

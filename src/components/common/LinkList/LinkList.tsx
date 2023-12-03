@@ -108,13 +108,20 @@ const LinkList = ({
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
-  } = useGetMeta({ setValue, modalClose })
+  } = useGetMeta({ getValues, setValue, modalClose })
   const { links, fetchNextPage, hasNextPage, isLinksLoading } = useLinksQuery({
     spaceId,
     fetchFn,
     sort,
     tagId,
   })
+
+  const isValidUrl = () => {
+    const url = getValues('url')
+    console.log(url)
+    var urlPattern = /^(https?:\/\/|file:\/\/)/
+    return urlPattern.test(url)
+  }
 
   return isLinksLoading ? (
     <Spinner />
