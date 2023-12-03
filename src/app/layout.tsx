@@ -13,6 +13,8 @@ export const metadata: Metadata = {
     default: 'LinkHub',
   },
   description: '링크 아카이빙 및 공유 플랫폼',
+  viewport:
+    'width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0',
   openGraph: {
     title: 'LinkHub',
     description: '링크 아카이빙 및 공유 플랫폼',
@@ -33,12 +35,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"
-        />
-      </head>
       <TanstackQueryContext>
         <AuthProvider>
           <body className="bg-bgColor">
