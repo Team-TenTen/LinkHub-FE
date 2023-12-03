@@ -115,7 +115,7 @@ const LinkList = ({
     sort,
     tagId,
   })
-  console.log(links?.pages[0].responses.length)
+
   return isLinksLoading ? (
     <Spinner />
   ) : (
