@@ -11,12 +11,12 @@ const FloatingButton = () => {
 
   return (
     <>
-      <div className="fixed bottom-4 left-[427px] right-0 z-50 mx-auto w-10">
+      <div className="fixed bottom-10 left-1/2 right-0 z-40 flex h-0 w-full max-w-[500px] -translate-x-1/2 items-center justify-end pr-4 font-bold text-gray9">
         <button
           onClick={() =>
             isLoggedIn ? router.push(`/space/create`) : modalOpen()
           }
-          className="z-50 h-10 w-10 cursor-pointer rounded-full border border-slate6 bg-bgColor text-slate6 shadow-lg">
+          className="h-10 w-10 cursor-pointer rounded-full border border-slate6 bg-bgColor text-slate6 shadow-lg">
           <PlusSmallIcon />
         </button>
       </div>
