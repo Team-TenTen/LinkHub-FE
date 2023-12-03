@@ -1,5 +1,6 @@
 import { cls } from '@/utils'
 import Link from 'next/link'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 export interface CategoryListItemProps {
   label: string
@@ -18,10 +19,22 @@ const CategoryListItem = ({
   as,
   onClick,
 }: CategoryListItemProps) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const target = searchParams.get('target')
+  const keyword = searchParams.get('keyword')
+  const sort = searchParams.get('sort')
+
   return as === 'link' ? (
     <Link
       href={{
-        query: { category: value },
+        pathname,
+        query: {
+          ...(target && { target }),
+          ...(keyword && { keyword }),
+          ...(sort && { sort }),
+          category: value,
+        },
       }}
       className={cls(
         'inline-block rounded-3xl border px-4 py-2 text-sm font-medium',

@@ -48,7 +48,7 @@ const SearchController = () => {
           />
         )}
       </div>
-      <section className="flex flex-col gap-y-2 px-4">
+      <section className="flex flex-col gap-y-2">
         {target === 'space' && (
           <SpaceList
             queryKey="search"
