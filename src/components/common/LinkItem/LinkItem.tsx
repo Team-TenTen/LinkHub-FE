@@ -103,6 +103,7 @@ const LinkItem = ({
   const { handleDeleteLink } = useDeleteLink({ refetchTags })
   const { handleSaveReadInfo } = useReadSaveLink()
   const { isLiked, likeCount, handleClickLike } = useLikeLink({
+    spaceId,
     linkId,
     isLikedValue: isInitLiked,
     likeCountValue: likeInitCount,
