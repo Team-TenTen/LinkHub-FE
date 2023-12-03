@@ -66,7 +66,7 @@ const Dropdown = ({
             label={option}
             value={optionValues?.[i]}
             active={index === i}
-            danger={type === 'user_edit' && i === optionKeys.length - 1}
+            // danger={type === 'user_edit' && i === optionKeys.length - 1}
             onClick={(e) => handleClick(e, i)}
             key={option}
           />
