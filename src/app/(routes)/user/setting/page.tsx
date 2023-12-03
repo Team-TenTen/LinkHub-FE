@@ -1,21 +1,12 @@
-'use client'
+import { SettingController } from '@/components'
+import { Metadata } from 'next'
 
-import UserInfoForm from '@/components/UserInfoForm/UserInfoForm'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
+export const metadata: Metadata = {
+  title: '프로필 수정',
+}
 
 const UserSettingPage = () => {
-  const { currentUser } = useCurrentUser()
-
-  return (
-    <div>
-      {currentUser && (
-        <UserInfoForm
-          userData={currentUser}
-          formType="Setting"
-        />
-      )}
-    </div>
-  )
+  return <SettingController />
 }
 
 export default UserSettingPage
