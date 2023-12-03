@@ -57,7 +57,7 @@ const Dropdown = ({
         className={cls(
           'flex flex-col rounded-md border border-slate6 bg-bgColor p-2 shadow-lg',
           isOpen
-            ? 'absolute right-0 z-10 mt-2 min-w-max origin-top-right'
+            ? 'absolute right-0 z-10 mt-2 max-h-[40vh] min-w-max origin-top-right overflow-scroll'
             : 'hidden',
           PLACEMENTS[placement],
         )}>
