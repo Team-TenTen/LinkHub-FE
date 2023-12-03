@@ -66,7 +66,7 @@ const TagInput = ({
             </button>
           )}
           <input
-            className="w-full py-0.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none"
+            className="w-full bg-bgColor py-0.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none"
             type={selectedTag && 'hidden'}
             placeholder={LINK_FORM_PLACEHOLDER.TAG}
             {...register('tagName', {

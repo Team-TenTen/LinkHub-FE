@@ -147,7 +147,6 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const handleSettingUser = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
-    console.log(data.favoriteCategory)
     try {
       userData?.memberId &&
         (await fetchPostUserProfile(userData?.memberId, data, imageFile))
