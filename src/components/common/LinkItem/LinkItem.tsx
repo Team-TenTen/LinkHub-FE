@@ -335,6 +335,10 @@ const LinkItem = ({
                     value: true,
                     message: LINK_FORM_VALIDATION.NONE_TITLE,
                   },
+                  onBlur: (e) => {
+                    const value = e.target.value.trim()
+                    setValue('title', value)
+                  },
                 })}
                 label={LINK_FORM.TITLE}
                 placeholder={LINK_FORM_PLACEHOLDER.TITLE}
