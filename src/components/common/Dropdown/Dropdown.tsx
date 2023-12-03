@@ -57,7 +57,7 @@ const Dropdown = ({
         className={cls(
           'flex flex-col rounded-md border border-slate6 bg-bgColor p-2 shadow-lg',
           isOpen
-            ? 'absolute right-0 z-10 mt-2 min-w-max origin-top-right'
+            ? 'absolute right-0 z-10 mt-2 max-h-[40vh] min-w-max origin-top-right overflow-scroll'
             : 'hidden',
           PLACEMENTS[placement],
         )}>
@@ -66,7 +66,7 @@ const Dropdown = ({
             label={option}
             value={optionValues?.[i]}
             active={index === i}
-            danger={type === 'user_edit' && i === optionKeys.length - 1}
+            // danger={type === 'user_edit' && i === optionKeys.length - 1}
             onClick={(e) => handleClick(e, i)}
             key={option}
           />
