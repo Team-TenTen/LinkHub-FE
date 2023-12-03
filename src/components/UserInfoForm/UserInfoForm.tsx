@@ -179,14 +179,12 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
           hidden
           accept=".jpg, .png, .svg"
         />
-        <div onClick={() => selectUserImage?.current?.click()}>
+        <div
+          className="relative h-20 w-20"
+          onClick={() => selectUserImage?.current?.click()}>
           <Avatar
-            // Todo: 기본 이미지로 변경
             src={thumnail || '/member-default.png'}
-            width={80}
-            height={80}
             alt="프로필"
-            className="h-20"
           />
         </div>
       </div>
