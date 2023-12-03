@@ -63,7 +63,7 @@ const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
           </Fragment>
         ))
       ) : (
-        <div className="flex justify-center text-base font-semibold text-gray9">
+        <div className="py-5 text-center text-sm font-medium text-gray9">
           {NONE_NOTIFICATION_RESULT}
         </div>
       )}

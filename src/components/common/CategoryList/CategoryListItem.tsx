@@ -1,10 +1,12 @@
 import { cls } from '@/utils'
+import Link from 'next/link'
 
 export interface CategoryListItemProps {
   label: string
   value?: string
   active: boolean
   disabled?: boolean
+  as?: string
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -13,9 +15,23 @@ const CategoryListItem = ({
   value,
   active = false,
   disabled,
+  as,
   onClick,
 }: CategoryListItemProps) => {
-  return (
+  return as === 'link' ? (
+    <Link
+      href={{
+        query: { category: value },
+      }}
+      className={cls(
+        'inline-block rounded-3xl border px-4 py-2 text-sm font-medium',
+        active
+          ? 'border-slate-700 bg-slate5 text-white dark:border-slate-400'
+          : 'border-slate3 text-slate6',
+      )}>
+      {label}
+    </Link>
+  ) : (
     <button
       type="button"
       value={value}

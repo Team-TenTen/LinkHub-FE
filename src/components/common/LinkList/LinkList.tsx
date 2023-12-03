@@ -108,14 +108,21 @@ const LinkList = ({
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
-  } = useGetMeta({ setValue, modalClose })
+  } = useGetMeta({ getValues, setValue, modalClose })
   const { links, fetchNextPage, hasNextPage, isLinksLoading } = useLinksQuery({
     spaceId,
     fetchFn,
     sort,
     tagId,
   })
-  console.log(links?.pages[0].responses.length)
+
+  const isValidUrl = () => {
+    const url = getValues('url')
+    console.log(url)
+    var urlPattern = /^(https?:\/\/|file:\/\/)/
+    return urlPattern.test(url)
+  }
+
   return isLinksLoading ? (
     <Spinner />
   ) : (
@@ -239,6 +246,10 @@ const LinkList = ({
                 required: {
                   value: true,
                   message: LINK_FORM_VALIDATION.NONE_TITLE,
+                },
+                onBlur: (e) => {
+                  const value = e.target.value.trim()
+                  setValue('title', value)
                 },
               })}
               label={LINK_FORM.TITLE}

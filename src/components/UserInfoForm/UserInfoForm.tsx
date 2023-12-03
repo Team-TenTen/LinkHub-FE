@@ -108,8 +108,13 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
         email: getValues('newsEmail'),
         code,
       })
-      setVerification(verification.isVerificate)
-      notify('success', '인증되었습니다.')
+
+      if (verification.isVerificate) {
+        setVerification(verification.isVerificate)
+        notify('success', '인증되었습니다.')
+      } else {
+        notify('error', '잘못된 인증번호 입니다.')
+      }
     } catch (e) {
       notify('error', '인증에 실패했습니다.')
     }
@@ -123,21 +128,26 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const handleRegisterLinkHub = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
-    try {
-      const { jwt } = await registerLinkHub(data, imageFile)
-      if (jwt) {
-        notify('success', '회원가입 되었습니다.')
-        Cookies.set('Auth-token', jwt || '')
-        router.replace('/')
+    if (data.favoriteCategory === '') {
+      notify('error', '카테고리를 선택해 주세요.')
+    } else {
+      try {
+        const response = await registerLinkHub(data, imageFile)
+        if (response?.jwt) {
+          notify('success', '회원가입 되었습니다.')
+          Cookies.set('Auth-token', response?.jwt || '')
+          router.replace('/')
+        }
+      } catch (e) {
+        notify('error', '회원가입에 실패하였습니다.')
       }
-    } catch (e) {
-      notify('error', '회원가입에 실패하였습니다.')
     }
   }
 
   const handleSettingUser = async (
     data: RegisterReqBody & EmailVerifyReqBody,
   ) => {
+    console.log(data.favoriteCategory)
     try {
       userData?.memberId &&
         (await fetchPostUserProfile(userData?.memberId, data, imageFile))
@@ -172,7 +182,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
         <div onClick={() => selectUserImage?.current?.click()}>
           <Avatar
             // Todo: 기본 이미지로 변경
-            src={thumnail || '/duck.jpg'}
+            src={thumnail || '/member-default.png'}
             width={80}
             height={80}
             alt="프로필"
@@ -194,7 +204,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
             },
             pattern: nickNameRegex,
           })}
-          label="닉네임"
+          label="* 닉네임"
           placeholder="닉네임을 입력해 주세요."
           validation={
             errors.nickname?.type === 'pattern'
@@ -231,7 +241,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
               ? '이메일 형식이 아닙니다.'
               : errors.newsEmail?.message
           }
-          label="이메일"
+          label="* 이메일"
           placeholder="이메일을 입력해 주세요."
           inputButton={!isVerification}
           buttonText="인증번호 전송"
@@ -249,13 +259,14 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
             inputButton
             buttonText="인증번호 확인"
             buttonColor="gray"
+            validation={errors.code?.message}
             onButtonClick={() => handleCheckAuthNum(getValues('code'))}
           />
         </div>
       )}
       <div className="flex flex-col">
         <div className="py-2 text-sm font-semibold text-gray9">
-          관심 카테고리
+          * 관심 카테고리
         </div>
         <CategoryList
           type="default"

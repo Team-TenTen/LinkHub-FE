@@ -49,7 +49,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       category: space?.category || '',
       isVisible: space?.isVisible || false,
       isComment: space?.isComment || false,
-      isLinkSummarizable: space?.isLinkSummarizable || false,
+      isLinkSummarizable: false,
       isReadMarkEnabled: space?.isReadMarkEnabled || false,
     },
   })
@@ -81,6 +81,10 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
         } else if (spaceType === 'Setting') {
           try {
             const response = await fetchSettingSpace(spaceId, data, imageFile)
+            if (!response.spaceId) {
+              router.replace('/')
+              return
+            }
             notify('info', '스페이스를 수정했습니다.')
             router.push(`/space/${response.spaceId}`)
           } catch (e) {
@@ -151,6 +155,10 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
                 value: 20,
                 message: '스페이스명은 20글자 이하여야 합니다.',
               },
+              pattern: {
+                value: /^\S+(\s*\S*\s*)*\S+$/,
+                message: '스페이스명은 공백으로 시작하거나 끝날 수 없습니다.',
+              },
             })}
             label="스페이스 이름"
             placeholder="스페이스 이름을 입력하세요"
@@ -173,7 +181,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <div className="text-sm font-semibold text-gray9">관심 카테고리</div>
+          <div className="text-sm font-semibold text-gray9">카테고리</div>
           <div>
             <CategoryList
               type="default"
@@ -206,10 +214,9 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
               onChange={() => setValue('isComment', !getValues('isComment'))}
             />
           </div>
-          <div className="flex items-center justify-between border-t border-slate3 p-3">
+          {/* <div className="flex items-center justify-between border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9 opacity-50">
-              {/* 링크 3줄 요약 여부 */}
-              <span>서비스 준비 중입니다.</span>
+              링크 3줄 요약 여부
             </div>
             <Toggle
               {...register('isLinkSummarizable')}
@@ -218,7 +225,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
               isDisabled={true}
               onChange={() => {}}
             />
-          </div>
+          </div> */}
           <div className="flex items-center justify-between border-b border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">읽음 처리 여부</div>
             <Toggle
