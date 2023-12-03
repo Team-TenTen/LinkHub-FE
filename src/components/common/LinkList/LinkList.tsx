@@ -233,7 +233,7 @@ const LinkList = ({
                   message: LINK_FORM_VALIDATION.TITLE_LENGTH,
                 },
                 maxLength: {
-                  value: 50,
+                  value: 100,
                   message: LINK_FORM_VALIDATION.TITLE_LENGTH,
                 },
                 required: {
