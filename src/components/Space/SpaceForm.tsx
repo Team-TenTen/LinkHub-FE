@@ -155,6 +155,10 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
                 value: 20,
                 message: '스페이스명은 20글자 이하여야 합니다.',
               },
+              pattern: {
+                value: /^\S+$/,
+                message: '스페이스명은 공백으로 시작하거나 끝날 수 없습니다.',
+              },
             })}
             label="스페이스 이름"
             placeholder="스페이스 이름을 입력하세요"
