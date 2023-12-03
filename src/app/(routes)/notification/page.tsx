@@ -1,6 +1,7 @@
 'use client'
 
 import { NONE_NOTIFICATION_RESULT } from '@/components/common/NotificationList/constants'
+import { SEACH_MODAL_INFO } from '@/components/common/SearchModal/constants'
 
 const NotificationPage = () => {
   return (
@@ -19,7 +20,7 @@ const NotificationPage = () => {
         />
       ))} */}
       <div className="py-5 text-center text-sm font-medium text-gray9">
-        {NONE_NOTIFICATION_RESULT}
+        {SEACH_MODAL_INFO}
       </div>
     </div>
   )
