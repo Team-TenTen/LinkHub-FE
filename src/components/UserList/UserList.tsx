@@ -31,7 +31,7 @@ const UserList = ({ keyword, fetchFn }: UserListProps) => {
   return isUserListLoading ? (
     <Spinner />
   ) : (
-    <ul className="flex flex-col gap-y-2">
+    <ul className="flex flex-col gap-y-2 px-4">
       {users?.pages.map((group, i) => (
         <Fragment key={i}>
           {group.responses?.map((user: UserItem) => (
