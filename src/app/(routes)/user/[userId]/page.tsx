@@ -40,12 +40,12 @@ const UserPage = () => {
       <div className="flex flex-col gap-4 px-4 py-6">
         <div className="flex gap-3">
           {user?.profileImagePath && (
-            <Avatar
-              src={user.profileImagePath}
-              width={80}
-              height={80}
-              alt="profile"
-            />
+            <div className="relative h-20 w-20">
+              <Avatar
+                src={user.profileImagePath}
+                alt="profile"
+              />
+            </div>
           )}
           <div className="flex flex-col gap-1 py-0.5">
             <div className="text-xl font-semibold text-gray9">

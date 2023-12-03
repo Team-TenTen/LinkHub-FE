@@ -131,13 +131,14 @@ const LinkItem = ({
             {readUsers && readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
-                  <Avatar
-                    key={readUser.memberName}
-                    src={readUser.memberProfileImage || '/member-default.png'}
-                    width={20}
-                    height={20}
-                    alt="아바타"
-                  />
+                  <div
+                    className="relative h-5 w-5"
+                    key={readUser.memberName}>
+                    <Avatar
+                      src={readUser.memberProfileImage || '/member-default.png'}
+                      alt="아바타"
+                    />
+                  </div>
                 ))}
               </AvatarGroup>
             ) : (
@@ -205,13 +206,14 @@ const LinkItem = ({
             {readUsers && readUsers.length > 0 && read && !edit ? (
               <AvatarGroup>
                 {readUsers?.map((readUser) => (
-                  <Avatar
-                    key={readUser.memberName}
-                    src={readUser.memberProfileImage || '/member-default.png'}
-                    width={20}
-                    height={20}
-                    alt="아바타"
-                  />
+                  <div
+                    className="relative h-5 w-5"
+                    key={readUser.memberName}>
+                    <Avatar
+                      src={readUser.memberProfileImage || '/member-default.png'}
+                      alt="아바타"
+                    />
+                  </div>
                 ))}
               </AvatarGroup>
             ) : (

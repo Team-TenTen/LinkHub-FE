@@ -66,11 +66,9 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
             ) : (
               <>
                 <div className="flex items-center px-2">
-                  <div>
+                  <div className="relative h-10 w-10 shrink-0">
                     <Avatar
                       src={currentUser.profileImagePath}
-                      width={40}
-                      height={40}
                       alt={currentUser.nickname}
                     />
                   </div>
