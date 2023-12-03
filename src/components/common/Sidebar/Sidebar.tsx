@@ -4,7 +4,13 @@ import { useRef, useState } from 'react'
 import { Spinner } from '@/components'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { cls } from '@/utils'
+import { PlusIcon } from '@heroicons/react/20/solid'
+import { UserIcon } from '@heroicons/react/24/outline'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import {
+  ArchiveBoxIcon as ArchiveBoxOutlineIcon,
+  StarIcon as StarOutlineIcon,
+} from '@heroicons/react/24/outline'
 import { ArchiveBoxIcon, StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
@@ -81,13 +87,20 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                 </div>
                 <Link
                   href={`/user/${currentUser.memberId}`}
-                  className="my-2 px-2 py-2 text-base font-bold text-gray9"
+                  className="mb-2 mt-4 flex items-center px-2 py-2 text-base font-bold text-gray9"
                   onClick={onClose}>
-                  프로필
+                  <UserIcon className="mr-1.5 h-5 w-5" />내 프로필
                 </Link>
                 <div className="border-y border-slate3 px-2">
                   <div className="mt-2 flex justify-between py-2 text-base font-bold text-gray9">
-                    {spaceType}
+                    <div className="flex items-center">
+                      {spaceType === '내 스페이스' ? (
+                        <ArchiveBoxOutlineIcon className="mr-1.5 h-5 w-5" />
+                      ) : (
+                        <StarOutlineIcon className="mr-1.5 h-5 w-5" />
+                      )}
+                      {spaceType}
+                    </div>
                     {spaceType === '내 스페이스' ? (
                       <Button
                         className="button button-round button-white"
@@ -104,16 +117,13 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                       </Button>
                     )}
                   </div>
-
                   <ul>
                     {spaces &&
                       Object.values(spaces).map(({ spaceId, spaceName }) => (
-                        <li
-                          className="border-b border-slate3 last:border-none"
-                          key={spaceId}>
+                        <li key={spaceId}>
                           <Link
                             href={`/space/${spaceId}`}
-                            className="block px-3 py-2.5 text-sm text-gray9"
+                            className="block px-3 py-1.5 text-sm text-gray9 hover:underline"
                             onClick={onClose}>
                             {spaceName}
                           </Link>
@@ -129,8 +139,9 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                 </div>
                 <Link
                   href="/space/create"
-                  className="my-2 px-2 py-2 text-base font-bold text-gray9"
+                  className="my-2 flex items-center px-2 py-2 text-base font-bold text-gray9"
                   onClick={onClose}>
+                  <PlusIcon className="mr-1.5 h-5 w-5" />
                   스페이스 생성
                 </Link>
               </>
