@@ -7,11 +7,14 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://link-hub.site'),
   title: {
     template: '%s • LinkHub',
     default: 'LinkHub',
   },
   description: '링크 아카이빙 및 공유 플랫폼',
+  viewport:
+    'width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0',
   openGraph: {
     title: 'LinkHub',
     description: '링크 아카이빙 및 공유 플랫폼',
@@ -19,6 +22,9 @@ export const metadata: Metadata = {
     siteName: 'LinkHub',
     locale: 'ko_KR',
     type: 'website',
+    images: [
+      'https://team-10-bucket.s3.ap-northeast-2.amazonaws.com/linkhub-og-image.png',
+    ],
   },
 }
 
@@ -29,12 +35,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"
-        />
-      </head>
       <TanstackQueryContext>
         <AuthProvider>
           <body className="bg-bgColor">
