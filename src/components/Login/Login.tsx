@@ -17,10 +17,10 @@ const Login = () => {
       router.replace('/')
     } else if (searchParams.get('socialId')) {
       Cookies.set('Social-Id', searchParams.get('socialId') || '', {
-        expires: 1 / 144,
+        expires: 1 / 288,
       })
       Cookies.set('Provider', searchParams.get('provider') || '', {
-        expires: 1 / 144,
+        expires: 1 / 288,
       })
       router.replace('/register')
     }

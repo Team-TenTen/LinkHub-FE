@@ -34,8 +34,8 @@ export default function RootLayout({
                 <Header />
                 <main className="pt-[53px]">{children}</main>
               </div>
+              <ToastContainer />
             </Providers>
-            <ToastContainer />
           </body>
         </AuthProvider>
       </TanstackQueryContext>
