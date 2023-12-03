@@ -12,13 +12,14 @@ export interface AvatarProps {
 }
 
 const Avatar = ({ src, width, height, alt, className }: AvatarProps) => {
+  const avatarStyle = `relative h-[${width}px] w-[${height}px]`
+
   return (
-    <div className="inline-block">
+    <div className={avatarStyle}>
       <Image
         src={src}
-        width={width}
-        height={height}
         alt={alt}
+        layout="fill"
         className={cls(
           className,
           'rounded-full border border-slate3 object-cover',
