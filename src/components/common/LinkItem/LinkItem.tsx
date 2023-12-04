@@ -27,6 +27,7 @@ import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
 import NoneServiceModal from '../Modal/NoneServiceModal'
 import { RefetchTagsType, Tag } from '../Space/hooks/useGetTags'
+import Spinner from '../Spinner/Spinner'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
@@ -95,6 +96,7 @@ const LinkItem = ({
     setUrlErrorText,
     isShowFormError,
     setIsShowFormError,
+    isMetaLoading,
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
@@ -365,6 +367,7 @@ const LinkItem = ({
               {DELETE_TEXT}
             </div>
           )}
+          {isMetaLoading && <Spinner />}
         </Modal>
       )}
       {currentModal === 'login' && (

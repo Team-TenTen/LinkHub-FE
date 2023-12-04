@@ -14,6 +14,7 @@ const useGetMeta = ({ getValues, setValue, modalClose }: UseGetMetaProps) => {
   const [isUrlCheck, setIsUrlCheck] = useState(false)
   const [urlErrorText, setUrlErrorText] = useState('')
   const [isShowFormError, setIsShowFormError] = useState(false)
+  const [isMetaLoading, setIsMetaLoading] = useState(false)
 
   const getIsValidUrl = () => {
     const url = getValues('url')
@@ -28,9 +29,7 @@ const useGetMeta = ({ getValues, setValue, modalClose }: UseGetMetaProps) => {
     data: string
     error: boolean
   }) => {
-    if (data) {
-      setValue('title', data)
-    }
+    setValue('title', data)
 
     if (error) {
       setUrlErrorText(LINK_FORM_VALIDATION.INCORRECT_URL)
@@ -43,10 +42,12 @@ const useGetMeta = ({ getValues, setValue, modalClose }: UseGetMetaProps) => {
 
   const handleGetMeta = async ({ url }: FetchGetMetaProps) => {
     if (getIsValidUrl()) {
+      setIsMetaLoading(true)
       const { data, error } = await fetchGetMeta({
         url,
       })
       handleUrlValidation({ data, error })
+      setIsMetaLoading(false)
     } else {
       setUrlErrorText(LINK_FORM_VALIDATION.URL_INVALID_FORM)
     }
@@ -77,6 +78,7 @@ const useGetMeta = ({ getValues, setValue, modalClose }: UseGetMetaProps) => {
     setUrlErrorText,
     isShowFormError,
     setIsShowFormError,
+    isMetaLoading,
     getIsValidUrl,
     handleModalClose,
     handleChangeUrl,

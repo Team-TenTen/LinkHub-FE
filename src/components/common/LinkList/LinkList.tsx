@@ -105,6 +105,7 @@ const LinkList = ({
     setUrlErrorText,
     isShowFormError,
     setIsShowFormError,
+    isMetaLoading,
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
@@ -258,6 +259,7 @@ const LinkList = ({
               validation={errors.tagName?.message}
             />
           </div>
+          {isMetaLoading && <Spinner />}
         </Modal>
       )}
     </>
