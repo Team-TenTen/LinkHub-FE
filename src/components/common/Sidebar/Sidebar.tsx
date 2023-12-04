@@ -57,7 +57,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
       ref={sidebarRef}
       onClick={handleOverlayClick}
       className={cls(
-        'fixed bottom-0 left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center overflow-hidden shadow-xl',
+        'fixed bottom-0 left-0 right-0 top-0 z-50 mx-auto flex h-full w-full max-w-[500px] flex-col justify-center overflow-hidden shadow-xl',
         isOpen ? 'animate-openOverlay' : 'animate-closeOverlay',
       )}>
       <div
