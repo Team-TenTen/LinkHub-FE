@@ -70,12 +70,12 @@ const Comment = ({
     <>
       <article className="flex gap-x-2 py-3">
         {profileImagePath && (
-          <Avatar
-            src={profileImagePath}
-            width={30}
-            height={30}
-            alt={nickname}
-          />
+          <div className="relative h-[30px] w-[30px] shrink-0">
+            <Avatar
+              src={profileImagePath}
+              alt={nickname}
+            />
+          </div>
         )}
         <div className="flex w-full flex-col gap-y-1">
           <div className="flex items-center justify-between">

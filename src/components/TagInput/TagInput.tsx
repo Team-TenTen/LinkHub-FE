@@ -66,7 +66,7 @@ const TagInput = ({
             </button>
           )}
           <input
-            className="w-full py-0.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none"
+            className="w-full bg-bgColor py-0.5 text-sm font-medium text-gray9 placeholder-gray4 outline-none"
             type={selectedTag && 'hidden'}
             placeholder={LINK_FORM_PLACEHOLDER.TAG}
             {...register('tagName', {
@@ -96,7 +96,7 @@ const TagInput = ({
           </span>
         )}
         {isFocused && filteredTags && filteredTags.length > 0 && (
-          <ul className="select-tag-list absolute mt-2 flex flex-col overflow-y-scroll rounded-md border border-slate5 bg-bgColor px-2 py-2 shadow-lg">
+          <ul className="horizontal-scroll select-tag-list absolute mt-2 flex flex-col overflow-y-scroll rounded-md border border-slate5 bg-bgColor px-2 py-2 shadow-lg">
             {filteredTags.map((tag) => (
               <li
                 className="rounded-md px-1 py-1 hover:bg-slate1"

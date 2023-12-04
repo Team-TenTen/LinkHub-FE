@@ -132,12 +132,12 @@ const SpaceMemberList = ({
           className="flex items-center justify-between border-t border-slate3 p-2">
           <div className="flex items-center gap-2">
             {member.profilePath && (
-              <Avatar
-                src={member.profilePath}
-                width={30}
-                height={30}
-                alt="프로필"
-              />
+              <div className="relative h-[30px] w-[30px]">
+                <Avatar
+                  src={member.profilePath}
+                  alt="프로필"
+                />
+              </div>
             )}
             <div
               onClick={() => router.push(`/user/${member.memberId}`)}

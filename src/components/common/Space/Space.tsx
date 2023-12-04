@@ -2,7 +2,10 @@
 
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
+import {
+  LockClosedIcon,
+  StarIcon as StarIconOutline,
+} from '@heroicons/react/24/outline'
 import { InboxArrowDownIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import Image from 'next/image'
@@ -27,6 +30,7 @@ interface SpaceProps {
   favorite: number
   hasFavorite?: boolean
   hasScrap?: boolean
+  isVisible?: boolean
 }
 
 const Space = ({
@@ -41,6 +45,7 @@ const Space = ({
   favorite,
   hasFavorite,
   hasScrap,
+  isVisible,
 }: SpaceProps) => {
   const router = useRouter()
   const { isLoggedIn } = useCurrentUser()
@@ -116,7 +121,7 @@ const Space = ({
                 isLoggedIn ? handleClickScrapButton() : modalOpen()
               }}>
               {hasScrap ? (
-                <InboxArrowDownIcon className="h-4 w-4 text-yellow-300" />
+                <InboxArrowDownIcon className="h-4 w-4 text-emerald-500" />
               ) : (
                 <InboxArrowDownIcon className="h-4 w-4" />
               )}
@@ -147,8 +152,9 @@ const Space = ({
             <div className="line-clamp-1 text-xs font-normal text-gray6">
               {description}
             </div>
-            <div className="flex grow items-center">
+            <div className="flex grow items-center justify-between">
               <Chip label={category} />
+              {!isVisible && <LockClosedIcon className="h-4 w-4" />}
             </div>
           </div>
         </div>

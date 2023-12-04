@@ -62,7 +62,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
       )}>
       <div
         className={cls(
-          'absolute flex h-full w-full max-w-[300px] flex-col justify-between overflow-scroll rounded-l-xl bg-bgColor px-2 pb-1 pt-6',
+          'horizontal-scroll absolute flex h-full w-full max-w-[300px] flex-col justify-between  overflow-scroll rounded-l-xl bg-bgColor px-2 pb-1 pt-6',
           isOpen ? 'animate-openSidebar' : 'animate-closeSidebar',
         )}>
         <div className="flex flex-col">
@@ -72,12 +72,12 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
             ) : (
               <>
                 <div className="flex items-center px-2">
-                  <Avatar
-                    src={currentUser.profileImagePath}
-                    width={40}
-                    height={40}
-                    alt={currentUser.nickname}
-                  />
+                  <div className="relative h-10 w-10 shrink-0">
+                    <Avatar
+                      src={currentUser.profileImagePath}
+                      alt={currentUser.nickname}
+                    />
+                  </div>
                   <p className="font-sm ml-3 w-full overflow-hidden text-ellipsis	whitespace-nowrap font-medium text-gray9">
                     {currentUser.nickname}
                   </p>
