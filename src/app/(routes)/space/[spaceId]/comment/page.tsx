@@ -64,6 +64,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
           scrap={space.scrapCount}
           favorite={space.favoriteCount}
           hasFavorite={space.hasFavorite}
+          isVisible={space.isVisible}
         />
       )}
       {tabList.length > MIN_TAB_NUMBER && (
