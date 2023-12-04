@@ -33,6 +33,8 @@ const useCreateLink = ({
     tagName,
     color,
   }: FetchCreateLinkProps) => {
+    if (isCreateLinkLoading) return
+
     setIsCreateLinkLoading(true)
     await fetchCreateLink({
       spaceId,

@@ -15,6 +15,8 @@ const useDeleteLink = ({ refetchTags }: UseDeleteLinkProps) => {
     spaceId,
     linkId,
   }: FetchDeleteLinkProps) => {
+    if (isDeleteLinkLoading) return
+
     setIsDeleteLinkLoading(true)
     await fetchDeleteLink({ spaceId, linkId })
     await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })

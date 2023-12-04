@@ -29,6 +29,8 @@ const useUpdateLink = ({
     tagName,
     color = 'emerald',
   }: HandleUpdateLinkProps) => {
+    if (isUpdateLinkLoading) return
+
     setIsUpdateLinkLoading(true)
     await fetchUpdateLink({
       spaceId,
