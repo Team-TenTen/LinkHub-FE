@@ -101,8 +101,14 @@ const LinkItem = ({
     handleChangeUrl,
     handleGetMeta,
   } = useGetMeta({ getValues, setValue, modalClose })
-  const { handleUpdateLink } = useUpdateLink({ spaceId, linkId, refetchTags })
-  const { handleDeleteLink } = useDeleteLink({ refetchTags })
+  const { isUpdateLinkLoading, handleUpdateLink } = useUpdateLink({
+    spaceId,
+    linkId,
+    refetchTags,
+  })
+  const { isDeleteLinkLoading, handleDeleteLink } = useDeleteLink({
+    refetchTags,
+  })
   const { handleSaveReadInfo } = useReadSaveLink()
   const { isLiked, likeCount, handleClickLike } = useLikeLink({
     spaceId,
@@ -367,7 +373,9 @@ const LinkItem = ({
               {DELETE_TEXT}
             </div>
           )}
-          {isMetaLoading && <Spinner />}
+          {(isMetaLoading || isUpdateLinkLoading || isDeleteLinkLoading) && (
+            <Spinner />
+          )}
         </Modal>
       )}
       {currentModal === 'login' && (

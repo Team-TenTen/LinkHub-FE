@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { fetchUpdateLink } from '@/services/link/link'
 import { useQueryClient } from '@tanstack/react-query'
 import { RefetchTagsType } from '../../Space/hooks/useGetTags'
@@ -21,12 +22,14 @@ const useUpdateLink = ({
   refetchTags,
 }: UseUpdateLinkProps) => {
   const queryClient = useQueryClient()
+  const [isUpdateLinkLoading, setIsUpdateLinkLoading] = useState(false)
   const handleUpdateLink = async ({
     url,
     title,
     tagName,
     color = 'emerald',
   }: HandleUpdateLinkProps) => {
+    setIsUpdateLinkLoading(true)
     await fetchUpdateLink({
       spaceId,
       linkId,
@@ -37,9 +40,10 @@ const useUpdateLink = ({
     })
     await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
     refetchTags?.()
+    setIsUpdateLinkLoading(false)
   }
 
-  return { handleUpdateLink }
+  return { isUpdateLinkLoading, handleUpdateLink }
 }
 
 export default useUpdateLink
