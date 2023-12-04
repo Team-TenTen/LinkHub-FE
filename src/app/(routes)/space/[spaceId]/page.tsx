@@ -52,6 +52,7 @@ const SpacePage = ({ params }: { params: { spaceId: number } }) => {
           favorite={space.favoriteCount}
           hasFavorite={space.hasFavorite}
           hasScrap={space.hasScrap}
+          isVisible={space.isVisible}
         />
       )}
       {tabList.length > MIN_TAB_NUMBER && (

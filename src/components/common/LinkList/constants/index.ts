@@ -19,7 +19,7 @@ export const LINK_FORM_VALIDATION = {
   URL_INVALID_FORM: '유효한 URL 형식이 아닙니다.',
   URL_NOT_BUTTTON: 'URL 입력 후 확인 버튼을 눌러주세요.',
   NONE_TITLE: '제목을 입력해 주세요.',
-  TITLE_LENGTH: '제목은 2자 이상 50자 이하로 작성해야 합니다.',
+  TITLE_LENGTH: '제목은 2자 이상 100자 이하로 작성해야 합니다.',
   TAG_LENGTH: '태그는 10자 이하로 작성해야 합니다.',
 }
 
