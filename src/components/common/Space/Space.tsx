@@ -88,7 +88,7 @@ const Space = ({
                 {spaceName}
               </div>
             </div>
-            <div className="line-clamp-1 text-xs font-normal text-gray6">
+            <div className="line-clamp-1 min-h-[16px] text-xs font-normal text-gray6">
               {description}
             </div>
             <div className="flex items-center justify-end pt-1">
