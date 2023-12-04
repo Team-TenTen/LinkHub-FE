@@ -96,7 +96,7 @@ const TagInput = ({
           </span>
         )}
         {isFocused && filteredTags && filteredTags.length > 0 && (
-          <ul className="select-tag-list absolute mt-2 flex flex-col overflow-y-scroll rounded-md border border-slate5 bg-bgColor px-2 py-2 shadow-lg">
+          <ul className="horizontal-scroll select-tag-list absolute mt-2 flex flex-col overflow-y-scroll rounded-md border border-slate5 bg-bgColor px-2 py-2 shadow-lg">
             {filteredTags.map((tag) => (
               <li
                 className="rounded-md px-1 py-1 hover:bg-slate1"

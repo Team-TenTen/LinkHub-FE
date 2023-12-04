@@ -62,7 +62,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
       )}>
       <div
         className={cls(
-          'absolute flex h-full w-full max-w-[300px] flex-col justify-between overflow-scroll rounded-l-xl bg-bgColor px-2 pb-1 pt-6',
+          'horizontal-scroll absolute flex h-full w-full max-w-[300px] flex-col justify-between  overflow-scroll rounded-l-xl bg-bgColor px-2 pb-1 pt-6',
           isOpen ? 'animate-openSidebar' : 'animate-closeSidebar',
         )}>
         <div className="flex flex-col">
