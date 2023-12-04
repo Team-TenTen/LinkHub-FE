@@ -41,6 +41,8 @@ const useGetMeta = ({ getValues, setValue, modalClose }: UseGetMetaProps) => {
   }
 
   const handleGetMeta = async ({ url }: FetchGetMetaProps) => {
+    if (isMetaLoading) return
+
     if (getIsValidUrl()) {
       setIsMetaLoading(true)
       const { data, error } = await fetchGetMeta({
