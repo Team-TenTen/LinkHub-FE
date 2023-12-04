@@ -79,7 +79,7 @@ const LinkList = ({
   refetchTags,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
-  const { handleCreateLink } = useCreateLink({
+  const { isCreateLinkLoading, handleCreateLink } = useCreateLink({
     spaceId,
     refetchTags,
   })
@@ -105,6 +105,7 @@ const LinkList = ({
     setUrlErrorText,
     isShowFormError,
     setIsShowFormError,
+    isMetaLoading,
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
@@ -258,6 +259,7 @@ const LinkList = ({
               validation={errors.tagName?.message}
             />
           </div>
+          {(isMetaLoading || isCreateLinkLoading) && <Spinner />}
         </Modal>
       )}
     </>

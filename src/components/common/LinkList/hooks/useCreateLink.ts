@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { FetchCreateLinkProps, fetchCreateLink } from '@/services/link/link'
 import { fetchGetTags } from '@/services/space/space'
 import { useQueryClient } from '@tanstack/react-query'
@@ -10,6 +11,7 @@ export interface UseCreateLinkProps {
   refetchTags?: RefetchTagsType
 }
 export interface UseCreateLinkReturnType {
+  isCreateLinkLoading: boolean
   handleCreateLink: ({
     url,
     title,
@@ -23,6 +25,7 @@ const useCreateLink = ({
   refetchTags,
 }: UseCreateLinkProps): UseCreateLinkReturnType => {
   const queryclient = useQueryClient()
+  const [isCreateLinkLoading, setIsCreateLinkLoading] = useState(false)
 
   const handleCreateLink = async ({
     url,
@@ -30,6 +33,9 @@ const useCreateLink = ({
     tagName,
     color,
   }: FetchCreateLinkProps) => {
+    if (isCreateLinkLoading) return
+
+    setIsCreateLinkLoading(true)
     await fetchCreateLink({
       spaceId,
       url,
@@ -43,9 +49,11 @@ const useCreateLink = ({
     })
     await queryclient.invalidateQueries({ queryKey: ['links', spaceId] })
     refetchTags?.()
+    setIsCreateLinkLoading(false)
   }
 
   return {
+    isCreateLinkLoading,
     handleCreateLink,
   }
 }

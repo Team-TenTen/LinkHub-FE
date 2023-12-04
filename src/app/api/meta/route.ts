@@ -34,24 +34,34 @@ export interface Result {
   success: boolean
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const { url } = await req.json()
 
+  const options = {
+    url: url,
+    peekSize: 30000000,
+  }
+
+  const getOgData = async () => {
+    try {
+      const urlData = []
+      const response = await fetch(options.url)
+      const data = await response.text()
+      const result = await ogs({ html: data })
+      urlData.push({ ...result.result, url: options.url })
+      return urlData[0].ogTitle
+    } catch (error) {
+      return NextResponse.json({ error })
+    }
+  }
+
   try {
-    return await ogs({
-      url: url,
-      peekSize: 30000000,
-    }).then((data: MetaResType) => {
-      if (data) {
-        return NextResponse.json({
-          data: data.result.ogTitle,
-          error: data.error,
-        })
-      } else {
-        return NextResponse.json({})
-      }
-    })
-  } catch ({ error }: any) {
+    const data = await getOgData()
+    if (typeof data === 'object') {
+      return NextResponse.json({ data: '' })
+    }
+    return NextResponse.json({ data })
+  } catch (error: any) {
     return NextResponse.json({ error })
   }
 }

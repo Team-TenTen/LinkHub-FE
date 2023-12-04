@@ -27,6 +27,7 @@ import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
 import NoneServiceModal from '../Modal/NoneServiceModal'
 import { RefetchTagsType, Tag } from '../Space/hooks/useGetTags'
+import Spinner from '../Spinner/Spinner'
 import { DELETE_TEXT } from './\bconstants'
 import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
@@ -95,12 +96,19 @@ const LinkItem = ({
     setUrlErrorText,
     isShowFormError,
     setIsShowFormError,
+    isMetaLoading,
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
   } = useGetMeta({ getValues, setValue, modalClose })
-  const { handleUpdateLink } = useUpdateLink({ spaceId, linkId, refetchTags })
-  const { handleDeleteLink } = useDeleteLink({ refetchTags })
+  const { isUpdateLinkLoading, handleUpdateLink } = useUpdateLink({
+    spaceId,
+    linkId,
+    refetchTags,
+  })
+  const { isDeleteLinkLoading, handleDeleteLink } = useDeleteLink({
+    refetchTags,
+  })
   const { handleSaveReadInfo } = useReadSaveLink()
   const { isLiked, likeCount, handleClickLike } = useLikeLink({
     spaceId,
@@ -364,6 +372,9 @@ const LinkItem = ({
             <div className="flex justify-center text-base text-gray9">
               {DELETE_TEXT}
             </div>
+          )}
+          {(isMetaLoading || isUpdateLinkLoading || isDeleteLinkLoading) && (
+            <Spinner />
           )}
         </Modal>
       )}
