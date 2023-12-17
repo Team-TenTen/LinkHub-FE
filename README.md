@@ -25,15 +25,23 @@ npm run build
 
 ## 기술 스택
 
-<img width="600" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/81a3591c-e7e7-4281-b172-33e265e77872">
+<div align="center">
+   
+<img width="800" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/81a3591c-e7e7-4281-b172-33e265e77872">
+
+</div>
+
+<br>
 
 ## 팀원 소개
 
+<div align="center">
+   
 <table>
   <tr>
-    <td><img src="https://avatars.githubusercontent.com/u/66124037?v=4" width="200" height="200"/></td>
-    <td><img src="https://avatars.githubusercontent.com/u/39931980?v=4" width="200" height="200"/></td>
-    <td><img src="https://avatars.githubusercontent.com/u/49032882?v=4" width="200" height="200"/></td>
+    <td><img src="https://avatars.githubusercontent.com/u/66124037?v=4" width="186" height="186"/></td>
+    <td><img src="https://avatars.githubusercontent.com/u/39931980?v=4" width="186" height="186"/></td>
+    <td><img src="https://avatars.githubusercontent.com/u/49032882?v=4" width="186" height="186"/></td>
   </tr>
   <tr>
      <td align="center"><a href="https://github.com/JIY00N2">권기범</a><br><br><span>스페이스 생성/수정<br>카카오 로그인<br>회원가입<br>유저 정보 수정<br>공용 헤더</span></a>
@@ -45,6 +53,10 @@ npm run build
   </tr>
 </table>
 
+</div>
+
+<br>
+
 ## 서비스 개요
 
 ### LinkHub란 ?
@@ -55,24 +67,27 @@ npm run build
 
 ### 서비스 주요 기능
 
-- **링크 아카이빙** <br>
+**1. 링크 아카이빙** <br>
 
-  <img width="537" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/a1b91932-d7b1-41d4-82a3-110539a103d7">
-
-<br>
-
-- **공유 아카이빙 공간** <br>
-
-  <img width="538" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/922bef19-3d59-47c9-841e-a8852a3a4dbc">
+  <img width="800" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/a1b91932-d7b1-41d4-82a3-110539a103d7">
 
 <br>
-
-- **즐겨찾기** <br>
-
-  <img width="539" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/3f8178e5-b808-4424-a0ca-ac7951d86e89">
-
 <br>
 
-- **가져오기** <br>
+**2. 공유 아카이빙 공간** <br>
 
-  <img width="535" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/02bf4698-e386-4794-92af-838eb8b2e404">
+  <img width="800" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/922bef19-3d59-47c9-841e-a8852a3a4dbc">
+
+<br>
+<br>
+
+**3. 스페이스 즐겨찾기** <br>
+
+  <img width="800" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/3f8178e5-b808-4424-a0ca-ac7951d86e89">
+
+<br>
+<br>
+
+**4. 스페이스 가져오기** <br>
+
+  <img width="800" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/02bf4698-e386-4794-92af-838eb8b2e404">
