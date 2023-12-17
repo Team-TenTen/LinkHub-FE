@@ -1,10 +1,11 @@
 <div align="center">
-   
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fprgrms-fe-devcourse%2FFEDC4_Angola_NaYoung&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
 
 <img width="800" alt="image" src="https://github-production-user-asset-6210df.s3.amazonaws.com/39931980/291096148-892be9da-d1a6-4b6a-8f1d-08fecc9c772b.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231217%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231217T183354Z&X-Amz-Expires=300&X-Amz-Signature=19e3a23dfc09b772a536b6d07e563e53075fd9c65f32f6e72c80c43ebf74d10b&X-Amz-SignedHeaders=host&actor_id=39931980&key_id=0&repo_id=709155573">
 
 <h1>LinkHub</h1>
+
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fprgrms-fe-devcourse%2FFEDC4_Angola_NaYoung&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 <a href="https://link-hub.site/">LinkHub 바로가기</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://www.notion.so/prgrms/10-c76d868c091f457298748b77cca6ae86">팀 노션</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://www.notion.so/prgrms/LinkHub-546003d57aa34297a09ee98efa65cc25">기획서</a>
 
@@ -22,6 +23,8 @@ npm install
 npm run dev
 npm run build
 ```
+
+<br>
 
 ## 기술 스택
 
