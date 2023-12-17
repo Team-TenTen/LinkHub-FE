@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+   
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fprgrms-fe-devcourse%2FFEDC4_Angola_NaYoung&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
-## Getting Started
+<img width="800" alt="image" src="https://github-production-user-asset-6210df.s3.amazonaws.com/39931980/291096148-892be9da-d1a6-4b6a-8f1d-08fecc9c772b.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231217%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231217T183354Z&X-Amz-Expires=300&X-Amz-Signature=19e3a23dfc09b772a536b6d07e563e53075fd9c65f32f6e72c80c43ebf74d10b&X-Amz-SignedHeaders=host&actor_id=39931980&key_id=0&repo_id=709155573">
 
-First, run the development server:
+<h1>LinkHub</h1>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+<a href="https://link-hub.site/">LinkHub 바로가기</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://www.notion.so/prgrms/10-c76d868c091f457298748b77cca6ae86">팀 노션</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://www.notion.so/prgrms/LinkHub-546003d57aa34297a09ee98efa65cc25">기획서</a>
+
+<br/>
+
+</div>
+
+## 실행 방법
+
+```
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```
+npm run dev
+npm run build
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 기술 스택
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<img width="600" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/81a3591c-e7e7-4281-b172-33e265e77872">
 
-## Learn More
+## 팀원 소개
 
-To learn more about Next.js, take a look at the following resources:
+<table>
+  <tr>
+    <td><img src="https://avatars.githubusercontent.com/u/66124037?v=4" width="200" height="200"/></td>
+    <td><img src="https://avatars.githubusercontent.com/u/39931980?v=4" width="200" height="200"/></td>
+    <td><img src="https://avatars.githubusercontent.com/u/49032882?v=4" width="200" height="200"/></td>
+  </tr>
+  <tr>
+     <td align="center"><a href="https://github.com/JIY00N2">권기범</a><br><br><span>스페이스 생성/수정<br>카카오 로그인<br>회원가입<br>유저 정보 수정<br>공용 헤더</span></a>
+    </td>
+    <td align="center"><a href="https://github.com/dudwns">김영준</a><br><br><span>링크 생성/수정/삭제 및 좋아요<br>프로필 및 팔로우<br>스페이스 즐겨찾기<br>알림 조회 및 삭제<br>CI/CD 구축</span>
+    </td>
+    <td align="center"><a href="https://github.com/hayamaster">이승희</a><br><br><span>스페이스 댓글<br>검색<br>메인<br>무한 스크롤 기능<br>CI/CD 구축</span>
+    </td>
+  </tr>
+</table>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 서비스 개요
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### LinkHub란 ?
 
-## Deploy on Vercel
+**링크 아카이빙 및 공유 서비스**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<br>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 서비스 주요 기능
+
+- **링크 아카이빙** <br>
+
+  <img width="537" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/a1b91932-d7b1-41d4-82a3-110539a103d7">
+
+<br>
+
+- **공유 아카이빙 공간** <br>
+
+  <img width="538" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/922bef19-3d59-47c9-841e-a8852a3a4dbc">
+
+<br>
+
+- **즐겨찾기** <br>
+
+  <img width="539" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/3f8178e5-b808-4424-a0ca-ac7951d86e89">
+
+<br>
+
+- **가져오기** <br>
+
+  <img width="535" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/02bf4698-e386-4794-92af-838eb8b2e404">
