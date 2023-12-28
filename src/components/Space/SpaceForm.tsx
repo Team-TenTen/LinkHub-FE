@@ -10,6 +10,7 @@ import {
   fetchSettingSpace,
 } from '@/services/space/space'
 import { CreateSpaceReqBody, SpaceDetailResBody } from '@/types'
+import imageCompression from 'browser-image-compression'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
@@ -35,7 +36,6 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const spaceId = Number(path.split('/')[2])
   const router = useRouter()
   const getSpace = useGetSpace()
-
   const {
     register,
     getValues,
@@ -58,7 +58,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
     setThumnail(space?.spaceImagePath)
   }, [space])
 
-  const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e?: ChangeEvent<HTMLInputElement>) => {
     e?.preventDefault()
     if (e?.target.files) {
       const blob = new Blob([e.target.files[0]], {
@@ -66,7 +66,10 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
       })
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
-      setImageFile(e?.target.files[0])
+      const resizingBlob = await imageCompression(e?.target.files[0], {
+        maxSizeMB: 0.5,
+      })
+      setImageFile(resizingBlob)
     }
   }
 
