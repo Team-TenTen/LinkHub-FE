@@ -43,6 +43,7 @@ const useSearchModal = ({
   }
 
   const onSubmit: SubmitHandler<SearchFormValues> = (data) => {
+    if (data.search.length === 1) return
     router.push(`/search?target=${data.target}&keyword=${data.search}`)
   }
 
