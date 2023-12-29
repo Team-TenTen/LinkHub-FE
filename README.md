@@ -1,7 +1,6 @@
 <div align="center">
 
-
-<img width="800" alt="image" src="https://github-production-user-asset-6210df.s3.amazonaws.com/39931980/291096148-892be9da-d1a6-4b6a-8f1d-08fecc9c772b.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231217%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231217T183354Z&X-Amz-Expires=300&X-Amz-Signature=19e3a23dfc09b772a536b6d07e563e53075fd9c65f32f6e72c80c43ebf74d10b&X-Amz-SignedHeaders=host&actor_id=39931980&key_id=0&repo_id=709155573">
+![main](https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/3627e31b-e8fe-471f-a1df-6106a072d563)
 
 <h1>LinkHub</h1>
 
