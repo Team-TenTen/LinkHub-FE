@@ -1,5 +1,6 @@
 import { SubmitHandler, UseFormSetValue } from 'react-hook-form'
 import { SearchFormValue } from '@/app/(routes)/user/[userId]/space/page'
+import { notify } from '@/components/common/Toast/Toast'
 import { useRouter } from 'next/navigation'
 
 export interface UseSpaceSearchProps {
@@ -18,6 +19,10 @@ const useProfileSpacesSearch = ({
     type === 'space' ? `/user/${userId}/space?` : `/user/${userId}/favorite?`
 
   const onSubmit: SubmitHandler<SearchFormValue> = (data) => {
+    if (data.keyword.length === 1) {
+      notify('info', '검색어는 최대 2글자여야 합니다.')
+      return
+    }
     if (category) {
       router.push(`${basePath}category=${category}&keyword=${data.keyword}`)
     } else {
