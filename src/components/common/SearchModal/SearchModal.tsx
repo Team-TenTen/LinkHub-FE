@@ -57,7 +57,7 @@ const SearchModal = ({ onClose }: SearchModalProps) => {
           </div>
           <div className="grow">
             <Input
-              {...register('search', { required: true })}
+              {...register('search')}
               placeholder="검색어를 입력하세요."
               inputButton={true}
               buttonText="검색"
