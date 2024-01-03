@@ -20,7 +20,7 @@ const useProfileSpacesSearch = ({
 
   const onSubmit: SubmitHandler<SearchFormValue> = (data) => {
     if (data.keyword.length === 1) {
-      notify('info', '검색어는 최대 2글자여야 합니다.')
+      notify('info', '검색어는 최소 2글자여야 합니다.')
       return
     }
     if (category) {
