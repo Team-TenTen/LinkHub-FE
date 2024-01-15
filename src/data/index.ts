@@ -19,7 +19,7 @@ export const mock_LinkData = [
   },
   {
     id: 2,
-    title: '배포!!!!!!!',
+    title: '링크 제목',
     url: 'https://github.com',
     tagName: '오둥이',
     tagColor: 'pink',
