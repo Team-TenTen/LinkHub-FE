@@ -8,6 +8,7 @@ import { fetchPostUserProfile } from '@/services/user/profile/profile'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
+import imageCompression from 'browser-image-compression'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
@@ -67,7 +68,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     },
   })
 
-  const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e?: ChangeEvent<HTMLInputElement>) => {
     e?.preventDefault()
 
     if (e?.target.files) {
@@ -77,7 +78,10 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
       const thumbNailImage = URL.createObjectURL(blob)
       setThumnail(thumbNailImage)
-      setImageFile(e.target.files[0])
+      const resizingBlob = await imageCompression(e?.target.files[0], {
+        maxSizeMB: 0.5,
+      })
+      setImageFile(resizingBlob)
     }
   }
 
