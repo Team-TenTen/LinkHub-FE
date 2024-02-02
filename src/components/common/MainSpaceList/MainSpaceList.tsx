@@ -46,7 +46,7 @@ const MainSpaceList = ({
     })
 
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
-  console.log(spaces)
+
   return isSpacesLoading ? (
     <Spinner />
   ) : (
