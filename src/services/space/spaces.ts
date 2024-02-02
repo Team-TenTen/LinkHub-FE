@@ -2,15 +2,19 @@ import { SearchSpaceReqBody, SpaceInviteResBody } from '@/types'
 import { apiClient } from '../apiServices'
 
 const fetchGetSpaces = async ({
-  pageNumber,
+  lastSpaceId,
+  lastFavoriteCount,
   pageSize,
   sort,
   filter,
 }: SearchSpaceReqBody) => {
   const path = '/api/spaces'
   const params = {
-    pageNumber: pageNumber.toString(),
     pageSize: pageSize.toString(),
+    ...(lastSpaceId !== undefined && { lastSpaceId: lastSpaceId.toString() }),
+    ...(lastFavoriteCount !== undefined && {
+      lastFavoriteCount: lastFavoriteCount.toString(),
+    }),
     ...(sort && { sort: sort }),
     filter: filter,
   }
@@ -25,7 +29,7 @@ const fetchGetSpaces = async ({
 }
 
 const fetchSearchSpaces = async ({
-  pageNumber,
+  pageNumber = 0,
   pageSize,
   sort,
   filter,
@@ -51,7 +55,7 @@ const fetchSearchSpaces = async ({
 
 const fetchSearchMySpaces = async ({
   memberId,
-  pageNumber,
+  pageNumber = 0,
   pageSize,
   filter,
   keyWord,

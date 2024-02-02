@@ -1,14 +1,9 @@
 'use client'
 
-import {
-  CategoryList,
-  Dropdown,
-  LinkItem,
-  SpaceList,
-  Spinner,
-} from '@/components'
+import { CategoryList, Dropdown, LinkItem, Spinner } from '@/components'
 import FloatingButton from '@/components/FloatingButton/FloatingButton'
 import { ChipColors } from '@/components/common/Chip/Chip'
+import MainSpaceList from '@/components/common/MainSpaceList/MainSpaceList'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import useGetPopularLinks from '@/hooks/useGetPopularLinks'
 import { fetchGetSpaces } from '@/services/space/spaces'
@@ -77,7 +72,7 @@ export default function Home() {
                 onChange={handleCategoryChange}
               />
             </div>
-            <SpaceList
+            <MainSpaceList
               queryKey="main"
               sort={sort ?? ''}
               category={category ?? ''}

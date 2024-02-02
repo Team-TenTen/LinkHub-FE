@@ -2,7 +2,7 @@ import { apiClient } from '@/services/apiServices'
 import { SearchSpaceReqBody } from '@/types'
 
 const fetchGetMyFavoriteSpaces = async ({
-  pageNumber,
+  pageNumber = 0,
   pageSize,
   keyWord,
   filter,

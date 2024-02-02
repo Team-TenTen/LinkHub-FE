@@ -112,7 +112,9 @@ export interface UserDetailInfo {
 // 검색 req body
 export interface SearchSpaceReqBody {
   memberId?: number
-  pageNumber: number
+  pageNumber?: number
+  lastSpaceId?: number
+  lastFavoriteCount?: number
   pageSize: number
   sort?: string
   keyWord?: string
