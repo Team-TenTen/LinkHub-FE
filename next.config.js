@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['team-10-bucket.s3.ap-northeast-2.amazonaws.com'],
+    domains: ['linkhub-s3.s3.ap-northeast-2.amazonaws.com'],
   },
   async redirects() {
     return [
