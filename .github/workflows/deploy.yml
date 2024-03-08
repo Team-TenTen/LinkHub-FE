@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  S3_BUCKET_NAME: link-hub.site
+  S3_BUCKET_NAME: linkhub.site
   CODE_DEPLOY_APPLICATION_NAME: team10-fe-code-deploy
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: team-10-fe
 
