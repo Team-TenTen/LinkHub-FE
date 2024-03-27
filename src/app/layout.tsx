@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     type: 'website',
     images: [
-      'https://team-10-bucket.s3.ap-northeast-2.amazonaws.com/linkhub-og-image.png',
+      'https://linkhub-s3.s3.ap-northeast-2.amazonaws.com/linkhub-og-image.png',
     ],
   },
 }
