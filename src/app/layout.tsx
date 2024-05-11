@@ -3,7 +3,7 @@ import Header from '@/components/common/Header/Header'
 import ToastContainer from '@/components/common/Toast/ToastContainer'
 import { AuthProvider } from '@/lib/contexts/AuthProvider'
 import TanstackQueryContext from '@/lib/contexts/TanstackQueryContext'
-import type { Metadata } from 'next'
+import { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -13,6 +13,17 @@ export const metadata: Metadata = {
     default: 'LinkHub',
   },
   description: '링크 아카이빙 및 공유 플랫폼',
+  themeColor: '#50b584',
+  icons: {
+    other: [
+      {
+        url: '/images/icons/splashscreens/iphone5_splash.png',
+        media:
+          '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
+        rel: 'apple-touch-startup-image',
+      },
+    ],
+  },
   viewport:
     'width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0',
   openGraph: {
@@ -26,6 +37,7 @@ export const metadata: Metadata = {
       'https://linkhub-s3.s3.ap-northeast-2.amazonaws.com/linkhub-og-image.png',
     ],
   },
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({
