@@ -155,6 +155,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
       userData?.memberId &&
         (await fetchPostUserProfile(userData?.memberId, data, imageFile))
       notify('success', '수정되었습니다.')
+      router.refresh()
       router.back()
     } catch (e) {
       notify('error', '수정에 실패했습니다.')

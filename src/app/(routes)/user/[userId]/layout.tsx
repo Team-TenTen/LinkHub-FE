@@ -1,13 +1,14 @@
-import { UserController } from '@/components'
+import { ProfileTap } from '@/components'
 import { fetchGetUserProfile } from '@/services/user/profile/profile'
 import { Metadata } from 'next'
 
-type Props = {
+export type UserLayoutProps = {
   params: { userId: number }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const userId = params.userId
+export async function generateMetadata({
+  params: { userId },
+}: UserLayoutProps): Promise<Metadata> {
   const user = await fetchGetUserProfile({ memberId: userId })
 
   return {
@@ -19,7 +20,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const UserLayout = ({ children }: { children: React.ReactNode }) => {
-  return <UserController>{children}</UserController>
+  return (
+    <>
+      <ProfileTap />
+      {children}
+    </>
+  )
 }
 
 export default UserLayout
