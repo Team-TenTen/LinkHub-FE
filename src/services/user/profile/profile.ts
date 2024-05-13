@@ -9,7 +9,7 @@ const fetchGetUserProfile = async ({ memberId }: FetchGetUserProfileProps) => {
   const path = `/api/user/${memberId}/profile`
 
   try {
-    const response = await apiClient.get(path)
+    const response = await apiClient.get(path, { cache: 'no-store' })
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
