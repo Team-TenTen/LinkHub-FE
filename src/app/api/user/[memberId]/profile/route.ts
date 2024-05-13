@@ -14,7 +14,7 @@ export async function GET(
   }
 
   try {
-    const userData = await apiServer.get(path, { cache: 'no-cache' }, headers)
+    const userData = await apiServer.get(path, {}, headers)
     return NextResponse.json(userData)
   } catch (error: any) {
     return NextResponse.json(
