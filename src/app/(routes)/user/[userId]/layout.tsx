@@ -2,18 +2,14 @@ import { ProfileTap } from '@/components'
 import { fetchGetUserProfile } from '@/services/user/profile/profile'
 import { Metadata } from 'next'
 
-type Props = {
+export type UserLayoutProps = {
   params: { userId: number }
 }
 
-export async function getProfile(userId: number) {
-  const response = await fetchGetUserProfile({ memberId: userId })
-  return response
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const userId = params.userId
-  const user = await getProfile(userId)
+export async function generateMetadata({
+  params: { userId },
+}: UserLayoutProps): Promise<Metadata> {
+  const user = await fetchGetUserProfile({ memberId: userId })
 
   return {
     title: user.nickname,
