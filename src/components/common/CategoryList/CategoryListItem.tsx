@@ -1,3 +1,5 @@
+'use client'
+
 import { cls } from '@/utils'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
