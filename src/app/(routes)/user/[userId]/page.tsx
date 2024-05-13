@@ -5,14 +5,13 @@ import {
   ProfileEditButton,
 } from '@/components'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
-import { getProfile } from './layout'
+import { fetchGetUserProfile } from '@/services/user/profile/profile'
+import { UserLayoutProps } from './layout'
 
-interface UserPageProps {
-  params: { userId: number }
-}
-
-export default async function UserPage({ params: { userId } }: UserPageProps) {
-  const user = await getProfile(userId)
+export default async function UserPage({
+  params: { userId },
+}: UserLayoutProps) {
+  const user = await fetchGetUserProfile({ memberId: userId })
 
   return (
     <>

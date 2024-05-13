@@ -6,9 +6,8 @@ type SpaceLayoutProps = {
 }
 
 export async function generateMetadata({
-  params,
+  params: { spaceId },
 }: SpaceLayoutProps): Promise<Metadata> {
-  const spaceId = params.spaceId
   const space = await fetchGetSpace({ spaceId })
 
   return {
