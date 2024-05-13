@@ -6,7 +6,7 @@ import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
 import useGetProfile from '@/hooks/useGetProfile'
 
-const UserController = ({ children }: { children: React.ReactNode }) => {
+const ProfileTap = () => {
   const { user, myId, isProfileLoading } = useGetProfile()
   const { currentTab, tabList } = useTab({
     type: 'user',
@@ -28,9 +28,8 @@ const UserController = ({ children }: { children: React.ReactNode }) => {
           ))}
         </Tab>
       )}
-      {children}
     </>
   )
 }
 
-export default UserController
+export default ProfileTap
