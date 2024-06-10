@@ -1,23 +1,31 @@
 ![스크린샷 2024-01-23 오전 1 42 31](https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/aa341f05-3915-425a-b439-c26e644425d9)
 
+<br>
+
 ## 🔗 LinkHub 🔗
 
 > 링크 아카이빙 및 공유 서비스
+
+<br>
 
 ## 🔗 프로젝트 기간 🔗
 
 > 프로젝트 기간 : 2023/10/10 ~ 2023/12/05
 
+<br>
+
 ## 🔗 프로젝트 기획 배경 및 동기 🔗
 
-> 저희는 아래와 같은 불편함들을 해결하기 위해 LinkHub 서비스를 기획했습니다.
+> 저희는 아래와 같은 불편함을 해결하기 위해 LinkHub 서비스를 기획했습니다.
 
 - 기존 브라우저의 북마크만으로는 계층 별로 정리하거나 구분하기에 한계가 존재한다.
 - 기존 북마크의 경우, 묶인 링크를 한 사람만 확인할 수 있으며 다른 사용자와의 공유가 불편하다.
-- 슬랙 혹은 카카오 단톡방에 링크 공유 시 다른 텍스트 메세지들에 의해 해당 링크가 자주 묻힌다.
+- 슬랙 혹은 카카오 단톡방에 링크 공유 시 다른 텍스트 메시지들에 의해 해당 링크가 자주 묻힌다.
 - 슬랙 혹은 단톡방에서 팀원들이 해당 링크를 봤는지 확인하고 싶다.
 - 슬랙 혹은 카카오 단톡방에 링크를 공유하면 해당 링크를 본 인원들을 파악하고 싶다.
 - 지역 맛집 혹은 쇼핑몰 등을 검색하면 양질의 정보가 아닌 많은 광고들로 인해 정보를 필터링하는 추가적인 비용이 소모된다.
+
+<br>
 
 ## 🔗 기능 시연 🔗
 
@@ -28,12 +36,16 @@
 |:---:|:---:|:---:|
 | ![메인 페이지](https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/14368d47-d597-4bac-a375-4886b10f3eb4) | ![스페이스(링크 저장소) 검색](https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/4ace19c3-0419-4955-a4de-1b2e355046de) | ![유저 검색](https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/de209ba9-8871-4953-b86e-18360a794269) |
 
+<br>
+
 ### 링크 아카이빙
 
-링크의 메타태그를 통해 자동으로 제목을 추천해주며 태그를 통해 추후 필터링의 용이성을 올림
+링크의 메타태그를 통해 자동으로 제목을 추천해 주며 태그를 통해 추후 필터링의 용이성을 올림
 | 링크 생성 | 링크 필터링 |
 |:---:|:---:|
 | <img src="https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/73319202-e0eb-437d-8521-9907fc4bf856" width="250"> | <img src="https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/18b07c5f-e369-4772-88c3-81e28a29c0ef" width="250"> |
+
+<br>
 
 ### 공유 아카이빙 공간
 
@@ -42,6 +54,8 @@
 |:---:|:---:|:---:|
 | ![초대 하기](https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/cae806df-b646-491d-97ba-611179d92cc7) | ![초대 받기](https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/9ed2649d-49ce-4209-9136-84b29e2a938e) | ![링크 조회 이력 표시](https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/e4748848-8b7e-41af-9a40-cb0de6524f28) |
 
+<br>
+
 ### 즐겨찾기
 
 공개된 스페이스(링크 저장소)는 즐겨찾기 기능을 통해 구독을 할 수 있다. 또한 많은 유저들에게 즐겨찾기된 스페이스는 메인화면 즐겨찾기 순 옵션에서 상위에 노출되게 된다.
@@ -49,12 +63,16 @@
 |:---:|
 | <img src="https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/e7d6fc60-fe21-499c-bb9e-7c6db1d5354a" width="250"> |
 
+<br>
+
 ### 가져오기
 
 공개된 스페이스(링크 저장소)를 복사하여 편집 가능한 나의 스페이스로 만들 수 있다. 즐겨찾기와 다르게 원본의 이후 변경사항은 반영되지 않는다.
 | 가져오기 |
 |:---:|
 | <img src="https://github.com/Team-TenTen/LinkHub-BE/assets/108216455/e8757df5-c505-4473-a0d9-4412e8cf656e" width="250"> |
+
+<br>
 
 ### 댓글
 
@@ -65,7 +83,7 @@
 
 <br>
 
-## 👨‍👩‍👦 팀원 소개
+## 👤 팀원 소개
 
 <div align="center">
    
@@ -87,13 +105,23 @@
 
 </div>
 
+<br>
+
 ## 💻 기술 스택
 
-<div align="center">
-   
-<img width="800" alt="image" src="https://github.com/Team-TenTen/LinkHub-FE/assets/39931980/81a3591c-e7e7-4281-b172-33e265e77872">
+### 기술
 
-</div>
+<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"></a>
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"></a>
+<img src="https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"></a>
+<img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"></a>
+<img src="https://img.shields.io/badge/React Hook Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white"></a>
+
+### 인프라
+
+<img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"></a>
+<img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"></a>
+<img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white"></a>
 
 <br>
 
@@ -102,6 +130,8 @@
 |                                                  Notion                                                   |                                                       Slack                                                        |                                                        Discord                                                        |                                                        GitHub                                                        |                                                       Figma                                                        |
 | :-------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
 | <img src="https://img.shields.io/badge/Notion-FFFFFF?style=flat-square&logo=Notion&logoColor=black"/></a> | <img src="https://img.shields.io/badge/slack-232F3E?style=flat-square&logo=slack&logoColor=white&style=flat"/></a> | <img src="https://img.shields.io/badge/Discord-232F3E?style=flat-square&logo=Discord&logoColor=blue&style=flat"/></a> | <img src="https://img.shields.io/badge/Github-000000?style=flat-square&logo=Github&logoColor=white&style=flat"/></a> | <img src="https://img.shields.io/badge/Figma-50B584?style=flat-square&logo=Figma&logoColor=white&style=flat"/></a> |
+
+<br>
 
 ## 문서
 
