@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { cls } from '@/utils'
 import { LinkIcon } from '@heroicons/react/20/solid'
@@ -80,4 +81,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default React.memo(Header)

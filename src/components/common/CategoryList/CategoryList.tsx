@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/pagination'
@@ -66,4 +67,4 @@ const CategoryList = ({
   )
 }
 
-export default CategoryList
+export default React.memo(CategoryList)
