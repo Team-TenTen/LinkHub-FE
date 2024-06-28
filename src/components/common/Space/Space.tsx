@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import {
@@ -168,4 +169,4 @@ const Space = ({
   )
 }
 
-export default Space
+export default React.memo(Space)

@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
@@ -396,4 +397,4 @@ const LinkItem = ({
   )
 }
 
-export default LinkItem
+export default React.memo(LinkItem)
