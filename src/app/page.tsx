@@ -3,6 +3,7 @@
 import { CategoryList, Dropdown, LinkItem, Spinner } from '@/components'
 import FloatingButton from '@/components/FloatingButton/FloatingButton'
 import { ChipColors } from '@/components/common/Chip/Chip'
+import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
 import MainSpaceList from '@/components/common/MainSpaceList/MainSpaceList'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import useGetPopularLinks from '@/hooks/useGetPopularLinks'
@@ -23,7 +24,9 @@ export default function Home() {
   return (
     <>
       {isPopularLinksLoading ? (
-        <Spinner />
+        <DeferredComponent>
+          <Spinner />
+        </DeferredComponent>
       ) : (
         <>
           <section className="px-4 pb-8">

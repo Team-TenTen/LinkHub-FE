@@ -2,6 +2,7 @@
 
 import { Dropdown, LinkList, SpaceMemberList, Spinner } from '@/components'
 import Button from '@/components/common/Button/Button'
+import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
@@ -36,7 +37,9 @@ const SpacePage = ({ params }: { params: { spaceId: number } }) => {
   const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
 
   return isSpaceLoading || isTagsLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <>
       {space && (

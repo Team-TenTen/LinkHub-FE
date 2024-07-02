@@ -6,6 +6,7 @@ import { UserProfileResBody } from '@/types'
 import { cls, getProfileButtonColor, getProfileButtonText } from '@/utils'
 import { useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
+import DeferredComponent from '../common/DeferedComponent/DeferedComponent'
 import Spinner from '../common/Spinner/Spinner'
 
 const ProfileEditButton = ({ user }: { user: UserProfileResBody }) => {
@@ -48,7 +49,9 @@ const ProfileEditButton = ({ user }: { user: UserProfileResBody }) => {
       })}
     </Button>
   ) : (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   )
 }
 

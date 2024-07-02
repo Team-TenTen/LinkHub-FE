@@ -17,6 +17,7 @@ import Avatar from '../Avatar/Avatar'
 import AvatarGroup from '../AvatarGroup/AvatarGroup'
 import Button from '../Button/Button'
 import Chip, { ChipColors } from '../Chip/Chip'
+import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import Input from '../Input/Input'
 import { CreateLinkFormValue, linkViewHistories } from '../LinkList/LinkList'
 import {
@@ -375,7 +376,9 @@ const LinkItem = ({
             </div>
           )}
           {(isMetaLoading || isUpdateLinkLoading || isDeleteLinkLoading) && (
-            <Spinner />
+            <DeferredComponent>
+              <Spinner />
+            </DeferredComponent>
           )}
         </Modal>
       )}

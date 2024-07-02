@@ -5,6 +5,7 @@ import { CATEGORIES_RENDER } from '@/constants'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchSpaceReqBody, SpaceResBody } from '@/types'
 import { Spinner } from '..'
+import DeferredComponent from '../common/DeferedComponent/DeferedComponent'
 import Space from '../common/Space/Space'
 import { NONE_SEARCH_RESULT } from './constants'
 import useSpacesQuery from './hooks/useSpacesQuery'
@@ -45,7 +46,9 @@ const SpaceList = ({
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
   return isSpacesLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <>
       <ul className="flex flex-col gap-y-2 px-4 pt-2">

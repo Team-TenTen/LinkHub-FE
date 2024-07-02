@@ -4,6 +4,7 @@ import { SpaceMemberList } from '@/components'
 import { Spinner } from '@/components'
 import SpaceForm from '@/components/Space/SpaceForm'
 import Button from '@/components/common/Button/Button'
+import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import { notify } from '@/components/common/Toast/Toast'
 import { useModal } from '@/hooks'
@@ -23,7 +24,9 @@ const SpaceSettingPage = ({ params }: { params: { spaceId: number } }) => {
   }
 
   return isSpaceLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <div>
       {space && (
