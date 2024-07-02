@@ -3,6 +3,7 @@ import { Spinner } from '@/components'
 import useFollowQuery from '@/components/common/FollowList/hooks/useFollowQuery'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { FetchGetFollowProps } from '@/services/user/follow/follow'
+import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import User from '../User/User'
 
 export interface FollowListProps {
@@ -39,7 +40,9 @@ const FollowList = ({
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
   return isFollowLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <ul className="flex flex-col gap-y-2">
       {followList?.pages.map((group, i) => (

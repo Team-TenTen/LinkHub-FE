@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Input, Spinner } from '@/components'
 import CommentList from '@/components/CommentList/CommentList'
 import Button from '@/components/common/Button/Button'
+import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
 import LoginModal from '@/components/common/Modal/LoginModal'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
@@ -49,7 +50,9 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
 
   return isSpaceLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <>
       {space && (

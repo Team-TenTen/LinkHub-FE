@@ -3,6 +3,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchUserReqBody } from '@/types'
 import { Spinner } from '..'
+import DeferredComponent from '../common/DeferedComponent/DeferedComponent'
 import User from '../common/User/User'
 import useUsersQuery from './hooks/useUsersQuery'
 
@@ -29,7 +30,9 @@ const UserList = ({ keyword, fetchFn }: UserListProps) => {
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
   return isUserListLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <ul className="flex flex-col gap-y-2 px-4">
       {users?.pages.map((group, i) => (

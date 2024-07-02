@@ -15,6 +15,7 @@ import { ArchiveBoxIcon, StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
+import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import ThemeButton from '../ThemeButton/ThemeButton'
 import { useMySpace } from './hooks/useMySpace'
 import useSidebar from './hooks/useSidebar'
@@ -68,7 +69,9 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
         <div className="flex flex-col">
           {currentUser ? (
             isSideBarLoading ? (
-              <Spinner />
+              <DeferredComponent>
+                <Spinner />
+              </DeferredComponent>
             ) : (
               <>
                 <div className="flex items-center px-2">
