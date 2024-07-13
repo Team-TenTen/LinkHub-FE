@@ -6,9 +6,9 @@ import useMainSpacesQuery from '@/components/SpaceList/hooks/useMainSpacesQuery'
 import { CATEGORIES_RENDER } from '@/constants'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchSpaceReqBody, SpaceResBody } from '@/types'
-import { Spinner } from '../..'
 import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import Space from '../Space/Space'
+import MainSpaceSkeleton from './MainSpaceSkeleton'
 
 export interface SpaceListProps {
   memberId?: number
@@ -50,7 +50,7 @@ const MainSpaceList = ({
 
   return isSpacesLoading ? (
     <DeferredComponent>
-      <Spinner />
+      <MainSpaceSkeleton />
     </DeferredComponent>
   ) : (
     <>
