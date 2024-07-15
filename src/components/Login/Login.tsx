@@ -32,17 +32,19 @@ const Login = () => {
         <div>
           <LinkIcon className="h-10 w-10 text-emerald5" />
         </div>
-        <div className="text-4xl font-normal leading-10 text-emerald5">
+        <div className="mb-4 text-4xl font-normal leading-10 text-emerald5">
           LinkHub
         </div>
+        <Button
+          type="button"
+          onClick={() => router.push('/kakaoLogin')}
+          className="button button-md flex w-full max-w-[500px] items-center justify-center border-none bg-yellow-400 px-3 py-2.5">
+          <ChatBubbleOvalLeftIcon className="h-6 w-6 text-gray-800" />
+          <div className="text-sm font-bold text-gray-800">
+            카카오로 시작하기
+          </div>
+        </Button>
       </div>
-      <Button
-        type="button"
-        onClick={() => router.push('/kakaoLogin')}
-        className="button button-md flex w-full items-center justify-center border-none bg-yellow-400 px-3 py-2.5">
-        <ChatBubbleOvalLeftIcon className="h-6 w-6 text-gray-800" />
-        <div className="text-sm font-bold text-gray-800">카카오로 시작하기</div>
-      </Button>
     </div>
   )
 }
