@@ -54,7 +54,9 @@ const MainSpaceList = ({
     </DeferredComponent>
   ) : (
     <>
-      <ul className="flex flex-col gap-y-2 px-4 pt-2">
+      <ul
+        className=" grid gap-4 gap-y-2 px-4 pt-2"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))' }}>
         {spaces?.pages[0].responses.length
           ? spaces?.pages.map((group, i) => (
               <Fragment key={i}>
