@@ -94,7 +94,7 @@ const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
         />
       </section>
       <form
-        className="fixed bottom-0 z-10 w-full max-w-[500px] bg-bgColor"
+        className="fixed bottom-0 z-10 w-full bg-bgColor"
         onFocus={(e) => {
           if (!isLoggedIn) {
             modalOpen()
