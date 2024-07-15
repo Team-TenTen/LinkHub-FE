@@ -34,6 +34,32 @@ export default function Home() {
           links && (
             <Swiper
               slidesPerView={2.1}
+              breakpoints={{
+                640: {
+                  slidesPerView: 2.1,
+                },
+                768: {
+                  slidesPerView: 3.1,
+                },
+                1024: {
+                  slidesPerView: 4.1,
+                },
+                1280: {
+                  slidesPerView: 5.1,
+                },
+                1536: {
+                  slidesPerView: 6.1,
+                },
+                1920: {
+                  slidesPerView: 7.1,
+                },
+                2148: {
+                  slidesPerView: 8.1,
+                },
+                2324: {
+                  slidesPerView: 9.1,
+                },
+              }}
               spaceBetween={16}
               freeMode={true}
               pagination={{
