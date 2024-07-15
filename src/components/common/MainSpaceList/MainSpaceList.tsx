@@ -6,7 +6,9 @@ import useMainSpacesQuery from '@/components/SpaceList/hooks/useMainSpacesQuery'
 import { CATEGORIES_RENDER } from '@/constants'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchSpaceReqBody, SpaceResBody } from '@/types'
+import Button from '../Button/Button'
 import DeferredComponent from '../DeferedComponent/DeferedComponent'
+import { MORE_TEXT } from '../LinkList/constants'
 import Space from '../Space/Space'
 import MainSpaceSkeleton from './MainSpaceSkeleton'
 
@@ -55,7 +57,7 @@ const MainSpaceList = ({
   ) : (
     <>
       <ul
-        className=" grid gap-4 gap-y-2 px-4 pt-2"
+        className=" mb-4 grid gap-4 gap-y-2 px-4 pt-2"
         style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))' }}>
         {spaces?.pages[0].responses.length
           ? spaces?.pages.map((group, i) => (
@@ -82,9 +84,17 @@ const MainSpaceList = ({
                 {NONE_SEARCH_RESULT}
               </div>
             )}
-
-        <div ref={target}></div>
       </ul>
+      {hasNextPage && (
+        <div className="flex justify-center">
+          <div
+            ref={target}
+            className="button-md button-round button-white flex w-40 cursor-pointer border"
+            onClick={() => fetchNextPage()}>
+            {MORE_TEXT}
+          </div>
+        </div>
+      )}
     </>
   )
 }
