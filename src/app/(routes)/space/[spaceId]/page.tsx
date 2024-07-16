@@ -5,7 +5,6 @@ import Button from '@/components/common/Button/Button'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
-import SpaceSkeleton from '@/components/common/Space/SpaceSkeleton'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import useGetTags from '@/components/common/Space/hooks/useGetTags'
 import Tab from '@/components/common/Tab/Tab'
@@ -37,29 +36,27 @@ const SpacePage = ({ params }: { params: { spaceId: number } }) => {
   })
   const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
 
-  return (
+  return isSpaceLoading || isTagsLoading ? (
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
+  ) : (
     <>
-      {isSpaceLoading ? (
-        <DeferredComponent>
-          <SpaceSkeleton />
-        </DeferredComponent>
-      ) : (
-        space && (
-          <Space
-            type="Header"
-            userName={space.memberDetailInfos[0].nickname}
-            spaceId={space.spaceId}
-            spaceName={space.spaceName}
-            spaceImage={space.spaceImagePath}
-            description={space.description}
-            category={CATEGORIES_RENDER[space.category]}
-            scrap={space.scrapCount}
-            favorite={space.favoriteCount}
-            hasFavorite={space.hasFavorite}
-            hasScrap={space.hasScrap}
-            isVisible={space.isVisible}
-          />
-        )
+      {space && (
+        <Space
+          type="Header"
+          userName={space.memberDetailInfos[0].nickname}
+          spaceId={space.spaceId}
+          spaceName={space.spaceName}
+          spaceImage={space.spaceImagePath}
+          description={space.description}
+          category={CATEGORIES_RENDER[space.category]}
+          scrap={space.scrapCount}
+          favorite={space.favoriteCount}
+          hasFavorite={space.hasFavorite}
+          hasScrap={space.hasScrap}
+          isVisible={space.isVisible}
+        />
       )}
       {tabList.length > MIN_TAB_NUMBER && (
         <Tab>
