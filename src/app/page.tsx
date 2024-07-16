@@ -4,7 +4,6 @@ import { CategoryList, Dropdown, LinkItem, Spinner } from '@/components'
 import FloatingButton from '@/components/FloatingButton/FloatingButton'
 import { ChipColors } from '@/components/common/Chip/Chip'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
-import LinkItemSkeleton from '@/components/common/LinkItem/LinkItemSkeleton'
 import MainSpaceList from '@/components/common/MainSpaceList/MainSpaceList'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import useGetPopularLinks from '@/hooks/useGetPopularLinks'
@@ -22,15 +21,15 @@ export default function Home() {
   const { category, categoryIndex, handleCategoryChange } =
     useCategoryParam('all')
 
-  return (
+  return isPopularLinksLoading ? (
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
+  ) : (
     <>
       <section className="px-4 pb-8">
         <h2 className="py-4 font-bold text-gray9">인기있는 링크</h2>
-        {isPopularLinksLoading ? (
-          <DeferredComponent>
-            <LinkItemSkeleton type="card" />
-          </DeferredComponent>
-        ) : (
+        {
           links && (
             <Swiper
               slidesPerView={2.1}
@@ -82,7 +81,6 @@ export default function Home() {
                 </SwiperSlide>
               ))}
             </Swiper>
-          )
         )}
       </section>
       <section>

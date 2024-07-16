@@ -10,7 +10,7 @@ import Button from '../Button/Button'
 import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import { MORE_TEXT } from '../LinkList/constants'
 import Space from '../Space/Space'
-import MainSpaceSkeleton from './MainSpaceSkeleton'
+import Spinner from '../Spinner/Spinner'
 
 export interface SpaceListProps {
   memberId?: number
@@ -52,7 +52,7 @@ const MainSpaceList = ({
 
   return isSpacesLoading ? (
     <DeferredComponent>
-      <MainSpaceSkeleton />
+      <Spinner />
     </DeferredComponent>
   ) : (
     <>

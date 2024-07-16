@@ -3,11 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css');
-  }
-
   :root {
     --bgColor: rgb(255, 255, 255);
     --slate9: rgb(16, 23, 41);
@@ -41,7 +36,7 @@
     --red1: rgb(250, 227, 226);
   }
 
-  [class='dark'] {
+  [class~='dark'] {
     --bgColor: rgb(18, 24, 38);
     --slate9: rgb(242, 245, 249);
     --slate7: rgb(204, 213, 224);
