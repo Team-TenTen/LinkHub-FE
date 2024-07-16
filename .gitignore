@@ -36,3 +36,6 @@ next-env.d.ts
 
 .vscode/
 .env
+
+/public/sw.js*
+/public/workbox-*

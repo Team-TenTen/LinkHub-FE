@@ -5,7 +5,6 @@ import { Input, Spinner } from '@/components'
 import CommentList from '@/components/CommentList/CommentList'
 import Button from '@/components/common/Button/Button'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
-import LoginModal from '@/components/common/Modal/LoginModal'
 import Space from '@/components/common/Space/Space'
 import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import Tab from '@/components/common/Tab/Tab'
@@ -17,6 +16,12 @@ import { useCurrentUser } from '@/hooks/useCurrentUser'
 import useSpaceComment from '@/hooks/useSpaceComment'
 import { fetchGetComments } from '@/services/comment/comment'
 import { XMarkIcon } from '@heroicons/react/20/solid'
+import dynamic from 'next/dynamic'
+
+const LoginModal = dynamic(
+  () => import('@/components/common/Modal/LoginModal'),
+  { ssr: false },
+)
 
 export interface CommentFormValues {
   content: string
