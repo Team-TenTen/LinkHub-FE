@@ -70,83 +70,85 @@ const SpacePage = ({ params }: { params: { spaceId: number } }) => {
           ))}
         </Tab>
       )}
-      <div className="flex flex-col px-4">
-        <div className="flex items-center justify-between py-3">
-          <div className="flex items-center gap-1.5">
-            <Dropdown
-              type="tag"
-              tags={tags?.map((tag) => tag.name)}
-              size="medium"
-              placement="left"
-              defaultIndex={tagIndex}
-              onChange={handleTagChange}
-            />
-            <Dropdown
-              type="link"
-              size="medium"
-              placement="left"
-              defaultIndex={sortIndex}
-              onChange={(e) => {
-                handleSortChange(e)
-              }}
-            />
-          </div>
-          <div className="flex gap-2">
-            {space?.isCanEdit && (
-              <Button
-                className="button button-white p-1.5"
-                onClick={editToggle}>
-                {isEdit ? (
-                  <EyeIcon className="h-5 w-5" />
-                ) : (
-                  <PencilSquareIcon className="h-5 w-5" />
-                )}
-              </Button>
-            )}
-            <div>
-              <Button
-                className={cls(
-                  'rounded-md rounded-r-none border border-slate3 p-1.5 text-sm font-bold text-white',
-                  view === 'list' ? 'bg-emerald5' : 'bg-slate4',
-                )}
-                onClick={handleChangeList}>
-                <ListBulletIcon className="h-5 w-5" />
-              </Button>
-              <Button
-                className={cls(
-                  'rounded-md rounded-l-none border border-l-0 border-slate3 p-1.5 text-sm font-bold text-white',
-                  view === 'card' ? 'bg-emerald5' : 'bg-slate4',
-                )}
-                onClick={handleChangeCard}>
-                <Squares2X2Icon className="h-5 w-5" />
-              </Button>
+      <div className="flex flex-col items-center">
+        <div className="flex w-full max-w-[1200px] flex-col px-4">
+          <div className="flex items-center justify-between py-3">
+            <div className="flex items-center gap-1.5">
+              <Dropdown
+                type="tag"
+                tags={tags?.map((tag) => tag.name)}
+                size="medium"
+                placement="left"
+                defaultIndex={tagIndex}
+                onChange={handleTagChange}
+              />
+              <Dropdown
+                type="link"
+                size="medium"
+                placement="left"
+                defaultIndex={sortIndex}
+                onChange={(e) => {
+                  handleSortChange(e)
+                }}
+              />
+            </div>
+            <div className="flex gap-2">
+              {space?.isCanEdit && (
+                <Button
+                  className="button button-white p-1.5"
+                  onClick={editToggle}>
+                  {isEdit ? (
+                    <EyeIcon className="h-5 w-5" />
+                  ) : (
+                    <PencilSquareIcon className="h-5 w-5" />
+                  )}
+                </Button>
+              )}
+              <div>
+                <Button
+                  className={cls(
+                    'rounded-md rounded-r-none border border-slate3 p-1.5 text-sm font-bold text-white',
+                    view === 'list' ? 'bg-emerald5' : 'bg-slate4',
+                  )}
+                  onClick={handleChangeList}>
+                  <ListBulletIcon className="h-5 w-5" />
+                </Button>
+                <Button
+                  className={cls(
+                    'rounded-md rounded-l-none border border-l-0 border-slate3 p-1.5 text-sm font-bold text-white',
+                    view === 'card' ? 'bg-emerald5' : 'bg-slate4',
+                  )}
+                  onClick={handleChangeCard}>
+                  <Squares2X2Icon className="h-5 w-5" />
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-        {space?.spaceId && (
-          <LinkList
-            spaceId={space?.spaceId}
-            read={space?.isReadMarkEnabled}
-            summary={space?.isLinkSummarizable}
-            edit={isEdit}
-            type={view}
-            fetchFn={fetchGetLinks}
-            sort={sort ?? 'created_at'}
-            tagId={Number(tag) || undefined}
-            tags={tags ?? []}
-            isCanEdit={space.isCanEdit}
-            isMember={
-              !!space?.memberDetailInfos.find(
-                (member) => member.memberId === currentUser?.memberId,
-              )
-            }
-            refetchTags={refetchTags}
+          {space?.spaceId && (
+            <LinkList
+              spaceId={space?.spaceId}
+              read={space?.isReadMarkEnabled}
+              summary={space?.isLinkSummarizable}
+              edit={isEdit}
+              type={view}
+              fetchFn={fetchGetLinks}
+              sort={sort ?? 'created_at'}
+              tagId={Number(tag) || undefined}
+              tags={tags ?? []}
+              isCanEdit={space.isCanEdit}
+              isMember={
+                !!space?.memberDetailInfos.find(
+                  (member) => member.memberId === currentUser?.memberId,
+                )
+              }
+              refetchTags={refetchTags}
+            />
+          )}
+          <SpaceMemberList
+            spaceId={params.spaceId}
+            members={space?.memberDetailInfos}
           />
-        )}
-        <SpaceMemberList
-          spaceId={params.spaceId}
-          members={space?.memberDetailInfos}
-        />
+        </div>
       </div>
     </>
   )

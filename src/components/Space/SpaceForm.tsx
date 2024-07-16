@@ -116,7 +116,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
             <Image
               className="h-[188px] object-cover"
               src={thumnail}
-              width={500}
+              width={5000}
               height={188}
               alt="spaceImage"
             />

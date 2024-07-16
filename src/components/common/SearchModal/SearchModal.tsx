@@ -43,7 +43,7 @@ const SearchModal = ({ onClose }: SearchModalProps) => {
     <div
       ref={searchModalRef}
       onClick={handleOverlayClick}
-      className="fixed left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center bg-black/40 shadow-xl">
+      className="fixed left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full flex-col justify-center bg-black/40 shadow-xl">
       <div className="max-h-content absolute top-0 flex w-full flex-col rounded-b-xl bg-bgColor px-4 pb-4">
         <form
           className="flex gap-x-1.5 py-1.5"

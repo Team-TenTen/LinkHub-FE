@@ -62,7 +62,7 @@ export default function RootLayout({
             <Providers>
               <div
                 id="root"
-                className="relative	mx-auto min-h-screen w-full max-w-[500px] shadow-xl">
+                className="relative	mx-auto min-h-screen w-full pb-4 shadow-xl">
                 <Header />
                 <main className="pt-[53px]">{children}</main>
               </div>
