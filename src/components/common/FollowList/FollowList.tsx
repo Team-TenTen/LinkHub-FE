@@ -45,26 +45,27 @@ const FollowList = ({
     </DeferredComponent>
   ) : (
     <ul className="flex flex-col gap-y-2">
-      {followList?.pages.map((group, i) => (
-        <Fragment key={i}>
-          {group.responses?.map((user: FollowUserProps) => (
-            <li key={user.memberId}>
-              <User
-                memberId={user.memberId}
-                nickname={user.nickname}
-                profileImagePath={user.profileImagePath}
-                aboutMe={user.aboutMe}
-                isFollowing={user.isFollowing}
-                isAuth={myId === user.memberId}
-                followingCount={followingCount}
-                myId={myId}
-                profileId={memberId}
-                setFollowingCount={setFollowingCount}
-              />
-            </li>
-          ))}
-        </Fragment>
-      ))}
+      {followList &&
+        followList.pages.map((group, i) => (
+          <Fragment key={i}>
+            {group.responses?.map((user: FollowUserProps) => (
+              <li key={user.memberId}>
+                <User
+                  memberId={user.memberId}
+                  nickname={user.nickname}
+                  profileImagePath={user.profileImagePath}
+                  aboutMe={user.aboutMe}
+                  isFollowing={user.isFollowing}
+                  isAuth={myId === user.memberId}
+                  followingCount={followingCount}
+                  myId={myId}
+                  profileId={memberId}
+                  setFollowingCount={setFollowingCount}
+                />
+              </li>
+            ))}
+          </Fragment>
+        ))}
       <div ref={target}></div>
     </ul>
   )
