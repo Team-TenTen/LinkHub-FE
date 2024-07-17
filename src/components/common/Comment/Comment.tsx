@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { getElapsedTime } from '@/utils'
@@ -162,4 +163,4 @@ const Comment = ({
   )
 }
 
-export default Comment
+export default React.memo(Comment)

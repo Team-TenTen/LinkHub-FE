@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import { Spinner } from '@/components'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { InvitationsNotification, InvitationsReqBody } from '@/types'
+import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import Notification from '../Notification/Notification'
 import { NONE_NOTIFICATION_RESULT } from './constants'
 import useAcceptNotification from './hooks/useAcceptNotification'
@@ -30,7 +31,9 @@ const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
   const { handleDeleteNotification } = useDeleteNotification({ type })
 
   return isNotificationLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <ul className="flex flex-col gap-y-2">
       {notificationList?.pages[0].responses.length > 0 ? (

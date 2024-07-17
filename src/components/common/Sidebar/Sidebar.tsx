@@ -15,6 +15,7 @@ import { ArchiveBoxIcon, StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import Avatar from '../Avatar/Avatar'
 import Button from '../Button/Button'
+import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import ThemeButton from '../ThemeButton/ThemeButton'
 import { useMySpace } from './hooks/useMySpace'
 import useSidebar from './hooks/useSidebar'
@@ -57,7 +58,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
       ref={sidebarRef}
       onClick={handleOverlayClick}
       className={cls(
-        'fixed bottom-0 left-0 right-0 top-0 z-50 mx-auto flex h-full w-full max-w-[500px] flex-col justify-center overflow-hidden shadow-xl',
+        'fixed bottom-0 left-0 right-0 top-0 z-50 mx-auto flex h-full w-full flex-col justify-center overflow-hidden shadow-xl',
         isOpen ? 'animate-openOverlay' : 'animate-closeOverlay',
       )}>
       <div
@@ -68,7 +69,9 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
         <div className="flex flex-col">
           {currentUser ? (
             isSideBarLoading ? (
-              <Spinner />
+              <DeferredComponent>
+                <Spinner />
+              </DeferredComponent>
             ) : (
               <>
                 <div className="flex items-center px-2">

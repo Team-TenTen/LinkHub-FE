@@ -4,6 +4,7 @@ import ToastContainer from '@/components/common/Toast/ToastContainer'
 import { AuthProvider } from '@/lib/contexts/AuthProvider'
 import TanstackQueryContext from '@/lib/contexts/TanstackQueryContext'
 import { Metadata } from 'next'
+import localFont from 'next/font/local'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -40,20 +41,28 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 }
 
+const pretendard = localFont({
+  src: '../static/font/PretendardVariable.woff2',
+  variable: '--font-pretendard',
+  display: 'swap',
+})
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="ko">
+    <html
+      lang="ko"
+      className={`${pretendard.variable}`}>
       <TanstackQueryContext>
         <AuthProvider>
           <body className="bg-bgColor">
             <Providers>
               <div
                 id="root"
-                className="relative	mx-auto min-h-screen w-full max-w-[500px] shadow-xl">
+                className="relative	mx-auto min-h-screen w-full pb-4 shadow-xl">
                 <Header />
                 <main className="pt-[53px]">{children}</main>
               </div>

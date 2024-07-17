@@ -8,6 +8,7 @@ import { GetLinksReqBody } from '@/types'
 import { cls } from '@/utils'
 import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
+import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
 import { Tag } from '../Space/hooks/useGetTags'
@@ -118,7 +119,9 @@ const LinkList = ({
   })
 
   return isLinksLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <>
       <div
@@ -259,7 +262,11 @@ const LinkList = ({
               validation={errors.tagName?.message}
             />
           </div>
-          {(isMetaLoading || isCreateLinkLoading) && <Spinner />}
+          {(isMetaLoading || isCreateLinkLoading) && (
+            <DeferredComponent>
+              <Spinner />
+            </DeferredComponent>
+          )}
         </Modal>
       )}
     </>

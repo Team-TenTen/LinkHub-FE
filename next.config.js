@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 
+const withPlugins = require('next-compose-plugins')
+
 const withPWA = require('next-pwa')({
   dest: 'public',
+})
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+  compress: true,
 })
 
 const nextConfig = {
@@ -24,4 +31,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withPWA(nextConfig)
+module.exports = withPlugins([[withBundleAnalyzer], [withPWA]], nextConfig)

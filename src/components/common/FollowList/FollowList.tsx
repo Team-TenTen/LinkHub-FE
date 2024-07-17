@@ -3,6 +3,7 @@ import { Spinner } from '@/components'
 import useFollowQuery from '@/components/common/FollowList/hooks/useFollowQuery'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { FetchGetFollowProps } from '@/services/user/follow/follow'
+import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import User from '../User/User'
 
 export interface FollowListProps {
@@ -39,29 +40,32 @@ const FollowList = ({
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
   return isFollowLoading ? (
-    <Spinner />
+    <DeferredComponent>
+      <Spinner />
+    </DeferredComponent>
   ) : (
     <ul className="flex flex-col gap-y-2">
-      {followList?.pages.map((group, i) => (
-        <Fragment key={i}>
-          {group.responses?.map((user: FollowUserProps) => (
-            <li key={user.memberId}>
-              <User
-                memberId={user.memberId}
-                nickname={user.nickname}
-                profileImagePath={user.profileImagePath}
-                aboutMe={user.aboutMe}
-                isFollowing={user.isFollowing}
-                isAuth={myId === user.memberId}
-                followingCount={followingCount}
-                myId={myId}
-                profileId={memberId}
-                setFollowingCount={setFollowingCount}
-              />
-            </li>
-          ))}
-        </Fragment>
-      ))}
+      {followList &&
+        followList.pages.map((group, i) => (
+          <Fragment key={i}>
+            {group.responses?.map((user: FollowUserProps) => (
+              <li key={user.memberId}>
+                <User
+                  memberId={user.memberId}
+                  nickname={user.nickname}
+                  profileImagePath={user.profileImagePath}
+                  aboutMe={user.aboutMe}
+                  isFollowing={user.isFollowing}
+                  isAuth={myId === user.memberId}
+                  followingCount={followingCount}
+                  myId={myId}
+                  profileId={memberId}
+                  setFollowingCount={setFollowingCount}
+                />
+              </li>
+            ))}
+          </Fragment>
+        ))}
       <div ref={target}></div>
     </ul>
   )

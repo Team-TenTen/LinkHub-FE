@@ -51,10 +51,10 @@ const Modal = ({
           <div
             ref={modalRef}
             onClick={handleClickOverlay}
-            className="fixed left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full max-w-[500px] flex-col justify-center bg-black/40 px-4">
+            className="fixed left-0 right-0 top-0 z-50 mx-auto flex h-screen w-full flex-col items-center justify-center bg-black/40 px-4">
             <div
               className={cls(
-                'flex w-full flex-col gap-2 overflow-auto overscroll-contain rounded-xl border border-gray3 bg-bgColor p-4 shadow-md scrollbar-hide',
+                'flex w-full max-w-[500px] flex-col gap-2 overflow-auto overscroll-contain rounded-xl border border-gray3 bg-bgColor p-4 shadow-md scrollbar-hide ',
                 type === 'follow' && 'h-4/5',
               )}>
               {type === 'form' ? (
