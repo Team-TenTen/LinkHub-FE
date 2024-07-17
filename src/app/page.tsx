@@ -29,58 +29,55 @@ export default function Home() {
     <>
       <section className="px-4 pb-8">
         <h2 className="py-4 font-bold text-gray9">인기있는 링크</h2>
-        {
-          links && (
-            <Swiper
-              slidesPerView={2.1}
-              breakpoints={{
-                640: {
-                  slidesPerView: 2.1,
-                },
-                768: {
-                  slidesPerView: 3.1,
-                },
-                1024: {
-                  slidesPerView: 4.1,
-                },
-                1280: {
-                  slidesPerView: 5.1,
-                },
-                1536: {
-                  slidesPerView: 6.1,
-                },
-                1920: {
-                  slidesPerView: 7.1,
-                },
-                2148: {
-                  slidesPerView: 8.1,
-                },
-                2324: {
-                  slidesPerView: 9.1,
-                },
-              }}
-              spaceBetween={16}
-              freeMode={true}
-              pagination={{
-                clickable: true,
-              }}
-              modules={[FreeMode]}
-              className="mySwiper">
-              {links.map((link: PopularLinkResBody) => (
-                <SwiperSlide key={link.linkId}>
-                  <LinkItem
-                    linkId={link.linkId}
-                    title={link.title}
-                    url={link.url}
-                    tagName={link.tagName}
-                    tagColor={link.tagColor as ChipColors}
-                    isInitLiked={link.isLiked}
-                    likeInitCount={link.likeCount}
-                    type="card"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+        {links && (
+          <Swiper
+            slidesPerView={2.2}
+            breakpoints={{
+              640: {
+                slidesPerView: 2.2,
+              },
+              743: {
+                slidesPerView: 3.2,
+              },
+              1099: {
+                slidesPerView: 4.2,
+              },
+              1455: {
+                slidesPerView: 5.2,
+              },
+              1811: {
+                slidesPerView: 6.2,
+              },
+              2152: {
+                slidesPerView: 7.2,
+              },
+
+              2324: {
+                slidesPerView: 8.2,
+              },
+            }}
+            spaceBetween={16}
+            freeMode={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[FreeMode]}
+            className="mySwiper">
+            {links.map((link: PopularLinkResBody) => (
+              <SwiperSlide key={link.linkId}>
+                <LinkItem
+                  linkId={link.linkId}
+                  title={link.title}
+                  url={link.url}
+                  tagName={link.tagName}
+                  tagColor={link.tagColor as ChipColors}
+                  isInitLiked={link.isLiked}
+                  likeInitCount={link.likeCount}
+                  type="card"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         )}
       </section>
       <section>
