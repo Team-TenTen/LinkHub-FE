@@ -27,7 +27,6 @@ const SearchModal = ({ onClose }: SearchModalProps) => {
     })
   const searchModalRef = useRef<HTMLDivElement>(null)
   const {
-    trends,
     handleOverlayClick,
     handleTargetChange,
     handleKeywordClick,

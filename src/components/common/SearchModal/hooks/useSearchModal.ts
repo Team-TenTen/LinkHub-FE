@@ -4,7 +4,6 @@ import {
   UseFormSetFocus,
   UseFormSetValue,
 } from 'react-hook-form'
-import { mock_trendData } from '@/data'
 import { useRouter } from 'next/navigation'
 import { notify } from '../../Toast/Toast'
 import { SearchFormValues } from '../SearchModal'
@@ -23,7 +22,6 @@ const useSearchModal = ({
   onClose,
 }: useSearchModalProps) => {
   const router = useRouter()
-  const trends = mock_trendData
 
   useEffect(() => {
     setFocus('search')
@@ -53,7 +51,6 @@ const useSearchModal = ({
   }
 
   return {
-    trends,
     handleTargetChange,
     handleKeywordClick,
     handleOverlayClick,
