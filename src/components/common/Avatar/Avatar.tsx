@@ -14,6 +14,7 @@ export interface AvatarProps {
 const Avatar = ({ src, alt, className }: AvatarProps) => {
   return (
     <Image
+      priority
       src={src}
       alt={alt}
       fill
@@ -21,6 +22,8 @@ const Avatar = ({ src, alt, className }: AvatarProps) => {
         className,
         'rounded-full border border-slate3 object-cover',
       )}
+      placeholder="blur"
+      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8UA8AAiUBUcc3qzwAAAAASUVORK5CYII="
     />
   )
 }

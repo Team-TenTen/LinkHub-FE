@@ -114,11 +114,14 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
         <div onClick={() => selectSpaceImage?.current?.click()}>
           {thumnail ? (
             <Image
+              priority
               className="h-[188px] object-cover"
               src={thumnail}
               width={5000}
               height={188}
               alt="spaceImage"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8UA8AAiUBUcc3qzwAAAAASUVORK5CYII="
             />
           ) : (
             <div className="flex h-[188px] items-center justify-center border-4 border-dashed border-slate5">
