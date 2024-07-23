@@ -30,6 +30,7 @@ const CategoryListItem = ({
 
   return as === 'link' ? (
     <Link
+      prefetch={true}
       href={{
         pathname,
         query: {

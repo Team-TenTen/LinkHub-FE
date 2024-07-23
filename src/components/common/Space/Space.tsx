@@ -70,6 +70,7 @@ const Space = ({
     <>
       {type === 'Card' ? (
         <Link
+          prefetch={true}
           className="relative flex gap-3 rounded-md border border-slate3 p-2"
           href={`/space/${spaceId}`}>
           {spaceImage && (

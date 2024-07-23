@@ -31,7 +31,9 @@ const Header = () => {
       <div className="fixed z-50 flex w-full items-center justify-between border-b border-slate-100 bg-bgColor px-4 py-2.5 dark:border-slate-800">
         <div className="flex items-center justify-center">
           <Button>
-            <Link href="/">
+            <Link
+              prefetch={true}
+              href="/">
               <LinkIcon className="h-8 w-8 text-slate9" />
             </Link>
           </Button>
@@ -44,6 +46,7 @@ const Header = () => {
         <div className="flex items-center justify-center gap-x-1">
           {isLoggedIn && (
             <Link
+              prefetch={true}
               href="/notification/invite"
               className="relative flex h-8 w-8 items-center justify-center">
               <BellIcon className="h-6 w-6 text-slate9" />

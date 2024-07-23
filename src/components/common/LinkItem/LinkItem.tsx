@@ -124,6 +124,7 @@ const LinkItem = ({
       {type === 'list' ? (
         <div className="flex items-center justify-between gap-2 border-t border-slate3 px-3 py-2 last:border-b">
           <Link
+            prefetch={true}
             onClick={() => isMember && handleSaveReadInfo({ spaceId, linkId })}
             className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
             href={url}
@@ -199,6 +200,7 @@ const LinkItem = ({
       ) : (
         <div className="flex min-h-[101.5px] flex-col justify-between gap-1 rounded-md border border-slate3 px-3 py-2.5">
           <Link
+            prefetch={true}
             onClick={() => isMember && handleSaveReadInfo({ spaceId, linkId })}
             className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray9"
             href={url}

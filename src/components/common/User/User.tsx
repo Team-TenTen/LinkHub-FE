@@ -54,6 +54,7 @@ const User = ({
         </div>
         <div className="flex grow flex-col gap-y-0.5 overflow-hidden py-0.5">
           <Link
+            prefetch={true}
             href={`/user/${memberId}`}
             className="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold text-gray9">
             {nickname}
