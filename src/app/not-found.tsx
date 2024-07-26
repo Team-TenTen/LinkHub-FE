@@ -11,6 +11,7 @@ const NotFoundPage = () => {
         width={240}
         height={300}
         alt="404"
+        placeholder="blur"
       />
       <div className="flex flex-col items-center text-base">
         <div>{NOT_FOUND.TEXT_1}</div>

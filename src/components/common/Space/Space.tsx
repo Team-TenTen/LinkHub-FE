@@ -70,14 +70,19 @@ const Space = ({
     <>
       {type === 'Card' ? (
         <Link
+          prefetch={true}
           className="relative flex gap-3 rounded-md border border-slate3 p-2"
           href={`/space/${spaceId}`}>
           {spaceImage && (
             <Image
+              priority
               className="z-[-100] rounded-md object-cover opacity-50"
               src={spaceImage || ''}
               alt="space-image"
               fill
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8UA8AAiUBUcc3qzwAAAAASUVORK5CYII="
+              sizes="(max-width: 768px) 22vw, (max-width: 1200px) 100px, 110px"
             />
           )}
           <div className="flex grow flex-col justify-center gap-1 rounded-md bg-white bg-opacity-60 px-3 py-1.5 dark:bg-gray-900 dark:bg-opacity-60">
@@ -110,10 +115,13 @@ const Space = ({
       ) : (
         <div className="relative flex flex-col gap-10 p-4">
           <Image
+            priority
             className="z-[-100] object-cover"
             src={spaceImage || ''}
             alt="space-image"
             fill
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8UA8AAiUBUcc3qzwAAAAASUVORK5CYII="
           />
           <div className="flex justify-end gap-2">
             <Button

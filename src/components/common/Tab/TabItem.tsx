@@ -10,6 +10,7 @@ interface TabItemProps {
 const TabItem = ({ active, text, dest }: TabItemProps) => {
   return (
     <Link
+      prefetch={true}
       style={{ width: '100%' }}
       href={dest}>
       <div
