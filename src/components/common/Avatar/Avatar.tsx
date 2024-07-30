@@ -22,8 +22,6 @@ const Avatar = ({ src, alt, className }: AvatarProps) => {
         className,
         'rounded-full border border-slate3 object-cover',
       )}
-      placeholder="blur"
-      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8UA8AAiUBUcc3qzwAAAAASUVORK5CYII="
     />
   )
 }
