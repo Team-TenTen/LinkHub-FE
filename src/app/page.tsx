@@ -1,84 +1,49 @@
 'use client'
 
-import { CategoryList, Dropdown, LinkItem, Spinner } from '@/components'
+import { CategoryList, Dropdown, Spinner } from '@/components'
 import FloatingButton from '@/components/FloatingButton/FloatingButton'
-import { ChipColors } from '@/components/common/Chip/Chip'
+// import PopularLinkList from '@/components/PopularLinkList/PopularLinkList'
+import PopularLinkSkeleton from '@/components/PopularLinkList/PopularLinkSkeleton'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
-import MainSpaceList from '@/components/common/MainSpaceList/MainSpaceList'
+// import MainSpaceList from '@/components/common/MainSpaceList/MainSpaceList'
 import { useCategoryParam, useSortParam } from '@/hooks'
-import useGetPopularLinks from '@/hooks/useGetPopularLinks'
 import { fetchGetSpaces } from '@/services/space/spaces'
-import { PopularLinkResBody } from '@/types'
-import 'swiper/css'
-import 'swiper/css/free-mode'
-import 'swiper/css/pagination'
-import { FreeMode } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import dynamic from 'next/dynamic'
+
+const DynamicPopularLinkList = dynamic(
+  () => import('@/components/PopularLinkList/PopularLinkList'),
+  {
+    loading: () => (
+      <DeferredComponent>
+        <PopularLinkSkeleton />
+      </DeferredComponent>
+    ),
+  },
+)
+const DynamicMainSpaceList = dynamic(
+  () => import('@/components/common/MainSpaceList/MainSpaceList'),
+  {
+    loading: () => (
+      <DeferredComponent>
+        <Spinner />
+      </DeferredComponent>
+    ),
+  },
+)
 
 export default function Home() {
-  const { links, isPopularLinksLoading } = useGetPopularLinks()
   const { sort, sortIndex, handleSortChange } = useSortParam('space')
   const { category, categoryIndex, handleCategoryChange } =
     useCategoryParam('all')
 
-  return isPopularLinksLoading ? (
-    <DeferredComponent>
-      <Spinner />
-    </DeferredComponent>
-  ) : (
+  return (
     <>
       <section className="px-4 pb-8">
         <h2 className="py-4 font-bold text-gray9">인기있는 링크</h2>
-        {links && (
-          <Swiper
-            slidesPerView={2.2}
-            breakpoints={{
-              640: {
-                slidesPerView: 2.2,
-              },
-              743: {
-                slidesPerView: 3.2,
-              },
-              1099: {
-                slidesPerView: 4.2,
-              },
-              1455: {
-                slidesPerView: 5.2,
-              },
-              1811: {
-                slidesPerView: 6.2,
-              },
-              2152: {
-                slidesPerView: 7.2,
-              },
-
-              2324: {
-                slidesPerView: 8.2,
-              },
-            }}
-            spaceBetween={16}
-            freeMode={true}
-            pagination={{
-              clickable: true,
-            }}
-            modules={[FreeMode]}
-            className="mySwiper">
-            {links.map((link: PopularLinkResBody) => (
-              <SwiperSlide key={link.linkId}>
-                <LinkItem
-                  linkId={link.linkId}
-                  title={link.title}
-                  url={link.url}
-                  tagName={link.tagName}
-                  tagColor={link.tagColor as ChipColors}
-                  isInitLiked={link.isLiked}
-                  likeInitCount={link.likeCount}
-                  type="card"
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        )}
+        <div className="min-h-[101.5px]">
+          {/* <PopularLinkList /> */}
+          <DynamicPopularLinkList />
+        </div>
       </section>
       <section>
         <div className="sticky top-[53px] z-40 bg-bgColor">
@@ -97,7 +62,13 @@ export default function Home() {
             onChange={handleCategoryChange}
           />
         </div>
-        <MainSpaceList
+        {/* <MainSpaceList
+          queryKey="main"
+          sort={sort ?? ''}
+          category={category ?? ''}
+          fetchFn={fetchGetSpaces}
+        /> */}
+        <DynamicMainSpaceList
           queryKey="main"
           sort={sort ?? ''}
           category={category ?? ''}
