@@ -2,10 +2,9 @@
 
 import { CategoryList, Dropdown, Spinner } from '@/components'
 import FloatingButton from '@/components/FloatingButton/FloatingButton'
-// import PopularLinkList from '@/components/PopularLinkList/PopularLinkList'
 import PopularLinkSkeleton from '@/components/PopularLinkList/PopularLinkSkeleton'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
-// import MainSpaceList from '@/components/common/MainSpaceList/MainSpaceList'
+import MainSpaceSkeleton from '@/components/common/MainSpaceList/MainSpaceSkeleton'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import { fetchGetSpaces } from '@/services/space/spaces'
 import dynamic from 'next/dynamic'
@@ -25,7 +24,7 @@ const DynamicMainSpaceList = dynamic(
   {
     loading: () => (
       <DeferredComponent>
-        <Spinner />
+        <MainSpaceSkeleton />
       </DeferredComponent>
     ),
   },
@@ -41,7 +40,6 @@ export default function Home() {
       <section className="px-4 pb-8">
         <h2 className="py-4 font-bold text-gray9">인기있는 링크</h2>
         <div className="min-h-[101.5px]">
-          {/* <PopularLinkList /> */}
           <DynamicPopularLinkList />
         </div>
       </section>
@@ -62,12 +60,6 @@ export default function Home() {
             onChange={handleCategoryChange}
           />
         </div>
-        {/* <MainSpaceList
-          queryKey="main"
-          sort={sort ?? ''}
-          category={category ?? ''}
-          fetchFn={fetchGetSpaces}
-        /> */}
         <DynamicMainSpaceList
           queryKey="main"
           sort={sort ?? ''}
