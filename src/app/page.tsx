@@ -2,23 +2,24 @@
 
 import { CategoryList, Dropdown, Spinner } from '@/components'
 import FloatingButton from '@/components/FloatingButton/FloatingButton'
-import PopularLinkSkeleton from '@/components/PopularLinkList/PopularLinkSkeleton'
+import HydratePopularLinkList from '@/components/PopularLinkList/HydratePopularLinkList'
+// import PopularLinkSkeleton from '@/components/PopularLinkList/PopularLinkSkeleton'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
 import MainSpaceSkeleton from '@/components/common/MainSpaceList/MainSpaceSkeleton'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import { fetchGetSpaces } from '@/services/space/spaces'
 import dynamic from 'next/dynamic'
 
-const DynamicPopularLinkList = dynamic(
-  () => import('@/components/PopularLinkList/PopularLinkList'),
-  {
-    loading: () => (
-      <DeferredComponent>
-        <PopularLinkSkeleton />
-      </DeferredComponent>
-    ),
-  },
-)
+// const DynamicPopularLinkList = dynamic(
+//   () => import('@/components/PopularLinkList/PopularLinkList'),
+//   {
+//     loading: () => (
+//       <DeferredComponent>
+//         <PopularLinkSkeleton />
+//       </DeferredComponent>
+//     ),
+//   },
+// )
 const DynamicMainSpaceList = dynamic(
   () => import('@/components/common/MainSpaceList/MainSpaceList'),
   {
@@ -37,12 +38,13 @@ export default function Home() {
 
   return (
     <>
-      <section className="px-4 pb-8">
+      {/* <section className="px-4 pb-8">
         <h2 className="py-4 font-bold text-gray9">인기있는 링크</h2>
         <div className="min-h-[101.5px]">
           <DynamicPopularLinkList />
         </div>
-      </section>
+      </section> */}
+      <HydratePopularLinkList />
       <section>
         <div className="sticky top-[53px] z-40 bg-bgColor">
           <div className="flex items-center justify-between px-4 pt-2">
