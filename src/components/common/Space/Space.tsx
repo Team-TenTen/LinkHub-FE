@@ -80,8 +80,6 @@ const Space = ({
               src={spaceImage || ''}
               alt="space-image"
               fill
-              placeholder="blur"
-              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8UA8AAiUBUcc3qzwAAAAASUVORK5CYII="
               sizes="(max-width: 768px) 22vw, (max-width: 1200px) 100px, 110px"
             />
           )}
@@ -120,8 +118,6 @@ const Space = ({
             src={spaceImage || ''}
             alt="space-image"
             fill
-            placeholder="blur"
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8UA8AAiUBUcc3qzwAAAAASUVORK5CYII="
           />
           <div className="flex justify-end gap-2">
             <Button

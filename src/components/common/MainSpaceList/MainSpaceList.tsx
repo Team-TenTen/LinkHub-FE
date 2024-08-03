@@ -6,11 +6,8 @@ import useMainSpacesQuery from '@/components/SpaceList/hooks/useMainSpacesQuery'
 import { CATEGORIES_RENDER } from '@/constants'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
 import { SearchSpaceReqBody, SpaceResBody } from '@/types'
-import Button from '../Button/Button'
-import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import { MORE_TEXT } from '../LinkList/constants'
 import Space from '../Space/Space'
-import Spinner from '../Spinner/Spinner'
 
 export interface SpaceListProps {
   memberId?: number
@@ -50,11 +47,7 @@ const MainSpaceList = ({
 
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
-  return isSpacesLoading ? (
-    <DeferredComponent>
-      <Spinner />
-    </DeferredComponent>
-  ) : (
+  return (
     <>
       <ul
         className=" mb-4 grid gap-4 gap-y-2 px-4 pt-2"
