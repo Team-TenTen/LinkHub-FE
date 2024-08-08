@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Providers } from '@/components'
 import Header from '@/components/common/Header/Header'
 import ToastContainer from '@/components/common/Toast/ToastContainer'
@@ -59,7 +60,9 @@ export default function RootLayout({
           <body className={`bg-bgColor ${pretendard.variable}`}>
             <Providers>
               <div className="relative mx-auto min-h-screen w-full pb-4 shadow-xl">
-                <Header />
+                <Suspense>
+                  <Header />
+                </Suspense>
                 <main className="pt-[53px]">{children}</main>
               </div>
               <ToastContainer />
