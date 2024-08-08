@@ -3,8 +3,8 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 
 const useGetPopularLinks = () => {
   return useSuspenseQuery({
-    queryKey: ['popularLinks'],
-    queryFn: async () => await fetchGetPopularLinks(),
+    queryKey: ['PopularLinks'],
+    queryFn: fetchGetPopularLinks,
   })
 }
 

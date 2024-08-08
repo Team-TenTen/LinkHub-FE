@@ -1,11 +1,13 @@
+'use client'
+
+import { ChipColors } from '@/components/common/Chip/Chip'
+import LinkItem from '@/components/common/LinkItem/LinkItem'
 import { PopularLinkResBody } from '@/types'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/pagination'
 import { FreeMode } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { ChipColors } from '../common/Chip/Chip'
-import LinkItem from '../common/LinkItem/LinkItem'
 import useGetPopularLinks from './hooks/useGetPopularLinks'
 
 const PopularLinkList = () => {

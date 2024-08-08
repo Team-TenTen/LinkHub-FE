@@ -10,6 +10,7 @@ const DynamicPopularLinkList = dynamic(() => import('./PopularLinkList'), {
       <PopularLinkSkeleton />
     </DeferredComponent>
   ),
+  ssr: false,
 })
 
 const PopularLinkListController = () => {
