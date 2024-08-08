@@ -1,9 +1,6 @@
 import { PAGE_SIZE } from '@/constants'
 import { SpaceResBody } from '@/types'
-import {
-  useInfiniteQuery,
-  useSuspenseInfiniteQuery,
-} from '@tanstack/react-query'
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { SpaceListProps } from '../SpaceList'
 
 interface MainSpacePageType {

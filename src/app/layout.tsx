@@ -53,16 +53,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="ko"
-      className={`${pretendard.variable}`}>
+    <html lang="ko">
       <TanstackQueryContext>
         <AuthProvider>
-          <body className="bg-bgColor">
+          <body className={`bg-bgColor ${pretendard.variable}`}>
             <Providers>
-              <div
-                id="root"
-                className="relative	mx-auto min-h-screen w-full pb-4 shadow-xl">
+              <div className="relative mx-auto min-h-screen w-full pb-4 shadow-xl">
                 <Header />
                 <main className="pt-[53px]">{children}</main>
               </div>
