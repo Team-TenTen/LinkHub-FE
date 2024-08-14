@@ -1,12 +1,13 @@
+import { PAGE_SIZE } from '@/constants'
 import { SearchSpaceReqBody, SpaceInviteResBody } from '@/types'
 import { apiClient } from '../apiServices'
 
 const fetchGetSpaces = async ({
-  lastSpaceId,
-  lastFavoriteCount,
-  pageSize,
-  sort,
-  filter,
+  lastSpaceId = undefined,
+  lastFavoriteCount = undefined,
+  pageSize = PAGE_SIZE,
+  sort = 'created_at',
+  filter = 'all',
 }: SearchSpaceReqBody) => {
   const path = '/api/spaces'
   const params = {

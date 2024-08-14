@@ -12,6 +12,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig = {
+  reactStrictMode: false,
   images: {
     minimumCacheTTL: 1 * 60 * 60 * 24 * 365,
     domains: ['linkhub-s3.s3.ap-northeast-2.amazonaws.com'],

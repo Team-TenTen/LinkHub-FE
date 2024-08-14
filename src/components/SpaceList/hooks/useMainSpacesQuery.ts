@@ -24,54 +24,53 @@ const useMainSpacesQuery = ({
   fetchFn,
 }: SpaceListProps) => {
   const sortValue =
-    queryKey === 'main' || queryKey === 'search'
+    queryKey === 'main'
       ? sort === 'favorite'
         ? 'favorite_count'
         : 'created_at'
       : undefined
   const categoryValue = category === 'all' ? '' : category.toUpperCase()
-  const { data, fetchNextPage, hasNextPage, isLoading } =
-    useSuspenseInfiniteQuery({
-      queryKey: [
-        'spaces',
-        queryKey,
-        {
-          ...(memberId && { memberId: memberId }),
-          ...(sortValue && { sort: sortValue }),
-          category: categoryValue,
-          keyword,
-        },
-      ],
-      queryFn: ({ pageParam }) =>
-        fetchFn({
-          memberId,
-          lastFavoriteCount: pageParam.lastFavoriteCount,
-          lastSpaceId: pageParam.lastSpaceId,
-          pageSize: PAGE_SIZE,
-          sort: sortValue,
-          filter: categoryValue,
-          keyWord: keyword,
-        }),
-      initialPageParam: {
-        lastSpaceId: undefined,
-        lastFavoriteCount: undefined,
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+    queryKey: [
+      'spaces',
+      queryKey,
+      {
+        ...(memberId && { memberId: memberId }),
+        ...(sortValue && { sort: sortValue }),
+        category: categoryValue,
+        keyword,
       },
-      getNextPageParam: (
-        lastPage: MainSpacePageType,
-      ):
-        | {
-            lastSpaceId: number | undefined
-            lastFavoriteCount: number | undefined
+    ],
+    queryFn: ({ pageParam }) =>
+      fetchFn({
+        memberId,
+        lastFavoriteCount: pageParam.lastFavoriteCount,
+        lastSpaceId: pageParam.lastSpaceId,
+        pageSize: PAGE_SIZE,
+        sort: sortValue,
+        filter: categoryValue,
+        keyWord: keyword,
+      }),
+    initialPageParam: {
+      lastSpaceId: undefined,
+      lastFavoriteCount: undefined,
+    },
+    getNextPageParam: (
+      lastPage: MainSpacePageType,
+    ):
+      | {
+          lastSpaceId: number | undefined
+          lastFavoriteCount: number | undefined
+        }
+      | undefined => {
+      return lastPage.metaData?.hasNext
+        ? {
+            lastSpaceId: lastPage.metaData.lastId,
+            lastFavoriteCount: lastPage.metaData.lastFavoriteCount,
           }
-        | undefined => {
-        return lastPage.metaData?.hasNext
-          ? {
-              lastSpaceId: lastPage.metaData.lastId,
-              lastFavoriteCount: lastPage.metaData.lastFavoriteCount,
-            }
-          : undefined
-      },
-    })
+        : undefined
+    },
+  })
 
   return {
     spaces: data,

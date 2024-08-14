@@ -6,7 +6,7 @@ const useSortParam = (type: keyof typeof DROPDOWN_OPTIONS) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const sort = searchParams.get('sort')
+  const sort = searchParams.get('sort') || undefined
   const sortIndex = sort
     ? Object.values(DROPDOWN_OPTIONS[type]).indexOf(sort)
     : 0

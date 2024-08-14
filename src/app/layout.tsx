@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Providers } from '@/components'
 import Header from '@/components/common/Header/Header'
 import ToastContainer from '@/components/common/Toast/ToastContainer'
@@ -53,17 +54,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="ko"
-      className={`${pretendard.variable}`}>
+    <html lang="ko">
       <TanstackQueryContext>
         <AuthProvider>
-          <body className="bg-bgColor">
+          <body className={`bg-bgColor ${pretendard.variable}`}>
             <Providers>
-              <div
-                id="root"
-                className="relative	mx-auto min-h-screen w-full pb-4 shadow-xl">
-                <Header />
+              <div className="relative mx-auto min-h-screen w-full pb-4 shadow-xl">
+                <Suspense>
+                  <Header />
+                </Suspense>
                 <main className="pt-[53px]">{children}</main>
               </div>
               <ToastContainer />
