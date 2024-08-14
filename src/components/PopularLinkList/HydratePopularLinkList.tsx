@@ -1,21 +1,21 @@
-import getQueryClient from '@/lib/queryClient'
+import React from 'react'
+import { getQueryClient } from '@/lib/queryClient'
 import { fetchGetPopularLinks } from '@/services/link/link'
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
-import PopularLinkListController from './PopularLinkListController'
+import PopularLinkList from './PopularLinkList'
 
 const HydratePopularLinkList = async () => {
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery({
-    queryKey: ['useGetPopularLinks'],
-    queryFn: () => fetchGetPopularLinks(),
+    queryKey: ['PopularLinks'],
+    queryFn: fetchGetPopularLinks,
   })
-  const dehydratedState = dehydrate(queryClient)
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <PopularLinkListController />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <PopularLinkList />
     </HydrationBoundary>
   )
 }
 
-export default HydratePopularLinkList
+export default React.memo(HydratePopularLinkList)

@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { ChipColors } from '@/components/common/Chip/Chip'
 import LinkItem from '@/components/common/LinkItem/LinkItem'
 import { PopularLinkResBody } from '@/types'
@@ -12,6 +13,7 @@ import useGetPopularLinks from './hooks/useGetPopularLinks'
 
 const PopularLinkList = () => {
   const { data } = useGetPopularLinks()
+
   return (
     <Swiper
       slidesPerView={2.2}
@@ -63,4 +65,4 @@ const PopularLinkList = () => {
   )
 }
 
-export default PopularLinkList
+export default React.memo(PopularLinkList)
