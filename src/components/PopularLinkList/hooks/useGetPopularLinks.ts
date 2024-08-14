@@ -1,8 +1,8 @@
 import { fetchGetPopularLinks } from '@/services/link/link'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const useGetPopularLinks = () => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['PopularLinks'],
     queryFn: fetchGetPopularLinks,
   })
