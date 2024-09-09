@@ -81,6 +81,7 @@ const Comment = ({
         <div className="flex w-full flex-col gap-y-1">
           <div className="flex items-center justify-between">
             <Link
+              prefetch={true}
               href={`/user/${memberId}`}
               className="text-sm font-semibold text-gray9">
               {nickname}

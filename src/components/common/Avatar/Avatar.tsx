@@ -14,6 +14,7 @@ export interface AvatarProps {
 const Avatar = ({ src, alt, className }: AvatarProps) => {
   return (
     <Image
+      priority
       src={src}
       alt={alt}
       fill

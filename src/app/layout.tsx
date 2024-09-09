@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Providers } from '@/components'
 import Header from '@/components/common/Header/Header'
 import ToastContainer from '@/components/common/Toast/ToastContainer'
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     type: 'website',
     images: [
-      'https://linkhub-s3.s3.ap-northeast-2.amazonaws.com/linkhub-og-image.png',
+      'https://linkhub-s3-2025.s3.ap-northeast-2.amazonaws.com/linkhub-og-image.png',
     ],
   },
   manifest: '/manifest.json',
@@ -53,17 +54,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="ko"
-      className={`${pretendard.variable}`}>
+    <html lang="ko">
       <TanstackQueryContext>
         <AuthProvider>
-          <body className="bg-bgColor">
+          <body className={`bg-bgColor ${pretendard.variable}`}>
             <Providers>
-              <div
-                id="root"
-                className="relative	mx-auto min-h-screen w-full pb-4 shadow-xl">
-                <Header />
+              <div className="relative mx-auto min-h-screen w-full pb-4 shadow-xl">
+                <Suspense>
+                  <Header />
+                </Suspense>
                 <main className="pt-[53px]">{children}</main>
               </div>
               <ToastContainer />

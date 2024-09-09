@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { getQueryClient } from '../queryClient'
 
 interface TanstackQueryContextProps {
   children: React.ReactNode
@@ -10,7 +11,7 @@ interface TanstackQueryContextProps {
 export default function TanstackQueryContext({
   children,
 }: TanstackQueryContextProps) {
-  const [queryClient] = useState(() => new QueryClient())
+  const [queryClient] = useState(getQueryClient())
 
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

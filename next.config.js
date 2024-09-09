@@ -12,8 +12,19 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig = {
+  reactStrictMode: false,
   images: {
-    domains: ['linkhub-s3.s3.ap-northeast-2.amazonaws.com'],
+    minimumCacheTTL: 1 * 60 * 60 * 24 * 365,
+    domains: ['linkhub-s3-2025.s3.ap-northeast-2.amazonaws.com'],
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'linkhub-s3-2025.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
   async redirects() {
     return [

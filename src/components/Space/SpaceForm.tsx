@@ -114,6 +114,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
         <div onClick={() => selectSpaceImage?.current?.click()}>
           {thumnail ? (
             <Image
+              priority
               className="h-[188px] object-cover"
               src={thumnail}
               width={5000}

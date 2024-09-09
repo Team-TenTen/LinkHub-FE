@@ -1,5 +1,3 @@
-'use client'
-
 import { ToastContainer as TContainer } from 'react-toastify'
 
 export default function ToastContainer() {

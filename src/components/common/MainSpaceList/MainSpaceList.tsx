@@ -4,57 +4,38 @@ import { Fragment } from 'react'
 import { NONE_SEARCH_RESULT } from '@/components/SpaceList/constants'
 import useMainSpacesQuery from '@/components/SpaceList/hooks/useMainSpacesQuery'
 import { CATEGORIES_RENDER } from '@/constants'
+import { useCategoryParam, useSortParam } from '@/hooks'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
-import { SearchSpaceReqBody, SpaceResBody } from '@/types'
-import Button from '../Button/Button'
-import DeferredComponent from '../DeferedComponent/DeferedComponent'
+import { fetchGetSpaces } from '@/services/space/spaces'
+import { SpaceResBody } from '@/types'
+import { useQueryClient } from '@tanstack/react-query'
 import { MORE_TEXT } from '../LinkList/constants'
 import Space from '../Space/Space'
-import Spinner from '../Spinner/Spinner'
 
 export interface SpaceListProps {
   memberId?: number
-  queryKey: string
-  sort?: string
-  category: string
   keyword?: string
-  fetchFn: ({
-    memberId,
-    pageNumber,
-    lastFavoriteCount,
-    lastSpaceId,
-    pageSize,
-    sort,
-    filter,
-    keyWord,
-  }: SearchSpaceReqBody) => Promise<any>
 }
 
-const MainSpaceList = ({
-  queryKey,
-  memberId,
-  sort,
-  category,
-  keyword,
-  fetchFn,
-}: SpaceListProps) => {
+const MainSpaceList = ({ memberId, keyword }: SpaceListProps) => {
+  const { sort } = useSortParam('space')
+  const { category } = useCategoryParam('all')
   const { spaces, fetchNextPage, hasNextPage, isSpacesLoading } =
     useMainSpacesQuery({
-      queryKey,
+      queryKey: 'main',
       memberId,
       sort,
       category,
       keyword,
-      fetchFn,
+      fetchFn: fetchGetSpaces,
     })
+
+  const queryClient = useQueryClient()
+  console.log(queryClient.getQueryCache())
 
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 
-  return isSpacesLoading ? (
-    <DeferredComponent>
-      <Spinner />
-    </DeferredComponent>
-  ) : (
+  return (
     <>
       <ul
         className=" mb-4 grid gap-4 gap-y-2 px-4 pt-2"

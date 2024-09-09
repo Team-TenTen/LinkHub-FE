@@ -89,6 +89,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                   </Button>
                 </div>
                 <Link
+                  prefetch={true}
                   href={`/user/${currentUser.memberId}`}
                   className="mb-2 mt-4 flex items-center px-2 py-2 text-base font-bold text-gray9"
                   onClick={onClose}>
@@ -125,6 +126,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                       Object.values(spaces).map(({ spaceId, spaceName }) => (
                         <li key={spaceId}>
                           <Link
+                            prefetch={true}
                             href={`/space/${spaceId}`}
                             className="block px-3 py-1.5 text-sm text-gray9 hover:underline"
                             onClick={onClose}>
@@ -134,6 +136,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                       ))}
                   </ul>
                   <Link
+                    prefetch={true}
                     href={`/user/${currentUser.memberId}/space`}
                     className="font-gray6 my-2 block w-full rounded-3xl border border-slate6 px-3 py-2.5 text-center text-sm font-medium text-slate6"
                     onClick={onClose}>
@@ -141,6 +144,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                   </Link>
                 </div>
                 <Link
+                  prefetch={true}
                   href="/space/create"
                   className="my-2 flex items-center px-2 py-2 text-base font-bold text-gray9"
                   onClick={onClose}>
@@ -155,6 +159,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                 <XMarkIcon className="h-6 w-6" />
               </Button>
               <Link
+                prefetch={true}
                 href={`/login`}
                 className="w-full py-2 text-base font-bold text-gray9"
                 onClick={onClose}>

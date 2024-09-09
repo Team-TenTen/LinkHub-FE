@@ -1,6 +1,9 @@
 import { PAGE_SIZE } from '@/constants'
 import { SpaceResBody } from '@/types'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import {
+  useInfiniteQuery,
+  useSuspenseInfiniteQuery,
+} from '@tanstack/react-query'
 import { SpaceListProps } from '../SpaceList'
 
 interface MainSpacePageType {
@@ -21,7 +24,7 @@ const useMainSpacesQuery = ({
   fetchFn,
 }: SpaceListProps) => {
   const sortValue =
-    queryKey === 'main' || queryKey === 'search'
+    queryKey === 'main'
       ? sort === 'favorite'
         ? 'favorite_count'
         : 'created_at'
@@ -48,7 +51,10 @@ const useMainSpacesQuery = ({
         filter: categoryValue,
         keyWord: keyword,
       }),
-    initialPageParam: { lastSpaceId: undefined, lastFavoriteCount: undefined },
+    initialPageParam: {
+      lastSpaceId: undefined,
+      lastFavoriteCount: undefined,
+    },
     getNextPageParam: (
       lastPage: MainSpacePageType,
     ):
