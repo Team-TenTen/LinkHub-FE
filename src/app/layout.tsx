@@ -59,7 +59,9 @@ export default function RootLayout({
         <AuthProvider>
           <body className={`bg-bgColor ${pretendard.variable}`}>
             <Providers>
-              <div className="relative mx-auto min-h-screen w-full pb-4 shadow-xl">
+              <div
+                id="root"
+                className="relative mx-auto min-h-screen w-full pb-4 shadow-xl">
                 <Suspense>
                   <Header />
                 </Suspense>
