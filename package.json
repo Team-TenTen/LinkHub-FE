@@ -31,7 +31,6 @@
     "react-hook-form": "^7.47.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.3",
-    "sharp": "^0.33.2",
     "swiper": "^11.0.5",
     "tailwind-scrollbar-hide": "^1.1.7"
   },
