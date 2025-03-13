@@ -47,3 +47,10 @@ export const NOT_FOUND = {
   TEXT_2: '존재하지 않는 주소를 입력하셨거나,',
   TEXT_3: '요청하신 페이지의 주소가 변경, 삭제되어 찾을 수 없습니다.',
 }
+
+export const QUERY_KEYS = {
+  SPACES: 'spaces',
+  TAGS: 'tags',
+  LINKS: 'links',
+  POPULAR_LINKS: 'popularLinks',
+}
