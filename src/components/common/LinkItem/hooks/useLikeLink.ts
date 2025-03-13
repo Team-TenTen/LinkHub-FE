@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { fetchLikeLink, fetchUnLikeLink } from '@/services/link/link'
-import { useQueryClient } from '@tanstack/react-query'
+import { useDeleteLikeLink, usePostLikeLink } from '@/services/link/useLink'
 import { debounce } from 'lodash'
 import useToggle from '../../Toggle/hooks/useToggle'
 
@@ -12,31 +11,30 @@ export interface UseLikeLinkProps {
 }
 
 const useLikeLink = ({
-  spaceId,
   linkId,
   isLikedValue,
   likeCountValue,
 }: UseLikeLinkProps) => {
-  const queryClient = useQueryClient()
   const [isLiked, likeToggle] = useToggle(isLikedValue)
   const [likeCount, setLikeCount] = useState<number>(likeCountValue)
+
+  const { mutate: deleteLikeLink } = useDeleteLikeLink()
+  const { mutate: postLikeLink } = usePostLikeLink()
 
   const debounceUnLikeLink = useMemo(
     () =>
       debounce(async () => {
-        await fetchUnLikeLink({ linkId })
-        await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
+        await deleteLikeLink({ linkId })
       }, 300),
-    [spaceId, linkId, queryClient],
+    [deleteLikeLink, linkId],
   )
 
   const debounceLikeLink = useMemo(
     () =>
       debounce(async () => {
-        await fetchLikeLink({ linkId })
-        await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
+        await postLikeLink({ linkId })
       }, 300),
-    [spaceId, linkId, queryClient],
+    [postLikeLink, linkId],
   )
 
   const handleClickLike = useCallback(

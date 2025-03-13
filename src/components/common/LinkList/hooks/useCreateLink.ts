@@ -1,14 +1,10 @@
 'use client'
 
-import { useState } from 'react'
-import { FetchCreateLinkProps, fetchCreateLink } from '@/services/link/link'
-import { fetchGetTags } from '@/services/space/space'
-import { useQueryClient } from '@tanstack/react-query'
-import { RefetchTagsType } from '../../Space/hooks/useGetTags'
+import { IUpdateLink } from '@/models/link.model'
+import { usePostLink } from '@/services/link/useLink'
 
 export interface UseCreateLinkProps {
   spaceId?: number
-  refetchTags?: RefetchTagsType
 }
 export interface UseCreateLinkReturnType {
   isCreateLinkLoading: boolean
@@ -17,39 +13,23 @@ export interface UseCreateLinkReturnType {
     title,
     tagName,
     color,
-  }: FetchCreateLinkProps) => Promise<void>
+  }: IUpdateLink['query']) => void
 }
 
 const useCreateLink = ({
   spaceId,
-  refetchTags,
 }: UseCreateLinkProps): UseCreateLinkReturnType => {
-  const queryclient = useQueryClient()
-  const [isCreateLinkLoading, setIsCreateLinkLoading] = useState(false)
+  const { mutate: createLink, isPending: isCreateLinkLoading } =
+    usePostLink(spaceId)
 
-  const handleCreateLink = async ({
+  const handleCreateLink = ({
     url,
     title,
     tagName,
     color,
-  }: FetchCreateLinkProps) => {
+  }: IUpdateLink['query']) => {
     if (isCreateLinkLoading) return
-
-    setIsCreateLinkLoading(true)
-    await fetchCreateLink({
-      spaceId,
-      url,
-      title,
-      tagName,
-      color,
-    })
-
-    await fetchGetTags({
-      spaceId,
-    })
-    await queryclient.invalidateQueries({ queryKey: ['links', spaceId] })
-    refetchTags?.()
-    setIsCreateLinkLoading(false)
+    createLink({ spaceId, url, title, tagName, color })
   }
 
   return {

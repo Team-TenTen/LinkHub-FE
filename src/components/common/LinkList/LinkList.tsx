@@ -4,15 +4,13 @@ import { useForm } from 'react-hook-form'
 import { Spinner } from '@/components'
 import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
-import { GetLinksReqBody } from '@/types'
+import { GetLinksReqBody, Tag } from '@/types'
 import { cls } from '@/utils'
 import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
-import { Tag } from '../Space/hooks/useGetTags'
-import { RefetchTagsType } from '../Space/hooks/useGetTags'
 import {
   ADD_LINK_TEXT,
   LINK_FORM,
@@ -55,7 +53,6 @@ export interface LinkListProps {
   tags: Tag[]
   isCanEdit: boolean
   isMember: boolean
-  refetchTags?: RefetchTagsType
 }
 
 export interface CreateLinkFormValue {
@@ -77,12 +74,10 @@ const LinkList = ({
   tags,
   isCanEdit,
   isMember,
-  refetchTags,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const { isCreateLinkLoading, handleCreateLink } = useCreateLink({
     spaceId,
-    refetchTags,
   })
   const {
     register,
@@ -164,7 +159,6 @@ const LinkList = ({
                   isMember={isMember}
                   type={type}
                   tags={tags}
-                  refetchTags={refetchTags}
                   key={link.linkId}
                 />
               )),

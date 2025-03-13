@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import { fetchUpdateLink } from '@/services/link/link'
-import { useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { usePutLink } from '@/services/link/useLink'
 import { RefetchTagsType } from '../../Space/hooks/useGetTags'
 
 interface HandleUpdateLinkProps {
@@ -13,16 +12,12 @@ interface HandleUpdateLinkProps {
 interface UseUpdateLinkProps {
   spaceId?: number
   linkId: number
-  refetchTags?: RefetchTagsType
 }
 
-const useUpdateLink = ({
-  spaceId,
-  linkId,
-  refetchTags,
-}: UseUpdateLinkProps) => {
-  const queryClient = useQueryClient()
-  const [isUpdateLinkLoading, setIsUpdateLinkLoading] = useState(false)
+const useUpdateLink = ({ spaceId, linkId }: UseUpdateLinkProps) => {
+  const { mutate: updateLink, isPending: isUpdateLinkLoading } =
+    usePutLink(spaceId)
+
   const handleUpdateLink = async ({
     url,
     title,
@@ -30,19 +25,7 @@ const useUpdateLink = ({
     color = 'emerald',
   }: HandleUpdateLinkProps) => {
     if (isUpdateLinkLoading) return
-
-    setIsUpdateLinkLoading(true)
-    await fetchUpdateLink({
-      spaceId,
-      linkId,
-      url,
-      title,
-      tagName,
-      color,
-    })
-    await queryClient.invalidateQueries({ queryKey: ['links', spaceId] })
-    refetchTags?.()
-    setIsUpdateLinkLoading(false)
+    updateLink({ spaceId, linkId, url, title, tagName, color })
   }
 
   return { isUpdateLinkLoading, handleUpdateLink }

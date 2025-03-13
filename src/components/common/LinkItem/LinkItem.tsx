@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { useDeleteLink } from '@/services/link/useLink'
 import {
   DocumentTextIcon,
   HeartIcon as HeartIconOutline,
@@ -28,10 +29,9 @@ import {
 import useGetMeta from '../LinkList/hooks/useGetMeta'
 import LoginModal from '../Modal/LoginModal'
 import NoneServiceModal from '../Modal/NoneServiceModal'
-import { RefetchTagsType, Tag } from '../Space/hooks/useGetTags'
+import { Tag } from '../Space/hooks/useGetTags'
 import Spinner from '../Spinner/Spinner'
 import { DELETE_TEXT } from './constants'
-import useDeleteLink from './hooks/useDeleteLink'
 import useLikeLink from './hooks/useLikeLink'
 import useReadSaveLink from './hooks/useReadSaveLink'
 import useUpdateLink from './hooks/useUpdateLink'
@@ -52,7 +52,6 @@ export interface LinkItemProps {
   isMember?: boolean
   type?: 'list' | 'card'
   tags?: Tag[]
-  refetchTags?: RefetchTagsType
 }
 
 const LinkItem = ({
@@ -71,7 +70,6 @@ const LinkItem = ({
   isMember,
   type = 'list',
   tags,
-  refetchTags,
 }: LinkItemProps) => {
   const { isLoggedIn } = useCurrentUser()
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
@@ -106,11 +104,9 @@ const LinkItem = ({
   const { isUpdateLinkLoading, handleUpdateLink } = useUpdateLink({
     spaceId,
     linkId,
-    refetchTags,
   })
-  const { isDeleteLinkLoading, handleDeleteLink } = useDeleteLink({
-    refetchTags,
-  })
+  const { mutate: deleteLink, isPending: isDeleteLinkLoading } =
+    useDeleteLink(spaceId)
   const { handleSaveReadInfo } = useReadSaveLink()
   const { isLiked, likeCount, handleClickLike } = useLikeLink({
     spaceId,
@@ -312,7 +308,7 @@ const LinkItem = ({
                     }
                   })()
                 })()
-              : spaceId && handleDeleteLink({ spaceId, linkId })
+              : spaceId && deleteLink({ spaceId, linkId })
           }
           type="form">
           {currentModal === 'update' && (

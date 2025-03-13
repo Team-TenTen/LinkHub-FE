@@ -1,8 +1,8 @@
 'use client'
 
-import useGetPopularLinks from '@/components/PopularLinkList/hooks/useGetPopularLinks'
 import { ChipColors } from '@/components/common/Chip/Chip'
 import LinkItem from '@/components/common/LinkItem/LinkItem'
+import { useGetPopularLinks } from '@/services/link/useLink'
 import { PopularLinkResBody } from '@/types'
 import 'swiper/css'
 import 'swiper/css/free-mode'
@@ -12,6 +12,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 const PopularLinkList = () => {
   const { data } = useGetPopularLinks()
+
   return (
     <Swiper
       slidesPerView={2.2}
