@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { fetchGetUnCheckedNotifications } from '@/services/notification/invitations'
-import { useQuery } from '@tanstack/react-query'
+import { useGetUnCheckedNotifications } from '@/services/notification/useNotification'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 const useHeader = () => {
@@ -10,10 +9,7 @@ const useHeader = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const isSearchModalOpen = searchParams.get('search')
   const currentPage = pathname.split(/\//)[1]
-  const { data } = useQuery({
-    queryKey: ['notificationCount'],
-    queryFn: () => fetchGetUnCheckedNotifications(),
-  })
+  const { data } = useGetUnCheckedNotifications()
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
