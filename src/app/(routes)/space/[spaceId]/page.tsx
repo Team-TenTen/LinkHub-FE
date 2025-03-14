@@ -5,8 +5,6 @@ import Button from '@/components/common/Button/Button'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
 import useViewLink from '@/components/common/LinkList/hooks/useViewLink'
 import Space from '@/components/common/Space/Space'
-import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
-import useGetTags from '@/components/common/Space/hooks/useGetTags'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
@@ -15,7 +13,8 @@ import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
 import { useSortParam } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import useTagParam from '@/hooks/useTagParam'
-import { fetchGetLinks } from '@/services/link/link'
+import { fetchGetLinks } from '@/services/link/useLink'
+import { useGetSpace, useGetTags } from '@/services/space/useSpace'
 import { cls } from '@/utils'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -26,12 +25,12 @@ import {
 
 const SpacePage = ({ params }: { params: { spaceId: number } }) => {
   const { currentUser } = useCurrentUser()
-  const { space, isSpaceLoading } = useGetSpace()
+  const { data: space, isLoading: isSpaceLoading } = useGetSpace(params.spaceId)
   const [isEdit, editToggle] = useToggle(false)
   const [view, handleChangeList, handleChangeCard] = useViewLink()
   const { currentTab, tabList } = useTab({ type: 'space', space })
   const { sort, sortIndex, handleSortChange } = useSortParam('link')
-  const { tags, refetchTags, isTagsLoading } = useGetTags({
+  const { data: tags, isLoading: isTagsLoading } = useGetTags({
     spaceId: space?.spaceId,
   })
   const { tag, tagIndex, handleTagChange } = useTagParam({ tags })
@@ -138,10 +137,10 @@ const SpacePage = ({ params }: { params: { spaceId: number } }) => {
               isCanEdit={space.isCanEdit}
               isMember={
                 !!space?.memberDetailInfos.find(
-                  (member) => member.memberId === currentUser?.memberId,
+                  (member: { memberId: number }) =>
+                    member.memberId === currentUser?.memberId,
                 )
               }
-              refetchTags={refetchTags}
             />
           )}
           <SpaceMemberList

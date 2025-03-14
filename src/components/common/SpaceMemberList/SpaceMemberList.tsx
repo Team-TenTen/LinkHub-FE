@@ -3,8 +3,8 @@
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components'
 import { useModal } from '@/hooks'
-import { fetchInviteSpace } from '@/services/space/invitation'
-import { fetchPatchRole } from '@/services/space/space'
+import { usePatchRole } from '@/services/space/useSpace'
+import { usePostInviteSpace } from '@/services/space/useSpaces'
 import { UserDetailInfo } from '@/types'
 import { PlusSmallIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
@@ -50,10 +50,11 @@ const SpaceMemberList = ({
     },
   })
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
-
+  const { mutate: patchRole } = usePatchRole(spaceId)
+  const { mutateAsync: inviteSpace } = usePostInviteSpace()
   const handleChangeRole = async (data: ChangeRoleProps) => {
     try {
-      spaceId && (await fetchPatchRole(spaceId, data))
+      spaceId && patchRole({ spaceId, ...data })
       alert('권한을 수정했습니다.')
     } catch (e) {
       alert('권한 수정에 실패했습니다.')
@@ -84,7 +85,7 @@ const SpaceMemberList = ({
               reset()
             }}
             onConfirm={handleSubmit(async ({ email, role }) => {
-              const res = await fetchInviteSpace({ spaceId, email, role })
+              const res = await inviteSpace({ spaceId, email, role })
               if (res.errorCode === 'N001') {
                 notify('error', '이미 초대 요청을 보낸 유저입니다.')
               } else if (res.errorCode === 'G004') {

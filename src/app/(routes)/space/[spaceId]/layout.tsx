@@ -1,4 +1,4 @@
-import { fetchGetSpace } from '@/services/space/space'
+import { getSpace } from '@/app/apis/space.api'
 import { Metadata } from 'next'
 
 type SpaceLayoutProps = {
@@ -8,7 +8,7 @@ type SpaceLayoutProps = {
 export async function generateMetadata({
   params: { spaceId },
 }: SpaceLayoutProps): Promise<Metadata> {
-  const space = await fetchGetSpace({ spaceId })
+  const space = await getSpace({ spaceId })
 
   return {
     title: space.spaceName,

@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { fetchSearchMySpaces } from '@/services/space/spaces'
-import { fetchGetMyFavoriteSpaces } from '@/services/user/profile/favorites'
+import {
+  fetchGetMyFavoriteSpaces,
+  fetchSearchMySpaces,
+} from '@/services/space/useSpaces'
 import { SearchMySpaceReqBody, SearchMySpaceResBody } from '@/types'
 
 const useMySpace = (

@@ -1,3 +1,5 @@
+import { ChipColors } from '@/components/common/Chip/Chip'
+
 export interface Space {
   userName: string
   spaceId: number
@@ -257,4 +259,10 @@ export interface InvitationsNotification {
   spaceId: number
   spaceName: string
   isAccepted: boolean
+}
+
+export interface Tag {
+  name: string
+  color: ChipColors
+  tagId: number
 }

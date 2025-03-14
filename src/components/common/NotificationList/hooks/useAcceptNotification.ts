@@ -1,4 +1,4 @@
-import { fetchAccetpSpaceInvitation } from '@/services/space/spaces'
+import { usePostAccetpSpaceInvitation } from '@/services/space/useSpaces'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { notify } from '../../Toast/Toast'
@@ -15,12 +15,13 @@ export interface HandleAcceptInviteProps {
 const useAcceptNotification = ({ type }: UseAcceptNotificationProps) => {
   const router = useRouter()
   const queryclient = useQueryClient()
+  const { mutateAsync: acceptInvitation } = usePostAccetpSpaceInvitation()
 
   const handleAcceptInvite = async ({
     notificationId,
   }: HandleAcceptInviteProps) => {
     try {
-      const { spaceId } = await fetchAccetpSpaceInvitation({ notificationId })
+      const { spaceId } = await acceptInvitation({ notificationId })
       notify('success', NOTIFICATION_INVITE.SUCCESS)
       router.push(`/space/${spaceId}`)
       await queryclient.invalidateQueries({ queryKey: ['notification', type] })

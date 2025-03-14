@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { CategoryList, Input, SpaceList } from '@/components'
 import { useCategoryParam, useProfileSpacesSearch } from '@/hooks'
-import { fetchSearchMySpaces } from '@/services/space/spaces'
+import { fetchSearchMySpaces } from '@/services/space/useSpaces'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 export interface SearchFormValue {

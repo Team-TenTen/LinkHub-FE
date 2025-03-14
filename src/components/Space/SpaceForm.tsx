@@ -5,17 +5,17 @@ import { useForm } from 'react-hook-form'
 import { CategoryList, Input, Toggle } from '@/components'
 import { MIN_TAB_NUMBER } from '@/constants'
 import {
-  feachCreateSpace,
-  fetchScrapSpace,
-  fetchSettingSpace,
-} from '@/services/space/space'
+  useGetSpace,
+  usePatchSpace,
+  usePostScrapSpace,
+  usePostSpace,
+} from '@/services/space/useSpace'
 import { CreateSpaceReqBody, SpaceDetailResBody } from '@/types'
 import imageCompression from 'browser-image-compression'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '../common/Button/Button'
 import { CATEGORIES } from '../common/CategoryList/constants'
-import useGetSpace from '../common/Space/hooks/useGetSpace'
 import Tab from '../common/Tab/Tab'
 import TabItem from '../common/Tab/TabItem'
 import useTab from '../common/Tab/hooks/useTab'
@@ -35,7 +35,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
   const path = usePathname()
   const spaceId = Number(path.split('/')[2])
   const router = useRouter()
-  const getSpace = useGetSpace()
+  const { data: spaceData } = useGetSpace(spaceId)
   const {
     register,
     getValues,
@@ -54,6 +54,9 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
     },
   })
 
+  const { mutateAsync: postSpace } = usePostSpace()
+  const { mutateAsync: patchSpace } = usePatchSpace(spaceId)
+  const { mutateAsync: postScrapSpace } = usePostScrapSpace(spaceId)
   useEffect(() => {
     setThumnail(space?.spaceImagePath)
   }, [space])
@@ -81,12 +84,13 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           notify('error', '카테고리를 선택해 주세요.')
         } else {
           if (spaceType === 'Create') {
-            const { spaceId } = await feachCreateSpace(data, imageFile)
+            const { spaceId } = await postSpace({ data, file: imageFile })
+            console.log(spaceId)
             notify('info', '스페이스가 생성되었습니다.')
-            router.replace(`/space/${spaceId}`)
+            spaceId && router.replace(`/space/${spaceId}`)
           } else if (spaceType === 'Setting') {
             try {
-              const response = await fetchSettingSpace(spaceId, data, imageFile)
+              const response = await patchSpace({ data, file: imageFile })
               if (!response.spaceId) {
                 router.replace('/')
                 return
@@ -97,8 +101,8 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
               router.replace('/')
             }
           } else {
-            const response = await fetchScrapSpace(spaceId, data, imageFile)
-            notify('info', '스페이스가 생성되었습니다.')
+            const response = await postScrapSpace({ data, file: imageFile })
+            notify('info', '스페이스를 가져왔습니다.')
             router.push(`/space/${response.spaceId}`)
           }
         }
@@ -145,7 +149,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           <div className="flex items-center justify-start rounded-md border border-slate3 bg-emerald05 p-3">
             <div className="text-sm font-medium text-gray9">
               <span className="font-semibold">
-                @{getSpace.space?.spaceName}{' '}
+                @{spaceData.space?.spaceName}{' '}
               </span>
               에서 가져오는 중
             </div>
@@ -222,18 +226,6 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
               onChange={() => setValue('isComment', !getValues('isComment'))}
             />
           </div>
-          {/* <div className="flex items-center justify-between border-t border-slate3 p-3">
-            <div className="text-sm font-medium text-gray9 opacity-50">
-              링크 3줄 요약 여부
-            </div>
-            <Toggle
-              {...register('isLinkSummarizable')}
-              on={space?.isLinkSummarizable}
-              name="isLinkSummarizable"
-              isDisabled={true}
-              onChange={() => {}}
-            />
-          </div> */}
           <div className="flex items-center justify-between border-b border-t border-slate3 p-3">
             <div className="text-sm font-medium text-gray9">읽음 처리 여부</div>
             <Toggle
