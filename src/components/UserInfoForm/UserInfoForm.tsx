@@ -3,7 +3,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
-import { fetchPostEmail, fetchPostEmailVerify } from '@/services/email'
+import { usePostEmail, usePostEmailVerify } from '@/services/email/useEmails'
 import { usePutMemberProfile } from '@/services/members/useMember'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
@@ -42,6 +42,8 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const { mutate: putMemberProfileMutation } = usePutMemberProfile(
     userData?.memberId || 0,
   )
+  const { mutateAsync: postEmail } = usePostEmail()
+  const { mutateAsync: postEmailVerify } = usePostEmailVerify()
 
   useEffect(() => {
     setThumnail(userData?.profileImagePath)
@@ -95,7 +97,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
   const handleEmailAuth = async (email: string) => {
     try {
-      const response = await fetchPostEmail({ email })
+      const response = await postEmail({ email })
 
       if (response.errorCode) {
         response.errorCode === 'M001' && setVerification(true)
@@ -111,7 +113,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
   const handleCheckAuthNum = async (code: string) => {
     try {
-      const verification = await fetchPostEmailVerify({
+      const verification = await postEmailVerify({
         email: getValues('newsEmail'),
         code,
       })
