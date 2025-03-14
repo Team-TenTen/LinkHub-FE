@@ -1,11 +1,12 @@
 import { FollowListProps } from '@/components/common/FollowList/FollowList'
-import { INITIAL_PAGE_NUMBER, PAGE_SIZE } from '@/constants'
+import { INITIAL_PAGE_NUMBER, PAGE_SIZE, QUERY_KEYS } from '@/constants'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 const useFollowQuery = ({ memberId, fetchFn, type }: FollowListProps) => {
-  const queryKey = type === 'following' || 'follower'
+  const queryKey =
+    type === 'following' ? QUERY_KEYS.FOLLOWING : QUERY_KEYS.FOLLOWERS
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['follow', queryKey, memberId],
+    queryKey: [queryKey, memberId],
     queryFn: ({ pageParam }) =>
       fetchFn({
         memberId,

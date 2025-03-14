@@ -3,8 +3,8 @@
 import { CategoryList, Dropdown, SpaceList } from '@/components'
 import UserList from '@/components/UserList/UserList'
 import { useCategoryParam, useSortParam } from '@/hooks'
+import { fetchSearchMembers } from '@/services/members/useMember'
 import { fetchSearchSpaces } from '@/services/space/useSpaces'
-import { fetchSearchUsers } from '@/services/user/search/search'
 import { cls } from '@/utils'
 import { useSearchParams } from 'next/navigation'
 
@@ -61,7 +61,7 @@ const SearchController = () => {
         {target === 'user' && (
           <UserList
             keyword={keyword ?? ''}
-            fetchFn={fetchSearchUsers}
+            fetchFn={fetchSearchMembers}
           />
         )}
       </section>

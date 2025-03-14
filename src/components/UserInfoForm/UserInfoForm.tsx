@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
 import { fetchPostEmail, fetchPostEmailVerify } from '@/services/email'
-import { fetchPostUserProfile } from '@/services/user/profile/profile'
+import { usePutMemberProfile } from '@/services/members/useMember'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
@@ -39,6 +39,9 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const [imageFile, setImageFile] = useState<File>()
   const router = useRouter()
   const [isVerification, setVerification] = useState(false)
+  const { mutate: putMemberProfileMutation } = usePutMemberProfile(
+    userData?.memberId || 0,
+  )
 
   useEffect(() => {
     setThumnail(userData?.profileImagePath)
@@ -148,12 +151,14 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     }
   }
 
-  const handleSettingUser = async (
-    data: RegisterReqBody & EmailVerifyReqBody,
-  ) => {
+  const handleSettingUser = (data: RegisterReqBody & EmailVerifyReqBody) => {
     try {
       userData?.memberId &&
-        (await fetchPostUserProfile(userData?.memberId, data, imageFile))
+        putMemberProfileMutation({
+          memberId: userData?.memberId,
+          data,
+          file: imageFile,
+        })
       notify('success', '수정되었습니다.')
       router.refresh()
       router.back()

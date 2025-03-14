@@ -50,7 +50,11 @@ export const NOT_FOUND = {
 
 export const QUERY_KEYS = {
   SPACES: 'spaces',
+  COMMENTS: 'comments',
   TAGS: 'tags',
   LINKS: 'links',
   POPULAR_LINKS: 'popularLinks',
+  MEMBERS: 'members',
+  FOLLOWING: 'following',
+  FOLLOWERS: 'followers',
 }

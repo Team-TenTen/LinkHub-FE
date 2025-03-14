@@ -1,5 +1,5 @@
+import { getMemberProfile } from '@/app/apis/member.api'
 import { ProfileTap } from '@/components'
-import { fetchGetUserProfile } from '@/services/user/profile/profile'
 import { Metadata } from 'next'
 
 export type UserLayoutProps = {
@@ -9,7 +9,7 @@ export type UserLayoutProps = {
 export async function generateMetadata({
   params: { userId },
 }: UserLayoutProps): Promise<Metadata> {
-  const user = await fetchGetUserProfile({ memberId: userId })
+  const user = await getMemberProfile({ memberId: userId })
 
   return {
     title: user.nickname,

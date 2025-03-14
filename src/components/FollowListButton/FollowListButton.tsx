@@ -6,7 +6,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser'
 import {
   fetchGetFollowers,
   fetchGetFollowing,
-} from '@/services/user/follow/follow'
+} from '@/services/members/useMember'
 import { UserProfileResBody } from '@/types'
 import FollowList from '../common/FollowList/FollowList'
 import LoginModal from '../common/Modal/LoginModal'

@@ -2,13 +2,13 @@ import { Dispatch, Fragment, SetStateAction } from 'react'
 import { Spinner } from '@/components'
 import useFollowQuery from '@/components/common/FollowList/hooks/useFollowQuery'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
-import { FetchGetFollowProps } from '@/services/user/follow/follow'
+import { IFollowList } from '@/models/member.model'
 import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import User from '../User/User'
 
 export interface FollowListProps {
   memberId?: number
-  fetchFn: ({ pageNumber, pageSize }: FetchGetFollowProps) => Promise<any>
+  fetchFn: ({ pageNumber, pageSize }: IFollowList) => Promise<any>
   myId?: number
   type?: string
   followingCount?: number
@@ -31,6 +31,7 @@ const FollowList = ({
   followingCount,
   setFollowingCount,
 }: FollowListProps) => {
+  console.log(memberId)
   const { followList, fetchNextPage, hasNextPage, isFollowLoading } =
     useFollowQuery({
       memberId,
