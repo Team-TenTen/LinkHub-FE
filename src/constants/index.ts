@@ -51,6 +51,7 @@ export const NOT_FOUND = {
 export const QUERY_KEYS = {
   SPACES: 'spaces',
   COMMENTS: 'comments',
+  REPLIES: 'replies',
   TAGS: 'tags',
   LINKS: 'links',
   POPULAR_LINKS: 'popularLinks',

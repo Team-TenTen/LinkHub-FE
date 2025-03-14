@@ -149,7 +149,7 @@ const Comment = ({
           cancelText="취소"
           confirmText="삭제"
           onClose={modalClose}
-          onConfirm={() => handleDeleteConfirm(!isRoot)}>
+          onConfirm={() => handleDeleteConfirm()}>
           <div className="flex justify-center">삭제하시겠습니까?</div>
         </Modal>
       )}

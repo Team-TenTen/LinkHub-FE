@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { fetchDeleteComment } from '@/services/comment/comment'
+import { useDeleteComment } from '@/services/comments/useComments'
 import { useQueryClient } from '@tanstack/react-query'
 
 export interface useCommentProps {
@@ -15,8 +15,8 @@ const useComment = ({
   modalOpen,
   handleOpenCurrentModal,
 }: useCommentProps) => {
-  const queryClient = useQueryClient()
   const [deleteCommentId, setDeleteCommentId] = useState(0)
+  const { mutate: deleteComment } = useDeleteComment(spaceId, parentCommentId)
 
   const handleDelete = useCallback(
     (commentId: number) => {
@@ -27,18 +27,9 @@ const useComment = ({
     [handleOpenCurrentModal, modalOpen],
   )
 
-  const handleDeleteConfirm = useCallback(
-    async (isReply: boolean) => {
-      await fetchDeleteComment(spaceId, deleteCommentId)
-      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
-      if (isReply) {
-        await queryClient.invalidateQueries({
-          queryKey: ['replies', spaceId, parentCommentId],
-        })
-      }
-    },
-    [deleteCommentId, queryClient, spaceId, parentCommentId],
-  )
+  const handleDeleteConfirm = useCallback(() => {
+    deleteComment({ commentId: deleteCommentId })
+  }, [deleteCommentId, deleteComment])
 
   return {
     handleDelete,
