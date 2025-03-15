@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useDeleteFollow, usePostFollow } from '@/services/members/useMember'
+import { useDeleteFollow, usePostFollow } from '@/services/users/useUsers'
 import { useQueryClient } from '@tanstack/react-query'
 import { debounce } from 'lodash'
 import { useCurrentUser } from './useCurrentUser'

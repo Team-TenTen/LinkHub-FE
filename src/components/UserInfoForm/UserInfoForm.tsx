@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
 import { usePostEmail, usePostEmailVerify } from '@/services/email/useEmails'
-import { usePutMemberProfile } from '@/services/members/useMember'
+import { usePutUserProfile } from '@/services/users/useUsers'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
@@ -39,7 +39,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const [imageFile, setImageFile] = useState<File>()
   const router = useRouter()
   const [isVerification, setVerification] = useState(false)
-  const { mutate: putMemberProfileMutation } = usePutMemberProfile(
+  const { mutate: putUserProfileMutation } = usePutUserProfile(
     userData?.memberId || 0,
   )
   const { mutateAsync: postEmail } = usePostEmail()
@@ -156,7 +156,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const handleSettingUser = (data: RegisterReqBody & EmailVerifyReqBody) => {
     try {
       userData?.memberId &&
-        putMemberProfileMutation({
+        putUserProfileMutation({
           memberId: userData?.memberId,
           data,
           file: imageFile,

@@ -3,10 +3,7 @@
 import { PROFILE_MSG } from '@/constants'
 import { useFollowUser, useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import {
-  fetchGetFollowers,
-  fetchGetFollowing,
-} from '@/services/members/useMember'
+import { fetchGetFollowers, fetchGetFollowing } from '@/services/users/useUsers'
 import { UserProfileResBody } from '@/types'
 import FollowList from '../common/FollowList/FollowList'
 import LoginModal from '../common/Modal/LoginModal'

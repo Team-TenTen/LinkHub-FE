@@ -7,11 +7,11 @@ import {
   ProfileEditButton,
 } from '@/components'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
-import { useGetMemberProfile } from '@/services/members/useMember'
+import { useGetUserProfile } from '@/services/users/useUsers'
 import { UserLayoutProps } from './layout'
 
 export default function UserPage({ params: { userId } }: UserLayoutProps) {
-  const { data: user } = useGetMemberProfile(Number(userId))
+  const { data: user } = useGetUserProfile(Number(userId))
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useGetMemberProfile } from '@/services/members/useMember'
+import { useGetUserProfile } from '@/services/users/useUsers'
 import { usePathname } from 'next/navigation'
 import { useCurrentUser } from './useCurrentUser'
 
@@ -9,7 +9,7 @@ const useGetProfile = () => {
   const userId = Number(path.split('/')[2])
   const { currentUser } = useCurrentUser()
   const myId = currentUser?.memberId
-  const { data: userData } = useGetMemberProfile(userId)
+  const { data: userData } = useGetUserProfile(userId)
 
   return { user: userData, myId, isProfileLoading: isLoading }
 }

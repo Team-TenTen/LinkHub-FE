@@ -2,11 +2,11 @@
 
 import UserInfoForm from '@/components/UserInfoForm/UserInfoForm'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import { useGetMemberProfile } from '@/services/members/useMember'
+import { useGetUserProfile } from '@/services/users/useUsers'
 
 const SettingController = () => {
   const { currentUser } = useCurrentUser()
-  const { data: user } = useGetMemberProfile(currentUser?.memberId || 0)
+  const { data: user } = useGetUserProfile(currentUser?.memberId || 0)
 
   return (
     <div>
