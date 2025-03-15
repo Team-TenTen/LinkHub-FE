@@ -105,6 +105,20 @@ export const useGetPopularLinks = () => {
   })
 }
 
+// 인기 링크 조회 서버 함수
+export const fetchGetPopularLinks = async () => {
+  const path = `/api/links`
+
+  try {
+    const response = await fetch(path, {
+      method: 'GET',
+    })
+    return response.json()
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
+}
+
 // 링크 좋아요
 export const usePostLikeLink = () => {
   return useMutation({
