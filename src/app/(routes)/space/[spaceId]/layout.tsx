@@ -1,14 +1,16 @@
-import { getSpace } from '@/app/apis/space.api'
 import { Metadata } from 'next'
 
 type SpaceLayoutProps = {
   params: { spaceId: number }
 }
+const baseURL = process.env.NEXT_PUBLIC_API_ADDRESS
 
 export async function generateMetadata({
   params: { spaceId },
 }: SpaceLayoutProps): Promise<Metadata> {
-  const space = await getSpace({ spaceId })
+  const space = await fetch(`${baseURL}/spaces/${spaceId}`, {
+    method: 'GET',
+  }).then((res) => res.json())
 
   return {
     title: space.spaceName,
