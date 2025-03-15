@@ -85,7 +85,6 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
         } else {
           if (spaceType === 'Create') {
             const { spaceId } = await postSpace({ data, file: imageFile })
-            console.log(spaceId)
             notify('info', '스페이스가 생성되었습니다.')
             spaceId && router.replace(`/space/${spaceId}`)
           } else if (spaceType === 'Setting') {
@@ -149,7 +148,7 @@ const SpaceForm = ({ spaceType, space }: SpaceFormProps) => {
           <div className="flex items-center justify-start rounded-md border border-slate3 bg-emerald05 p-3">
             <div className="text-sm font-medium text-gray9">
               <span className="font-semibold">
-                @{spaceData.space?.spaceName}{' '}
+                @{spaceData?.space?.spaceName}{' '}
               </span>
               에서 가져오는 중
             </div>
