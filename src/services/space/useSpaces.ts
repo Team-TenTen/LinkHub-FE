@@ -1,11 +1,3 @@
-import {
-  getAccetpSpaceInvitation,
-  getSearchMyFavoriteSpaces,
-  getSearchMySpaces,
-  getSearchSpaces,
-  getSpaces,
-  postInviteSpace,
-} from '@/app/apis/spaces.api'
 import { PAGE_SIZE, QUERY_KEYS } from '@/constants'
 import {
   IAcceptSpaceInvitation,
