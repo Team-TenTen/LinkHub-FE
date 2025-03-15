@@ -51,7 +51,7 @@ export interface IUpdateLink {
 
 export interface IChangeRole {
   query: {
-    spaceId: number
+    spaceId?: number
     targetMemberId: number
     role: string
   }
