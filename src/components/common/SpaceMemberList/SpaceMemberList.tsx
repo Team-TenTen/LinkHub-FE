@@ -54,7 +54,7 @@ const SpaceMemberList = ({
   const { mutateAsync: inviteSpace } = usePostInviteSpace()
   const handleChangeRole = async (data: ChangeRoleProps) => {
     try {
-      spaceId && patchRole({ spaceId, ...data })
+      spaceId && patchRole({ ...data })
       alert('권한을 수정했습니다.')
     } catch (e) {
       alert('권한 수정에 실패했습니다.')

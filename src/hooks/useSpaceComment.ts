@@ -54,7 +54,7 @@ const useSpaceComment = ({
     spaceId,
     comment.parentCommentId,
   )
-  console.log(comment.parentCommentId)
+
   const handleOpen = useCallback(
     (commentId: number) => {
       if (openedComments.includes(commentId)) {

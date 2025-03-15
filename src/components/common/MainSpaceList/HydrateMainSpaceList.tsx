@@ -19,8 +19,6 @@ const HydrateMainSpaceList = () => {
     initialPageParam: 0,
   })
 
-  const dehydreatedState = dehydrate(queryClient)
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <MainSpaceList />

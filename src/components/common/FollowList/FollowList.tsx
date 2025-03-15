@@ -31,7 +31,6 @@ const FollowList = ({
   followingCount,
   setFollowingCount,
 }: FollowListProps) => {
-  console.log(memberId)
   const { followList, fetchNextPage, hasNextPage, isFollowLoading } =
     useFollowQuery({
       memberId,
