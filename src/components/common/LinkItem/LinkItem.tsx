@@ -26,7 +26,7 @@ import {
   LINK_FORM_PLACEHOLDER,
   LINK_FORM_VALIDATION,
 } from '../LinkList/constants'
-import useGetMeta from '../LinkList/hooks/useGetMeta'
+import useGetMetaData from '../LinkList/hooks/useGetMetaData'
 import LoginModal from '../Modal/LoginModal'
 import NoneServiceModal from '../Modal/NoneServiceModal'
 import { Tag } from '../Space/hooks/useGetTags'
@@ -100,7 +100,7 @@ const LinkItem = ({
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
-  } = useGetMeta({ getValues, setValue, modalClose })
+  } = useGetMetaData({ getValues, setValue, modalClose })
   const { isUpdateLinkLoading, handleUpdateLink } = useUpdateLink({
     spaceId,
     linkId,
@@ -114,7 +114,6 @@ const LinkItem = ({
     isLikedValue: isInitLiked,
     likeCountValue: likeInitCount,
   })
-
   return (
     <>
       {type === 'list' ? (
@@ -308,7 +307,10 @@ const LinkItem = ({
                     }
                   })()
                 })()
-              : spaceId && deleteLink({ spaceId, linkId })
+              : spaceId &&
+                (() => {
+                  deleteLink({ spaceId, linkId })
+                })()
           }
           type="form">
           {currentModal === 'update' && (

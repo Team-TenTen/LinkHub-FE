@@ -20,7 +20,7 @@ import {
   NONE_LINK_RESULT,
 } from './constants'
 import useCreateLink from './hooks/useCreateLink'
-import useGetMeta from './hooks/useGetMeta'
+import useGetMetaData from './hooks/useGetMetaData'
 import useLinksQuery from './hooks/useLinksQuery'
 
 export interface linkViewHistories {
@@ -105,7 +105,7 @@ const LinkList = ({
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
-  } = useGetMeta({ getValues, setValue, modalClose })
+  } = useGetMetaData({ getValues, setValue, modalClose })
   const { links, fetchNextPage, hasNextPage, isLinksLoading } = useLinksQuery({
     spaceId,
     fetchFn,
@@ -140,7 +140,7 @@ const LinkList = ({
           </button>
         )}
         <>
-          {links?.pages[0].responses.length ? (
+          {links?.pages[0].responses?.length ? (
             links?.pages.map((group) =>
               group.responses.map((link: Link) => (
                 <LinkItem
