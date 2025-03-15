@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react'
-import { kakaoLogout } from '@/services/auth'
+import { useKakaoLogout } from '@/services/auth/useAuth'
 import Cookies from 'js-cookie'
 import { notify } from '../../Toast/Toast'
 
@@ -13,7 +13,7 @@ export interface useSidebarProps {
 
 const useSidebar = ({ sidebarRef, setIsOpen, onClose }: useSidebarProps) => {
   const [spaceType, setSpaceType] = useState<SpaceType>('내 스페이스')
-
+  const { mutateAsync: kakaoLogout } = useKakaoLogout()
   const logout = async () => {
     try {
       await kakaoLogout()

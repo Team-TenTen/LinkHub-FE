@@ -60,4 +60,5 @@ export const QUERY_KEYS = {
   FOLLOWERS: 'followers',
   NOTIFICATION_COUNT: 'notificationCount',
   INVITATIONS: 'invitations',
+  VALIDATE_TOKEN: 'validateToken',
 }
