@@ -1,14 +1,3 @@
-import {
-  createSpace,
-  deleteFavoriteSpace,
-  deleteSpace,
-  getSpace,
-  getTags,
-  patchRole,
-  patchSpace,
-  postFavoriteSpace,
-  postScrapSpace,
-} from '@/app/apis/space.api'
 import { QUERY_KEYS } from '@/constants'
 import {
   IChangeRole,
@@ -17,13 +6,7 @@ import {
   IUpdateSpace,
 } from '@/models/space.model'
 import { Tag } from '@/types'
-import {
-  UseMutationResult,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
-import Cookies from 'js-cookie'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export interface FetchGetSpaceProps {
   spaceId?: number
@@ -31,26 +14,36 @@ export interface FetchGetSpaceProps {
 
 // 스페이스 상세 조회
 export const useGetSpace = (spaceId?: number) => {
-  const token = Cookies.get('Auth-token')
   return useQuery({
     queryKey: [QUERY_KEYS.SPACES, spaceId],
-    queryFn: () => getSpace({ spaceId }),
-    enabled: !!spaceId && !!token,
+    queryFn: async () =>
+      await fetch(`/api/space/${spaceId}`, {
+        method: 'GET',
+      }).then((res) => res.json()),
+    enabled: !!spaceId,
   })
 }
 
 // 스페이스 생성
-export const usePostSpace = (): UseMutationResult<
-  { spaceId: number },
-  Error,
-  ICreateSpace
-> => {
+export const usePostSpace = () => {
   const queryClient = useQueryClient()
-
   return useMutation({
-    mutationFn: ({ data, file }: ICreateSpace) => {
-      const response = createSpace({ data, file })
-      return response
+    mutationFn: async ({ data, file }: ICreateSpace) => {
+      const reqData = { ...data }
+      const formData = new FormData()
+      formData.append('request', JSON.stringify(reqData))
+      file && formData.append('file', file)
+
+      const response = await fetch('/api/spaces/create', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      return response.json()
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SPACES] })
@@ -64,11 +57,23 @@ export const usePostSpace = (): UseMutationResult<
 // 스페이스 수정
 export const usePatchSpace = (spaceId?: number) => {
   const queryClient = useQueryClient()
-
   return useMutation({
     mutationFn: async ({ data, file }: IUpdateSpace) => {
-      const response = patchSpace({ spaceId, data, file })
-      return response
+      const reqData = { ...data }
+      const formData = new FormData()
+      formData.append('request', JSON.stringify(reqData))
+      file && formData.append('file', file)
+
+      const response = await fetch(`/api/space/${spaceId}`, {
+        method: 'PATCH',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      return response.json()
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SPACES] })
@@ -84,7 +89,10 @@ export const usePatchSpace = (spaceId?: number) => {
 export const useDeleteSpace = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (query: ISpaceQuery['query']) => deleteSpace({ query }),
+    mutationFn: async (query: ISpaceQuery['query']) =>
+      await fetch(`/api/space/${query.spaceId}`, {
+        method: 'DELETE',
+      }).then((res) => res.json()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SPACES] })
     },
@@ -98,7 +106,10 @@ export const useDeleteSpace = () => {
 export const usePostFavoriteSpace = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (query: ISpaceQuery['query']) => postFavoriteSpace({ query }),
+    mutationFn: (query: ISpaceQuery['query']) =>
+      fetch(`/api/space/${query.spaceId}/favorites`, {
+        method: 'POST',
+      }).then((res) => res.json()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SPACES] })
     },
@@ -112,7 +123,10 @@ export const usePostFavoriteSpace = () => {
 export const useDeleteFavoriteSpace = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (query: ISpaceQuery['query']) => deleteFavoriteSpace({ query }),
+    mutationFn: (query: ISpaceQuery['query']) =>
+      fetch(`/api/space/${query.spaceId}/favorites`, {
+        method: 'DELETE',
+      }).then((res) => res.json()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SPACES] })
     },
@@ -127,7 +141,9 @@ export const useGetTags = ({ spaceId }: ISpaceQuery['query']) => {
   return useQuery<Tag[]>({
     queryKey: [QUERY_KEYS.TAGS, spaceId],
     queryFn: async () => {
-      const response = await getTags({ spaceId })
+      const response = await fetch(`/api/space/${spaceId}/tags`, {
+        method: 'GET',
+      }).then((res) => res.json())
       return response.tags
     },
     enabled: !!spaceId,
@@ -138,7 +154,11 @@ export const useGetTags = ({ spaceId }: ISpaceQuery['query']) => {
 export const usePatchRole = (spaceId?: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (query: IChangeRole['query']) => patchRole({ query }),
+    mutationFn: (query: IChangeRole['query']) =>
+      fetch(`/api/space/${spaceId}/member/role`, {
+        method: 'PATCH',
+        body: JSON.stringify(query),
+      }).then((res) => res.json()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SPACES, spaceId] })
     },
@@ -154,8 +174,16 @@ export const usePostScrapSpace = (spaceId?: number) => {
 
   return useMutation({
     mutationFn: async ({ data, file }: IUpdateSpace) => {
-      const response = postScrapSpace({ spaceId, data, file })
-      return response
+      const reqData = { ...data }
+      const formData = new FormData()
+      formData.append('request', JSON.stringify(reqData))
+      file && formData.append('file', file)
+
+      const response = await fetch(`/api/space/${spaceId}/scrap/new`, {
+        method: 'POST',
+        body: formData,
+      })
+      return await response.json()
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SPACES] })

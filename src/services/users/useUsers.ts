@@ -9,23 +9,27 @@ import {
 } from '@/app/apis/member.api'
 import { QUERY_KEYS } from '@/constants'
 import { IFollow, IFollowList, IMemberSearch } from '@/models/member.model'
-import { RegisterReqBody, SearchUserReqBody } from '@/types'
+import { RegisterReqBody } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 // 멤버 프로필 조회
-export const useGetMemberProfile = (memberId: number) => {
+export const useGetUserProfile = (memberId: number) => {
   return useQuery({
     queryKey: [QUERY_KEYS.MEMBERS, memberId],
-    queryFn: () => getMemberProfile({ memberId }),
+    queryFn: async () => {
+      const response = await fetch(`/api/user/${memberId}/profile`)
+      const data = await response.json()
+      return data
+    },
     enabled: !!memberId,
   })
 }
 
 // 멤버 프로필 수정
-export const usePutMemberProfile = (memberId: number) => {
+export const usePutUserProfile = (memberId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       memberId,
       data,
       file,
@@ -34,8 +38,22 @@ export const usePutMemberProfile = (memberId: number) => {
       data: RegisterReqBody
       file?: File
     }) => {
-      const response = putMemberProfile({ memberId, data, file })
-      return response
+      const formData = new FormData()
+      formData.append('request', JSON.stringify(data))
+      if (file) {
+        formData.append('file', file)
+      }
+
+      const response = await fetch(`/api/user/${memberId}/profile`, {
+        method: 'PUT',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile')
+      }
+
+      return await response.json()
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -61,8 +79,10 @@ export const fetchGetFollowing = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await getFollowing({ memberId, searchParams: queryString })
-    return response
+    const response = await fetch(
+      `/api/user/${memberId}/following?${queryString}`,
+    )
+    return response.json()
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -81,8 +101,10 @@ export const fetchGetFollowers = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await getFollowers({ memberId, searchParams: queryString })
-    return response
+    const response = await fetch(
+      `/api/user/${memberId}/followers?${queryString}`,
+    )
+    return response.json()
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -94,7 +116,9 @@ export const usePostFollow = (profileId?: number) => {
 
   return useMutation({
     mutationFn: ({ memberId }: IFollow) => {
-      const response = postFollow({ memberId })
+      const response = fetch(`/api/user/${memberId}/follow`, {
+        method: 'POST',
+      })
       return response
     },
     onSuccess: () => {
@@ -120,7 +144,9 @@ export const useDeleteFollow = (profileId?: number) => {
 
   return useMutation({
     mutationFn: ({ memberId }: IFollow) => {
-      const response = deleteFollow({ memberId })
+      const response = fetch(`/api/user/${memberId}/follow`, {
+        method: 'DELETE',
+      })
       return response
     },
     onSuccess: () => {
@@ -141,7 +167,7 @@ export const useDeleteFollow = (profileId?: number) => {
 }
 
 // 멤버 검색 (무한스크롤 fetch 함수)
-export const fetchSearchMembers = async ({
+export const fetchSearchUsers = async ({
   pageNumber,
   pageSize,
   keyword,
@@ -154,10 +180,9 @@ export const fetchSearchMembers = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await getSearchMembers({
-      searchParams: queryString,
-    })
-    return response
+    const response = await fetch(`/api/user/search?${queryString}`)
+    const data = await response.json()
+    return data
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }

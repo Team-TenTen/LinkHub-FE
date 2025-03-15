@@ -1,13 +1,3 @@
-import {
-  createLink,
-  deleteLikeLink,
-  deleteLink,
-  getLinks,
-  getPopularLinks,
-  postLikeLink,
-  postReadSaveLink,
-  updateLink,
-} from '@/app/apis/link.api'
 import { QUERY_KEYS } from '@/constants'
 import { ILikeLink, ISpaceLink, IUpdateLink } from '@/models/link.model'
 import { GetLinksReqBody } from '@/types'
@@ -30,8 +20,13 @@ export const fetchGetLinks = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await getLinks({ spaceId, searchParams: queryString })
-    return response
+    const response = await fetch(`/api/space/${spaceId}/links?${queryString}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    return response.json()
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -41,7 +36,14 @@ export const fetchGetLinks = async ({
 export const usePostLink = (spaceId?: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (query: IUpdateLink['query']) => createLink({ query }),
+    mutationFn: (query: IUpdateLink['query']) =>
+      fetch(`/api/space/${spaceId}/links`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(query),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.LINKS, spaceId] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TAGS, spaceId] })
@@ -51,12 +53,18 @@ export const usePostLink = (spaceId?: number) => {
     },
   })
 }
-
 // 링크 수정
 export const usePutLink = (spaceId?: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (query: IUpdateLink['query']) => updateLink({ query }),
+    mutationFn: (query: IUpdateLink['query']) =>
+      fetch(`/api/space/${spaceId}/links`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(query),
+      }).then((res) => res.json()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.LINKS, spaceId] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TAGS, spaceId] })
@@ -71,7 +79,11 @@ export const usePutLink = (spaceId?: number) => {
 export const useDeleteLink = (spaceId?: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (query: ISpaceLink['query']) => deleteLink({ query }),
+    mutationFn: (query: ISpaceLink['query']) => {
+      return fetch(`/api/space/${query.spaceId}/links/${query.linkId}`, {
+        method: 'DELETE',
+      }).then((res) => res.json())
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.LINKS, spaceId] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TAGS, spaceId] })
@@ -86,14 +98,24 @@ export const useDeleteLink = (spaceId?: number) => {
 export const useGetPopularLinks = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.POPULAR_LINKS],
-    queryFn: () => getPopularLinks(),
+    queryFn: () =>
+      fetch('/api/links', {
+        method: 'GET',
+      }).then((res) => res.json()),
   })
 }
 
 // 링크 좋아요
 export const usePostLikeLink = () => {
   return useMutation({
-    mutationFn: (query: ILikeLink['query']) => postLikeLink({ query }),
+    mutationFn: (query: ILikeLink['query']) =>
+      fetch(`/api/links/${query.linkId}/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(query),
+      }).then((res) => res.json()),
     onError: (error: Error) => {
       console.log(error)
     },
@@ -103,7 +125,10 @@ export const usePostLikeLink = () => {
 // 링크 좋아요 취소
 export const useDeleteLikeLink = () => {
   return useMutation({
-    mutationFn: (query: ILikeLink['query']) => deleteLikeLink({ query }),
+    mutationFn: (query: ILikeLink['query']) =>
+      fetch(`/api/links/${query.linkId}/like`, {
+        method: 'DELETE',
+      }).then((res) => res.json()),
     onError: (error: Error) => {
       console.log(error)
     },
@@ -114,7 +139,14 @@ export const useDeleteLikeLink = () => {
 export const usePostReadSaveLink = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (query: ISpaceLink['query']) => postReadSaveLink({ query }),
+    mutationFn: (query: ISpaceLink['query']) =>
+      fetch(`/api/space/${query.spaceId}/links/readInfo/${query.linkId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(query),
+      }).then((res) => res.json()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.LINKS] })
     },

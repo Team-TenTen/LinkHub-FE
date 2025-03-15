@@ -1,11 +1,3 @@
-import {
-  createComment,
-  createReply,
-  deleteComment,
-  getComments,
-  getReplies,
-  updateComment,
-} from '@/app/apis/comments.api'
 import { QUERY_KEYS } from '@/constants'
 import { ICommentQuery } from '@/models/comments.model'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -23,8 +15,14 @@ export const fetchGetComments = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await getComments({ spaceId, searchParams: queryString })
-    return response
+    const response = await fetch(
+      `/api/space/${spaceId}/comments?${queryString}`,
+      {
+        method: 'GET',
+      },
+    )
+    const data = await response.json()
+    return data
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -34,8 +32,20 @@ export const fetchGetComments = async ({
 export const usePostComment = (spaceId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ spaceId, content }: { spaceId: number; content: string }) =>
-      createComment({ spaceId, content }),
+    mutationFn: async ({
+      spaceId,
+      content,
+    }: {
+      spaceId: number
+      content: string
+    }) => {
+      const response = await fetch(`/api/space/${spaceId}/comments/create`, {
+        method: 'POST',
+        body: JSON.stringify({ content }),
+      })
+      const data = await response.json()
+      return data
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.COMMENTS, spaceId],
@@ -51,7 +61,7 @@ export const usePostComment = (spaceId: number) => {
 export const usePutComment = (spaceId?: number, parentCommentId?: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       spaceId,
       commentId,
       content,
@@ -59,7 +69,17 @@ export const usePutComment = (spaceId?: number, parentCommentId?: number) => {
       spaceId: number
       commentId: number
       content: string
-    }) => updateComment({ spaceId, commentId, content }),
+    }) => {
+      const response = await fetch(
+        `/api/space/${spaceId}/comments/${commentId}`,
+        {
+          method: 'PUT',
+          body: JSON.stringify({ content }),
+        },
+      )
+      const data = await response.json()
+      return data
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.COMMENTS, spaceId],
@@ -78,8 +98,16 @@ export const usePutComment = (spaceId?: number, parentCommentId?: number) => {
 export const useDeleteComment = (spaceId: number, parentCommentId?: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ commentId }: { commentId: number }) =>
-      deleteComment({ spaceId, commentId }),
+    mutationFn: async ({ commentId }: { commentId: number }) => {
+      const response = await fetch(
+        `/api/space/${spaceId}/comments/${commentId}`,
+        {
+          method: 'DELETE',
+        },
+      )
+      const data = await response.json()
+      return data
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.COMMENTS, spaceId],
@@ -108,12 +136,14 @@ export const fetchGetReplies = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await getReplies({
-      spaceId,
-      commentId,
-      searchParams: queryString,
-    })
-    return response
+    const response = await fetch(
+      `/api/space/${spaceId}/comments/${commentId}/replies?${queryString}`,
+      {
+        method: 'GET',
+      },
+    )
+    const data = await response.json()
+    return data
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -121,10 +151,9 @@ export const fetchGetReplies = async ({
 
 // 대댓글 생성
 export const usePostReply = (spaceId: number, parentCommentId?: number) => {
-  console.log(parentCommentId)
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       spaceId,
       commentId,
       content,
@@ -132,7 +161,17 @@ export const usePostReply = (spaceId: number, parentCommentId?: number) => {
       spaceId: number
       commentId: number
       content: string
-    }) => createReply({ spaceId, commentId, content }),
+    }) => {
+      const response = await fetch(
+        `/api/space/${spaceId}/comments/${commentId}/replies`,
+        {
+          method: 'POST',
+          body: JSON.stringify({ content }),
+        },
+      )
+      const data = await response.json()
+      return data
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.COMMENTS, spaceId],

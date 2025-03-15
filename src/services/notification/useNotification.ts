@@ -1,8 +1,3 @@
-import {
-  deleteNotification,
-  getInvitations,
-  getNotificationCount,
-} from '@/app/apis/notification.api'
 import { QUERY_KEYS } from '@/constants'
 import { IInvitationsQuery } from '@/models/notification.model'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -11,7 +6,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 export const useGetUnCheckedNotifications = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.NOTIFICATION_COUNT],
-    queryFn: () => getNotificationCount(),
+    queryFn: async () => {
+      const response = await fetch(`/api/notification/unchecked`)
+      return response.json()
+    },
   })
 }
 
@@ -27,8 +25,8 @@ export const fetchGetInvitations = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await getInvitations({ searchParams: queryString })
-    return response
+    const response = await fetch(`/api/notification/invitations?${queryString}`)
+    return response.json()
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -38,7 +36,11 @@ export const fetchGetInvitations = async ({
 export const useDeleteNotifications = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (notificationId: number) => deleteNotification(notificationId),
+    mutationFn: (notificationId: number) => {
+      return fetch(`/api/notification/${notificationId}`, {
+        method: 'DELETE',
+      })
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVITATIONS] })
       queryClient.invalidateQueries({
