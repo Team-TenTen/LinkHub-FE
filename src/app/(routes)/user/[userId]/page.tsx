@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Avatar,
   CategoryListItem,
@@ -7,11 +5,13 @@ import {
   ProfileEditButton,
 } from '@/components'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
-import { useGetUserProfile } from '@/services/users/useUsers'
+import { fetchGetUserProfile } from '@/services/users/useUsers'
 import { UserLayoutProps } from './layout'
 
-export default function UserPage({ params: { userId } }: UserLayoutProps) {
-  const { data: user } = useGetUserProfile(Number(userId))
+export default async function UserPage({
+  params: { userId },
+}: UserLayoutProps) {
+  const user = await fetchGetUserProfile({ memberId: userId })
 
   return (
     <>

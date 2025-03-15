@@ -1,16 +1,9 @@
-import {
-  deleteFollow,
-  getFollowers,
-  getFollowing,
-  getMemberProfile,
-  getSearchMembers,
-  postFollow,
-  putMemberProfile,
-} from '@/app/apis/member.api'
 import { QUERY_KEYS } from '@/constants'
 import { IFollow, IFollowList, IMemberSearch } from '@/models/member.model'
 import { RegisterReqBody } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+
+const baseURL = process.env.NEXT_PUBLIC_API_INTERNAL_ADDRESS
 
 // 멤버 프로필 조회
 export const useGetUserProfile = (memberId: number) => {
@@ -23,6 +16,22 @@ export const useGetUserProfile = (memberId: number) => {
     },
     enabled: !!memberId,
   })
+}
+
+// 멤버 프로필 조회 서버 함수
+export const fetchGetUserProfile = async ({
+  memberId,
+}: {
+  memberId?: number
+}) => {
+  const path = `${baseURL}/api/user/${memberId}/profile`
+
+  try {
+    const response = await fetch(path, { cache: 'no-store' })
+    return response.json()
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
 }
 
 // 멤버 프로필 수정
