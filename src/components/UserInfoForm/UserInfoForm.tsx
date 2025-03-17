@@ -4,6 +4,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
 import { usePostEmail, usePostEmailVerify } from '@/services/email/useEmails'
+import { fetchPostUserProfile } from '@/services/users/useUsers'
 import { usePutUserProfile } from '@/services/users/useUsers'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
@@ -39,7 +40,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const [imageFile, setImageFile] = useState<File>()
   const router = useRouter()
   const [isVerification, setVerification] = useState(false)
-  const { mutate: putUserProfileMutation } = usePutUserProfile(
+  const { mutateAsync: putUserProfileMutation } = usePutUserProfile(
     userData?.memberId || 0,
   )
   const { mutateAsync: postEmail } = usePostEmail()
@@ -153,14 +154,16 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
     }
   }
 
-  const handleSettingUser = (data: RegisterReqBody & EmailVerifyReqBody) => {
+  const handleSettingUser = async (
+    data: RegisterReqBody & EmailVerifyReqBody,
+  ) => {
     try {
       userData?.memberId &&
-        putUserProfileMutation({
+        (await putUserProfileMutation({
           memberId: userData?.memberId,
           data,
           file: imageFile,
-        })
+        }))
       notify('success', '수정되었습니다.')
       router.refresh()
       router.back()
