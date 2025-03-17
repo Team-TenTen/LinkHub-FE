@@ -1,6 +1,7 @@
 import { QUERY_KEYS } from '@/constants'
 import { ICommentQuery } from '@/models/comments.model'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { apiClient } from '../apiServices'
 
 // 댓글 조회 (페이지네이션 fetch 함수)
 export const fetchGetComments = async ({
@@ -15,14 +16,10 @@ export const fetchGetComments = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(
+    const response = await apiClient.get(
       `/api/space/${spaceId}/comments?${queryString}`,
-      {
-        method: 'GET',
-      },
     )
-    const data = await response.json()
-    return data
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -31,6 +28,7 @@ export const fetchGetComments = async ({
 // 댓글 생성
 export const usePostComment = (spaceId: number) => {
   const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async ({
       spaceId,
@@ -39,12 +37,11 @@ export const usePostComment = (spaceId: number) => {
       spaceId: number
       content: string
     }) => {
-      const response = await fetch(`/api/space/${spaceId}/comments/create`, {
-        method: 'POST',
-        body: JSON.stringify({ content }),
-      })
-      const data = await response.json()
-      return data
+      const response = await apiClient.post(
+        `/api/space/${spaceId}/comments/create`,
+        { content },
+      )
+      return response
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -60,6 +57,7 @@ export const usePostComment = (spaceId: number) => {
 // 댓글 수정
 export const usePutComment = (spaceId?: number, parentCommentId?: number) => {
   const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async ({
       spaceId,
@@ -70,15 +68,11 @@ export const usePutComment = (spaceId?: number, parentCommentId?: number) => {
       commentId: number
       content: string
     }) => {
-      const response = await fetch(
+      const response = await apiClient.put(
         `/api/space/${spaceId}/comments/${commentId}`,
-        {
-          method: 'PUT',
-          body: JSON.stringify({ content }),
-        },
+        { content },
       )
-      const data = await response.json()
-      return data
+      return response
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -99,14 +93,10 @@ export const useDeleteComment = (spaceId: number, parentCommentId?: number) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async ({ commentId }: { commentId: number }) => {
-      const response = await fetch(
+      const response = await apiClient.delete(
         `/api/space/${spaceId}/comments/${commentId}`,
-        {
-          method: 'DELETE',
-        },
       )
-      const data = await response.json()
-      return data
+      return response
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -136,14 +126,10 @@ export const fetchGetReplies = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(
+    const response = await apiClient.get(
       `/api/space/${spaceId}/comments/${commentId}/replies?${queryString}`,
-      {
-        method: 'GET',
-      },
     )
-    const data = await response.json()
-    return data
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -152,6 +138,7 @@ export const fetchGetReplies = async ({
 // 대댓글 생성
 export const usePostReply = (spaceId: number, parentCommentId?: number) => {
   const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async ({
       spaceId,
@@ -162,15 +149,11 @@ export const usePostReply = (spaceId: number, parentCommentId?: number) => {
       commentId: number
       content: string
     }) => {
-      const response = await fetch(
+      const response = await apiClient.post(
         `/api/space/${spaceId}/comments/${commentId}/replies`,
-        {
-          method: 'POST',
-          body: JSON.stringify({ content }),
-        },
+        { content },
       )
-      const data = await response.json()
-      return data
+      return response
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

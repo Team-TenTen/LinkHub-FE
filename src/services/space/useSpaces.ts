@@ -9,6 +9,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query'
+import { apiClient } from '../apiServices'
 
 // 전체 스페이스 필터 조회 (무한스크롤 fetch 함수)
 export const fetchGetSpaces = async ({
@@ -30,8 +31,8 @@ export const fetchGetSpaces = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(`/api/spaces?${queryString}`)
-    return response.json()
+    const response = await apiClient.get(`/api/spaces?${queryString}`)
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -55,8 +56,8 @@ export const fetchSearchSpaces = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(`/api/spaces/search?${queryString}`)
-    return response.json()
+    const response = await apiClient.get(`/api/spaces/search?${queryString}`)
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -79,8 +80,10 @@ export const fetchSearchMySpaces = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(`/api/user/${memberId}/spaces?${queryString}`)
-    return response.json()
+    const response = await apiClient.get(
+      `/api/user/${memberId}/spaces?${queryString}`,
+    )
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -102,8 +105,8 @@ export const fetchGetMyFavoriteSpaces = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(`/api/user/favorites?${queryString}`)
-    return response.json()
+    const response = await apiClient.get(`/api/user/favorites?${queryString}`)
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -116,21 +119,11 @@ export const usePostInviteSpace = (): UseMutationResult<
   IInviteSpace['query']
 > => {
   const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async (query: IInviteSpace['query']) => {
-      const response = await fetch(`/api/space/invitations`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(query),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to invite to space')
-      }
-
-      return response.json()
+      const response = await apiClient.post(`/api/space/invitations`, query)
+      return response
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({
@@ -150,21 +143,11 @@ export const usePostAccetpSpaceInvitation = (): UseMutationResult<
   IAcceptSpaceInvitation['query']
 > => {
   const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async (query: IAcceptSpaceInvitation['query']) => {
-      const response = await fetch(`/api/spaces/invitations`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(query),
-      })
-      console.log(response)
-      if (!response.ok) {
-        throw new Error('Failed to accept space invitation')
-      }
-
-      return response.json()
+      const response = await apiClient.post(`/api/spaces/invitations`, query)
+      return response
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({

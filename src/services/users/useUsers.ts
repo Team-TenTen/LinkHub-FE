@@ -2,17 +2,15 @@ import { QUERY_KEYS } from '@/constants'
 import { IFollow, IFollowList, IMemberSearch } from '@/models/member.model'
 import { RegisterReqBody } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-
-const baseURL = process.env.NEXT_PUBLIC_API_INTERNAL_ADDRESS
+import { apiClient } from '../apiServices'
 
 // 멤버 프로필 조회
 export const useGetUserProfile = (memberId: number) => {
   return useQuery({
     queryKey: [QUERY_KEYS.MEMBERS, memberId],
     queryFn: async () => {
-      const response = await fetch(`/api/user/${memberId}/profile`)
-      const data = await response.json()
-      return data
+      const response = await apiClient.get(`/api/user/${memberId}/profile`)
+      return response
     },
     enabled: !!memberId,
   })
@@ -24,11 +22,11 @@ export const fetchGetUserProfile = async ({
 }: {
   memberId?: number
 }) => {
-  const path = `${baseURL}/api/user/${memberId}/profile`
-
   try {
-    const response = await fetch(path, { cache: 'no-store' })
-    return response.json()
+    const response = await apiClient.get(`/api/user/${memberId}/profile`, {
+      cache: 'no-store',
+    })
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -37,6 +35,7 @@ export const fetchGetUserProfile = async ({
 // 멤버 프로필 수정
 export const usePutUserProfile = (memberId: number) => {
   const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async ({
       memberId,
@@ -53,16 +52,14 @@ export const usePutUserProfile = (memberId: number) => {
         formData.append('file', file)
       }
 
-      const response = await fetch(`/api/user/${memberId}/profile`, {
-        method: 'PUT',
-        body: formData,
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to update profile')
-      }
-
-      return await response.json()
+      const response = await apiClient.put(
+        `/api/user/${memberId}/profile`,
+        formData,
+        {},
+        {},
+        'multipart',
+      )
+      return response
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -73,6 +70,24 @@ export const usePutUserProfile = (memberId: number) => {
       console.log(error)
     },
   })
+}
+export const fetchPostUserProfile = async (
+  userId: number,
+  data: RegisterReqBody,
+  file?: File,
+) => {
+  const path = `/api/user/${userId}/profile`
+  const reqData = { ...data }
+  const formData = new FormData()
+  formData.append('request', JSON.stringify(reqData))
+  file && formData.append('file', file)
+
+  try {
+    const response = await apiClient.put(path, formData, {}, {}, 'multipart')
+    return response
+  } catch (e) {
+    if (e instanceof Error) throw new Error(e.message)
+  }
 }
 
 // 팔로잉 목록 조회 (페이지네이션 fetch 함수)
@@ -88,10 +103,10 @@ export const fetchGetFollowing = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(
+    const response = await apiClient.get(
       `/api/user/${memberId}/following?${queryString}`,
     )
-    return response.json()
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -110,10 +125,10 @@ export const fetchGetFollowers = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(
+    const response = await apiClient.get(
       `/api/user/${memberId}/followers?${queryString}`,
     )
-    return response.json()
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }
@@ -124,10 +139,8 @@ export const usePostFollow = (profileId?: number) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ memberId }: IFollow) => {
-      const response = fetch(`/api/user/${memberId}/follow`, {
-        method: 'POST',
-      })
+    mutationFn: async ({ memberId }: IFollow) => {
+      const response = await apiClient.post(`/api/user/${memberId}/follow`, {})
       return response
     },
     onSuccess: () => {
@@ -152,10 +165,8 @@ export const useDeleteFollow = (profileId?: number) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ memberId }: IFollow) => {
-      const response = fetch(`/api/user/${memberId}/follow`, {
-        method: 'DELETE',
-      })
+    mutationFn: async ({ memberId }: IFollow) => {
+      const response = await apiClient.delete(`/api/user/${memberId}/follow`)
       return response
     },
     onSuccess: () => {
@@ -189,9 +200,8 @@ export const fetchSearchUsers = async ({
   const queryString = new URLSearchParams(params).toString()
 
   try {
-    const response = await fetch(`/api/user/search?${queryString}`)
-    const data = await response.json()
-    return data
+    const response = await apiClient.get(`/api/user/search?${queryString}`)
+    return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
   }

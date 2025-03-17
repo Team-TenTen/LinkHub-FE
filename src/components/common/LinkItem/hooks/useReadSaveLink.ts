@@ -6,9 +6,9 @@ export interface HandleSaveReadInfoProps {
   linkId: number
 }
 
-const useReadSaveLink = () => {
+const useReadSaveLink = ({ spaceId }: HandleSaveReadInfoProps) => {
   const { isLoggedIn } = useCurrentUser()
-  const { mutate: postReadSaveLink } = usePostReadSaveLink()
+  const { mutate: postReadSaveLink } = usePostReadSaveLink(spaceId)
 
   const handleSaveReadInfo = ({ spaceId, linkId }: HandleSaveReadInfoProps) => {
     if (spaceId && linkId && isLoggedIn) {

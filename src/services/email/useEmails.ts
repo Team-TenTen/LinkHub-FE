@@ -4,16 +4,14 @@ import {
 } from '@/components/UserInfoForm/UserInfoForm'
 import { IEmail } from '@/models/emails.model'
 import { useMutation } from '@tanstack/react-query'
+import { apiClient } from '../apiServices'
 
 // 이메일 전송
 export const usePostEmail = () => {
   return useMutation({
     mutationFn: async (email: IEmail) => {
-      const response = await fetch(`/api/email`, {
-        method: 'POST',
-        body: JSON.stringify(email),
-      })
-      return response.json()
+      const response = await apiClient.post(`/api/email`, email)
+      return response
     },
     onError: (error: Error) => {
       console.log(error)
@@ -25,11 +23,8 @@ export const usePostEmail = () => {
 export const usePostEmailVerify = () => {
   return useMutation({
     mutationFn: async (data: EmailVerifyReqBody & EmailReqBody) => {
-      const response = await fetch(`/api/email/verify`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-      })
-      return response.json()
+      const response = await apiClient.post(`/api/email/verify`, data)
+      return response
     },
     onError: (error: Error) => {
       console.log(error)

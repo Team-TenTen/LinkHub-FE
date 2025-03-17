@@ -105,9 +105,11 @@ const LinkItem = ({
     spaceId,
     linkId,
   })
-  const { mutate: deleteLink, isPending: isDeleteLinkLoading } =
-    useDeleteLink(spaceId)
-  const { handleSaveReadInfo } = useReadSaveLink()
+  const { mutate: deleteLink, isPending: isDeleteLinkLoading } = useDeleteLink({
+    spaceId,
+    linkId,
+  })
+  const { handleSaveReadInfo } = useReadSaveLink({ spaceId, linkId })
   const { isLiked, likeCount, handleClickLike } = useLikeLink({
     spaceId,
     linkId,
@@ -309,7 +311,7 @@ const LinkItem = ({
                 })()
               : spaceId &&
                 (() => {
-                  deleteLink({ spaceId, linkId })
+                  deleteLink()
                 })()
           }
           type="form">
