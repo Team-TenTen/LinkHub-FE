@@ -1,18 +1,18 @@
 import { useCurrentUser } from '@/hooks/useCurrentUser'
-import { fetchReadSaveLink } from '@/services/link/link'
+import { usePostReadSaveLink } from '@/services/link/useLink'
 
 export interface HandleSaveReadInfoProps {
   spaceId?: number
   linkId: number
 }
 
-const useReadSaveLink = () => {
+const useReadSaveLink = ({ spaceId }: HandleSaveReadInfoProps) => {
   const { isLoggedIn } = useCurrentUser()
+  const { mutate: postReadSaveLink } = usePostReadSaveLink(spaceId)
 
   const handleSaveReadInfo = ({ spaceId, linkId }: HandleSaveReadInfoProps) => {
     if (spaceId && linkId && isLoggedIn) {
-      fetchReadSaveLink({ spaceId, linkId })
-      console.log('접속 저장됨')
+      postReadSaveLink({ spaceId, linkId })
     }
   }
 

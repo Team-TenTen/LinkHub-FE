@@ -5,20 +5,20 @@ import { Spinner } from '@/components'
 import SpaceForm from '@/components/Space/SpaceForm'
 import Button from '@/components/common/Button/Button'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
-import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import { notify } from '@/components/common/Toast/Toast'
 import { useModal } from '@/hooks'
-import { fetchDeleteSpace } from '@/services/space/space'
+import { useDeleteSpace, useGetSpace } from '@/services/space/useSpace'
 import { useRouter } from 'next/navigation'
 
 const SpaceSettingPage = ({ params }: { params: { spaceId: number } }) => {
   const router = useRouter()
   const spaceId = params.spaceId
-  const { space, isSpaceLoading } = useGetSpace()
+  const { data: space, isLoading: isSpaceLoading } = useGetSpace(spaceId)
   const { Modal, isOpen, modalOpen, modalClose } = useModal(false)
+  const { mutate: deleteSpace } = useDeleteSpace()
 
-  const handleConfirm = async () => {
-    await fetchDeleteSpace(spaceId)
+  const handleConfirm = () => {
+    deleteSpace({ spaceId })
     notify('info', '스페이스가 삭제되었습니다.')
     router.replace('/')
   }

@@ -2,11 +2,12 @@ import { useServerCookie } from '@/hooks/useServerCookie'
 import { apiServer } from '@/services/apiServices'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { spaceId: string; linkId: string } },
+) {
   const { token } = useServerCookie()
-  const { searchParams } = new URL(req.url)
-  const spaceId = searchParams.get('spaceId')
-  const linkId = searchParams.get('linkId')
+  const { spaceId, linkId } = params
   const path = `/spaces/${spaceId}/links/${linkId}/view`
   const headers = {
     Authorization: `Bearer ${token}`,

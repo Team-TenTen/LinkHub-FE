@@ -1,4 +1,4 @@
-import { INITIAL_PAGE_NUMBER, PAGE_SIZE } from '@/constants'
+import { INITIAL_PAGE_NUMBER, PAGE_SIZE, QUERY_KEYS } from '@/constants'
 import { GetLinksReqBody } from '@/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
@@ -17,7 +17,7 @@ const useLinksQuery = ({
   const sortValue = sort === 'like' ? 'popular' : 'created_at'
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: [
-      'links',
+      QUERY_KEYS.LINKS,
       spaceId,
       { ...(sortValue && { sort: sortValue }), ...(tagId && { tagId: tagId }) },
     ],

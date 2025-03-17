@@ -6,9 +6,8 @@ import useMainSpacesQuery from '@/components/SpaceList/hooks/useMainSpacesQuery'
 import { CATEGORIES_RENDER } from '@/constants'
 import { useCategoryParam, useSortParam } from '@/hooks'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
-import { fetchGetSpaces } from '@/services/space/spaces'
+import { fetchGetSpaces } from '@/services/space/useSpaces'
 import { SpaceResBody } from '@/types'
-import { useQueryClient } from '@tanstack/react-query'
 import { MORE_TEXT } from '../LinkList/constants'
 import Space from '../Space/Space'
 
@@ -29,9 +28,6 @@ const MainSpaceList = ({ memberId, keyword }: SpaceListProps) => {
       keyword,
       fetchFn: fetchGetSpaces,
     })
-
-  const queryClient = useQueryClient()
-  console.log(queryClient.getQueryCache())
 
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
 

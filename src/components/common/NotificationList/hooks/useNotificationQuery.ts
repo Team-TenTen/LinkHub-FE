@@ -1,11 +1,10 @@
 import { FollowListProps } from '@/components/common/FollowList/FollowList'
-import { INITIAL_PAGE_NUMBER, PAGE_SIZE } from '@/constants'
+import { INITIAL_PAGE_NUMBER, PAGE_SIZE, QUERY_KEYS } from '@/constants'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-const useNotificationQuery = ({ fetchFn, type }: FollowListProps) => {
-  const queryKey = type
+const useNotificationQuery = ({ fetchFn }: FollowListProps) => {
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['notification', queryKey],
+    queryKey: [QUERY_KEYS.INVITATIONS],
     queryFn: ({ pageParam }) =>
       fetchFn({
         pageNumber: pageParam,

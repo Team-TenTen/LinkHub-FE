@@ -1,5 +1,5 @@
 import { ProfileTap } from '@/components'
-import { fetchGetUserProfile } from '@/services/user/profile/profile'
+import { fetchGetUserProfile } from '@/services/users/useUsers'
 import { Metadata } from 'next'
 
 export type UserLayoutProps = {

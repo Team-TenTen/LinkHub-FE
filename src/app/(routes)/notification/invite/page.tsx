@@ -1,7 +1,7 @@
 'use client'
 
 import NotificationList from '@/components/common/NotificationList/NotificationList'
-import { fetchGetInvitations } from '@/services/notification/invitations'
+import { fetchGetInvitations } from '@/services/notification/useNotification'
 
 const NotificationInvitePage = () => {
   return (

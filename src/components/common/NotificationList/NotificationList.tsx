@@ -27,8 +27,8 @@ const NotificationList = ({ fetchFn, type }: NotificationListProps) => {
     type,
   })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
-  const { handleAcceptInvite } = useAcceptNotification({ type })
-  const { handleDeleteNotification } = useDeleteNotification({ type })
+  const { handleAcceptInvite } = useAcceptNotification()
+  const { handleDeleteNotification } = useDeleteNotification()
 
   return isNotificationLoading ? (
     <DeferredComponent>

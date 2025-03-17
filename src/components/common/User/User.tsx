@@ -38,6 +38,7 @@ const User = ({
     useModal()
   const { isFollowing: isFollowingValue, handleClickListInFollow } =
     useFollowUser({
+      profileId: profileId || 0,
       memberId: memberId || 0,
       isInitFollowing: !!isFollowing,
       followerInitCount: followingCount || 0,

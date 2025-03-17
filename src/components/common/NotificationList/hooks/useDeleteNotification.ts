@@ -1,22 +1,16 @@
-import {
-  FetchDeleteNotificationProps,
-  fetchDeleteNotification,
-} from '@/services/notification'
-import { useQueryClient } from '@tanstack/react-query'
+import { useDeleteNotifications } from '@/services/notification/useNotification'
 
-export interface UseDeleteNotificationProps {
-  type: 'FOLLOW' | 'COMMENT' | 'INVITATION'
+export interface FetchDeleteNotificationProps {
+  notificationId: number
 }
 
-const useDeleteNotification = ({ type }: UseDeleteNotificationProps) => {
-  const queryclient = useQueryClient()
+const useDeleteNotification = () => {
+  const { mutate: deleteNotification } = useDeleteNotifications()
 
   const handleDeleteNotification = async ({
     notificationId,
   }: FetchDeleteNotificationProps) => {
-    await fetchDeleteNotification({ notificationId })
-    await queryclient.invalidateQueries({ queryKey: ['notification', type] })
-    await queryclient.invalidateQueries({ queryKey: ['notificationCount'] })
+    deleteNotification(notificationId)
   }
 
   return { handleDeleteNotification }

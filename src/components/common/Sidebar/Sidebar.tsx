@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import { Spinner } from '@/components'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { useGetUserProfile } from '@/services/users/useUsers'
 import { cls } from '@/utils'
 import { PlusIcon } from '@heroicons/react/20/solid'
 import { UserIcon } from '@heroicons/react/24/outline'
@@ -28,6 +29,7 @@ export interface SidebarProps {
 const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState(isSidebarOpen)
   const { currentUser } = useCurrentUser()
+  const { data: user } = useGetUserProfile(currentUser?.memberId!)
 
   const sidebarRef = useRef<HTMLDivElement>(null)
   const {
@@ -67,7 +69,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
           isOpen ? 'animate-openSidebar' : 'animate-closeSidebar',
         )}>
         <div className="flex flex-col">
-          {currentUser ? (
+          {user ? (
             isSideBarLoading ? (
               <DeferredComponent>
                 <Spinner />
@@ -77,12 +79,12 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                 <div className="flex items-center px-2">
                   <div className="relative h-10 w-10 shrink-0">
                     <Avatar
-                      src={currentUser.profileImagePath}
-                      alt={currentUser.nickname}
+                      src={user.profileImagePath}
+                      alt={user.nickname}
                     />
                   </div>
                   <p className="font-sm ml-3 w-full overflow-hidden text-ellipsis	whitespace-nowrap font-medium text-gray9">
-                    {currentUser.nickname}
+                    {user.nickname}
                   </p>
                   <Button onClick={handleCloseClick}>
                     <XMarkIcon className="h-6 w-6" />
@@ -90,7 +92,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                 </div>
                 <Link
                   prefetch={true}
-                  href={`/user/${currentUser.memberId}`}
+                  href={`/user/${user.memberId}`}
                   className="mb-2 mt-4 flex items-center px-2 py-2 text-base font-bold text-gray9"
                   onClick={onClose}>
                   <UserIcon className="mr-1.5 h-5 w-5" />내 프로필
@@ -137,7 +139,7 @@ const Sidebar = ({ isSidebarOpen, onClose }: SidebarProps) => {
                   </ul>
                   <Link
                     prefetch={true}
-                    href={`/user/${currentUser.memberId}/space`}
+                    href={`/user/${user.memberId}/space`}
                     className="font-gray6 my-2 block w-full rounded-3xl border border-slate6 px-3 py-2.5 text-center text-sm font-medium text-slate6"
                     onClick={onClose}>
                     스페이스 전체보기

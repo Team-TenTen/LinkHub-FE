@@ -5,7 +5,7 @@ import {
   ProfileEditButton,
 } from '@/components'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
-import { fetchGetUserProfile } from '@/services/user/profile/profile'
+import { fetchGetUserProfile } from '@/services/users/useUsers'
 import { UserLayoutProps } from './layout'
 
 export default async function UserPage({
