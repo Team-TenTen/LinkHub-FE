@@ -42,7 +42,7 @@ export interface Link {
 }
 
 export interface LinkListProps {
-  spaceId?: number
+  spaceId: number
   read?: boolean
   summary?: boolean
   edit?: boolean
