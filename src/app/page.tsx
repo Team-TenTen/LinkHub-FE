@@ -14,7 +14,6 @@ export default function Home() {
       </section>
       <section>
         <MainSpaceHeader />
-        <div>배포 반영 테스트</div>
         <SpaceListController />
       </section>
       <FloatingBtnController />
