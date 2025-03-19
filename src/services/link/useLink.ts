@@ -116,7 +116,7 @@ export const useGetPopularLinks = () => {
 // 인기 링크 조회 서버 함수
 export const fetchGetPopularLinks = async () => {
   try {
-    const response = await apiClient.get(`/api/links`)
+    const response = await fetch(`/api/links`)
     return response
   } catch (e) {
     if (e instanceof Error) throw new Error(e.message)
