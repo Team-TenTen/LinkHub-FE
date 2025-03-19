@@ -4,7 +4,7 @@ import { cls } from '@/utils'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import Button from '../Button/Button'
 import { NOTIFICATION_MSG } from './constants'
-import useNotification from './hooks/useNotification'
+import useNotificationPopup from './hooks/useNotificationPopup'
 
 export interface NotificationProps {
   notificationId: number
@@ -32,7 +32,7 @@ const Notification = ({
   onClose,
 }: NotificationProps) => {
   const { handleClickUser, handleClickSpace, handleClickComment } =
-    useNotification()
+    useNotificationPopup()
 
   return (
     <div

@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import {
-  fetchFollowUser,
-  fetchUnFollowUser,
-} from '@/services/user/follow/follow'
+import { useDeleteFollow, usePostFollow } from '@/services/users/useUsers'
 import { useQueryClient } from '@tanstack/react-query'
 import { debounce } from 'lodash'
 import { useCurrentUser } from './useCurrentUser'
 
 export interface UseFollowUserProps {
+  profileId?: number
   memberId: number
   isInitFollowing: boolean
   followingInitCount?: number
@@ -16,6 +14,7 @@ export interface UseFollowUserProps {
 }
 
 const useFollowUser = ({
+  profileId,
   memberId,
   isInitFollowing,
   followerInitCount,
@@ -27,6 +26,8 @@ const useFollowUser = ({
   const [isFollowing, setIsFollowing] = useState(isInitFollowing)
   const [followingCount, setFollowingCount] = useState(followingInitCount)
   const [followerCount, setFollowerCount] = useState(followerInitCount)
+  const { mutateAsync: postFollow } = usePostFollow(profileId)
+  const { mutateAsync: deleteFollow } = useDeleteFollow(profileId)
 
   useEffect(() => {
     setIsFollowing(isInitFollowing)
@@ -44,24 +45,20 @@ const useFollowUser = ({
     () =>
       debounce(async () => {
         if (memberId) {
-          await fetchUnFollowUser({ memberId })
-          await queryClient.invalidateQueries({ queryKey: ['follow'] })
-          await queryClient.invalidateQueries({ queryKey: ['users'] })
+          await deleteFollow({ memberId })
         }
       }, 300),
-    [memberId, queryClient],
+    [memberId, deleteFollow],
   )
 
   const debounceFollowUser = useMemo(
     () =>
       debounce(async () => {
         if (memberId) {
-          await fetchFollowUser({ memberId })
-          await queryClient.invalidateQueries({ queryKey: ['follow'] })
-          await queryClient.invalidateQueries({ queryKey: ['users'] })
+          await postFollow({ memberId })
         }
       }, 300),
-    [memberId, queryClient],
+    [memberId, postFollow],
   )
 
   const handleClickFollow = useCallback(

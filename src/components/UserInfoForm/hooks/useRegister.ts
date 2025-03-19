@@ -1,5 +1,5 @@
 import { notify } from '@/components/common/Toast/Toast'
-import { registerUser } from '@/services/auth'
+import { useRegisterUser } from '@/services/auth/useAuth'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 
@@ -15,11 +15,12 @@ export interface RegisterReqBody {
 
 const useRegister = () => {
   const router = useRouter()
+  const { mutateAsync: registerUser } = useRegisterUser()
   const registerLinkHub = async (data: RegisterReqBody, imageFile?: File) => {
     if (Cookies.get('Social-Id') && Cookies.get('Provider')) {
       data.socialId = Cookies.get('Social-Id') || ''
       data.provider = Cookies.get('Provider') || ''
-      const { jwt } = await registerUser(data, imageFile)
+      const { jwt } = await registerUser({ data, file: imageFile })
       Cookies.remove('Social-Id')
       Cookies.remove('Provider')
 

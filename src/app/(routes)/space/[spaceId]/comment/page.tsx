@@ -6,7 +6,6 @@ import CommentList from '@/components/CommentList/CommentList'
 import Button from '@/components/common/Button/Button'
 import DeferredComponent from '@/components/common/DeferedComponent/DeferedComponent'
 import Space from '@/components/common/Space/Space'
-import useGetSpace from '@/components/common/Space/hooks/useGetSpace'
 import Tab from '@/components/common/Tab/Tab'
 import TabItem from '@/components/common/Tab/TabItem'
 import useTab from '@/components/common/Tab/hooks/useTab'
@@ -14,7 +13,8 @@ import { CATEGORIES_RENDER, MIN_TAB_NUMBER } from '@/constants'
 import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import useSpaceComment from '@/hooks/useSpaceComment'
-import { fetchGetComments } from '@/services/comment/comment'
+import { fetchGetComments } from '@/services/comments/useComments'
+import { useGetSpace } from '@/services/space/useSpace'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import dynamic from 'next/dynamic'
 
@@ -29,7 +29,7 @@ export interface CommentFormValues {
 
 const SpaceCommentPage = ({ params }: { params: { spaceId: number } }) => {
   const { isLoggedIn } = useCurrentUser()
-  const { space, isSpaceLoading } = useGetSpace()
+  const { data: space, isLoading: isSpaceLoading } = useGetSpace(params.spaceId)
   const { register, unregister, setValue, setFocus, handleSubmit } =
     useForm<CommentFormValues>({
       defaultValues: {

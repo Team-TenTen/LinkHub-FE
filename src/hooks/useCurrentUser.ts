@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { validateToken } from '@/services/auth'
+import { QUERY_KEYS } from '@/constants'
+import { validateToken } from '@/services/auth/useAuth'
 import { UserProfileResBody } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
@@ -8,7 +9,7 @@ import { usePathname } from 'next/navigation'
 export const useValidate = () => {
   const token = Cookies.get('Auth-token')
   return useQuery({
-    queryKey: ['validateToken', token],
+    queryKey: [QUERY_KEYS.VALIDATE_TOKEN, token],
     queryFn: async () => {
       const res = await validateToken()
       if (!res) {

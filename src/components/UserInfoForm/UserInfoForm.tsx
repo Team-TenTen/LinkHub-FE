@@ -3,8 +3,9 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Avatar, CategoryList, Input } from '@/components'
-import { fetchPostEmail, fetchPostEmailVerify } from '@/services/email'
-import { fetchPostUserProfile } from '@/services/user/profile/profile'
+import { usePostEmail, usePostEmailVerify } from '@/services/email/useEmails'
+import { fetchPostUserProfile } from '@/services/users/useUsers'
+import { usePutUserProfile } from '@/services/users/useUsers'
 import { UserProfileResBody } from '@/types'
 import { cls } from '@/utils'
 import { CheckIcon } from '@heroicons/react/24/solid'
@@ -39,6 +40,11 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   const [imageFile, setImageFile] = useState<File>()
   const router = useRouter()
   const [isVerification, setVerification] = useState(false)
+  const { mutateAsync: putUserProfileMutation } = usePutUserProfile(
+    userData?.memberId || 0,
+  )
+  const { mutateAsync: postEmail } = usePostEmail()
+  const { mutateAsync: postEmailVerify } = usePostEmailVerify()
 
   useEffect(() => {
     setThumnail(userData?.profileImagePath)
@@ -92,7 +98,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
   const handleEmailAuth = async (email: string) => {
     try {
-      const response = await fetchPostEmail({ email })
+      const response = await postEmail({ email })
 
       if (response.errorCode) {
         response.errorCode === 'M001' && setVerification(true)
@@ -108,7 +114,7 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
 
   const handleCheckAuthNum = async (code: string) => {
     try {
-      const verification = await fetchPostEmailVerify({
+      const verification = await postEmailVerify({
         email: getValues('newsEmail'),
         code,
       })
@@ -153,7 +159,11 @@ const UserInfoForm = ({ userData, formType }: UserInfoFormProps) => {
   ) => {
     try {
       userData?.memberId &&
-        (await fetchPostUserProfile(userData?.memberId, data, imageFile))
+        (await putUserProfileMutation({
+          memberId: userData?.memberId,
+          data,
+          file: imageFile,
+        }))
       notify('success', '수정되었습니다.')
       router.refresh()
       router.back()

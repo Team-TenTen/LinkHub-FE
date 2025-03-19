@@ -1,4 +1,4 @@
-import { Tag } from '@/components/common/Space/hooks/useGetTags'
+import { Tag } from '@/types'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import useQueryString from './useQueryString'
 

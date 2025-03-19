@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Comment } from '@/components'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
-import { fetchGetReplies } from '@/services/comment/reply'
+import { fetchGetReplies } from '@/services/comments/useComments'
 import { CommentReqBody, CommentResBody } from '@/types'
 import ReplyList from '../ReplyList/ReplyList'
 import useCommentsQuery from './hooks/useCommentsQuery'

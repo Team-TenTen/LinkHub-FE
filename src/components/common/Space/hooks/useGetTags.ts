@@ -1,4 +1,3 @@
-import { fetchGetTags } from '@/services/space/space'
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -26,18 +25,18 @@ export interface UseGetTagsReturnType {
   isTagsLoading: boolean
 }
 
-const useGetTags = ({ spaceId }: UseGetTagsProps): UseGetTagsReturnType => {
-  const {
-    data,
-    refetch: refetchTags,
-    isLoading,
-  } = useQuery({
-    queryKey: ['tagList', spaceId],
-    queryFn: () => fetchGetTags({ spaceId }),
-    enabled: !!spaceId,
-  })
+// const useGetTagss = ({ spaceId }: UseGetTagsProps): UseGetTagsReturnType => {
+//   const {
+//     data,
+//     refetch: refetchTags,
+//     isLoading,
+//   } = useQuery({
+//     queryKey: ['tagList', spaceId],
+//     queryFn: () => fetchGetTags({ spaceId }),
+//     enabled: !!spaceId,
+//   })
 
-  return { tags: data?.tags, refetchTags, isTagsLoading: isLoading }
-}
+//   return { tags: data?.tags, refetchTags, isTagsLoading: isLoading }
+// }
 
-export default useGetTags
+// export default useGetTagss

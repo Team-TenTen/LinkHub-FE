@@ -32,7 +32,7 @@ export interface UseNotificationReturn {
   }: HandleClickCommentProps) => void
 }
 
-const useNotification = (): UseNotificationReturn => {
+const useNotificationPopup = (): UseNotificationReturn => {
   const router = useRouter()
 
   const handleClickUser = ({
@@ -71,4 +71,4 @@ const useNotification = (): UseNotificationReturn => {
   return { handleClickUser, handleClickSpace, handleClickComment }
 }
 
-export default useNotification
+export default useNotificationPopup

@@ -1,114 +1,110 @@
-class FetchServerAPI {
-  private baseURL: string
-  private headers: { [key: string]: string }
+import { IFetchConfig } from '@/services/apiServices'
 
-  private static instance: FetchServerAPI
+const defaultConfig: IFetchConfig = {
+  baseURL: process.env.NEXT_PUBLIC_API_ADDRESS || '',
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+  },
+}
 
-  private constructor() {
-    this.baseURL = process.env.NEXT_PUBLIC_API_ADDRESS || ''
-    this.headers = {
-      'Content-Type': 'application/json;charset=UTF-8',
-    }
-  }
+export const createFetchServerAPI = (
+  customConfig: Partial<IFetchConfig> = {},
+) => {
+  let config: IFetchConfig = { ...defaultConfig, ...customConfig }
 
-  public static getInstance(): FetchServerAPI {
-    if (!FetchServerAPI.instance) {
-      FetchServerAPI.instance = new FetchServerAPI()
-    }
-    return FetchServerAPI.instance
-  }
-
-  public setBaseURL(url: string): void {
-    this.baseURL = url
-  }
-
-  public setDefaultHeader(key: string, value: string): void {
-    this.headers[key] = value
-  }
-
-  public async get(
+  const get = async (
     endpoint: string,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
-  ): Promise<any> {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
+  ) => {
+    const response = await fetch(`${config.baseURL}${endpoint}`, {
       method: 'GET',
-      headers: { ...this.headers, ...customHeaders },
+      headers: { ...config.headers, ...customHeaders },
       ...nextInit,
     })
     const data = response.json()
     return data
   }
 
-  public async post(
+  const post = async (
     endpoint: string,
     body: any,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
     type: string = 'default',
-  ) {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
+  ) => {
+    const response = await fetch(`${config.baseURL}${endpoint}`, {
       method: 'POST',
       headers:
         type === 'multipart'
           ? { ...customHeaders }
-          : { ...this.headers, ...customHeaders },
+          : { ...config.headers, ...customHeaders },
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
     return response
   }
 
-  public async put(
+  const put = async (
     endpoint: string,
     body: any,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
     type: string = 'default',
-  ) {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
+  ) => {
+    const response = await fetch(`${config.baseURL}${endpoint}`, {
       method: 'PUT',
       headers:
         type === 'multipart'
           ? { ...customHeaders }
-          : { ...this.headers, ...customHeaders },
+          : { ...config.headers, ...customHeaders },
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
     return response
   }
 
-  public async delete(
+  const del = async (
     endpoint: string,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
-  ) {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
+  ) => {
+    const response = await fetch(`${config.baseURL}${endpoint}`, {
       method: 'DELETE',
-      headers: { ...this.headers, ...customHeaders },
+      headers: { ...config.headers, ...customHeaders },
       ...nextInit,
     })
     return response
   }
 
-  public async patch(
+  const patch = async (
     endpoint: string,
     body: any,
     nextInit: RequestInit = {},
     customHeaders: { [key: string]: string } = {},
     type: string = 'default',
-  ) {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
+  ) => {
+    const response = await fetch(`${config.baseURL}${endpoint}`, {
       method: 'PATCH',
       headers:
         type === 'multipart'
           ? { ...customHeaders }
-          : { ...this.headers, ...customHeaders },
+          : { ...config.headers, ...customHeaders },
       body: type === 'multipart' ? body : JSON.stringify(body),
       ...nextInit,
     })
     return response
   }
+
+  return {
+    get,
+    post,
+    put,
+    delete: del,
+    patch,
+  }
 }
 
-export default FetchServerAPI
+export const fetchServerAPI = createFetchServerAPI()
+
+export default fetchServerAPI

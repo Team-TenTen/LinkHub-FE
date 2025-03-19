@@ -9,11 +9,10 @@ import { CommentFormValues } from '@/app/(routes)/space/[spaceId]/comment/page'
 import { CommentProps } from '@/components/common/Comment/Comment'
 import { notify } from '@/components/common/Toast/Toast'
 import {
-  fetchCreateComment,
-  fetchUpdateComment,
-} from '@/services/comment/comment'
-import { fetchCreateReply } from '@/services/comment/reply'
-import { useQueryClient } from '@tanstack/react-query'
+  usePostComment,
+  usePostReply,
+  usePutComment,
+} from '@/services/comments/useComments'
 
 export interface SpaceComment extends CommentProps {
   replies?: CommentProps[]
@@ -43,10 +42,18 @@ const useSpaceComment = ({
   setValue,
   setFocus,
 }: useSpaceCommentProps) => {
-  const queryClient = useQueryClient()
   const [comment, setComment] = useState<Comment>(defaultComment)
   const [openedComments, setOpenedComments] = useState<number[]>([])
   const commentListRef = useRef<HTMLDivElement>(null)
+  const { mutateAsync: createComment } = usePostComment(spaceId)
+  const { mutateAsync: updateComment } = usePutComment(
+    spaceId,
+    comment.parentCommentId,
+  )
+  const { mutateAsync: createReply } = usePostReply(
+    spaceId,
+    comment.parentCommentId,
+  )
 
   const handleOpen = useCallback(
     (commentId: number) => {
@@ -97,27 +104,21 @@ const useSpaceComment = ({
 
   const onSubmit: SubmitHandler<CommentFormValues> = async (data) => {
     if (comment.type === 'create') {
-      await fetchCreateComment(spaceId, { content: data.content })
-      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
+      await createComment({ spaceId, content: data.content })
       commentListRef.current?.scrollIntoView(false)
     } else if (comment.type === 'edit') {
-      await fetchUpdateComment(spaceId, comment.commentId, {
+      await updateComment({
+        spaceId,
+        commentId: comment.commentId,
         content: data.content,
       })
-      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
-      if (comment.parentCommentId) {
-        await queryClient.invalidateQueries({
-          queryKey: ['replies', spaceId, comment.parentCommentId],
-        })
-      }
     } else if (comment.type === 'reply') {
-      await fetchCreateReply(spaceId, comment.commentId, {
+      await createReply({
+        spaceId,
+        commentId: comment.commentId,
         content: data.content,
       })
-      await queryClient.invalidateQueries({ queryKey: ['comments', spaceId] })
-      await queryClient.invalidateQueries({
-        queryKey: ['replies', spaceId, comment.commentId],
-      })
+
       setOpenedComments((prev) => [...prev, comment.commentId])
     }
     setComment(defaultComment)

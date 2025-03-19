@@ -1,6 +1,6 @@
 import { PAGE_SIZE } from '@/constants'
 import { getQueryClient } from '@/lib/queryClient'
-import { fetchGetSpaces } from '@/services/space/spaces'
+import { fetchGetSpaces } from '@/services/space/useSpaces'
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import MainSpaceList from './MainSpaceList'
 
@@ -18,9 +18,6 @@ const HydrateMainSpaceList = () => {
       }),
     initialPageParam: 0,
   })
-
-  const dehydreatedState = dehydrate(queryClient)
-  console.log(dehydreatedState)
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

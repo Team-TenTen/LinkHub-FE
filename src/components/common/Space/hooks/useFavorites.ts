@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from 'react'
 import {
-  fetchFavoriteSpace,
-  fetchUnFavoriteSpace,
-} from '@/services/space/space'
+  useDeleteFavoriteSpace,
+  usePostFavoriteSpace,
+} from '@/services/space/useSpace'
 import { debounce } from 'lodash'
 import useToggle from '../../Toggle/hooks/useToggle'
 
@@ -19,21 +19,23 @@ const useFavorites = ({
 }: UseFavoritesProps) => {
   const [isFavorites, favoritesToggle] = useToggle(hasFavorite)
   const [favoritesCount, setFavoritesCount] = useState<number>(favorite)
+  const { mutateAsync: postFavoriteSpace } = usePostFavoriteSpace()
+  const { mutateAsync: deleteFavoriteSpace } = useDeleteFavoriteSpace()
 
   const debounceUnFetchSpace = useMemo(
     () =>
       debounce(async () => {
-        await fetchUnFavoriteSpace({ spaceId })
+        await deleteFavoriteSpace({ spaceId })
       }, 300),
-    [spaceId],
+    [spaceId, deleteFavoriteSpace],
   )
 
   const debouncefetchSpace = useMemo(
     () =>
       debounce(async () => {
-        await fetchFavoriteSpace({ spaceId })
+        await postFavoriteSpace({ spaceId })
       }, 300),
-    [spaceId],
+    [spaceId, postFavoriteSpace],
   )
 
   const handleClickFavorite = useCallback(

@@ -4,15 +4,13 @@ import { useForm } from 'react-hook-form'
 import { Spinner } from '@/components'
 import TagInput from '@/components/TagInput/TagInput'
 import { useModal } from '@/hooks'
-import { GetLinksReqBody } from '@/types'
+import { GetLinksReqBody, Tag } from '@/types'
 import { cls } from '@/utils'
 import Button from '../Button/Button'
 import { ChipColors } from '../Chip/Chip'
 import DeferredComponent from '../DeferedComponent/DeferedComponent'
 import Input from '../Input/Input'
 import LinkItem from '../LinkItem/LinkItem'
-import { Tag } from '../Space/hooks/useGetTags'
-import { RefetchTagsType } from '../Space/hooks/useGetTags'
 import {
   ADD_LINK_TEXT,
   LINK_FORM,
@@ -22,7 +20,7 @@ import {
   NONE_LINK_RESULT,
 } from './constants'
 import useCreateLink from './hooks/useCreateLink'
-import useGetMeta from './hooks/useGetMeta'
+import useGetMetaData from './hooks/useGetMetaData'
 import useLinksQuery from './hooks/useLinksQuery'
 
 export interface linkViewHistories {
@@ -44,7 +42,7 @@ export interface Link {
 }
 
 export interface LinkListProps {
-  spaceId?: number
+  spaceId: number
   read?: boolean
   summary?: boolean
   edit?: boolean
@@ -55,7 +53,6 @@ export interface LinkListProps {
   tags: Tag[]
   isCanEdit: boolean
   isMember: boolean
-  refetchTags?: RefetchTagsType
 }
 
 export interface CreateLinkFormValue {
@@ -77,12 +74,10 @@ const LinkList = ({
   tags,
   isCanEdit,
   isMember,
-  refetchTags,
 }: LinkListProps) => {
   const { Modal, isOpen, modalOpen, modalClose } = useModal()
   const { isCreateLinkLoading, handleCreateLink } = useCreateLink({
     spaceId,
-    refetchTags,
   })
   const {
     register,
@@ -110,7 +105,7 @@ const LinkList = ({
     handleModalClose,
     handleChangeUrl,
     handleGetMeta,
-  } = useGetMeta({ getValues, setValue, modalClose })
+  } = useGetMetaData({ getValues, setValue, modalClose })
   const { links, fetchNextPage, hasNextPage, isLinksLoading } = useLinksQuery({
     spaceId,
     fetchFn,
@@ -145,7 +140,7 @@ const LinkList = ({
           </button>
         )}
         <>
-          {links?.pages[0].responses.length ? (
+          {links?.pages[0].responses?.length ? (
             links?.pages.map((group) =>
               group.responses.map((link: Link) => (
                 <LinkItem
@@ -164,7 +159,6 @@ const LinkList = ({
                   isMember={isMember}
                   type={type}
                   tags={tags}
-                  refetchTags={refetchTags}
                   key={link.linkId}
                 />
               )),

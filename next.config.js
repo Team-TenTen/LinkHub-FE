@@ -4,6 +4,9 @@ const withPlugins = require('next-compose-plugins')
 
 const withPWA = require('next-pwa')({
   dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
 })
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -15,7 +18,10 @@ const nextConfig = {
   reactStrictMode: false,
   images: {
     minimumCacheTTL: 1 * 60 * 60 * 24 * 365,
-    domains: ['linkhub-s3-2025.s3.ap-northeast-2.amazonaws.com'],
+    domains: [
+      'linkhub-s3-2025.s3.ap-northeast-2.amazonaws.com',
+      'linkhub-s3.s3.ap-northeast-2.amazonaws.com',
+    ],
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
