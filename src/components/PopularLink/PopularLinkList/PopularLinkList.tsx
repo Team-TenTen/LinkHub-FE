@@ -54,8 +54,8 @@ const PopularLinkList = () => {
             url={link.url}
             tagName={link.tagName}
             tagColor={link.tagColor as ChipColors}
-            isInitLiked={link.isLiked}
-            likeInitCount={link.likeCount}
+            isLiked={link.isLiked}
+            likeCount={link.likeCount}
             type="card"
           />
         </SwiperSlide>
