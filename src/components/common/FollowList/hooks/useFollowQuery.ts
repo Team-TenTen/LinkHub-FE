@@ -5,7 +5,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 const useFollowQuery = ({ memberId, fetchFn, type }: FollowListProps) => {
   const queryKey =
     type === 'following' ? QUERY_KEYS.FOLLOWING : QUERY_KEYS.FOLLOWERS
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey: [queryKey, memberId],
     queryFn: ({ pageParam }) =>
       fetchFn({
@@ -22,7 +22,7 @@ const useFollowQuery = ({ memberId, fetchFn, type }: FollowListProps) => {
     followList: data,
     fetchNextPage,
     hasNextPage,
-    isFollowLoading: isLoading,
+    isFollowLoading: isFetching,
   }
 }
 

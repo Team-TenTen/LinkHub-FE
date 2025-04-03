@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Spinner } from '@/components'
 import useFollowQuery from '@/components/common/FollowList/hooks/useFollowQuery'
 import useInfiniteScroll from '@/hooks/useInfiniteScroll'
@@ -12,7 +12,6 @@ export interface FollowListProps {
   myId?: number
   type?: string
   followingCount?: number
-  setFollowingCount?: Dispatch<SetStateAction<number | undefined>>
 }
 
 export interface FollowUserProps {
@@ -29,7 +28,6 @@ const FollowList = ({
   myId,
   type,
   followingCount,
-  setFollowingCount,
 }: FollowListProps) => {
   const { followList, fetchNextPage, hasNextPage, isFollowLoading } =
     useFollowQuery({
@@ -38,11 +36,11 @@ const FollowList = ({
       type,
     })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
-
+  useEffect(() => {
+    console.log(isFollowLoading)
+  }, [isFollowLoading])
   return isFollowLoading ? (
-    <DeferredComponent>
-      <Spinner />
-    </DeferredComponent>
+    <Spinner />
   ) : (
     <ul className="flex flex-col gap-y-2">
       {followList &&
@@ -60,7 +58,6 @@ const FollowList = ({
                   followingCount={followingCount}
                   myId={myId}
                   profileId={memberId}
-                  setFollowingCount={setFollowingCount}
                 />
               </li>
             ))}
