@@ -14,44 +14,39 @@ const ProfileEditButton = ({ user }: { user: UserProfileResBody }) => {
   const { currentUser } = useCurrentUser()
   const myId = currentUser?.memberId
   const { handleOpenCurrentModal } = useModal()
-  const { isFollowing, handleClickFollow } = useFollowUser({
-    memberId: user?.memberId || 0,
-    isInitFollowing: !!user?.isFollowing,
-    followingInitCount: user?.followingCount || 0,
-    followerInitCount: user?.followerCount || 0,
+  const { handleClickFollow } = useFollowUser({
+    profileId: user?.memberId || 0,
+    memberId: currentUser?.memberId || 0,
+    myId: myId || 0,
     handleOpenCurrentModal,
   })
 
-  return myId ? (
+  return (
     <Button
       type="button"
       onClick={() => {
         if (user?.memberId === myId) {
           router.push('/user/setting')
-        } else if (isFollowing) {
-          handleClickFollow(isFollowing)
+        } else if (user?.isFollowing) {
+          handleClickFollow(user?.isFollowing)
         } else {
-          handleClickFollow(isFollowing)
+          handleClickFollow(user?.isFollowing)
         }
       }}
       className={cls(
         'button button-md button-lg',
         getProfileButtonColor({
-          isFollowing,
+          isFollowing: user?.isFollowing,
           memberId: user?.memberId,
           myId,
         }),
       )}>
       {getProfileButtonText({
-        isFollowing,
+        isFollowing: user?.isFollowing,
         memberId: user?.memberId,
         myId,
       })}
     </Button>
-  ) : (
-    <DeferredComponent>
-      <Spinner />
-    </DeferredComponent>
   )
 }
 

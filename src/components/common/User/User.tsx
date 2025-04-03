@@ -1,6 +1,5 @@
 'use client'
 
-import { Dispatch, SetStateAction } from 'react'
 import { PROFILE_MSG } from '@/constants'
 import { useFollowUser, useModal } from '@/hooks'
 import { cls } from '@/utils'
@@ -14,12 +13,11 @@ interface UserProps {
   nickname: string
   profileImagePath: string
   aboutMe?: string
-  isFollowing?: boolean
+  isFollowing: boolean
   isAuth?: boolean
   followingCount?: number
   myId?: number
   profileId?: number
-  setFollowingCount?: Dispatch<SetStateAction<number | undefined>>
 }
 
 const User = ({
@@ -29,20 +27,16 @@ const User = ({
   aboutMe,
   isFollowing,
   isAuth,
-  followingCount,
   myId,
   profileId,
-  setFollowingCount,
 }: UserProps) => {
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
-  const { isFollowing: isFollowingValue, handleClickListInFollow } =
-    useFollowUser({
-      profileId: profileId || 0,
-      memberId: memberId || 0,
-      isInitFollowing: !!isFollowing,
-      followerInitCount: followingCount || 0,
-    })
+  const { handleClickListInFollow } = useFollowUser({
+    profileId: profileId || 0,
+    memberId: memberId || 0,
+    myId: myId || 0,
+  })
 
   return (
     <>
@@ -70,23 +64,16 @@ const User = ({
               type="button"
               className={cls(
                 'button px-2.5 py-1.5 text-sm',
-                isFollowingValue ? 'button-white' : 'button-emerald',
+                isFollowing ? 'button-white' : 'button-emerald',
               )}
               onClick={() => {
                 if (myId) {
-                  handleClickListInFollow(isFollowingValue)
-                  if (isFollowingValue) {
-                    profileId === myId &&
-                      setFollowingCount?.((prev) => prev! - 1)
-                  } else {
-                    profileId === myId &&
-                      setFollowingCount?.((prev) => prev! + 1)
-                  }
+                  handleClickListInFollow(isFollowing)
                 } else {
                   handleOpenCurrentModal('login')
                 }
               }}>
-              {isFollowingValue ? PROFILE_MSG.FOLLOWING : PROFILE_MSG.FOLLOW}
+              {isFollowing ? PROFILE_MSG.FOLLOWING : PROFILE_MSG.FOLLOW}
             </Button>
           </div>
         )}
