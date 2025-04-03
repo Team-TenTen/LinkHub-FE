@@ -1,6 +1,5 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { useDeleteLikeLink, usePostLikeLink } from '@/services/link/useLink'
-import { debounce } from 'lodash'
 
 export interface UseLikeLinkProps {
   spaceId?: number
@@ -11,31 +10,23 @@ const useLikeLink = ({ spaceId, linkId }: UseLikeLinkProps) => {
   const { mutate: deleteLikeLink } = useDeleteLikeLink({ spaceId })
   const { mutate: postLikeLink } = usePostLikeLink({ spaceId })
 
-  const debounceUnLikeLink = useMemo(
-    () =>
-      debounce(async () => {
-        await deleteLikeLink({ linkId })
-      }, 300),
-    [deleteLikeLink, linkId],
-  )
+  const handleRemoveLike = useCallback(() => {
+    deleteLikeLink({ linkId })
+  }, [deleteLikeLink, linkId])
 
-  const debounceLikeLink = useMemo(
-    () =>
-      debounce(async () => {
-        await postLikeLink({ linkId })
-      }, 300),
-    [postLikeLink, linkId],
-  )
+  const handleAddLike = useCallback(() => {
+    postLikeLink({ linkId })
+  }, [postLikeLink, linkId])
 
   const handleClickLike = useCallback(
     (isLike: boolean) => {
       if (isLike) {
-        debounceUnLikeLink()
+        handleRemoveLike()
       } else {
-        debounceLikeLink()
+        handleAddLike()
       }
     },
-    [debounceUnLikeLink, debounceLikeLink],
+    [handleRemoveLike, handleAddLike],
   )
 
   return { handleClickLike }
