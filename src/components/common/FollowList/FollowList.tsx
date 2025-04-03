@@ -36,35 +36,34 @@ const FollowList = ({
       type,
     })
   const { target } = useInfiniteScroll({ hasNextPage, fetchNextPage })
-  useEffect(() => {
-    console.log(isFollowLoading)
-  }, [isFollowLoading])
-  return isFollowLoading ? (
-    <Spinner />
-  ) : (
-    <ul className="flex flex-col gap-y-2">
-      {followList &&
-        followList.pages.map((group, i) => (
-          <Fragment key={i}>
-            {group.responses?.map((user: FollowUserProps) => (
-              <li key={user.memberId}>
-                <User
-                  memberId={user.memberId}
-                  nickname={user.nickname}
-                  profileImagePath={user.profileImagePath}
-                  aboutMe={user.aboutMe}
-                  isFollowing={user.isFollowing}
-                  isAuth={myId === user.memberId}
-                  followingCount={followingCount}
-                  myId={myId}
-                  profileId={memberId}
-                />
-              </li>
-            ))}
-          </Fragment>
-        ))}
-      <div ref={target}></div>
-    </ul>
+
+  return (
+    <>
+      {isFollowLoading && <Spinner />}
+      <ul className="flex flex-col gap-y-2">
+        {followList &&
+          followList.pages.map((group, i) => (
+            <Fragment key={i}>
+              {group.responses?.map((user: FollowUserProps) => (
+                <li key={user.memberId}>
+                  <User
+                    memberId={user.memberId}
+                    nickname={user.nickname}
+                    profileImagePath={user.profileImagePath}
+                    aboutMe={user.aboutMe}
+                    isFollowing={user.isFollowing}
+                    isAuth={myId === user.memberId}
+                    followingCount={followingCount}
+                    myId={myId}
+                    profileId={memberId}
+                  />
+                </li>
+              ))}
+            </Fragment>
+          ))}
+        <div ref={target}></div>
+      </ul>
+    </>
   )
 }
 
