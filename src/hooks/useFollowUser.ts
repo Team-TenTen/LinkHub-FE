@@ -1,6 +1,5 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { useDeleteFollow, usePostFollow } from '@/services/users/useUsers'
-import { debounce } from 'lodash'
 import { useCurrentUser } from './useCurrentUser'
 
 export interface UseFollowUserProps {
@@ -25,23 +24,19 @@ const useFollowUser = ({
       : profileId
     : memberId
 
-  const debounceUnFollowUser = useMemo(
+  const handleRemoveFollow = useCallback(
     () =>
-      debounce(async () => {
-        await deleteFollow({
-          memberId: targetMemberId,
-        })
-      }, 300),
+      deleteFollow({
+        memberId: targetMemberId,
+      }),
     [targetMemberId, deleteFollow],
   )
 
-  const debounceFollowUser = useMemo(
+  const handleAddFollow = useCallback(
     () =>
-      debounce(async () => {
-        await postFollow({
-          memberId: targetMemberId,
-        })
-      }, 300),
+      postFollow({
+        memberId: targetMemberId,
+      }),
     [targetMemberId, postFollow],
   )
 
@@ -49,31 +44,26 @@ const useFollowUser = ({
     (isFollowing: boolean) => {
       if (isLoggedIn) {
         if (isFollowing) {
-          debounceUnFollowUser()
+          handleRemoveFollow()
         } else {
-          debounceFollowUser()
+          handleAddFollow()
         }
       } else {
         handleOpenCurrentModal?.('login')
       }
     },
-    [
-      debounceUnFollowUser,
-      debounceFollowUser,
-      isLoggedIn,
-      handleOpenCurrentModal,
-    ],
+    [handleRemoveFollow, handleAddFollow, isLoggedIn, handleOpenCurrentModal],
   )
 
   const handleClickListInFollow = useCallback(
     (isFollowing: boolean) => {
       if (isFollowing) {
-        debounceUnFollowUser()
+        handleRemoveFollow()
       } else {
-        debounceFollowUser()
+        handleAddFollow()
       }
     },
-    [debounceUnFollowUser, debounceFollowUser],
+    [handleRemoveFollow, handleAddFollow],
   )
 
   return {
