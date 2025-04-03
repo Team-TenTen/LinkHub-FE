@@ -71,6 +71,8 @@ export const usePutUserProfile = (memberId: number) => {
     },
   })
 }
+
+// 멤버 프로필 수정 서버 함수
 export const fetchPostUserProfile = async (
   userId: number,
   data: RegisterReqBody,
@@ -135,7 +137,7 @@ export const fetchGetFollowers = async ({
 }
 
 // 팔로우 추가
-export const usePostFollow = (profileId?: number) => {
+export const usePostFollow = (profileId?: number, myId?: number) => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -145,14 +147,28 @@ export const usePostFollow = (profileId?: number) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.MEMBERS, profileId],
+        queryKey: [QUERY_KEYS.MEMBERS, profileId || myId],
       })
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FOLLOWING, profileId],
+        queryKey: [QUERY_KEYS.FOLLOWING, profileId || myId],
       })
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FOLLOWERS, profileId],
+        queryKey: [QUERY_KEYS.FOLLOWERS, profileId || myId],
       })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.MEMBERS],
+      })
+      if (profileId !== myId) {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.MEMBERS, myId],
+        })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.FOLLOWING, myId],
+        })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.FOLLOWERS, myId],
+        })
+      }
     },
     onError: (error: Error) => {
       console.log(error)
@@ -161,7 +177,7 @@ export const usePostFollow = (profileId?: number) => {
 }
 
 // 팔로우 삭제
-export const useDeleteFollow = (profileId?: number) => {
+export const useDeleteFollow = (profileId?: number, myId?: number) => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -171,14 +187,28 @@ export const useDeleteFollow = (profileId?: number) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.MEMBERS, profileId],
+        queryKey: [QUERY_KEYS.MEMBERS, profileId || myId],
       })
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FOLLOWING, profileId],
+        queryKey: [QUERY_KEYS.FOLLOWING, profileId || myId],
       })
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.FOLLOWERS, profileId],
+        queryKey: [QUERY_KEYS.FOLLOWERS, profileId || myId],
       })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.MEMBERS],
+      })
+      if (profileId !== myId) {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.MEMBERS, myId],
+        })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.FOLLOWING, myId],
+        })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.FOLLOWERS, myId],
+        })
+      }
     },
     onError: (error: Error) => {
       console.log(error)
