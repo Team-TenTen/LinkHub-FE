@@ -44,8 +44,8 @@ export interface LinkItemProps {
   tagName: string
   tagColor: ChipColors
   readUsers?: linkViewHistories[]
-  isInitLiked?: boolean
-  likeInitCount: number
+  isLiked: boolean
+  likeCount: number
   read?: boolean
   summary?: boolean
   edit?: boolean
@@ -62,8 +62,8 @@ const LinkItem = ({
   tagName,
   tagColor,
   readUsers,
-  isInitLiked,
-  likeInitCount,
+  isLiked,
+  likeCount,
   read = false,
   summary = false,
   edit = false,
@@ -110,11 +110,9 @@ const LinkItem = ({
     linkId,
   })
   const { handleSaveReadInfo } = useReadSaveLink({ spaceId, linkId })
-  const { isLiked, likeCount, handleClickLike } = useLikeLink({
+  const { handleClickLike } = useLikeLink({
     spaceId,
     linkId,
-    isLikedValue: isInitLiked,
-    likeCountValue: likeInitCount,
   })
   return (
     <>

@@ -1,25 +1,15 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useDeleteLikeLink, usePostLikeLink } from '@/services/link/useLink'
 import { debounce } from 'lodash'
-import useToggle from '../../Toggle/hooks/useToggle'
 
 export interface UseLikeLinkProps {
   spaceId?: number
   linkId: number
-  isLikedValue?: boolean
-  likeCountValue: number
 }
 
-const useLikeLink = ({
-  linkId,
-  isLikedValue,
-  likeCountValue,
-}: UseLikeLinkProps) => {
-  const [isLiked, likeToggle] = useToggle(isLikedValue)
-  const [likeCount, setLikeCount] = useState<number>(likeCountValue)
-
-  const { mutate: deleteLikeLink } = useDeleteLikeLink()
-  const { mutate: postLikeLink } = usePostLikeLink()
+const useLikeLink = ({ spaceId, linkId }: UseLikeLinkProps) => {
+  const { mutate: deleteLikeLink } = useDeleteLikeLink({ spaceId })
+  const { mutate: postLikeLink } = usePostLikeLink({ spaceId })
 
   const debounceUnLikeLink = useMemo(
     () =>
@@ -39,19 +29,16 @@ const useLikeLink = ({
 
   const handleClickLike = useCallback(
     (isLike: boolean) => {
-      likeToggle()
       if (isLike) {
-        setLikeCount((prev) => prev - 1)
         debounceUnLikeLink()
       } else {
-        setLikeCount((prev) => prev + 1)
         debounceLikeLink()
       }
     },
-    [likeToggle, debounceUnLikeLink, debounceLikeLink],
+    [debounceUnLikeLink, debounceLikeLink],
   )
 
-  return { isLiked, likeCount, handleClickLike }
+  return { handleClickLike }
 }
 
 export default useLikeLink
