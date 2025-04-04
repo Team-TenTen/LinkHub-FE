@@ -1,57 +1,35 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback } from 'react'
 import { useDeleteLikeLink, usePostLikeLink } from '@/services/link/useLink'
-import { debounce } from 'lodash'
-import useToggle from '../../Toggle/hooks/useToggle'
 
 export interface UseLikeLinkProps {
   spaceId?: number
   linkId: number
-  isLikedValue?: boolean
-  likeCountValue: number
 }
 
-const useLikeLink = ({
-  linkId,
-  isLikedValue,
-  likeCountValue,
-}: UseLikeLinkProps) => {
-  const [isLiked, likeToggle] = useToggle(isLikedValue)
-  const [likeCount, setLikeCount] = useState<number>(likeCountValue)
+const useLikeLink = ({ spaceId, linkId }: UseLikeLinkProps) => {
+  const { mutate: deleteLikeLink } = useDeleteLikeLink({ spaceId })
+  const { mutate: postLikeLink } = usePostLikeLink({ spaceId })
 
-  const { mutate: deleteLikeLink } = useDeleteLikeLink()
-  const { mutate: postLikeLink } = usePostLikeLink()
+  const handleRemoveLike = useCallback(() => {
+    deleteLikeLink({ linkId })
+  }, [deleteLikeLink, linkId])
 
-  const debounceUnLikeLink = useMemo(
-    () =>
-      debounce(async () => {
-        await deleteLikeLink({ linkId })
-      }, 300),
-    [deleteLikeLink, linkId],
-  )
-
-  const debounceLikeLink = useMemo(
-    () =>
-      debounce(async () => {
-        await postLikeLink({ linkId })
-      }, 300),
-    [postLikeLink, linkId],
-  )
+  const handleAddLike = useCallback(() => {
+    postLikeLink({ linkId })
+  }, [postLikeLink, linkId])
 
   const handleClickLike = useCallback(
     (isLike: boolean) => {
-      likeToggle()
       if (isLike) {
-        setLikeCount((prev) => prev - 1)
-        debounceUnLikeLink()
+        handleRemoveLike()
       } else {
-        setLikeCount((prev) => prev + 1)
-        debounceLikeLink()
+        handleAddLike()
       }
     },
-    [likeToggle, debounceUnLikeLink, debounceLikeLink],
+    [handleRemoveLike, handleAddLike],
   )
 
-  return { isLiked, likeCount, handleClickLike }
+  return { handleClickLike }
 }
 
 export default useLikeLink

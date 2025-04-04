@@ -1,20 +1,24 @@
+'use client'
+
 import {
   Avatar,
   CategoryListItem,
   FollowListButton,
   ProfileEditButton,
+  Spinner,
 } from '@/components'
 import { CATEGORIES_RENDER, PROFILE_MSG } from '@/constants'
-import { fetchGetUserProfile } from '@/services/users/useUsers'
+import { useGetUserProfile } from '@/services/users/useUsers'
 import { UserLayoutProps } from './layout'
 
-export default async function UserPage({
-  params: { userId },
-}: UserLayoutProps) {
-  const user = await fetchGetUserProfile({ memberId: userId })
+export default function UserPage({ params: { userId } }: UserLayoutProps) {
+  const { data: user, isFetching: isUserLoading } = useGetUserProfile(
+    Number(userId),
+  )
 
   return (
     <>
+      {isUserLoading && <Spinner />}
       <div className="flex flex-col gap-4 px-4 py-6">
         <div className="flex gap-3">
           {user?.profileImagePath && (

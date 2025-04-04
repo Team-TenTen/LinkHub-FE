@@ -1,7 +1,7 @@
 'use client'
 
 import { PROFILE_MSG } from '@/constants'
-import { useFollowUser, useModal } from '@/hooks'
+import { useModal } from '@/hooks'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { fetchGetFollowers, fetchGetFollowing } from '@/services/users/useUsers'
 import { UserProfileResBody } from '@/types'
@@ -13,13 +13,6 @@ const FollowListButton = ({ user }: { user: UserProfileResBody }) => {
   const myId = currentUser?.memberId
   const { Modal, isOpen, modalClose, currentModal, handleOpenCurrentModal } =
     useModal()
-  const { followingCount, setFollowingCount, followerCount } = useFollowUser({
-    memberId: user?.memberId || 0,
-    isInitFollowing: !!user?.isFollowing,
-    followingInitCount: user?.followingCount || 0,
-    followerInitCount: user?.followerCount || 0,
-    handleOpenCurrentModal,
-  })
 
   return (
     <>
@@ -28,7 +21,7 @@ const FollowListButton = ({ user }: { user: UserProfileResBody }) => {
         onClick={() => {
           handleOpenCurrentModal('following')
         }}>
-        {PROFILE_MSG.FOLLOWING} {followingCount}
+        {PROFILE_MSG.FOLLOWING} {user?.followingCount}
       </div>
       {PROFILE_MSG.LIST_DIVIDER}
       <div
@@ -36,7 +29,7 @@ const FollowListButton = ({ user }: { user: UserProfileResBody }) => {
         onClick={() => {
           handleOpenCurrentModal('follower')
         }}>
-        {PROFILE_MSG.FOLLOWER} {followerCount}
+        {PROFILE_MSG.FOLLOWER} {user?.followerCount}
       </div>
       {currentModal !== 'login' && isOpen && (
         <Modal
@@ -54,8 +47,7 @@ const FollowListButton = ({ user }: { user: UserProfileResBody }) => {
                 fetchFn={fetchGetFollowing}
                 myId={myId}
                 type="following"
-                followingCount={followingCount}
-                setFollowingCount={setFollowingCount}
+                followingCount={user?.followingCount}
               />
             )}
             {currentModal === 'follower' && (
@@ -64,8 +56,7 @@ const FollowListButton = ({ user }: { user: UserProfileResBody }) => {
                 fetchFn={fetchGetFollowers}
                 myId={myId}
                 type="follower"
-                followingCount={followingCount}
-                setFollowingCount={setFollowingCount}
+                followingCount={user?.followingCount}
               />
             )}
           </div>

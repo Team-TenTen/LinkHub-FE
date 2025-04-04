@@ -1,106 +1,72 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback } from 'react'
 import { useDeleteFollow, usePostFollow } from '@/services/users/useUsers'
-import { useQueryClient } from '@tanstack/react-query'
-import { debounce } from 'lodash'
 import { useCurrentUser } from './useCurrentUser'
 
 export interface UseFollowUserProps {
   profileId?: number
   memberId: number
-  isInitFollowing: boolean
-  followingInitCount?: number
-  followerInitCount: number
+  myId?: number
   handleOpenCurrentModal?: (current: string) => void
 }
 
 const useFollowUser = ({
   profileId,
   memberId,
-  isInitFollowing,
-  followerInitCount,
-  followingInitCount,
+  myId,
   handleOpenCurrentModal,
 }: UseFollowUserProps) => {
-  const queryClient = useQueryClient()
   const { isLoggedIn } = useCurrentUser()
-  const [isFollowing, setIsFollowing] = useState(isInitFollowing)
-  const [followingCount, setFollowingCount] = useState(followingInitCount)
-  const [followerCount, setFollowerCount] = useState(followerInitCount)
-  const { mutateAsync: postFollow } = usePostFollow(profileId)
-  const { mutateAsync: deleteFollow } = useDeleteFollow(profileId)
+  const { mutateAsync: postFollow } = usePostFollow(profileId, myId)
+  const { mutateAsync: deleteFollow } = useDeleteFollow(profileId, myId)
+  const targetMemberId = profileId
+    ? profileId === myId
+      ? memberId
+      : profileId
+    : memberId
 
-  useEffect(() => {
-    setIsFollowing(isInitFollowing)
-  }, [isInitFollowing])
-
-  useEffect(() => {
-    setFollowingCount(followingInitCount)
-  }, [followingInitCount])
-
-  useEffect(() => {
-    setFollowerCount(followerInitCount)
-  }, [followerInitCount])
-
-  const debounceUnFollowUser = useMemo(
+  const handleRemoveFollow = useCallback(
     () =>
-      debounce(async () => {
-        if (memberId) {
-          await deleteFollow({ memberId })
-        }
-      }, 300),
-    [memberId, deleteFollow],
+      deleteFollow({
+        memberId: targetMemberId,
+      }),
+    [targetMemberId, deleteFollow],
   )
 
-  const debounceFollowUser = useMemo(
+  const handleAddFollow = useCallback(
     () =>
-      debounce(async () => {
-        if (memberId) {
-          await postFollow({ memberId })
-        }
-      }, 300),
-    [memberId, postFollow],
+      postFollow({
+        memberId: targetMemberId,
+      }),
+    [targetMemberId, postFollow],
   )
 
   const handleClickFollow = useCallback(
     (isFollowing: boolean) => {
       if (isLoggedIn) {
-        setIsFollowing((prev) => !prev)
         if (isFollowing) {
-          setFollowerCount((prev) => prev - 1)
-          debounceUnFollowUser()
+          handleRemoveFollow()
         } else {
-          setFollowerCount((prev) => prev + 1)
-          debounceFollowUser()
+          handleAddFollow()
         }
       } else {
         handleOpenCurrentModal?.('login')
       }
     },
-    [
-      debounceUnFollowUser,
-      debounceFollowUser,
-      isLoggedIn,
-      handleOpenCurrentModal,
-    ],
+    [handleRemoveFollow, handleAddFollow, isLoggedIn, handleOpenCurrentModal],
   )
 
   const handleClickListInFollow = useCallback(
     (isFollowing: boolean) => {
-      setIsFollowing((prev) => !prev)
       if (isFollowing) {
-        debounceUnFollowUser()
+        handleRemoveFollow()
       } else {
-        debounceFollowUser()
+        handleAddFollow()
       }
     },
-    [debounceUnFollowUser, debounceFollowUser],
+    [handleRemoveFollow, handleAddFollow],
   )
 
   return {
-    isFollowing,
-    followingCount,
-    setFollowingCount,
-    followerCount,
     handleClickFollow,
     handleClickListInFollow,
   }

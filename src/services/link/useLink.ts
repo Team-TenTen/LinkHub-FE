@@ -124,7 +124,9 @@ export const fetchGetPopularLinks = async () => {
 }
 
 // 링크 좋아요
-export const usePostLikeLink = () => {
+export const usePostLikeLink = ({ spaceId }: { spaceId?: number }) => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async (query: ILikeLink['query']) => {
       const response = await apiClient.post(
@@ -133,6 +135,10 @@ export const usePostLikeLink = () => {
       )
       return response
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.LINKS, spaceId] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POPULAR_LINKS] })
+    },
     onError: (error: Error) => {
       console.log(error)
     },
@@ -140,11 +146,17 @@ export const usePostLikeLink = () => {
 }
 
 // 링크 좋아요 취소
-export const useDeleteLikeLink = () => {
+export const useDeleteLikeLink = ({ spaceId }: { spaceId?: number }) => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: async (query: ILikeLink['query']) => {
       const response = await apiClient.delete(`/api/links/${query.linkId}/like`)
       return response
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.LINKS, spaceId] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POPULAR_LINKS] })
     },
     onError: (error: Error) => {
       console.log(error)
